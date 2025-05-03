@@ -2,7 +2,7 @@ name: Redeploy pipeline
 
 on:
   push:
-    branches: [main]
+    branches: ["main"]
 
 jobs:
   webhook-deployment:
@@ -12,7 +12,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: call endpoint
+      - name: Call endpoint
         uses: actions/http-request@v1
         with:
           url: ${{ secrets.ENDPOINT_URL }}
