@@ -1,0 +1,19 @@
+name: Redeploy pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  webhook-deployment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: call endpoint
+        uses: actions/http-request@v1
+        with:
+          url: ${{ secrets.ENDPOINT_URL }}
+          method: GET
