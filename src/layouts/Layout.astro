@@ -1,26 +1,36 @@
 ---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
 import "../styles/global.css";
+
+export interface Props {
+    title: string;
+    description?: string;
+}
+
+const {
+    title,
+    description = "Full-Stack Developer Portfolio - Expert in modern web technologies",
+} = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="generator" content={Astro.generator} />
-        <title>Astro Basics</title>
+        <meta name="description" content={description} />
+        <title>{title}</title>
     </head>
-    <body>
-        <slot />
+    <body
+        class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300"
+    >
+        <Header />
+        <main>
+            <slot />
+        </main>
+        <Footer />
     </body>
 </html>
-
-<style>
-    html,
-    body {
-        margin: 0;
-        width: 100%;
-        height: 100%;
-    }
-</style>
