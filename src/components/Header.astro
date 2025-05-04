@@ -1,0 +1,110 @@
+---
+
+---
+
+<header
+    class="fixed w-full top-0 z-50 bg-white bg-opacity-90 dark:bg-gray-900 dark:bg-opacity-90 backdrop-blur-sm shadow-sm transition-all duration-300"
+>
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <a
+            href="/"
+            class="text-xl font-bold text-primary dark:text-white flex items-center"
+        >
+            <span class="text-gradient">Dev</span><span>Portfolio</span>
+        </a>
+
+        <nav class="hidden md:flex space-x-8">
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#about" class="nav-link">About</a>
+            <a href="#skills" class="nav-link">Skills</a>
+            <a href="#projects" class="nav-link">Projects</a>
+            <a href="#contact" class="nav-link">Contact</a>
+        </nav>
+
+        <div class="flex items-center space-x-4">
+            <button
+                id="mobile-menu-toggle"
+                class="md:hidden p-2 rounded-lg text-primary dark:text-white"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div
+        id="mobile-menu"
+        class="md:hidden hidden bg-white dark:bg-gray-900 pb-4 px-4"
+    >
+        <nav class="flex flex-col space-y-4">
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#about" class="nav-link">About</a>
+            <a href="#skills" class="nav-link">Skills</a>
+            <a href="#projects" class="nav-link">Projects</a>
+            <a href="#contact" class="nav-link">Contact</a>
+        </nav>
+    </div>
+</header>
+
+<script>
+    // Handle mobile menu
+    document.addEventListener("DOMContentLoaded", () => {
+        const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+        const mobileMenu = document.getElementById("mobile-menu");
+
+        mobileMenuToggle?.addEventListener("click", () => {
+            mobileMenu?.classList.toggle("hidden");
+        });
+
+        // Close mobile menu when clicking nav links
+        const mobileNavLinks = mobileMenu?.querySelectorAll("a");
+        mobileNavLinks?.forEach((link) => {
+            link.addEventListener("click", () => {
+                mobileMenu?.classList.add("hidden");
+            });
+        });
+
+        // Handle active nav links based on scroll position
+        const sections = document.querySelectorAll("section[id]");
+        const navLinks = document.querySelectorAll(".nav-link");
+
+        const makeNavLinksActive = () => {
+            const scrollPosition = window.scrollY + 100;
+
+            sections.forEach((section) => {
+                // Assert section as HTMLElement to access offsetTop and offsetHeight
+                const htmlSection = section as HTMLElement;
+                const sectionTop = htmlSection.offsetTop;
+                const sectionHeight = htmlSection.offsetHeight;
+                const sectionId = section.getAttribute("id");
+
+                if (
+                    scrollPosition >= sectionTop &&
+                    scrollPosition < sectionTop + sectionHeight
+                ) {
+                    navLinks.forEach((link) => {
+                        link.classList.remove("active");
+                        if (link.getAttribute("href") === `#${sectionId}`) {
+                            link.classList.add("active");
+                        }
+                    });
+                }
+            });
+        };
+
+        window.addEventListener("scroll", makeNavLinksActive);
+        makeNavLinksActive();
+    });
+</script>
