@@ -1,0 +1,120 @@
+---
+import { Image } from "astro:assets";
+---
+
+<section id="home" class="relative min-h-screen flex items-center pt-16">
+    <!-- Background element -->
+    <div
+        class="absolute inset-0 bg-gradient-to-br from-primary-50 to-accent-50 dark:from-gray-900 dark:to-primary-900 -z-10"
+    >
+    </div>
+
+    <!-- Decorative circles -->
+    <div
+        class="absolute top-24 right-10 w-64 h-64 bg-secondary-200 dark:bg-secondary-900 rounded-full opacity-20 blur-3xl"
+    >
+    </div>
+    <div
+        class="absolute bottom-24 left-10 w-72 h-72 bg-primary-200 dark:bg-primary-800 rounded-full opacity-20 blur-3xl"
+    >
+    </div>
+
+    <div class="container mx-auto px-4 md:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+                <span
+                    class="inline-block py-1 px-3 mb-4 text-sm font-medium rounded-full bg-primary-100 dark:bg-primary-800 text-primary-600 dark:text-primary-200"
+                >
+                    Full-Stack Developer
+                </span>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                    Building <span class="text-gradient"
+                        >digital experiences</span
+                    > that matter.
+                </h1>
+                <p
+                    class="text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-8"
+                >
+                    I create modern, responsive, and user-friendly web
+                    applications with cutting-edge technologies.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#contact" class="btn btn-primary">Get in Touch</a>
+                    <a href="#projects" class="btn btn-outline">View Projects</a
+                    >
+                </div>
+            </div>
+
+            <div class="relative" data-aos="fade-left">
+                <div
+                    class="relative h-80 md:h-96 lg:h-[450px] rounded-lg overflow-hidden shadow-xl"
+                >
+                    <Image
+                        src="https://images.pexels.com/photos/7988079/pexels-photo-7988079.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                        alt="Developer working on code"
+                        class="w-full h-full object-cover"
+                        loading="eager"
+                        inferSize={true}
+                    />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-primary-900/60 to-transparent"
+                    >
+                    </div>
+
+                    <!-- Tech icons positioned absolutely over the image -->
+                    <div
+                        class="absolute -bottom-6 -right-6 w-32 h-32 bg-white dark:bg-gray-800 rounded-lg shadow-lg flex items-center justify-center p-4 animate-pulse-slow"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            class="w-16 h-16 text-primary dark:text-secondary"
+                        >
+                            <path
+                                fill="currentColor"
+                                d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z"
+                            ></path>
+                        </svg>
+                    </div>
+
+                    <div
+                        class="absolute top-6 -left-6 w-24 h-24 bg-white dark:bg-gray-800 rounded-lg shadow-lg flex items-center justify-center p-3 animate-pulse-slow animation-delay-200"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            class="w-12 h-12 text-accent dark:text-accent-400"
+                        >
+                            <path
+                                fill="currentColor"
+                                d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm0 2.5a7.5 7.5 0 000 15 7.5 7.5 0 000-15zm0 2.5a5 5 0 110 10 5 5 0 010-10z"
+                            ></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll down indicator -->
+        <div
+            class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce"
+        >
+            <span class="text-gray-500 dark:text-gray-400 text-sm mb-2"
+                >Scroll Down</span
+            >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 text-primary dark:text-secondary"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </div>
+</section>
