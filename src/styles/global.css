@@ -56,7 +56,6 @@
 
 html,
 body {
-  height: 100%;
   margin: 0;
   padding: 0;
   background-color: var(--bg) !important;
@@ -748,7 +747,7 @@ body {
 /* Smooth scrolling mejorado */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 100px;
+  scroll-padding-top: 80px;
 }
 
 /* Mejora para focus states en formularios */
