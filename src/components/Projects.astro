@@ -1,0 +1,204 @@
+---
+interface Project {
+  title: string;
+  description: string;
+  stack: string[];
+  year: string;
+  url?: string;
+  tone: "blue" | "green";
+}
+
+const projects: Project[] = [
+  {
+    title: "API de E-commerce Escalable",
+    description:
+      "API REST modular con autenticación JWT, cache (Redis) y métricas. Arquitectura optimizada para altas concurrencias y baja latencia.",
+    stack: ["Node.js", "Express", "MongoDB", "Redis", "JWT"],
+    year: "2023",
+    url: "#",
+    tone: "blue",
+  },
+  {
+    title: "Analítica en Tiempo Real",
+    description:
+      "Pipeline de eventos con ingestión streaming, procesamiento y dashboards en tiempo real para decisiones inmediatas.",
+    stack: ["Python", "Kafka", "PostgreSQL", "Django", "Grafana"],
+    year: "2023",
+    url: "#",
+    tone: "green",
+  },
+  {
+    title: "Plataforma de Microservicios",
+    description:
+      "Diseño de microservicios con observabilidad (tracing + metrics), despliegue en Kubernetes y CI/CD automatizado.",
+    stack: ["Go", "gRPC", "Docker", "Kubernetes", "Prometheus"],
+    year: "2024",
+    url: "#",
+    tone: "blue",
+  },
+  {
+    title: "Colas y Procesamiento Asíncrono",
+    description:
+      "Motor de jobs resiliente con reintentos, backoff exponencial y métricas para trabajos críticos de negocio.",
+    stack: ["Node.js", "BullMQ", "Redis", "TypeScript"],
+    year: "2024",
+    tone: "green",
+  },
+  {
+    title: "Motor de Reportes en Lote",
+    description:
+      "Generación y distribución de reportes (PDF/CSV) en lotes, con almacenamiento en S3 y control de concurrencia.",
+    stack: ["Python", "Celery", "PostgreSQL", "S3", "Docker"],
+    year: "2024",
+    tone: "blue",
+  },
+  {
+    title: "SSO y Gestión de Identidad",
+    description:
+      "Servicio centralizado OAuth2 / OpenID Connect para autenticación unificada entre varias aplicaciones internas.",
+    stack: ["Keycloak", "Nginx", "PostgreSQL", "Docker"],
+    year: "2024",
+    tone: "green",
+  },
+];
+
+function baseGradient(t: Project["tone"]) {
+  return t === "blue" ? "grad-blue" : "grad-green";
+}
+
+function badgeClass(t: Project["tone"]) {
+  return t === "blue" ? "badge blue" : "badge green";
+}
+---
+
+<section id="projects" class="py-16">
+  <div class="container mx-auto px-4">
+    <header class="text-center mb-12">
+      <h2 class="text-4xl font-extrabold text-white">Featured Projects</h2>
+      <p class="mt-3 max-w-2xl mx-auto text-secondary">
+        Selección de proyectos enfocados en backend: APIs, sistemas
+        distribuidos, observabilidad y optimización de rendimiento.
+      </p>
+    </header>
+
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {
+        projects.map((p) => (
+          <article
+            class={`group card border border-white/5 rounded-2xl overflow-hidden shadow-md transition-transform hover:-translate-y-1`}
+          >
+            <div
+              class={`h-40 relative flex items-center justify-center ${baseGradient(p.tone)}`}
+            >
+              <span class="absolute top-3 left-3 text-xs font-semibold px-3 py-1 rounded-full bg-white/10 text-primary border border-white/5">
+                {p.year}
+              </span>
+
+              <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.18),transparent_60%)]" />
+
+              <svg
+                class="h-20 w-20 text-primary drop-shadow-lg"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+            </div>
+
+            <div class="p-8 flex flex-col flex-1 bg-transparent">
+              <h3 class="text-xl font-bold text-primary mb-3">{p.title}</h3>
+              <p class="text-base text-secondary leading-relaxed flex-1 mb-6">
+                {p.description}
+              </p>
+
+              <ul class="mb-6 flex flex-wrap gap-3">
+                {p.stack.map((tech) => (
+                  <li
+                    class={`${badgeClass(p.tone)} border-transparent font-medium px-3 py-2`}
+                  >
+                    {tech}
+                  </li>
+                ))}
+              </ul>
+
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <span
+                    class={`inline-block h-3 w-3 rounded-full bg-gradient-to-r ${baseGradient(p.tone)} animate-pulse shadow-lg`}
+                    aria-hidden="true"
+                  />
+                  <span class="text-xs text-secondary font-medium">
+                    En desarrollo
+                  </span>
+                </div>
+
+                {p.url ? (
+                  <a
+                    href={p.url}
+                    class="inline-flex items-center gap-2 text-sm font-bold px-5 py-3 rounded-full btn-accent shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
+                  >
+                    Ver detalles
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
+                  </a>
+                ) : (
+                  <span class="text-sm text-secondary italic select-none px-4 py-2 bg-white/5 rounded-full border border-white/10">
+                    Proyecto Privado
+                  </span>
+                )}
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="text-center mt-16">
+      <a
+        href="#contact"
+        class="btn-accent inline-flex items-center gap-3 px-8 py-4 rounded-full text-lg font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+      >
+        ¿Tienes un proyecto en mente?
+        <svg
+          class="h-5 w-5"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

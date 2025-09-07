@@ -1,0 +1,247 @@
+---
+// Componente para animaciones de scroll y efectos visuales mejorados
+---
+
+<script>
+  // Intersection Observer para animaciones on scroll
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px",
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("animate-fade-in");
+
+        // Animar barras de progreso cuando entran en viewport
+        if (entry.target.classList.contains("progress")) {
+          const progressBar = entry.target.querySelector(".progress-bar");
+          if (progressBar) {
+            // Delay para efecto más dramático
+            setTimeout(() => {
+              progressBar.style.width = progressBar.style.width || "0%";
+            }, 200);
+          }
+        }
+
+        // Contar números en porcentajes
+        if (entry.target.classList.contains("percent-counter")) {
+          animateCounter(entry.target);
+        }
+      }
+    });
+  }, observerOptions);
+
+  // Función para animar contadores
+  function animateCounter(element) {
+    const targetValue = parseInt(element.textContent);
+    let currentValue = 0;
+    const increment = targetValue / 30; // 30 frames para la animación
+    const timer = setInterval(() => {
+      currentValue += increment;
+      if (currentValue >= targetValue) {
+        element.textContent = targetValue + "%";
+        clearInterval(timer);
+      } else {
+        element.textContent = Math.floor(currentValue) + "%";
+      }
+    }, 50);
+  }
+
+  // Efecto parallax sutil para el header
+  function handleScroll() {
+    const scrolled = window.pageYOffset;
+    const header = document.querySelector("header");
+    if (header) {
+      const rate = scrolled * -0.3;
+      header.style.transform = `translate(-50%, ${Math.max(rate, -20)}px)`;
+
+      // Cambiar opacity del header basado en scroll
+      const opacity = Math.max(0.9 - scrolled / 500, 0.85);
+      header.style.opacity = opacity;
+    }
+  }
+
+  // Smooth scroll para enlaces de navegación
+  function smoothScrollToSection(target) {
+    const element = document.querySelector(target);
+    if (element) {
+      const headerHeight = 100;
+      const targetPosition = element.offsetTop - headerHeight;
+
+      window.scrollTo({
+        top: targetPosition,
+        behavior: "smooth",
+      });
+    }
+  }
+
+  // Inicializar cuando el DOM esté listo
+  document.addEventListener("DOMContentLoaded", () => {
+    // Observar elementos para animaciones
+    const elementsToAnimate = document.querySelectorAll(
+      ".surface, .card, .progress, .icon, #pricing article",
+    );
+    elementsToAnimate.forEach((el) => observer.observe(el));
+
+    // Agregar listeners para scroll
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Mejorar navegación
+    const navLinks = document.querySelectorAll('a[href^="#"]');
+    navLinks.forEach((link) => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const target = link.getAttribute("href");
+        smoothScrollToSection(target);
+
+        // Actualizar URL sin recargar
+        history.pushState(null, null, target);
+      });
+    });
+
+    // Añadir clase para contadores de porcentaje
+    const percentElements = document.querySelectorAll('[class*="percent-"]');
+    percentElements.forEach((el) => el.classList.add("percent-counter"));
+
+    // Efecto de typing para títulos principales (opcional)
+    const mainTitles = document.querySelectorAll("h1, .text-4xl");
+    mainTitles.forEach((title, index) => {
+      setTimeout(() => {
+        title.style.opacity = "0";
+        title.style.transform = "translateY(20px)";
+        title.style.transition = "all 0.6s ease";
+
+        setTimeout(() => {
+          title.style.opacity = "1";
+          title.style.transform = "translateY(0)";
+        }, 100);
+      }, index * 200);
+    });
+
+    // Mejorar hover effects en botones
+    const buttons = document.querySelectorAll(".btn-accent, .btn-outline");
+    buttons.forEach((btn) => {
+      btn.addEventListener("mouseenter", () => {
+        btn.style.transform = "translateY(-2px) scale(1.05)";
+      });
+
+      btn.addEventListener("mouseleave", () => {
+        btn.style.transform = "translateY(0) scale(1)";
+      });
+    });
+
+    // Añadir efecto de glitch sutil al logo (muy sutil)
+    const logo = document.querySelector("header h1");
+    if (logo) {
+      setInterval(() => {
+        if (Math.random() < 0.1) {
+          // 10% chance cada 3 segundos
+          logo.style.textShadow = "2px 0 #ff0000, -2px 0 #00ff00";
+          setTimeout(() => {
+            logo.style.textShadow = "none";
+          }, 100);
+        }
+      }, 3000);
+    }
+  });
+
+  // Cleanup al salir de la página
+  window.addEventListener("beforeunload", () => {
+    observer.disconnect();
+    window.removeEventListener("scroll", handleScroll);
+  });
+</script>
+
+<style>
+  /* Estilos adicionales para animaciones */
+  .animate-fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease forwards;
+  }
+
+  /* Stagger delays para elementos hermanos */
+  .surface:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .surface:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .surface:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  .surface:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+
+  .card:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .card:nth-child(2) {
+    animation-delay: 0.3s;
+  }
+  .card:nth-child(3) {
+    animation-delay: 0.5s;
+  }
+
+  /* Animaciones para pricing cards */
+  #pricing article:nth-child(1) {
+    animation-delay: 0.2s;
+  }
+  #pricing article:nth-child(2) {
+    animation-delay: 0.4s;
+  }
+  #pricing article:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+
+  /* Mejorar transiciones globales */
+  * {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Efecto de loading para imágenes */
+  img {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  img.loaded {
+    opacity: 1;
+  }
+
+  /* Cursor personalizado para elementos interactivos */
+  .btn-accent,
+  .btn-outline,
+  a[href^="#"] {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Ripple effect */
+  .btn-accent::after,
+  .btn-outline::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition:
+      width 0.3s,
+      height 0.3s;
+    pointer-events: none;
+  }
+
+  .btn-accent:active::after,
+  .btn-outline:active::after {
+    width: 200px;
+    height: 200px;
+  }
+</style>
