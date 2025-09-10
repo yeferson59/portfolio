@@ -24,7 +24,7 @@ const { title, description, stack, year, status = "En desarrollo", href } = Astr
   <h3 class="text-xl font-bold text-primary mb-sm">{title}</h3>
   <p class="text-secondary mb-lg text-sm leading-relaxed">{description}</p>
   
-  <div class="flex flex-wrap gap-xs mb-lg">
+  <div class="flex flex-wrap gap-sm mb-xl">
     {stack.map((tech, index) => (
       <Badge variant={index % 2 === 0 ? 'primary' : 'secondary'}>
         {tech}
@@ -32,7 +32,7 @@ const { title, description, stack, year, status = "En desarrollo", href } = Astr
     ))}
   </div>
   
-  <div class="flex items-center justify-between">
+  <div class="flex items-center justify-between mt-auto pt-md">
     <span class="text-xs text-muted">{status}</span>
     <Button variant="primary" size="sm" href={href}>
       Ver detalles

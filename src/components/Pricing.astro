@@ -62,14 +62,14 @@ const plans = [
 ];
 ---
 
-<section id="pricing">
+<section id="pricing" class="pricing-section">
   <div class="container">
     <SectionHeader
       title="Servicios & Precios"
       subtitle="Soluciones backend profesionales adaptadas a las necesidades de tu proyecto."
     />
 
-    <div class="pricing-grid mb-3xl">
+    <div class="pricing-grid mb-3xl" style="padding-top: var(--space-lg);">
       {plans.map((plan) => (
         <PricingCard
           name={plan.name}
