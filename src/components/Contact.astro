@@ -1,223 +1,163 @@
 ---
-/**
- * Contact.astro
- * Panel de contacto adaptado a fondo negro y paleta azul/verde.
- *
- * Nota:
- * - Usamos SVGs embebidos en strings (mapa `icons`) e inyectados con `set:html`
- *   para evitar devolver JSX desde el frontmatter.
- * - Los elementos visuales usan utilidades globales definidas en `global.css`
- *   como `.surface`, `.btn-accent`, `.text-muted`, `.badge`, etc.
- */
+import SectionHeader from './SectionHeader.astro';
+import Card from './Card.astro';
+import Button from './Button.astro';
+
 const heading = "Get in touch";
-const sub =
-  "¿Tienes un proyecto interesante? Hablemos sobre arquitectura, APIs o infraestructura.";
+const subtitle = "¿Tienes un proyecto interesante? Hablemos sobre arquitectura, APIs o infraestructura.";
 
 const icons = {
-  mail: `<svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 4.26a2 2 0 0 0 2.22 0L21 8M5 19h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2Z"/></svg>`,
-  map: `<svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657 13.414 20.9a2 2 0 0 1-2.828 0l-4.243-4.243a8 8 0 1 1 11.314 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>`,
-  linkedin: `<svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5c0 1.38-1.11 2.5-2.48 2.5S.02 4.88.02 3.5C.02 2.12 1.13 1 2.5 1s2.48 1.12 2.48 2.5ZM.5 8h4.9v13.5H.5V8Zm7.48 0H12.7l.02 1.85h.09c.59-1.07 2.04-2.15 4.2-2.15 4 0 4.98 2.38 4.98 6.53V21.5h-4.9v-6.29c0-1.5-.03-3.44-2.18-3.44-2.18 0-2.51 1.63-2.51 3.32v6.41H7.98V8Z"/></svg>`,
-  code: `<svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m7 8-4 4 4 4m10-8 4 4-4 4m-6 6 2-20"/></svg>`,
+  mail: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 4.26a2 2 0 0 0 2.22 0L21 8M5 19h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2Z"/></svg>`,
+  map: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657 13.414 20.9a2 2 0 0 1-2.828 0l-4.243-4.243a8 8 0 1 1 11.314 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>`,
+  linkedin: `<svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5c0 1.38-1.11 2.5-2.48 2.5S.02 4.88.02 3.5C.02 2.12 1.13 1 2.5 1s2.48 1.12 2.48 2.5ZM.5 8h4.9v13.5H.5V8Zm7.48 0H12.7l.02 1.85h.09c.59-1.07 2.04-2.15 4.2-2.15 4 0 4.98 2.38 4.98 6.53V21.5h-4.9v-6.29c0-1.5-.03-3.44-2.18-3.44-2.18 0-2.51 1.63-2.51 3.32v6.41H7.98V8Z"/></svg>`,
+  code: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m7 8-4 4 4 4m10-8 4 4-4 4m-6 6 2-20"/></svg>`
 };
 
 type IconKey = keyof typeof icons;
 
-const items: {
+const contactMethods: {
   label: string;
   value: string;
   action: string;
   icon: IconKey;
-  color: "blue" | "green";
+  variant: "primary" | "secondary";
 }[] = [
   {
     label: "Email",
     value: "tuemail@ejemplo.com",
     action: "mailto:tuemail@ejemplo.com",
     icon: "mail",
-    color: "blue",
+    variant: "primary"
   },
   {
     label: "Ubicación",
     value: "Ciudad, País",
     action: "#",
     icon: "map",
-    color: "green",
+    variant: "secondary"
   },
   {
     label: "LinkedIn",
     value: "Conectemos profesionalmente",
     action: "#",
     icon: "linkedin",
-    color: "blue",
+    variant: "primary"
   },
   {
     label: "GitHub",
     value: "Explora mis repositorios",
     action: "#",
     icon: "code",
-    color: "green",
-  },
+    variant: "secondary"
+  }
 ];
 ---
 
-<section id="contact" class="py-12">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-10">
-      <h2 class="text-4xl font-extrabold text-white">{heading}</h2>
-      <p class="mt-3 max-w-2xl mx-auto text-secondary">{sub}</p>
-    </div>
+<section id="contact">
+  <div class="container">
+    <SectionHeader title={heading} subtitle={subtitle} />
 
-    <div
-      class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-start"
-    >
-      <!-- Left: Contact methods -->
-      <div class="space-y-8">
-        {
-          items.map((item) => {
-            const gradient = item.color === "blue" ? "grad-blue" : "grad-green";
-            return (
-              <div class="surface p-6 rounded-2xl flex items-start gap-5 hover:shadow-lg transition-shadow duration-300">
-                <div
-                  class={`w-16 h-16 rounded-2xl flex items-center justify-center ${gradient} text-white flex-shrink-0 shadow-lg`}
-                >
-                  <span class="inline-block" set:html={icons[item.icon]} />
-                </div>
-
-                <div class="flex-1">
-                  <h3 class="text-base font-bold text-white mb-2">
-                    {item.label}
-                  </h3>
-                  <p class="text-base text-secondary mb-4 leading-relaxed">
-                    {item.value}
-                  </p>
-                  <div class="mt-4">
-                    <a
-                      href={item.action}
-                      class="inline-flex items-center gap-2 text-sm font-bold btn-accent px-4 py-2 rounded-full hover:scale-105 transition-transform duration-300"
-                    >
-                      <span>Contactar</span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-4 w-4"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2.5"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M13 7l5 5m0 0l-5 5m5-5H6"
-                        />
-                      </svg>
-                    </a>
-                  </div>
-                </div>
+    <div class="contact-grid">
+      <!-- Contact Methods -->
+      <div class="space-y-lg">
+        {contactMethods.map((method) => (
+          <Card>
+            <div class="flex items-start gap-md">
+              <div class={`icon icon--${method.variant} flex-shrink-0`}>
+                <span set:html={icons[method.icon]} />
               </div>
-            );
-          })
-        }
+
+              <div class="flex-1">
+                <h3 class="text-lg font-bold text-primary mb-xs">
+                  {method.label}
+                </h3>
+                <p class="text-secondary mb-md leading-relaxed">
+                  {method.value}
+                </p>
+                <Button variant={method.variant} size="sm" href={method.action}>
+                  Contactar
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </Button>
+              </div>
+            </div>
+          </Card>
+        ))}
       </div>
 
-      <!-- Right: Contact form -->
-      <div class="surface rounded-3xl p-10 shadow-xl">
-        <div class="mb-8">
-          <h3 class="text-3xl font-bold text-white mb-3">Envíame un mensaje</h3>
-          <p class="text-secondary text-base leading-relaxed">
+      <!-- Contact Form -->
+      <Card>
+        <div class="mb-lg">
+          <h3 class="text-2xl font-bold text-primary mb-sm">Envíame un mensaje</h3>
+          <p class="text-secondary leading-relaxed">
             Describe tu proyecto brevemente y te responderé en menos de 24h.
           </p>
         </div>
 
-        <form class="space-y-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label for="name" class="block text-sm font-medium text-secondary"
-                >Nombre</label
-              >
+        <form class="space-y-lg">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+            <div class="form-group">
+              <label for="name" class="form-label">Nombre</label>
               <input
                 id="name"
                 name="name"
                 type="text"
                 required
                 placeholder="Tu nombre"
-                class="mt-3 w-full rounded-lg px-4 py-3 bg-transparent border border-white/10 text-primary focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 transition-all duration-300"
+                class="form-input"
               />
             </div>
-            <div>
-              <label
-                for="email"
-                class="block text-sm font-medium text-secondary">Email</label
-              >
+            <div class="form-group">
+              <label for="email" class="form-label">Email</label>
               <input
                 id="email"
                 name="email"
                 type="email"
                 required
                 placeholder="tu@email.com"
-                class="mt-3 w-full rounded-lg px-4 py-3 bg-transparent border border-white/10 text-primary focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all duration-300"
+                class="form-input"
               />
             </div>
           </div>
 
-          <div>
-            <label
-              for="subject"
-              class="block text-sm font-medium text-secondary">Asunto</label
-            >
+          <div class="form-group">
+            <label for="subject" class="form-label">Asunto</label>
             <input
               id="subject"
               name="subject"
               type="text"
               required
               placeholder="¿Sobre qué quieres hablar?"
-              class="mt-3 w-full rounded-lg px-4 py-3 bg-transparent border border-white/10 text-primary focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 transition-all duration-300"
+              class="form-input"
             />
           </div>
 
-          <div>
-            <label
-              for="message"
-              class="block text-sm font-medium text-secondary">Mensaje</label
-            >
+          <div class="form-group">
+            <label for="message" class="form-label">Mensaje</label>
             <textarea
               id="message"
               name="message"
               rows="6"
               required
               placeholder="Cuéntame sobre tu proyecto..."
-              class="mt-3 w-full rounded-lg px-4 py-4 bg-transparent border border-white/10 text-primary focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all duration-300 resize-vertical min-h-[120px]"
+              class="form-input form-textarea"
             ></textarea>
           </div>
 
-          <div
-            class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pt-4"
-          >
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-md">
             <p class="text-sm text-secondary leading-relaxed max-w-xs">
               Al enviar aceptas que pueda contactarte. No envío spam.
             </p>
-            <button
-              type="submit"
-              class="btn-accent inline-flex items-center gap-3 px-6 py-3 rounded-full text-base font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
-            >
-              <span>Enviar mensaje</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-                ><path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M5 12h14M13 6l6 6-6 6"></path></svg
-              >
-            </button>
+            <Button type="submit" size="lg">
+              Enviar mensaje
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </Button>
           </div>
         </form>
-      </div>
+      </Card>
     </div>
   </div>
 </section>
