@@ -1,18 +1,10 @@
 ---
-// Componente de Pricing para servicios de desarrollo backend
-interface PricingTier {
-  name: string;
-  subtitle: string;
-  price: string;
-  period: string;
-  description: string;
-  features: string[];
-  highlighted?: boolean;
-  cta: string;
-  tone: "blue" | "green" | "premium";
-}
+import SectionHeader from './SectionHeader.astro';
+import PricingCard from './PricingCard.astro';
+import Card from './Card.astro';
+import Button from './Button.astro';
 
-const pricingTiers: PricingTier[] = [
+const plans = [
   {
     name: "Consultoría",
     subtitle: "Análisis y arquitectura",
@@ -28,7 +20,7 @@ const pricingTiers: PricingTier[] = [
       "Sesiones de mentoría"
     ],
     cta: "Agendar consulta",
-    tone: "blue"
+    popular: false
   },
   {
     name: "Desarrollo",
@@ -46,15 +38,13 @@ const pricingTiers: PricingTier[] = [
       "Monitoreo y observabilidad",
       "Soporte post-launch 30 días"
     ],
-    highlighted: true,
     cta: "Iniciar proyecto",
-    tone: "green"
+    popular: true
   },
   {
     name: "Enterprise",
     subtitle: "Soluciones a medida",
-    price: "A cotizar",
-    period: "",
+    price: "Cotizar",
     description: "Proyectos enterprise complejos con requisitos específicos de escalabilidad y seguridad.",
     features: [
       "Arquitectura distribuida completa",
@@ -67,280 +57,49 @@ const pricingTiers: PricingTier[] = [
       "Mantenimiento a largo plazo"
     ],
     cta: "Contactar",
-    tone: "premium"
+    popular: false
   }
 ];
-
-function getGradientClass(tone: PricingTier["tone"]) {
-  switch (tone) {
-    case "blue": return "grad-blue";
-    case "green": return "grad-green";
-    case "premium": return "bg-accent";
-    default: return "grad-blue";
-  }
-}
-
-function getBadgeClass(tone: PricingTier["tone"]) {
-  switch (tone) {
-    case "blue": return "badge blue";
-    case "green": return "badge green";
-    case "premium": return "badge";
-    default: return "badge blue";
-  }
-}
 ---
 
-<section id="pricing" class="py-12">
-  <!-- Background decorative elements -->
-  <div class="absolute top-0 left-1/4 w-96 h-96 grad-accent-subtle rounded-full blur-3xl opacity-20"></div>
-  <div class="absolute bottom-0 right-1/4 w-96 h-96 grad-accent-subtle rounded-full blur-3xl opacity-20"></div>
+<section id="pricing">
+  <div class="container">
+    <SectionHeader
+      title="Servicios & Precios"
+      subtitle="Soluciones backend profesionales adaptadas a las necesidades de tu proyecto."
+    />
 
-  <div class="container mx-auto px-4 relative">
-    <!-- Header -->
-    <div class="text-center mb-16">
-      <div class="flex items-center justify-center gap-3 mb-6">
-        <div class="w-12 h-12 rounded-2xl flex items-center justify-center" style="background: var(--accent-gradient);">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-          </svg>
-        </div>
-        <h2 class="text-4xl md:text-5xl font-extrabold text-accent">Servicios & Precios</h2>
-      </div>
-      <p class="mt-4 max-w-3xl mx-auto text-xl text-secondary leading-relaxed">
-        Soluciones backend profesionales adaptadas a las necesidades de tu proyecto.
-        Desde consultoría técnica hasta desarrollo completo de sistemas distribuidos.
-      </p>
-    </div>
-
-    <!-- Pricing Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
-      {pricingTiers.map((tier) => (
-        <article
-          class={`relative group ${tier.highlighted ? 'lg:scale-105 lg:-mt-6' : ''}`}
-        >
-          <!-- Highlighted badge -->
-          {tier.highlighted && (
-            <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 z-20">
-              <span class="bg-accent px-6 py-3 rounded-full text-sm font-bold text-white shadow-lg">
-                Más Popular
-              </span>
-            </div>
-          )}
-
-          <div class={`
-            card relative h-full flex flex-col p-10
-            ${tier.highlighted ? 'border-2' : 'border-2'}
-            ${tier.highlighted ? 'border-green-500/60 shadow-2xl shadow-green-500/20' : 'border-white/20 shadow-xl'}
-            hover:shadow-2xl hover:-translate-y-3 hover:border-white/30 transition-all duration-500
-          `}
-          style={tier.highlighted
-            ? "background: linear-gradient(135deg, rgba(34, 176, 126, 0.08), rgba(11, 15, 22, 0.95));"
-            : "background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(11, 15, 22, 0.95));"
-          }>
-            <!-- Header -->
-            <div class="text-center mb-10">
-              <div class={`inline-flex px-5 py-3 rounded-full text-sm font-bold mb-6 shadow-md ${getBadgeClass(tier.tone)}`}>
-                {tier.subtitle}
-              </div>
-
-              <h3 class="text-3xl font-bold text-primary mb-6">{tier.name}</h3>
-
-              <div class="mb-6">
-                {tier.price !== "A cotizar" ? (
-                  <div class="space-y-2">
-                    <span class="text-5xl md:text-6xl font-extrabold text-primary block">{tier.price}</span>
-                    <span class="text-lg text-secondary font-medium">{tier.period}</span>
-                  </div>
-                ) : (
-                  <div class="space-y-2">
-                    <span class="text-4xl md:text-5xl font-bold text-primary block">{tier.price}</span>
-                    <span class="text-base text-secondary">Precio personalizado</span>
-                  </div>
-                )}
-              </div>
-
-              <p class="text-secondary leading-relaxed text-base">{tier.description}</p>
-            </div>
-
-            <!-- Features -->
-            <div class="flex-1 mb-10">
-              <div class="border-t border-white/10 pt-8 mb-6">
-                <h4 class="text-lg font-semibold text-primary mb-6">Incluye:</h4>
-              </div>
-              <ul class="space-y-5">
-                {tier.features.map((feature) => (
-                  <li class="flex items-start gap-4">
-                    <div class={`
-                      flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center mt-0.5 shadow-md
-                      ${getGradientClass(tier.tone)}
-                    `}>
-                      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <span class="text-secondary leading-relaxed text-base font-medium">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <!-- CTA Button -->
-            <div class="mt-auto">
-              {tier.highlighted ? (
-                <a
-                  href="#contact"
-                  class="btn-accent w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl text-base font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
-                >
-                  <span>{tier.cta}</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </a>
-              ) : (
-                <a
-                  href="#contact"
-                  class="btn-outline w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl text-base font-bold hover:scale-105 transition-all duration-300"
-                >
-                  <span>{tier.cta}</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </a>
-              )}
-            </div>
-          </div>
-        </article>
+    <div class="pricing-grid mb-3xl">
+      {plans.map((plan) => (
+        <PricingCard
+          name={plan.name}
+          subtitle={plan.subtitle}
+          price={plan.price}
+          period={plan.period}
+          description={plan.description}
+          features={plan.features}
+          cta={plan.cta}
+          popular={plan.popular}
+        />
       ))}
     </div>
 
-    <!-- Bottom CTA Section -->
-    <div class="text-center mt-20">
-      <div class="surface p-10 rounded-3xl max-w-4xl mx-auto">
-        <div class="flex items-center justify-center gap-4 mb-6">
-          <div class="flex -space-x-2">
-            <div class="w-12 h-12 rounded-full grad-blue flex items-center justify-center shadow-lg">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <div class="w-12 h-12 rounded-full grad-green flex items-center justify-center shadow-lg">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
-            <div class="w-12 h-12 rounded-full bg-accent flex items-center justify-center shadow-lg">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <h3 class="text-3xl font-bold text-primary mb-4">¿No encuentras lo que necesitas?</h3>
-        <p class="text-lg text-secondary mb-8 leading-relaxed max-w-2xl mx-auto">
-          Cada proyecto es único. Hablemos sobre tus necesidades específicas y creemos una solución personalizada
-          que se adapte perfectamente a tu presupuesto y objetivos técnicos.
+    <!-- Bottom CTA -->
+    <div class="text-center">
+      <Card class="max-w-3xl mx-auto">
+        <h3 class="text-2xl font-bold text-primary mb-md">
+          ¿No encuentras lo que necesitas?
+        </h3>
+        <p class="text-secondary mb-lg leading-relaxed">
+          Cada proyecto es único. Hablemos sobre tus necesidades específicas y creemos una solución personalizada.
         </p>
-
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a
-            href="#contact"
-            class="btn-accent inline-flex items-center gap-3 px-8 py-4 rounded-full text-lg font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
-          >
-            Conversemos tu proyecto
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
-          </a>
-
-          <div class="text-sm text-secondary">
-            <div class="flex items-center gap-2">
-              <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-              Disponible para proyectos Q1 2024
-            </div>
-          </div>
-        </div>
-      </div>
+        <Button href="#contact">
+          Conversemos tu proyecto
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </Button>
+      </Card>
     </div>
   </div>
 </section>
-
-<style>
-  /* Animación sutil para las cards de pricing */
-  .card {
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(10px);
-  }
-
-  /* Efecto de glow en las cards */
-  .card:hover {
-    box-shadow:
-      0 32px 64px rgba(2, 6, 23, 0.3),
-      0 0 0 1px rgba(255, 255, 255, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  }
-
-  /* Mejores contrastes para badges */
-  .badge {
-    backdrop-filter: blur(8px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  }
-
-  .badge.blue {
-    background: rgba(42, 143, 255, 0.2);
-    border: 1px solid rgba(42, 143, 255, 0.3);
-  }
-
-  .badge.green {
-    background: rgba(34, 176, 126, 0.2);
-    border: 1px solid rgba(34, 176, 126, 0.3);
-  }
-
-  /* Animación staggered para las features */
-  .card ul li {
-    opacity: 0;
-    transform: translateX(-10px);
-    animation: slideInLeft 0.5s ease forwards;
-  }
-
-  .card ul li:nth-child(1) { animation-delay: 0.1s; }
-  .card ul li:nth-child(2) { animation-delay: 0.2s; }
-  .card ul li:nth-child(3) { animation-delay: 0.3s; }
-  .card ul li:nth-child(4) { animation-delay: 0.4s; }
-  .card ul li:nth-child(5) { animation-delay: 0.5s; }
-  .card ul li:nth-child(6) { animation-delay: 0.6s; }
-  .card ul li:nth-child(7) { animation-delay: 0.7s; }
-  .card ul li:nth-child(8) { animation-delay: 0.8s; }
-
-  @keyframes slideInLeft {
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  /* Hover effect para los iconos de check */
-  .card ul li div {
-    transition: transform 0.2s ease;
-  }
-
-  .card:hover ul li div {
-    transform: scale(1.1);
-  }
-
-  /* Pulse effect para el badge "Más Popular" */
-  .card .bg-accent {
-    animation: gentlePulse 2s ease-in-out infinite;
-  }
-
-  @keyframes gentlePulse {
-    0%, 100% {
-      transform: translate(-50%, 0) scale(1);
-      opacity: 1;
-    }
-    50% {
-      transform: translate(-50%, 0) scale(1.05);
-      opacity: 0.9;
-    }
-  }
-</style>
