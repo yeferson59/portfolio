@@ -1,0 +1,41 @@
+---
+import Card from './Card.astro';
+import Badge from './Badge.astro';
+import Button from './Button.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  stack: string[];
+  year: string;
+  status?: string;
+  href?: string;
+}
+
+const { title, description, stack, year, status = "En desarrollo", href } = Astro.props;
+---
+
+<Card>
+  <div class="flex items-center justify-between mb-md">
+    <Badge variant="primary">{year}</Badge>
+    <div class="accent-dot accent-dot--secondary"></div>
+  </div>
+  
+  <h3 class="text-xl font-bold text-primary mb-sm">{title}</h3>
+  <p class="text-secondary mb-lg text-sm leading-relaxed">{description}</p>
+  
+  <div class="flex flex-wrap gap-xs mb-lg">
+    {stack.map((tech, index) => (
+      <Badge variant={index % 2 === 0 ? 'primary' : 'secondary'}>
+        {tech}
+      </Badge>
+    ))}
+  </div>
+  
+  <div class="flex items-center justify-between">
+    <span class="text-xs text-muted">{status}</span>
+    <Button variant="primary" size="sm" href={href}>
+      Ver detalles
+    </Button>
+  </div>
+</Card>
