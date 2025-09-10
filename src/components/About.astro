@@ -1,170 +1,120 @@
 ---
+import SectionHeader from './SectionHeader.astro';
+import Card from './Card.astro';
+import Badge from './Badge.astro';
+import Button from './Button.astro';
+
 const developerName = "Tu Nombre";
 const title = "Backend Developer";
-const description =
-  "Especializado en arquitectura de sistemas, APIs escalables y bases de datos. Apasionado por la eficiencia, la seguridad y el rendimiento.";
+const description = "Especializado en arquitectura de sistemas, APIs escalables y bases de datos. Apasionado por la eficiencia, la seguridad y el rendimiento.";
+
 const skills = [
-  "Node.js",
-  "PostgreSQL",
-  "Docker",
-  "Kubernetes",
-  "Redis",
-  "TypeScript",
+  "Node.js", "PostgreSQL", "Docker",
+  "Kubernetes", "Redis", "TypeScript"
+];
+
+const features = [
+  {
+    title: "Código claro",
+    description: "Priorizo legibilidad, pruebas y diseño modular para que el código sea fácil de mantener y evolucionar.",
+    variant: "primary" as const
+  },
+  {
+    title: "Rendimiento",
+    description: "Diseño optimizaciones por cuello de botella, caching y tuning de consultas para reducir latencia y costes infra.",
+    variant: "secondary" as const
+  },
+  {
+    title: "Seguridad",
+    description: "Autenticación, autorización, encriptación y revisión de dependencias forman parte del flujo de desarrollo.",
+    variant: "primary" as const
+  },
+  {
+    title: "Observabilidad",
+    description: "Implemento trazabilidad, métricas y alertas para detectar y resolver incidentes de forma proactiva.",
+    variant: "secondary" as const
+  }
 ];
 ---
 
-<section id="about" class="py-16">
-  <div class="container mx-auto px-8">
-    <div class="max-w-4xl mx-auto text-center mb-12">
-      <h2
-        class="text-3xl md:text-4xl font-extrabold tracking-tight text-accent"
-      >
-        Sobre mí
-      </h2>
-      <p class="mt-4 max-w-3xl mx-auto text-secondary leading-relaxed">
-        {description}
-      </p>
-    </div>
+<section id="about" class="gradient-overlay">
+  <div class="container">
+    <SectionHeader 
+      title="Sobre mí" 
+      subtitle={description}
+    />
 
-    <!-- Main grid: profile card | details -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-16 items-start">
-      <!-- Profile card (left) -->
-      <aside class="md:col-span-1">
-        <div class="card p-12 flex flex-col items-center text-center h-full">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-xl items-start">
+      <!-- Profile card -->
+      <aside>
+        <Card class="text-center h-full">
           <img
             src="/placeholder-avatar.svg"
             alt="Avatar"
-            class="avatar w-44 h-44 object-cover mb-6"
+            class="avatar avatar--xl mx-auto mb-lg"
             loading="lazy"
           />
 
-          <h3 class="text-3xl font-bold text-primary">{developerName}</h3>
-          <p class="text-base text-accent mt-2 mb-6 font-semibold">{title}</p>
+          <h3 class="text-2xl font-bold text-primary mb-xs">{developerName}</h3>
+          <p class="text-accent mb-lg font-semibold">{title}</p>
 
-          <p class="text-secondary mb-8 text-base leading-relaxed">
+          <p class="text-secondary mb-lg leading-relaxed">
             Me enfoco en construir APIs robustas, sistemas observables y
             arquitecturas que escalen. Trabajo con microservicios y soluciones
             distribuidas con foco en seguridad y rendimiento.
           </p>
 
-          <div class="flex flex-wrap justify-center gap-3 mt-auto pt-4">
-            {
-              skills.map((s) => (
-                <span class="badge blue px-4 py-2 text-sm font-medium">
-                  {s}
-                </span>
-              ))
-            }
+          <div class="flex flex-wrap justify-center gap-xs">
+            {skills.map((skill) => (
+              <Badge variant="primary">{skill}</Badge>
+            ))}
           </div>
-        </div>
+        </Card>
       </aside>
 
-      <!-- Details (right) -->
-      <div class="md:col-span-2">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 mb-10">
-          <div class="surface p-8 h-full flex gap-6 items-start">
-            <div class="flex-shrink-0 mt-1">
-              <span class="accent-dot accent-dot--blue" aria-hidden="true"
-              ></span>
-            </div>
-            <div>
-              <h4 class="text-xl font-bold text-primary mb-3">Código claro</h4>
-              <p class="text-secondary text-base leading-relaxed">
-                Priorizo legibilidad, pruebas y diseño modular para que el
-                código sea fácil de mantener y evolucionar.
-              </p>
-            </div>
-          </div>
-
-          <div class="surface p-8 h-full flex gap-6 items-start">
-            <div class="flex-shrink-0 mt-1">
-              <span class="accent-dot accent-dot--green" aria-hidden="true"
-              ></span>
-            </div>
-            <div>
-              <h4 class="text-xl font-bold text-primary mb-3">Rendimiento</h4>
-              <p class="text-secondary text-base leading-relaxed">
-                Diseño optimizaciones por cuello de botella, caching y tuning de
-                consultas para reducir latencia y costes infra.
-              </p>
-            </div>
-          </div>
-
-          <div class="surface p-8 h-full flex gap-6 items-start">
-            <div class="flex-shrink-0 mt-1">
-              <span class="accent-dot accent-dot--blue" aria-hidden="true"
-              ></span>
-            </div>
-            <div>
-              <h4 class="text-xl font-bold text-primary mb-3">Seguridad</h4>
-              <p class="text-secondary text-base leading-relaxed">
-                Autenticación, autorización, encriptación y revisión de
-                dependencias forman parte del flujo de desarrollo.
-              </p>
-            </div>
-          </div>
-
-          <div class="surface p-8 h-full flex gap-6 items-start">
-            <div class="flex-shrink-0 mt-1">
-              <span class="accent-dot accent-dot--green" aria-hidden="true"
-              ></span>
-            </div>
-            <div>
-              <h4 class="text-xl font-bold text-primary mb-3">
-                Observabilidad
-              </h4>
-              <p class="text-secondary text-base leading-relaxed">
-                Implemento trazabilidad, métricas y alertas para detectar y
-                resolver incidentes de forma proactiva.
-              </p>
-            </div>
-          </div>
+      <!-- Features -->
+      <div class="lg:col-span-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-lg mb-xl">
+          {features.map((feature) => (
+            <Card variant="compact">
+              <div class="flex gap-md items-start">
+                <div class="flex-shrink-0 mt-xs">
+                  <div class={`accent-dot ${feature.variant === 'secondary' ? 'accent-dot--secondary' : ''}`}></div>
+                </div>
+                <div>
+                  <h4 class="text-lg font-bold text-primary mb-sm">{feature.title}</h4>
+                  <p class="text-secondary leading-relaxed">{feature.description}</p>
+                </div>
+              </div>
+            </Card>
+          ))}
         </div>
 
-        <!-- CTA / summary block -->
-        <div
-          class="surface p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-8"
-        >
-          <div>
-            <h4 class="text-xl font-bold text-primary mb-3">
-              ¿Quieres colaborar?
-            </h4>
-            <p class="text-secondary text-base leading-relaxed max-w-xl">
-              Si tienes un proyecto o idea, puedo ayudar a definir la
-              arquitectura y llevarlo a producción con prácticas seguras,
-              observables y escalables.
-            </p>
-          </div>
+        <!-- CTA section -->
+        <Card>
+          <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-lg">
+            <div>
+              <h4 class="text-xl font-bold text-primary mb-sm">¿Quieres colaborar?</h4>
+              <p class="text-secondary leading-relaxed max-w-xl">
+                Si tienes un proyecto o idea, puedo ayudar a definir la
+                arquitectura y llevarlo a producción con prácticas seguras,
+                observables y escalables.
+              </p>
+            </div>
 
-          <div class="flex flex-col sm:flex-row items-center gap-4">
-            <a
-              href="#projects"
-              class="btn-accent btn-compact inline-flex items-center gap-2 text-sm md:text-base rounded-md shadow-md sm:px-5 sm:py-3 justify-center"
-            >
-              Ver proyectos
-              <svg
-                class="h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-              </svg>
-            </a>
-
-            <a
-              href="#contact"
-              class="btn-outline btn-compact inline-flex items-center gap-2 text-sm md:text-base rounded-md"
-            >
-              Contactar
-            </a>
+            <div class="flex flex-col sm:flex-row gap-sm">
+              <Button href="#projects">
+                Ver proyectos
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </Button>
+              <Button variant="secondary" href="#contact">
+                Contactar
+              </Button>
+            </div>
           </div>
-        </div>
+        </Card>
       </div>
     </div>
   </div>
