@@ -815,90 +815,25 @@ header {
   transform: translateZ(0);
 }
 
-/* Fix potential z-index issues */
+/* Simple header protection */
 header {
   position: fixed !important;
   z-index: 9999 !important;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
-#mobile-menu {
-  z-index: 9998;
+/* Main content spacing */
+main {
+  padding-top: 80px; /* Reduced space for header */
 }
 
-/* Simple overflow prevention for decorative elements */
-.card {
-  overflow: hidden;
-}
-
-/* Ensure gradients stay contained within their parent elements */
-[class*="grad-"],
-.bg-[radial-gradient] {
-  overflow: hidden;
-}
-
-/* Ensure gradients and decorative elements stay contained */
-[class*="grad-"],
-.bg-[radial-gradient] {
-  position: relative;
-}
-
-/* Simple overflow prevention */
+/* Basic body setup */
 body {
   overflow-x: hidden;
-  position: relative;
-  scroll-behavior: smooth;
-}
-
-/* Header scroll stability fixes */
-html {
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-}
-
-/* Prevent elements from appearing above header during scroll */
-* {
-  position: relative;
-  z-index: auto;
-}
-
-header {
-  position: fixed !important;
-  z-index: 9999 !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100vw !important;
-  min-height: auto !important;
-  transform: none !important;
-  will-change: auto;
-  contain: layout;
-}
-
-/* Prevent scroll jank and ensure smooth header behavior */
-@media (prefers-reduced-motion: no-preference) {
-  header {
-    transition: none;
-  }
-}
-
-/* Force header to stay above all other content */
-header * {
-  z-index: inherit;
-}
-
-/* Prevent any background elements from interfering with header */
-body::before,
-body::after,
-*::before,
-*::after {
-  z-index: -1;
-}
-
-header::before,
-header::after,
-header *::before,
-header *::after {
-  z-index: inherit;
+  margin: 0;
+  padding: 0;
 }
 
 /* End of file */
