@@ -1,24 +1,27 @@
 ---
-import "../styles/global.css";
+import "../styles/main.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import ScrollAnimations from "../components/ScrollAnimations.astro";
+import ScrollReveal from "../components/ScrollReveal.astro";
 ---
 
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="description" content="Backend Developer Portfolio - Especializado en arquitectura de sistemas, APIs escalables y bases de datos." />
     <title>Backend Developer Portfolio</title>
   </head>
-  <body class="font-sans antialiased">
+  <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
     <Header />
-    <main class="pt-24">
+    <main id="main">
       <slot />
     </main>
     <Footer />
-    <ScrollAnimations />
+    <ScrollReveal />
   </body>
 </html>
