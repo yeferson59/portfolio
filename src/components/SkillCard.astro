@@ -1,0 +1,46 @@
+---
+import Card from './Card.astro';
+
+interface Skill {
+  name: string;
+  level: number;
+  variant?: 'primary' | 'secondary';
+}
+
+interface Props {
+  title: string;
+  icon?: string;
+  skills: Skill[];
+  iconVariant?: 'primary' | 'secondary';
+}
+
+const { title, icon, skills, iconVariant = 'primary' } = Astro.props;
+---
+
+<Card>
+  <div class="flex items-center gap-md mb-lg">
+    {icon && (
+      <div class={`icon icon--${iconVariant}`} set:html={icon} />
+    )}
+    <h3 class="text-xl font-bold text-primary">{title}</h3>
+  </div>
+  
+  <div class="space-y-md">
+    {skills.map((skill) => (
+      <div>
+        <div class="flex justify-between items-center mb-xs">
+          <span class="text-base font-medium text-primary">{skill.name}</span>
+          <span class={`text-sm font-bold ${skill.variant === 'secondary' ? 'text-secondary' : 'text-primary'}`}>
+            {skill.level}%
+          </span>
+        </div>
+        <div class="progress">
+          <div 
+            class={`progress__bar progress__bar--${skill.variant || 'primary'}`} 
+            style={`width: ${skill.level}%`}
+          ></div>
+        </div>
+      </div>
+    ))}
+  </div>
+</Card>
