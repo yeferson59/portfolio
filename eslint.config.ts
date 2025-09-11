@@ -5,7 +5,7 @@ import astroParser from "astro-eslint-parser";
 import tsParser from "@typescript-eslint/parser";
 import eslintPluginAstro from "eslint-plugin-astro";
 import globals from "globals";
-import { defineConfig } from "eslint/config";
+import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
   // Astro configuration - specifically for .astro files only
@@ -101,4 +101,5 @@ export default defineConfig([
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
+  globalIgnores(["bun.lock"]),
 ]);
