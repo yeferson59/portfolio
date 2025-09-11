@@ -32,7 +32,7 @@ const icons = {
       navigationItems.map((item) => (
         <a href={item.href} class="mobile-menu__link">
           <div class="accent-dot" />
-          <span set:html={icons[item.icon]} />
+          <span set:html={icons[item.icon as keyof typeof icons]} />
           {item.label}
         </a>
       ))
