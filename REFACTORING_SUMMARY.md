@@ -217,8 +217,6 @@ src/
 
 ### Breaking Changes
 
-#### Button Component
-
 ```astro
 <!-- Before -->
 <Button variant="accent" size="compact">Click me</Button>
