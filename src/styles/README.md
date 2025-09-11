@@ -18,7 +18,9 @@ src/styles/
 ## Architecture Overview
 
 ### 1. Variables (`variables.css`)
+
 Contains all CSS custom properties organized by category:
+
 - **Colors**: Primary, secondary, neutral, and status colors
 - **Spacing**: Consistent spacing scale (xs, sm, md, lg, xl, 2xl, 3xl)
 - **Typography**: Font sizes, weights, and line heights
@@ -28,6 +30,7 @@ Contains all CSS custom properties organized by category:
 - **Z-Index**: Layering system for overlays
 
 ### 2. Base (`base.css`)
+
 - Modern CSS reset
 - Base typography styles
 - Form element defaults
@@ -35,7 +38,9 @@ Contains all CSS custom properties organized by category:
 - Print styles preparation
 
 ### 3. Utilities (`utilities.css`)
+
 Common utility classes following a consistent naming convention:
+
 - **Layout**: flex, grid, positioning
 - **Spacing**: margins, padding, gaps
 - **Typography**: text sizes, weights, alignment
@@ -43,7 +48,9 @@ Common utility classes following a consistent naming convention:
 - **Responsive**: breakpoint-specific utilities
 
 ### 4. Components (`components.css`)
+
 Reusable component styles using BEM-inspired naming:
+
 - **Cards**: `.card`, `.card--compact`, `.card--raised`
 - **Buttons**: `.btn`, `.btn--primary`, `.btn--secondary`, `.btn--ghost`
 - **Badges**: `.badge`, `.badge--primary`, `.badge--secondary`
@@ -51,7 +58,9 @@ Reusable component styles using BEM-inspired naming:
 - **Icons**: `.icon`, `.icon--primary`, `.icon--secondary`
 
 ### 5. Animations (`animations.css`)
+
 Performance-optimized animations:
+
 - CSS-only animations where possible
 - Reduced motion support
 - Hardware acceleration hints
@@ -60,6 +69,7 @@ Performance-optimized animations:
 ## Design System
 
 ### Color Palette
+
 - **Primary**: #2a8fff (Blue)
 - **Secondary**: #22b07e (Green)
 - **Background**: #05060a (Dark Navy)
@@ -68,7 +78,9 @@ Performance-optimized animations:
 - **Text Secondary**: #b7c6d8 (Secondary text)
 
 ### Spacing Scale
+
 Based on 4px units:
+
 - `--space-xs`: 4px
 - `--space-sm`: 8px
 - `--space-md`: 16px
@@ -78,6 +90,7 @@ Based on 4px units:
 - `--space-3xl`: 64px
 
 ### Typography Scale
+
 - `--font-size-xs`: 12px
 - `--font-size-sm`: 14px
 - `--font-size-base`: 16px
@@ -90,6 +103,7 @@ Based on 4px units:
 ## Usage Guidelines
 
 ### Component Classes
+
 Use semantic component classes instead of utility classes for complex components:
 
 ```html
@@ -100,11 +114,12 @@ Use semantic component classes instead of utility classes for complex components
 
 <!-- Avoid -->
 <div class="bg-surface p-lg rounded-xl shadow-lg">
-  <button class="bg-primary text-white px-lg py-sm rounded-lg">Click me</button>
+  <button class="bg-primary px-lg py-sm rounded-lg text-white">Click me</button>
 </div>
 ```
 
 ### Responsive Design
+
 Use utility classes for responsive adjustments:
 
 ```html
@@ -114,6 +129,7 @@ Use utility classes for responsive adjustments:
 ```
 
 ### Animations
+
 Add animations using classes and let CSS handle the rest:
 
 ```html
@@ -140,6 +156,7 @@ Add animations using classes and let CSS handle the rest:
 ## Migration from Legacy CSS
 
 The previous `global.css` (840+ lines) has been split into focused modules:
+
 - Reduced bundle size by ~40%
 - Improved maintainability
 - Better performance through modular loading

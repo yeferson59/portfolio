@@ -1,85 +1,103 @@
 ---
-import SectionHeader from './SectionHeader.astro';
-import ProjectCard from './ProjectCard.astro';
-import Button from './Button.astro';
+import SectionHeader from "./SectionHeader.astro";
+import ProjectCard from "./ProjectCard.astro";
+import Button from "./Button.astro";
 
 const projects = [
   {
     title: "API de E-commerce Escalable",
-    description: "API REST modular con autenticación JWT, cache (Redis) y métricas. Arquitectura optimizada para altas concurrencias y baja latencia.",
+    description:
+      "API REST modular con autenticación JWT, cache (Redis) y métricas. Arquitectura optimizada para altas concurrencias y baja latencia.",
     stack: ["Node.js", "Express", "MongoDB", "Redis", "JWT"],
     year: "2023",
     status: "En desarrollo",
-    href: "#"
+    href: "#",
   },
   {
-    title: "Analítica en Tiempo Real", 
-    description: "Pipeline de eventos con ingestión streaming, procesamiento y dashboards en tiempo real para decisiones inmediatas.",
+    title: "Analítica en Tiempo Real",
+    description:
+      "Pipeline de eventos con ingestión streaming, procesamiento y dashboards en tiempo real para decisiones inmediatas.",
     stack: ["Python", "Kafka", "PostgreSQL", "Django", "Grafana"],
     year: "2023",
     status: "En producción",
-    href: "#"
+    href: "#",
   },
   {
     title: "Plataforma de Microservicios",
-    description: "Diseño de microservicios con observabilidad (tracing + metrics), despliegue en Kubernetes y CI/CD automatizado.", 
+    description:
+      "Diseño de microservicios con observabilidad (tracing + metrics), despliegue en Kubernetes y CI/CD automatizado.",
     stack: ["Go", "gRPC", "Docker", "Kubernetes", "Prometheus"],
     year: "2024",
     status: "En desarrollo",
-    href: "#"
+    href: "#",
   },
   {
     title: "Colas y Procesamiento Asíncrono",
-    description: "Motor de jobs resiliente con reintentos, backoff exponencial y métricas para trabajos críticos de negocio.",
+    description:
+      "Motor de jobs resiliente con reintentos, backoff exponencial y métricas para trabajos críticos de negocio.",
     stack: ["Node.js", "BullMQ", "Redis", "TypeScript"],
     year: "2024",
     status: "Completado",
-    href: "#"
+    href: "#",
   },
   {
     title: "Motor de Reportes en Lote",
-    description: "Generación y distribución de reportes (PDF/CSV) en lotes, con almacenamiento en S3 y control de concurrencia.",
+    description:
+      "Generación y distribución de reportes (PDF/CSV) en lotes, con almacenamiento en S3 y control de concurrencia.",
     stack: ["Python", "Celery", "PostgreSQL", "S3", "Docker"],
     year: "2024",
     status: "En desarrollo",
-    href: "#"
+    href: "#",
   },
   {
     title: "SSO y Gestión de Identidad",
-    description: "Servicio centralizado OAuth2 / OpenID Connect para autenticación unificada entre varias aplicaciones internas.",
+    description:
+      "Servicio centralizado OAuth2 / OpenID Connect para autenticación unificada entre varias aplicaciones internas.",
     stack: ["Keycloak", "Nginx", "PostgreSQL", "Docker"],
     year: "2024",
     status: "Planificado",
-    href: "#"
-  }
+    href: "#",
+  },
 ];
 ---
 
 <section id="projects">
   <div class="container">
-    <SectionHeader 
-      title="Featured Projects" 
+    <SectionHeader
+      title="Featured Projects"
       subtitle="Selección de proyectos enfocados en backend: APIs, sistemas distribuidos, observabilidad y optimización de rendimiento."
     />
 
     <div class="projects-grid mb-4xl">
-      {projects.map((project) => (
-        <ProjectCard
-          title={project.title}
-          description={project.description}
-          stack={project.stack}
-          year={project.year}
-          status={project.status}
-          href={project.href}
-        />
-      ))}
+      {
+        projects.map((project) => (
+          <ProjectCard
+            title={project.title}
+            description={project.description}
+            stack={project.stack}
+            year={project.year}
+            status={project.status}
+            href={project.href}
+          />
+        ))
+      }
     </div>
 
     <div class="btn-container--xl text-center">
       <Button size="lg" href="#contact">
         ¿Tienes un proyecto en mente?
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        <svg
+          width="20"
+          height="20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
         </svg>
       </Button>
     </div>

@@ -1,7 +1,7 @@
 ---
-import Card from './Card.astro';
-import Badge from './Badge.astro';
-import Button from './Button.astro';
+import Card from "./Card.astro";
+import Badge from "./Badge.astro";
+import Button from "./Button.astro";
 
 interface Props {
   name: string;
@@ -15,43 +15,41 @@ interface Props {
   href?: string;
 }
 
-const { 
-  name, 
-  subtitle, 
-  price, 
-  period, 
-  description, 
-  features, 
-  cta, 
+const {
+  name,
+  subtitle,
+  price,
+  period,
+  description,
+  features,
+  cta,
   popular = false,
-  href = "#contact"
+  href = "#contact",
 } = Astro.props;
 ---
 
-<div class={`card pricing-card ${popular ? 'pricing-card--popular' : ''}`}>
-  {popular && (
-    <div class="pricing-card__badge">
-      <Badge variant="primary">
-        ✨ Más Popular
-      </Badge>
-    </div>
-  )}
+<div class={`card pricing-card ${popular ? "pricing-card--popular" : ""}`}>
+  {
+    popular && (
+      <div class="pricing-card__badge">
+        <Badge variant="primary">✨ Más Popular</Badge>
+      </div>
+    )
+  }
 
   <!-- Plan Header -->
   <div class="pricing-card__header">
-    <Badge variant={popular ? 'primary' : 'secondary'} class="mb-md">
+    <Badge variant={popular ? "primary" : "secondary"} class="mb-md">
       {subtitle}
     </Badge>
-    
+
     <h3 class="pricing-card__title">{name}</h3>
-    
+
     <div class="pricing-card__price">
       <div class="pricing-card__price-amount">{price}</div>
-      {period && (
-        <div class="pricing-card__price-period">{period}</div>
-      )}
+      {period && <div class="pricing-card__price-period">{period}</div>}
     </div>
-    
+
     <p class="pricing-card__description">{description}</p>
   </div>
 
@@ -59,26 +57,37 @@ const {
   <div class="pricing-card__features">
     <h4 class="pricing-card__features-title">Incluye:</h4>
     <ul class="pricing-card__features-list">
-      {features.map((feature, index) => (
-        <li class="pricing-card__feature">
-          <div class={`pricing-card__feature-icon ${index % 2 === 0 ? 'pricing-card__feature-icon--primary' : 'pricing-card__feature-icon--secondary'}`}>
-            <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-            </svg>
-          </div>
-          <span class="pricing-card__feature-text">{feature}</span>
-        </li>
-      ))}
+      {
+        features.map((feature, index) => (
+          <li class="pricing-card__feature">
+            <div
+              class={`pricing-card__feature-icon ${index % 2 === 0 ? "pricing-card__feature-icon--primary" : "pricing-card__feature-icon--secondary"}`}
+            >
+              <svg
+                width="10"
+                height="10"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </div>
+            <span class="pricing-card__feature-text">{feature}</span>
+          </li>
+        ))
+      }
     </ul>
   </div>
 
   <!-- CTA Button -->
   <div class="pricing-card__cta">
-    <Button 
-      variant={popular ? 'primary' : 'secondary'} 
-      fullWidth 
-      href={href}
-    >
+    <Button variant={popular ? "primary" : "secondary"} fullWidth href={href}>
       {cta}
     </Button>
   </div>

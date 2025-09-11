@@ -1,61 +1,67 @@
 ---
-import SectionHeader from './SectionHeader.astro';
-import Card from './Card.astro';
-import Badge from './Badge.astro';
-import Button from './Button.astro';
+import SectionHeader from "./SectionHeader.astro";
+import Card from "./Card.astro";
+import Badge from "./Badge.astro";
+import Button from "./Button.astro";
 
 const developerName = "Tu Nombre";
 const title = "Backend Developer";
-const description = "Especializado en arquitectura de sistemas, APIs escalables y bases de datos. Apasionado por la eficiencia, la seguridad y el rendimiento.";
+const description =
+  "Especializado en arquitectura de sistemas, APIs escalables y bases de datos. Apasionado por la eficiencia, la seguridad y el rendimiento.";
 
 const skills = [
-  "Node.js", "PostgreSQL", "Docker",
-  "Kubernetes", "Redis", "TypeScript"
+  "Node.js",
+  "PostgreSQL",
+  "Docker",
+  "Kubernetes",
+  "Redis",
+  "TypeScript",
 ];
 
 const features = [
   {
     title: "Código claro",
-    description: "Priorizo legibilidad, pruebas y diseño modular para que el código sea fácil de mantener y evolucionar.",
-    variant: "primary" as const
+    description:
+      "Priorizo legibilidad, pruebas y diseño modular para que el código sea fácil de mantener y evolucionar.",
+    variant: "primary" as const,
   },
   {
     title: "Rendimiento",
-    description: "Diseño optimizaciones por cuello de botella, caching y tuning de consultas para reducir latencia y costes infra.",
-    variant: "secondary" as const
+    description:
+      "Diseño optimizaciones por cuello de botella, caching y tuning de consultas para reducir latencia y costes infra.",
+    variant: "secondary" as const,
   },
   {
     title: "Seguridad",
-    description: "Autenticación, autorización, encriptación y revisión de dependencias forman parte del flujo de desarrollo.",
-    variant: "primary" as const
+    description:
+      "Autenticación, autorización, encriptación y revisión de dependencias forman parte del flujo de desarrollo.",
+    variant: "primary" as const,
   },
   {
     title: "Observabilidad",
-    description: "Implemento trazabilidad, métricas y alertas para detectar y resolver incidentes de forma proactiva.",
-    variant: "secondary" as const
-  }
+    description:
+      "Implemento trazabilidad, métricas y alertas para detectar y resolver incidentes de forma proactiva.",
+    variant: "secondary" as const,
+  },
 ];
 ---
 
 <section id="about" class="gradient-overlay">
   <div class="container">
-    <SectionHeader 
-      title="Sobre mí" 
-      subtitle={description}
-    />
+    <SectionHeader title="Sobre mí" subtitle={description} />
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-xl items-start">
+    <div class="gap-xl grid grid-cols-1 items-start lg:grid-cols-3">
       <!-- Profile card -->
       <aside>
-        <Card class="text-center h-full">
+        <Card class="h-full text-center">
           <img
             src="/placeholder-avatar.svg"
             alt="Avatar"
-            class="avatar avatar--xl mx-auto mb-lg"
+            class="avatar avatar--xl mb-lg mx-auto"
             loading="lazy"
           />
 
-          <h3 class="text-2xl font-bold text-primary mb-xs">{developerName}</h3>
+          <h3 class="text-primary mb-xs text-2xl font-bold">{developerName}</h3>
           <p class="text-accent mb-lg font-semibold">{title}</p>
 
           <p class="text-secondary mb-lg leading-relaxed">
@@ -64,38 +70,48 @@ const features = [
             distribuidas con foco en seguridad y rendimiento.
           </p>
 
-          <div class="flex flex-wrap justify-center gap-xs">
-            {skills.map((skill) => (
-              <Badge variant="primary">{skill}</Badge>
-            ))}
+          <div class="gap-xs flex flex-wrap justify-center">
+            {skills.map((skill) => <Badge variant="primary">{skill}</Badge>)}
           </div>
         </Card>
       </aside>
 
       <!-- Features -->
       <div class="lg:col-span-2">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-lg mb-xl">
-          {features.map((feature) => (
-            <Card variant="compact">
-              <div class="flex gap-md items-start">
-                <div class="flex-shrink-0 mt-xs">
-                  <div class={`accent-dot ${feature.variant === 'secondary' ? 'accent-dot--secondary' : ''}`}></div>
+        <div class="gap-lg mb-xl grid grid-cols-1 sm:grid-cols-2">
+          {
+            features.map((feature) => (
+              <Card variant="compact">
+                <div class="gap-md flex items-start">
+                  <div class="mt-xs flex-shrink-0">
+                    <div
+                      class={`accent-dot ${feature.variant === "secondary" ? "accent-dot--secondary" : ""}`}
+                    />
+                  </div>
+                  <div>
+                    <h4 class="text-primary mb-sm text-lg font-bold">
+                      {feature.title}
+                    </h4>
+                    <p class="text-secondary leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 class="text-lg font-bold text-primary mb-sm">{feature.title}</h4>
-                  <p class="text-secondary leading-relaxed">{feature.description}</p>
-                </div>
-              </div>
-            </Card>
-          ))}
+              </Card>
+            ))
+          }
         </div>
 
         <!-- CTA section -->
         <Card>
-          <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-lg">
+          <div
+            class="gap-lg flex flex-col lg:flex-row lg:items-center lg:justify-between"
+          >
             <div>
-              <h4 class="text-xl font-bold text-primary mb-sm">¿Quieres colaborar?</h4>
-              <p class="text-secondary leading-relaxed max-w-xl">
+              <h4 class="text-primary mb-sm text-xl font-bold">
+                ¿Quieres colaborar?
+              </h4>
+              <p class="text-secondary max-w-xl leading-relaxed">
                 Si tienes un proyecto o idea, puedo ayudar a definir la
                 arquitectura y llevarlo a producción con prácticas seguras,
                 observables y escalables.
@@ -105,13 +121,21 @@ const features = [
             <div class="btn-group btn-group--center">
               <Button href="#projects">
                 Ver proyectos
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                <svg
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
                 </svg>
               </Button>
-              <Button variant="secondary" href="#contact">
-                Contactar
-              </Button>
+              <Button variant="secondary" href="#contact"> Contactar </Button>
             </div>
           </div>
         </Card>

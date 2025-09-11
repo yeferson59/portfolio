@@ -15,12 +15,14 @@
 }
 
 .card::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.1) 0%, 
-    rgba(255, 255, 255, 0.02) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
   opacity: 0;
   transition: opacity var(--transition-normal);
   pointer-events: none;
@@ -166,7 +168,11 @@
 }
 
 .badge--primary {
-  background: linear-gradient(135deg, rgba(42, 143, 255, 0.2), rgba(42, 143, 255, 0.3));
+  background: linear-gradient(
+    135deg,
+    rgba(42, 143, 255, 0.2),
+    rgba(42, 143, 255, 0.3)
+  );
   border-color: rgba(42, 143, 255, 0.4);
   color: var(--color-primary);
   box-shadow: 0 4px 12px rgba(42, 143, 255, 0.25);
@@ -206,27 +212,41 @@
 }
 
 .progress__bar--primary {
-  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-hover));
+  background: linear-gradient(
+    90deg,
+    var(--color-primary),
+    var(--color-primary-hover)
+  );
 }
 
 .progress__bar--secondary {
-  background: linear-gradient(90deg, var(--color-secondary), var(--color-secondary-hover));
+  background: linear-gradient(
+    90deg,
+    var(--color-secondary),
+    var(--color-secondary-hover)
+  );
 }
 
 .progress__bar::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    rgba(255, 255, 255, 0.2) 50%, 
-    transparent 100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
   animation: shimmer 2s infinite;
 }
 
 @keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* ========== ICONS ========== */
@@ -322,7 +342,9 @@
 
 .pricing-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 40px rgba(42, 143, 255, 0.1);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(42, 143, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.2);
 }
 
@@ -335,7 +357,9 @@
 
 .pricing-card--popular:hover {
   transform: scale(1.03) translateY(-8px);
-  box-shadow: 0 25px 70px rgba(42, 143, 255, 0.25), 0 0 60px rgba(42, 143, 255, 0.15);
+  box-shadow:
+    0 25px 70px rgba(42, 143, 255, 0.25),
+    0 0 60px rgba(42, 143, 255, 0.15);
   border-color: rgba(42, 143, 255, 0.5);
 }
 
@@ -381,7 +405,8 @@
 }
 
 @keyframes badgePulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(-50%) scale(1);
     opacity: 1;
   }
@@ -513,22 +538,22 @@
   .pricing-section {
     padding: var(--space-3xl) 0 var(--space-4xl) 0;
   }
-  
+
   .pricing-card {
     min-height: auto;
     padding: var(--space-xl) var(--space-lg) var(--space-lg) var(--space-lg);
     margin-top: var(--space-md);
   }
-  
+
   .pricing-card--popular {
     transform: none;
     margin-top: var(--space-lg);
   }
-  
+
   .pricing-card--popular:hover {
     transform: translateY(-4px);
   }
-  
+
   .pricing-card__badge {
     top: -10px;
   }
@@ -588,7 +613,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
@@ -646,7 +672,7 @@
 }
 
 .loading::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(
@@ -659,8 +685,12 @@
 }
 
 @keyframes loading-shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* Note: Main pricing card styles are defined above in the component section */
@@ -670,30 +700,30 @@
   .card {
     padding: var(--space-md);
   }
-  
+
   .btn--lg {
     padding: var(--space-sm) var(--space-lg);
     font-size: var(--font-size-base);
   }
-  
+
   .btn-group {
     flex-direction: column;
     gap: var(--space-sm);
     align-items: stretch;
   }
-  
+
   .btn-container--xl {
     margin: var(--space-xl) 0;
   }
-  
+
   .section-header__title {
     font-size: var(--font-size-3xl);
   }
-  
+
   .pricing-card--popular {
     transform: none;
   }
-  
+
   .pricing-card--popular:hover {
     transform: translateY(-4px);
   }

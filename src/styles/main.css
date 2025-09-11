@@ -36,10 +36,12 @@ section:first-child {
 /* Pricing section specific */
 .pricing-section {
   padding: var(--space-4xl) 0 var(--space-5xl) 0;
-  background: linear-gradient(135deg, 
-    rgba(5, 6, 10, 0.95) 0%, 
-    rgba(5, 6, 10, 0.98) 50%, 
-    rgba(5, 6, 10, 0.95) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(5, 6, 10, 0.95) 0%,
+    rgba(5, 6, 10, 0.98) 50%,
+    rgba(5, 6, 10, 0.95) 100%
+  );
 }
 
 /* Header styles */
@@ -191,7 +193,7 @@ section:first-child {
 }
 
 .footer::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -273,7 +275,11 @@ section:first-child {
 
 /* Subtle background patterns */
 .bg-pattern {
-  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(255, 255, 255, 0.05) 1px,
+    transparent 0
+  );
   background-size: 20px 20px;
 }
 
@@ -283,14 +289,16 @@ section:first-child {
 }
 
 .gradient-overlay::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, 
-    rgba(42, 143, 255, 0.05) 0%, 
-    transparent 30%, 
-    transparent 70%, 
-    rgba(34, 176, 126, 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(42, 143, 255, 0.05) 0%,
+    transparent 30%,
+    transparent 70%,
+    rgba(34, 176, 126, 0.05) 100%
+  );
   pointer-events: none;
 }
 
@@ -305,15 +313,15 @@ section:first-child {
   .mobile-menu {
     display: none;
   }
-  
+
   main {
     padding-top: 0;
   }
-  
+
   .card {
     break-inside: avoid;
   }
-  
+
   body {
     background: white;
     color: black;

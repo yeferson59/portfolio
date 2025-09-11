@@ -2,22 +2,24 @@
 interface Props {
   class?: string;
   hover?: boolean;
-  variant?: 'default' | 'compact' | 'raised';
+  variant?: "default" | "compact" | "raised";
 }
 
-const { 
-  class: className = "", 
-  hover = true, 
-  variant = 'default'
+const {
+  class: className = "",
+  hover = true,
+  variant = "default",
 } = Astro.props;
 
 const classes = [
-  'card',
-  variant === 'compact' && 'card--compact',
-  variant === 'raised' && 'card--raised',
-  hover && 'hover-lift',
-  className
-].filter(Boolean).join(' ');
+  "card",
+  variant === "compact" && "card--compact",
+  variant === "raised" && "card--raised",
+  hover && "hover-lift",
+  className,
+]
+  .filter(Boolean)
+  .join(" ");
 ---
 
 <div class={classes}>

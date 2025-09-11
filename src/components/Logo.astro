@@ -4,7 +4,7 @@ interface Props {
   class?: string;
 }
 
-const { showText = true, class: className = '' } = Astro.props;
+const { showText = true, class: className = "" } = Astro.props;
 const title = "Backend Developer";
 const subtitle = "Portfolio";
 ---
@@ -25,10 +25,12 @@ const subtitle = "Portfolio";
       <path d="m10 20 4-16m4 4 4 4-4 4M6 16l-4-4 4-4"></path>
     </svg>
   </div>
-  {showText && (
-    <div class="hidden sm:block">
-      <div class="text-lg font-bold text-primary leading-tight">{title}</div>
-      <div class="text-xs text-secondary font-medium">{subtitle}</div>
-    </div>
-  )}
+  {
+    showText && (
+      <div class="hidden sm:block">
+        <div class="text-primary text-lg leading-tight font-bold">{title}</div>
+        <div class="text-secondary text-xs font-medium">{subtitle}</div>
+      </div>
+    )
+  }
 </a>

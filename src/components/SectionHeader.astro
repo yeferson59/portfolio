@@ -5,12 +5,10 @@ interface Props {
   class?: string;
 }
 
-const { title, subtitle, class: className = '' } = Astro.props;
+const { title, subtitle, class: className = "" } = Astro.props;
 ---
 
 <div class={`section-header ${className}`}>
   <h2 class="section-header__title">{title}</h2>
-  {subtitle && (
-    <p class="section-header__subtitle">{subtitle}</p>
-  )}
+  {subtitle && <p class="section-header__subtitle">{subtitle}</p>}
 </div>

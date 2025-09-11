@@ -3,21 +3,23 @@ interface Props {
   class?: string;
 }
 
-const { class: className = '' } = Astro.props;
+const { class: className = "" } = Astro.props;
 
 const navigationItems = [
   { href: "#about", label: "About" },
   { href: "#skills", label: "Skills" },
   { href: "#projects", label: "Projects" },
   { href: "#pricing", label: "Pricing" },
-  { href: "#contact", label: "Contact" }
+  { href: "#contact", label: "Contact" },
 ];
 ---
 
 <nav class={`header__nav ${className}`}>
-  {navigationItems.map((item) => (
-    <a href={item.href} class="header__nav-link">
-      {item.label}
-    </a>
-  ))}
+  {
+    navigationItems.map((item) => (
+      <a href={item.href} class="header__nav-link">
+        {item.label}
+      </a>
+    ))
+  }
 </nav>

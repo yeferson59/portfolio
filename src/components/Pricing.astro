@@ -1,8 +1,8 @@
 ---
-import SectionHeader from './SectionHeader.astro';
-import PricingCard from './PricingCard.astro';
-import Card from './Card.astro';
-import Button from './Button.astro';
+import SectionHeader from "./SectionHeader.astro";
+import PricingCard from "./PricingCard.astro";
+import Card from "./Card.astro";
+import Button from "./Button.astro";
 
 const plans = [
   {
@@ -10,24 +10,26 @@ const plans = [
     subtitle: "Análisis y arquitectura",
     price: "$80",
     period: "por hora",
-    description: "Perfecto para auditorías técnicas, análisis de arquitectura y consultoría estratégica.",
+    description:
+      "Perfecto para auditorías técnicas, análisis de arquitectura y consultoría estratégica.",
     features: [
       "Auditoría de código existente",
       "Análisis de arquitectura",
       "Recomendaciones de optimización",
       "Plan de escalabilidad",
       "Documentación técnica",
-      "Sesiones de mentoría"
+      "Sesiones de mentoría",
     ],
     cta: "Agendar consulta",
-    popular: false
+    popular: false,
   },
   {
     name: "Desarrollo",
     subtitle: "APIs y microservicios",
     price: "$150",
     period: "por día",
-    description: "Desarrollo completo de APIs REST/GraphQL, microservicios y sistemas backend robustos.",
+    description:
+      "Desarrollo completo de APIs REST/GraphQL, microservicios y sistemas backend robustos.",
     features: [
       "APIs REST/GraphQL completas",
       "Arquitectura de microservicios",
@@ -36,16 +38,17 @@ const plans = [
       "Testing y documentación",
       "Deploy y CI/CD",
       "Monitoreo y observabilidad",
-      "Soporte post-launch 30 días"
+      "Soporte post-launch 30 días",
     ],
     cta: "Iniciar proyecto",
-    popular: true
+    popular: true,
   },
   {
     name: "Enterprise",
     subtitle: "Soluciones a medida",
     price: "Cotizar",
-    description: "Proyectos enterprise complejos con requisitos específicos de escalabilidad y seguridad.",
+    description:
+      "Proyectos enterprise complejos con requisitos específicos de escalabilidad y seguridad.",
     features: [
       "Arquitectura distribuida completa",
       "Sistemas de alta disponibilidad",
@@ -54,11 +57,11 @@ const plans = [
       "Team lead y code reviews",
       "SLA y soporte 24/7",
       "Capacitación del equipo",
-      "Mantenimiento a largo plazo"
+      "Mantenimiento a largo plazo",
     ],
     cta: "Contactar",
-    popular: false
-  }
+    popular: false,
+  },
 ];
 ---
 
@@ -70,33 +73,46 @@ const plans = [
     />
 
     <div class="pricing-grid mb-3xl" style="padding-top: var(--space-lg);">
-      {plans.map((plan) => (
-        <PricingCard
-          name={plan.name}
-          subtitle={plan.subtitle}
-          price={plan.price}
-          period={plan.period}
-          description={plan.description}
-          features={plan.features}
-          cta={plan.cta}
-          popular={plan.popular}
-        />
-      ))}
+      {
+        plans.map((plan) => (
+          <PricingCard
+            name={plan.name}
+            subtitle={plan.subtitle}
+            price={plan.price}
+            period={plan.period}
+            description={plan.description}
+            features={plan.features}
+            cta={plan.cta}
+            popular={plan.popular}
+          />
+        ))
+      }
     </div>
 
     <!-- Bottom CTA -->
     <div class="text-center">
-      <Card class="max-w-3xl mx-auto">
-        <h3 class="text-2xl font-bold text-primary mb-md">
+      <Card class="mx-auto max-w-3xl">
+        <h3 class="text-primary mb-md text-2xl font-bold">
           ¿No encuentras lo que necesitas?
         </h3>
         <p class="text-secondary mb-lg leading-relaxed">
-          Cada proyecto es único. Hablemos sobre tus necesidades específicas y creemos una solución personalizada.
+          Cada proyecto es único. Hablemos sobre tus necesidades específicas y
+          creemos una solución personalizada.
         </p>
         <Button href="#contact">
           Conversemos tu proyecto
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          <svg
+            width="16"
+            height="16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
           </svg>
         </Button>
       </Card>

@@ -1,7 +1,7 @@
 ---
-import SectionHeader from './SectionHeader.astro';
-import SkillCard from './SkillCard.astro';
-import Button from './Button.astro';
+import SectionHeader from "./SectionHeader.astro";
+import SkillCard from "./SkillCard.astro";
+import Button from "./Button.astro";
 
 const skillCategories = [
   {
@@ -12,8 +12,8 @@ const skillCategories = [
       { name: "JavaScript / Node.js", level: 95, variant: "primary" as const },
       { name: "Python", level: 90, variant: "secondary" as const },
       { name: "Java", level: 85, variant: "primary" as const },
-      { name: "Go", level: 75, variant: "secondary" as const }
-    ]
+      { name: "Go", level: 75, variant: "secondary" as const },
+    ],
   },
   {
     title: "Bases de Datos",
@@ -23,8 +23,8 @@ const skillCategories = [
       { name: "PostgreSQL", level: 95, variant: "primary" as const },
       { name: "MongoDB", level: 90, variant: "secondary" as const },
       { name: "MySQL", level: 85, variant: "primary" as const },
-      { name: "Redis", level: 80, variant: "secondary" as const }
-    ]
+      { name: "Redis", level: 80, variant: "secondary" as const },
+    ],
   },
   {
     title: "Frameworks & Herramientas",
@@ -34,35 +34,47 @@ const skillCategories = [
       { name: "Express.js", level: 95, variant: "primary" as const },
       { name: "Docker", level: 90, variant: "secondary" as const },
       { name: "Kubernetes", level: 80, variant: "primary" as const },
-      { name: "AWS", level: 85, variant: "secondary" as const }
-    ]
-  }
+      { name: "AWS", level: 85, variant: "secondary" as const },
+    ],
+  },
 ];
 ---
 
 <section id="skills">
   <div class="container">
-    <SectionHeader 
+    <SectionHeader
       title="Technical Skills"
       subtitle="Las tecnologías y herramientas que domino para construir soluciones backend robustas, escalables y seguras."
     />
 
     <div class="skills-grid mb-4xl">
-      {skillCategories.map((category) => (
-        <SkillCard 
-          title={category.title}
-          icon={category.icon}
-          skills={category.skills}
-          iconVariant={category.iconVariant}
-        />
-      ))}
+      {
+        skillCategories.map((category) => (
+          <SkillCard
+            title={category.title}
+            icon={category.icon}
+            skills={category.skills}
+            iconVariant={category.iconVariant}
+          />
+        ))
+      }
     </div>
 
     <div class="btn-container--xl text-center">
       <Button size="lg" href="#projects">
         Ver todos mis proyectos
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        <svg
+          width="20"
+          height="20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
         </svg>
       </Button>
     </div>
