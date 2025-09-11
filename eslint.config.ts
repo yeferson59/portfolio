@@ -1,7 +1,7 @@
+// @ts-check
 import js from "@eslint/js";
 import markdown from "@eslint/markdown";
 import astroParser from "astro-eslint-parser";
-import tseslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import eslintPluginAstro from "eslint-plugin-astro";
 import globals from "globals";
@@ -33,7 +33,7 @@ export default defineConfig([
       "astro/valid-compile": "error",
     },
   },
-  
+
   // TypeScript and JavaScript configuration
   {
     files: ["**/*.{js,ts}"],
@@ -53,9 +53,6 @@ export default defineConfig([
         HTMLSelectElement: "readonly",
       },
     },
-    plugins: {
-      "@typescript-eslint": tseslint,
-    },
     rules: {
       ...js.configs.recommended.rules,
       // Enhanced code quality rules
@@ -64,11 +61,9 @@ export default defineConfig([
       "no-var": "error",
       "object-shorthand": "error",
       "prefer-template": "warn",
-      // TypeScript-specific rules (only apply to .ts files)
-      "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     },
   },
-  
+
   // Markdown configuration
   {
     files: ["**/*.md"],
@@ -83,7 +78,7 @@ export default defineConfig([
       "markdown/no-duplicate-headings": "warn",
     },
   },
-  
+
   // Markdown code blocks configuration
   {
     files: ["**/*.md/*.{js,ts}"],
