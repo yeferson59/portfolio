@@ -4,6 +4,10 @@
 
 Personal portfolio website built with Astro.js v5.13.5, TailwindCSS v4.1.13, and TypeScript. Features a dark theme design showcasing backend development services, skills, projects, and contact information.
 
+### Warning
+
+Using bun when it´s available and using npm when it´s not.
+
 ## Working Effectively
 
 ### Bootstrap and Setup
