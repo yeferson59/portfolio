@@ -1,11 +1,10 @@
-frontend/README.md
-
 # 🚀 Backend Developer Portfolio
 
 [![Astro](https://img.shields.io/badge/Astro-5.13.7-FF5D01?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.1.13-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9.2-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-22+-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![bun.js](https://img.shields.io/badge/bun.js-1.2+-F5BABB?style=for-the-badge&logo=bun&logoColor=white)](https://bun.sh/)
 
 Un portfolio moderno y elegante construido con **Astro.js**, **TailwindCSS** y **TypeScript**, diseñado para destacar habilidades en desarrollo backend, proyectos destacados y servicios profesionales.
 
