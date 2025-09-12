@@ -5,7 +5,7 @@ import Button from "@/components/ui/Button.astro";
 
 const heading = "Get in touch";
 const subtitle =
-  "¿Tienes un proyecto interesante? Hablemos sobre arquitectura, APIs o infraestructura.";
+  "Got an interesting project? Let's talk about architecture, APIs, or infrastructure.";
 
 const icons = {
   mail: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 4.26a2 2 0 0 0 2.22 0L21 8M5 19h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2Z"/></svg>`,
@@ -25,29 +25,30 @@ const contactMethods: {
 }[] = [
   {
     label: "Email",
-    value: "tuemail@ejemplo.com",
-    action: "mailto:tuemail@ejemplo.com",
+    value: "yefersontoloza59@gmail.com",
+    action: "mailto:yefersontoloza59@gmail.com",
     icon: "mail",
     variant: "primary",
   },
   {
-    label: "Ubicación",
-    value: "Ciudad, País",
-    action: "#",
+    label: "Location",
+    value: "Pamplona, Colombia",
+    action:
+      "https://www.google.com/maps/place/Pamplona,+Norte+de+Santander/@7.3719791,-72.6708932,14z/data=!3m1!4b1!4m6!3m5!1s0x8e68811722aa0c15:0x83b790e98f7db7d4!8m2!3d7.3733146!4d-72.6482058!16s%2Fm%2F026324g?entry=ttu&g_ep=EgoyMDI1MDkwOS4wIKXMDSoASAFQAw%3D%3D",
     icon: "map",
     variant: "secondary",
   },
   {
     label: "LinkedIn",
-    value: "Conectemos profesionalmente",
-    action: "#",
+    value: "Let's connect professionally",
+    action: "https://www.linkedin.com/in/yeferson-toloza-42a6a7279",
     icon: "linkedin",
     variant: "primary",
   },
   {
     label: "GitHub",
-    value: "Explora mis repositorios",
-    action: "#",
+    value: "Explore my repositories",
+    action: "https://github.com/yeferson59",
     icon: "code",
     variant: "secondary",
   },
@@ -81,7 +82,7 @@ const contactMethods: {
                     size="sm"
                     href={method.action}
                   >
-                    Contactar
+                    Get in touch
                     <svg
                       width="16"
                       height="16"
@@ -108,23 +109,24 @@ const contactMethods: {
       <Card>
         <div class="mb-lg">
           <h3 class="text-primary mb-sm text-2xl font-bold">
-            Envíame un mensaje
+            Send me a message
           </h3>
           <p class="text-secondary leading-relaxed">
-            Describe tu proyecto brevemente y te responderé en menos de 24h.
+            Briefly describe your project and I'll get back to you within 24
+            hours.
           </p>
         </div>
 
         <form class="space-y-lg">
           <div class="gap-md grid grid-cols-1 md:grid-cols-2">
             <div class="form-group">
-              <label for="name" class="form-label">Nombre</label>
+              <label for="name" class="form-label">Name</label>
               <input
                 id="name"
                 name="name"
                 type="text"
                 required
-                placeholder="Tu nombre"
+                placeholder="Your name"
                 class="form-input"
               />
             </div>
@@ -135,32 +137,32 @@ const contactMethods: {
                 name="email"
                 type="email"
                 required
-                placeholder="tu@email.com"
+                placeholder="your@email.com"
                 class="form-input"
               />
             </div>
           </div>
 
           <div class="form-group">
-            <label for="subject" class="form-label">Asunto</label>
+            <label for="subject" class="form-label">Subject</label>
             <input
               id="subject"
               name="subject"
               type="text"
               required
-              placeholder="¿Sobre qué quieres hablar?"
+              placeholder="What would you like to talk about?"
               class="form-input"
             />
           </div>
 
           <div class="form-group">
-            <label for="message" class="form-label">Mensaje</label>
+            <label for="message" class="form-label">Message</label>
             <textarea
               id="message"
               name="message"
               rows="6"
               required
-              placeholder="Cuéntame sobre tu proyecto..."
+              placeholder="Tell me about your project..."
               class="form-input form-textarea"></textarea>
           </div>
 
@@ -168,10 +170,10 @@ const contactMethods: {
             class="gap-md flex flex-col items-start justify-between sm:flex-row sm:items-center"
           >
             <p class="text-secondary max-w-xs text-sm leading-relaxed">
-              Al enviar aceptas que pueda contactarte. No envío spam.
+              By submitting, you agree to be contacted. No spam.
             </p>
             <Button type="submit" size="lg">
-              Enviar mensaje
+              Send Message
               <svg
                 width="20"
                 height="20"

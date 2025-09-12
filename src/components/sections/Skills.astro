@@ -5,36 +5,36 @@ import Button from "@/components/ui/Button.astro";
 
 const skillCategories = [
   {
-    title: "Lenguajes",
+    title: "Languages",
     icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m10 20 4-16m4 4 4 4-4 4M6 16l-4-4 4-4"/></svg>`,
     iconVariant: "primary" as const,
     skills: [
-      { name: "JavaScript / Node.js", level: 95, variant: "primary" as const },
-      { name: "Python", level: 90, variant: "secondary" as const },
-      { name: "Java", level: 85, variant: "primary" as const },
-      { name: "Go", level: 75, variant: "secondary" as const },
+      { name: "TypeScript / Node.js", level: 90, variant: "primary" as const },
+      { name: "Go", level: 80, variant: "secondary" as const },
+      { name: "Python", level: 70, variant: "secondary" as const },
+      { name: "Java", level: 60, variant: "primary" as const },
     ],
   },
   {
-    title: "Bases de Datos",
+    title: "Databases",
     icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4"/></svg>`,
     iconVariant: "secondary" as const,
     skills: [
-      { name: "PostgreSQL", level: 95, variant: "primary" as const },
-      { name: "MongoDB", level: 90, variant: "secondary" as const },
-      { name: "MySQL", level: 85, variant: "primary" as const },
-      { name: "Redis", level: 80, variant: "secondary" as const },
+      { name: "PostgreSQL", level: 90, variant: "primary" as const },
+      { name: "MySQL", level: 80, variant: "primary" as const },
+      { name: "MongoDB", level: 75, variant: "secondary" as const },
+      { name: "Redis", level: 70, variant: "secondary" as const },
     ],
   },
   {
-    title: "Frameworks & Herramientas",
+    title: "Frameworks & Tools",
     icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>`,
     iconVariant: "primary" as const,
     skills: [
-      { name: "Express.js", level: 95, variant: "primary" as const },
-      { name: "Docker", level: 90, variant: "secondary" as const },
-      { name: "Kubernetes", level: 80, variant: "primary" as const },
-      { name: "AWS", level: 85, variant: "secondary" as const },
+      { name: "Express.js", level: 90, variant: "primary" as const },
+      { name: "Docker", level: 85, variant: "secondary" as const },
+      { name: "Fiber", level: 75, variant: "secondary" as const },
+      { name: "AWS", level: 65, variant: "secondary" as const },
     ],
   },
 ];
@@ -44,7 +44,7 @@ const skillCategories = [
   <div class="container">
     <SectionHeader
       title="Technical Skills"
-      subtitle="Las tecnologías y herramientas que domino para construir soluciones backend robustas, escalables y seguras."
+      subtitle="Technologies and tools used to perform a specific task or job. They are often acquired through education, training, or experience"
     />
 
     <div class="skills-grid mb-4xl">
@@ -62,7 +62,7 @@ const skillCategories = [
 
     <div class="btn-container--xl text-center">
       <Button size="lg" href="#projects">
-        Ver todos mis proyectos
+        View more projects
         <svg
           width="20"
           height="20"

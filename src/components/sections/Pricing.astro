@@ -6,60 +6,60 @@ import Button from "@/components/ui/Button.astro";
 
 const plans = [
   {
-    name: "Consultoría",
-    subtitle: "Análisis y arquitectura",
+    name: "Consulting",
+    subtitle: "Analysis & Architecture",
     price: "$80",
-    period: "por hora",
+    period: "per hour",
     description:
-      "Perfecto para auditorías técnicas, análisis de arquitectura y consultoría estratégica.",
+      "Perfect for technical audits, architecture analysis, and strategic consulting.",
     features: [
-      "Auditoría de código existente",
-      "Análisis de arquitectura",
-      "Recomendaciones de optimización",
-      "Plan de escalabilidad",
-      "Documentación técnica",
-      "Sesiones de mentoría",
+      "Existing code audit",
+      "Architecture analysis",
+      "Optimization recommendations",
+      "Scalability plan",
+      "Technical documentation",
+      "Mentoring sessions",
     ],
-    cta: "Agendar consulta",
+    cta: "Schedule a consultation",
     popular: false,
   },
   {
-    name: "Desarrollo",
-    subtitle: "APIs y microservicios",
+    name: "Development",
+    subtitle: "APIs & Microservices",
     price: "$150",
-    period: "por día",
+    period: "per day",
     description:
-      "Desarrollo completo de APIs REST/GraphQL, microservicios y sistemas backend robustos.",
+      "Full development of REST/GraphQL APIs, microservices, and robust backend systems.",
     features: [
-      "APIs REST/GraphQL completas",
-      "Arquitectura de microservicios",
-      "Integración de bases de datos",
-      "Autenticación y autorización",
-      "Testing y documentación",
-      "Deploy y CI/CD",
-      "Monitoreo y observabilidad",
-      "Soporte post-launch 30 días",
+      "Complete REST/GraphQL APIs",
+      "Microservices architecture",
+      "Database integration",
+      "Authentication and authorization",
+      "Testing and documentation",
+      "Deployment and CI/CD",
+      "Monitoring and observability",
+      "30-day post-launch support",
     ],
-    cta: "Iniciar proyecto",
+    cta: "Start a project",
     popular: true,
   },
   {
     name: "Enterprise",
-    subtitle: "Soluciones a medida",
-    price: "Cotizar",
+    subtitle: "Custom Solutions",
+    price: "Quote",
     description:
-      "Proyectos enterprise complejos con requisitos específicos de escalabilidad y seguridad.",
+      "Complex enterprise projects with specific scalability and security requirements.",
     features: [
-      "Arquitectura distribuida completa",
-      "Sistemas de alta disponibilidad",
-      "Integración con sistemas legacy",
-      "Cumplimiento de normativas",
-      "Team lead y code reviews",
-      "SLA y soporte 24/7",
-      "Capacitación del equipo",
-      "Mantenimiento a largo plazo",
+      "Complete distributed architecture",
+      "High-availability systems",
+      "Integration with legacy systems",
+      "Regulatory compliance",
+      "Team lead and code reviews",
+      "SLA and 24/7 support",
+      "Team training",
+      "Long-term maintenance",
     ],
-    cta: "Contactar",
+    cta: "Contact us",
     popular: false,
   },
 ];
@@ -68,8 +68,8 @@ const plans = [
 <section id="pricing" class="pricing-section">
   <div class="container">
     <SectionHeader
-      title="Servicios & Precios"
-      subtitle="Soluciones backend profesionales adaptadas a las necesidades de tu proyecto."
+      title="Services & Pricing"
+      subtitle="Professional backend solutions tailored to your project's needs."
     />
 
     <div class="pricing-grid mb-3xl" style="padding-top: var(--space-lg);">
@@ -93,14 +93,14 @@ const plans = [
     <div class="text-center">
       <Card class="mx-auto max-w-3xl">
         <h3 class="text-primary mb-md text-2xl font-bold">
-          ¿No encuentras lo que necesitas?
+          Can't find what you need?
         </h3>
         <p class="text-secondary mb-lg leading-relaxed">
-          Cada proyecto es único. Hablemos sobre tus necesidades específicas y
-          creemos una solución personalizada.
+          Every project is unique. Let's talk about your specific needs and
+          create a custom solution.
         </p>
         <Button href="#contact">
-          Conversemos tu proyecto
+          Let's discuss your project
           <svg
             width="16"
             height="16"

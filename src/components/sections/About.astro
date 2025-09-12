@@ -3,71 +3,79 @@ import SectionHeader from "@/components/layouts/SectionHeader.astro";
 import Card from "@/components/ui/Card.astro";
 import Badge from "@/components/ui/Badge.astro";
 import Button from "@/components/ui/Button.astro";
+import { Image } from "astro:assets";
 
-const developerName = "Tu Nombre";
-const title = "Backend Developer";
+const developerName = "Yeferson Toloza C.";
+const title = "Full-Stack Developer (Backend Oriented)";
 const description =
-  "Especializado en arquitectura de sistemas, APIs escalables y bases de datos. Apasionado por la eficiencia, la seguridad y el rendimiento.";
-
+  "Specialized in architecture systems, scalable APIs and databases. Passionate about efficiency, security and performance.";
 const skills = [
   "Node.js",
+  "TypeScript",
+  "Golang (go)",
+  "Fiber",
+  "Gin",
+  "Express.js",
   "PostgreSQL",
   "Docker",
-  "Kubernetes",
   "Redis",
-  "TypeScript",
 ];
-
 const features = [
   {
-    title: "Código claro",
+    title: "Clean Code",
     description:
-      "Priorizo legibilidad, pruebas y diseño modular para que el código sea fácil de mantener y evolucionar.",
-    variant: "primary" as const,
+      "I prioritize readability, testing, and modular design to ensure maintainable and evolving codebases.",
+    variant: "primary",
   },
   {
-    title: "Rendimiento",
+    title: "Security",
     description:
-      "Diseño optimizaciones por cuello de botella, caching y tuning de consultas para reducir latencia y costes infra.",
-    variant: "secondary" as const,
+      "Authentication, authorization, encryption, and dependency auditing are integrated into my workflow.",
+    variant: "secondary",
   },
   {
-    title: "Seguridad",
+    title: "Performance",
     description:
-      "Autenticación, autorización, encriptación y revisión de dependencias forman parte del flujo de desarrollo.",
-    variant: "primary" as const,
+      "I optimize bottlenecks, caching strategies, and query tuning to reduce latency and infrastructure costs.",
+    variant: "primary",
   },
   {
-    title: "Observabilidad",
+    title: "Observability",
     description:
-      "Implemento trazabilidad, métricas y alertas para detectar y resolver incidentes de forma proactiva.",
-    variant: "secondary" as const,
+      "I implement tracing, metrics, and proactive alerting to detect and resolve incidents before they escalate.",
+    variant: "secondary",
   },
 ];
 ---
 
 <section id="about" class="gradient-overlay">
   <div class="container">
-    <SectionHeader title="Sobre mí" subtitle={description} />
+    <SectionHeader title="About Me" subtitle={description} />
 
     <div class="gap-xl grid grid-cols-1 items-start lg:grid-cols-3">
       <!-- Profile card -->
       <aside>
         <Card class="h-full text-center">
-          <img
-            src="/placeholder-avatar.svg"
+          <Image
+            src="https://avatars.githubusercontent.com/u/116679774?v=4"
             alt="Avatar"
             class="avatar avatar--xl mb-lg mx-auto"
-            loading="lazy"
+            loading="eager"
+            width={128}
+            height={128}
+            decoding="async"
+            fetchpriority="high"
+            priority
           />
 
           <h3 class="text-primary mb-xs text-2xl font-bold">{developerName}</h3>
           <p class="text-accent mb-lg font-semibold">{title}</p>
 
           <p class="text-secondary mb-lg leading-relaxed">
-            Me enfoco en construir APIs robustas, sistemas observables y
-            arquitecturas que escalen. Trabajo con microservicios y soluciones
-            distribuidas con foco en seguridad y rendimiento.
+            I focus on building robust APIs, scalable architectures, and
+            observable systems. My expertise lies in designing and developing
+            microservices and distributed solutions with a strong emphasis on
+            security, performance, and reliability.
           </p>
 
           <div class="gap-xs flex flex-wrap justify-center">
@@ -78,6 +86,7 @@ const features = [
 
       <!-- Features -->
       <div class="lg:col-span-2">
+        <h2 class="text-primary mb-sm text-2xl font-bold">Core Principles</h2>
         <div class="gap-lg mb-xl grid grid-cols-1 sm:grid-cols-2">
           {
             features.map((feature) => (
@@ -109,18 +118,18 @@ const features = [
           >
             <div>
               <h4 class="text-primary mb-sm text-xl font-bold">
-                ¿Quieres colaborar?
+                Collaboration Section
               </h4>
               <p class="text-secondary max-w-xl leading-relaxed">
-                Si tienes un proyecto o idea, puedo ayudar a definir la
-                arquitectura y llevarlo a producción con prácticas seguras,
-                observables y escalables.
+                🤝 Let’s Collaborate Got an idea or project? I can help define
+                the architecture and bring it to production with scalable,
+                secure, and observable practices.
               </p>
             </div>
 
             <div class="btn-group btn-group--center">
               <Button href="#projects">
-                Ver proyectos
+                View Projects
                 <svg
                   width="16"
                   height="16"
@@ -135,7 +144,7 @@ const features = [
                     d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
                 </svg>
               </Button>
-              <Button variant="secondary" href="#contact"> Contactar </Button>
+              <Button variant="secondary" href="#contact"> Contact </Button>
             </div>
           </div>
         </Card>
