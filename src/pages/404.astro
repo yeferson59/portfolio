@@ -1,0 +1,310 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Card from "@/components/ui/Card.astro";
+import Button from "@/components/ui/Button.astro";
+import SectionHeader from "@/components/layouts/SectionHeader.astro";
+---
+
+<Layout>
+  <section class="error-404">
+    <div class="container">
+      <div class="error-404__content">
+        <!-- Error Code Display -->
+        <div class="error-404__code">
+          <span class="error-404__number">4</span>
+          <div class="error-404__icon">
+            <svg
+              width="120"
+              height="120"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="m15 9-6 6"></path>
+              <path d="m9 9 6 6"></path>
+            </svg>
+          </div>
+          <span class="error-404__number">4</span>
+        </div>
+
+        <!-- Error Message -->
+        <SectionHeader
+          title="Página no encontrada"
+          subtitle="Lo sentimos, la página que buscas no existe o ha sido movida."
+        />
+
+        <!-- Action Buttons -->
+        <Card class="error-404__actions">
+          <div class="error-404__buttons">
+            <Button href="/" size="lg">
+              <svg
+                width="20"
+                height="20"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                ></path>
+              </svg>
+              Volver al inicio
+            </Button>
+            <Button href="#contact" variant="secondary" size="lg">
+              <svg
+                width="20"
+                height="20"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                ></path>
+              </svg>
+              Contactar
+            </Button>
+          </div>
+        </Card>
+
+        <!-- Additional Help -->
+        <div class="error-404__help">
+          <p class="error-404__help-text">
+            Si crees que esto es un error, puedes
+            <a href="#contact" class="error-404__help-link">contactarme</a>
+            para reportarlo.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Override main layout for 404 page - More aggressive approach */
+  body:has(.error-404) main {
+    padding-top: 0 !important;
+    min-height: calc(100vh - 80px) !important;
+    height: calc(100vh - 80px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: column !important;
+  }
+
+  .error-404 {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3xl) var(--space-lg);
+    position: relative;
+  }
+
+  .error-404::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(42, 143, 255, 0.05) 0%,
+      transparent 50%
+    );
+    pointer-events: none;
+  }
+
+  .error-404__content {
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .error-404__code {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-3xl);
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .error-404__number {
+    font-size: clamp(4rem, 15vw, 8rem);
+    font-weight: var(--font-weight-black);
+    color: var(--color-primary);
+    line-height: 1;
+    text-shadow: 0 0 40px rgba(42, 143, 255, 0.3);
+  }
+
+  .error-404__icon {
+    color: var(--color-error);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    background: rgba(239, 68, 68, 0.1);
+    border-radius: 50%;
+    border: 2px solid rgba(239, 68, 68, 0.2);
+    animation: pulse 2s infinite;
+  }
+
+  .error-404__icon svg {
+    width: 60px;
+    height: 60px;
+  }
+
+  .error-404__actions {
+    margin-top: var(--space-3xl);
+    background: var(--gradient-surface);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+  }
+
+  .error-404__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    align-items: center;
+    width: 100%;
+  }
+
+  @media (min-width: 480px) {
+    .error-404__buttons {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+
+  .error-404__help {
+    margin-top: var(--space-2xl);
+    flex-shrink: 0;
+  }
+
+  .error-404__help-text {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .error-404__help-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    transition: color var(--transition-fast);
+  }
+
+  .error-404__help-link:hover {
+    color: var(--color-primary-hover);
+    text-decoration: underline;
+  }
+
+  /* Section Header Overrides */
+  .error-404 .section-header {
+    margin-bottom: var(--space-3xl);
+  }
+
+  .error-404 .section-header__title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-lg);
+  }
+
+  .error-404 .section-header__subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
+    max-width: 400px;
+    margin: 0 auto;
+    line-height: var(--line-height-relaxed);
+  }
+
+  /* Button Customizations */
+  .error-404 .btn {
+    min-width: 160px;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .error-404 .btn svg {
+    flex-shrink: 0;
+  }
+
+  /* Animations */
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 0.8;
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 640px) {
+    .error-404 {
+      padding: var(--space-2xl) var(--space-md);
+    }
+
+    .error-404__code {
+      gap: var(--space-md);
+      margin-bottom: var(--space-2xl);
+    }
+
+    .error-404__number {
+      font-size: clamp(3rem, 12vw, 6rem);
+    }
+
+    .error-404__icon {
+      width: 80px;
+      height: 80px;
+    }
+
+    .error-404__icon svg {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .error-404__icon {
+      animation: none;
+    }
+  }
+
+  /* Focus states */
+  .error-404 .btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .error-404__help-link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+</style>
