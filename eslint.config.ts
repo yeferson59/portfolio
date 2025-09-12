@@ -1,4 +1,3 @@
-// @ts-check
 import js from "@eslint/js";
 import markdown from "@eslint/markdown";
 import astroParser from "astro-eslint-parser";
