@@ -235,7 +235,7 @@ Components follow consistent prop interfaces:
 
 - **Port 4321 in use**: Kill other processes or use `--port` flag
 - **Hot reload not working**: Restart dev server
-- **TypeScript errors**: Run `npm run astro check` (install deps first)
+- **TypeScript errors**: Run `bun run astro check` (install deps first)
 - **Build errors**: Check file paths relative to `src/`
 - **Styles not updating**: Verify CSS syntax in global.css or components
 
