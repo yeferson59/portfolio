@@ -1,12 +1,14 @@
+frontend/.github/copilot-instructions.md
+
 # Backend Developer Portfolio
 
 **ALWAYS FOLLOW THESE INSTRUCTIONS FIRST.** Only search for additional context or run exploratory commands if the information here is incomplete or incorrect.
 
-Personal portfolio website built with Astro.js v5.13.5, TailwindCSS v4.1.13, and TypeScript. Features a dark theme design showcasing backend development services, skills, projects, and contact information.
+Personal portfolio website built with Astro.js v5.13.7, TailwindCSS v4.1.13, and TypeScript 5.9.2. Features a dark theme design showcasing backend development services, skills, projects, and contact information with a modern, responsive layout.
 
 ### Warning
 
-Using bun when it´s available and using npm when it´s not.
+Using bun when it's available and using npm when it's not.
 
 ## Working Effectively
 
@@ -49,6 +51,7 @@ The dev server includes:
 - Vite integration for fast builds
 - TypeScript checking
 - TailwindCSS processing
+- ESLint integration for code quality
 
 ### Preview Built Site
 
@@ -62,13 +65,23 @@ npm run preview
 ### Type Checking and Validation
 
 ```bash
-# Check for TypeScript errors (requires additional dependency)
-npm install --save-dev @astrojs/check typescript
+# Check for TypeScript errors (dependencies already included)
 npm run astro check
 # Takes ~5-10 seconds, validates all .astro and .ts files
 ```
 
-**Note**: `astro check` requires manual dependency installation as shown above.
+### Code Quality
+
+```bash
+# Lint and fix code
+npm run lint:fix
+
+# Format code
+npm run format
+
+# Check formatting
+npm run format:check
+```
 
 ## Validation Requirements
 
@@ -84,19 +97,21 @@ npm run astro check
 2. **Navigation Testing**:
    - Test smooth scrolling between sections
    - Verify all navigation links work (About, Skills, Projects, Pricing, Contact)
-   - Check mobile menu functionality if applicable
+   - Check mobile menu functionality (hamburger menu on mobile)
 
 3. **Interactive Elements**:
    - Test contact form inputs (Name, Email, Subject, Message fields)
    - Verify buttons have proper hover states
    - Check skill progress bars display correctly
    - Test project cards and their links
+   - Verify mobile menu opens/closes properly
 
 4. **Visual Validation**:
    - Verify dark theme CSS variables are applied
    - Check gradient effects and animations work
    - Ensure responsive design works on different screen sizes
    - Validate custom fonts and typography
+   - Test accessibility features (skip links, focus states)
 
 ### Build Validation Steps
 
@@ -114,7 +129,9 @@ npm run dev
 npm run preview
 # Verify built site works identically to dev version
 
-# 4. Optional: Type checking (if dependencies installed)
+# 4. Code quality checks
+npm run lint
+npm run format:check
 npm run astro check
 ```
 
@@ -128,34 +145,50 @@ npm run astro check
 
 ### Node.js Version
 
-- Compatible with Node.js 18+ (required by Astro v5.13.5)
+- Compatible with Node.js 18+ (required by Astro v5.13.7)
 - Use `node --version` to verify
 
 ### Dependencies
 
 **Core dependencies** (automatically installed):
 
-- `astro` v5.13.5 - Static site generator
+- `astro` v5.13.7 - Static site generator
+- `@astrojs/check` v0.9.4 - Type checking for Astro
 - `@tailwindcss/vite` v4.1.13 - Vite integration for TailwindCSS
 - `tailwindcss` v4.1.13 - Utility-first CSS framework
+- `typescript` v5.9.2 - TypeScript compiler
+- `prettier` v3.6.2 - Code formatter
+- `prettier-plugin-astro` v0.14.1 - Astro formatting
+- `prettier-plugin-tailwindcss` v0.6.14 - TailwindCSS class sorting
 
-**Optional dependencies** (install manually when needed):
+**Dev dependencies** (automatically installed):
 
-```bash
-npm install --save-dev @astrojs/check typescript
-```
+- `eslint` v9.35.0 - Code linting
+- `@eslint/js` v9.35.0 - ESLint configuration
+- `eslint-plugin-astro` v1.3.1 - Astro ESLint rules
+- `@typescript-eslint/parser` v8.43.0 - TypeScript ESLint parser
+- `globals` v16.4.0 - Global variables for ESLint
 
 ## Repository Structure and Navigation
 
 ### Key Directories
 
 ```
-/
+frontend/
 ├── src/                    # Source code
-│   ├── components/         # Astro components (.astro files)
+│   ├── components/         # Astro components (organized by type)
+│   │   ├── layouts/        # Layout components (Header, Footer, etc.)
+│   │   ├── sections/       # Page sections (About, Skills, etc.)
+│   │   └── ui/             # Reusable UI components (Card, Button, etc.)
 │   ├── layouts/           # Page layouts
 │   ├── pages/             # Route pages (index.astro)
-│   └── styles/            # Global CSS (global.css)
+│   └── styles/            # Modular CSS system
+│       ├── animations.css # Animation styles
+│       ├── base.css       # Base/reset styles
+│       ├── components.css # Component-specific styles
+│       ├── main.css       # Main CSS entry point
+│       ├── utilities.css  # Utility classes
+│       └── variables.css  # CSS custom properties
 ├── public/                # Static assets (images, favicon)
 ├── .astro/                # Generated types (auto-created)
 ├── dist/                  # Build output (created by npm run build)
@@ -166,37 +199,59 @@ npm install --save-dev @astrojs/check typescript
 
 - **`src/pages/index.astro`** - Main homepage with all sections
 - **`src/layouts/Layout.astro`** - Base layout with header, footer, and global styles
-- **`src/styles/global.css`** - Extensive dark theme customizations with CSS variables
+- **`src/styles/main.css`** - Main CSS entry point importing all style modules
+- **`src/styles/variables.css`** - CSS custom properties for theme
 - **`astro.config.mjs`** - Astro configuration with TailwindCSS integration
 - **`package.json`** - Project dependencies and scripts
-- **`tsconfig.json`** - TypeScript configuration
+- **`tsconfig.json`** - TypeScript configuration with path aliases
+- **`eslint.config.ts`** - ESLint configuration
 
 ### Component Structure
 
-All components are in `src/components/`:
+Components are organized by type in `src/components/`:
+
+#### Layout Components (`layouts/`)
 
 - `Header.astro` - Navigation and branding
 - `Footer.astro` - Footer with links and social media
+- `Logo.astro` - Logo component
+- `MobileMenu.astro` - Mobile navigation menu
+- `Navigation.astro` - Desktop navigation
+- `ScrollReveal.astro` - JavaScript for smooth scrolling and animations
+- `SectionHeader.astro` - Reusable section headers
+- `PricingCard.astro` - Pricing tier cards
+- `ProjectCard.astro` - Project showcase cards
+- `SkillCard.astro` - Skill progress cards
+
+#### Section Components (`sections/`)
+
 - `About.astro` - About section with skills highlights
 - `Skills.astro` - Technical skills with progress bars
 - `Projects.astro` - Featured projects showcase
 - `Pricing.astro` - Service pricing tiers
 - `Contact.astro` - Contact form and information
-- `ScrollAnimations.astro` - JavaScript for smooth scrolling
+
+#### UI Components (`ui/`)
+
+- `Badge.astro` - Reusable badge component
+- `Button.astro` - Button component with variants
+- `Card.astro` - Card component with variants
 
 ## Common Development Tasks
 
 ### Adding New Components
 
-1. Create `.astro` file in `src/components/`
+1. Create `.astro` file in appropriate subfolder (`src/components/layouts/`, `sections/`, or `ui/`)
 2. Import and use in `src/pages/index.astro` or `src/layouts/Layout.astro`
-3. Test with `npm run dev`
+3. Add styles in appropriate CSS module or component `<style>` block
+4. Test with `npm run dev`
 
 ### Styling Changes
 
-- **Global styles**: Edit `src/styles/global.css`
+- **Global styles**: Edit `src/styles/main.css` or specific modules
 - **Component styles**: Add `<style>` section in `.astro` files
 - **Utility classes**: Use TailwindCSS classes directly in components
+- **Theme variables**: Modify `src/styles/variables.css`
 
 ### Content Updates
 
@@ -204,7 +259,14 @@ All components are in `src/components/`:
 - **Images**: Add to `public/` directory and reference with `/filename.ext`
 - **Metadata**: Update `src/layouts/Layout.astro` for title, meta tags
 
-### Performance Optimization
+### TypeScript Configuration
+
+- Uses strict TypeScript configuration
+- Path aliases configured: `@/*` maps to `src/*`
+- Import components with: `import Component from "@/components/..."`
+- Auto-generated types in `.astro/types.d.ts`
+
+## Performance Optimization
 
 ```bash
 # Build and check size
@@ -213,21 +275,30 @@ ls -la dist/
 
 # Check for unused CSS (TailwindCSS automatically purges)
 # Check for large assets in public/ directory
+
+# Analyze bundle size
+npm run build && npx astro-bundle-analyzer dist/
 ```
 
 ## Troubleshooting Common Issues
 
 ### Build Errors
 
-- **TypeScript errors**: Run `npm run astro check` (after installing dependencies)
-- **Import errors**: Check file paths are relative to src/
-- **CSS errors**: Verify TailwindCSS classes are valid
+- **TypeScript errors**: Run `npm run astro check` and fix type issues
+- **Import errors**: Check file paths are relative to src/ or use `@/` aliases
+- **CSS errors**: Verify TailwindCSS classes are valid or check custom CSS syntax
 
 ### Dev Server Issues
 
 - **Port 4321 in use**: Kill other processes or use `--port` flag
 - **Hot reload not working**: Restart dev server
-- **Styles not updating**: Check global.css syntax
+- **Styles not updating**: Check CSS module imports in `main.css`
+
+### ESLint/Prettier Issues
+
+- **Linting errors**: Run `npm run lint:fix` to auto-fix
+- **Formatting issues**: Run `npm run format` to format code
+- **Configuration conflicts**: Check `eslint.config.ts` and Prettier config
 
 ### Deployment Preparation
 
@@ -235,6 +306,9 @@ ls -la dist/
 # Final validation before deployment
 npm run build
 npm run preview
+npm run lint
+npm run format:check
+npm run astro check
 # Test all user scenarios manually
 ```
 
@@ -246,7 +320,9 @@ This project has no CI/CD pipeline configured. For production deployment:
 2. **Output directory**: `dist/`
 3. **Node version**: 18+ required
 4. **Build time**: ~3-5 seconds (very fast)
-5. **No tests**: No test suite configured
+5. **Code quality**: ESLint and Prettier configured
+6. **Type checking**: Astro check integrated
+7. **No tests**: No test suite configured
 
 ## Quick Reference Commands
 
@@ -256,7 +332,11 @@ This project has no CI/CD pipeline configured. For production deployment:
 | `npm run build`           | Production build     | ~3-5s   | Output to dist/     |
 | `npm run dev`             | Dev server           | ~2-5s   | Hot reload enabled  |
 | `npm run preview`         | Preview build        | ~2-3s   | Serves from dist/   |
-| `npm run astro check`     | Type checking        | ~5-10s  | Requires extra deps |
+| `npm run astro check`     | Type checking        | ~5-10s  | Integrated in build |
+| `npm run lint`            | Code linting         | ~5-10s  | Check code quality  |
+| `npm run lint:fix`        | Fix linting issues   | ~5-10s  | Auto-fix problems   |
+| `npm run format`          | Format code          | ~5-10s  | Prettier formatting |
+| `npm run format:check`    | Check formatting     | ~5-10s  | Verify format       |
 | `npm run astro -- --help` | Show Astro commands  | instant | Reference           |
 
 **CRITICAL REMINDERS**:
@@ -265,3 +345,6 @@ This project has no CI/CD pipeline configured. For production deployment:
 - 🧪 **ALWAYS test user scenarios** manually after changes
 - 🔍 **Build and preview** before considering work complete
 - 🏗️ **Validate with actual browser testing** - functionality over assumptions
+- 📝 **Run code quality checks** (lint, format, type check) before commits
+- 🎯 **Use path aliases** (`@/`) for clean imports
+- 📱 **Test mobile responsiveness** and accessibility features
