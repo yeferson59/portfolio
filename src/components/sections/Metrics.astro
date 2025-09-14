@@ -1,0 +1,572 @@
+---
+import SectionHeader from "@/components/layouts/SectionHeader.astro";
+import Card from "@/components/ui/Card.astro";
+import Badge from "@/components/ui/Badge.astro";
+
+type Status = "healthy" | "warning" | "error";
+
+// Simulated real-time API metrics data
+const currentMetrics = {
+  responseTime: 156,
+  uptime: 99.97,
+  totalRequests: 847392,
+  requestsToday: 12847,
+  activeConnections: 234,
+  errorRate: 0.03,
+  throughput: 1247,
+  avgLoad: 45.2,
+};
+
+const responseTimeHistory = [
+  { time: "00:00", value: 143 },
+  { time: "04:00", value: 128 },
+  { time: "08:00", value: 167 },
+  { time: "12:00", value: 189 },
+  { time: "16:00", value: 156 },
+  { time: "20:00", value: 134 },
+];
+
+const endpointMetrics: {
+  endpoint: string;
+  calls: number;
+  avgTime: number;
+  status: Status;
+}[] = [
+  { endpoint: "/api/users", calls: 23567, avgTime: 89, status: "healthy" },
+  { endpoint: "/api/projects", calls: 18324, avgTime: 124, status: "healthy" },
+  { endpoint: "/api/auth", calls: 15892, avgTime: 67, status: "healthy" },
+  { endpoint: "/api/analytics", calls: 9847, avgTime: 234, status: "warning" },
+  { endpoint: "/api/reports", calls: 6432, avgTime: 445, status: "error" },
+];
+
+const getStatusColor = (status: Status) => {
+  const statusColorMap: Record<Status, string> = {
+    healthy: "status-healthy",
+    warning: "status-warning",
+    error: "status-error",
+  };
+  return statusColorMap[status] ?? "status-default";
+};
+
+const MILLION = 1_000_000;
+const THOUSAND = 1_000;
+
+const formatNumber = (num: number) => {
+  if (num >= MILLION) return (num / MILLION).toFixed(1) + "M";
+  if (num >= THOUSAND) return (num / THOUSAND).toFixed(1) + "K";
+  return num.toString();
+};
+---
+
+<section id="metrics" class="gradient-overlay">
+  <div class="container">
+    <SectionHeader
+      title="API Performance Metrics"
+      subtitle="Real-time monitoring of API performance, response times, and system health across all endpoints"
+    />
+
+    <!-- Key Performance Indicators -->
+    <div class="metrics-kpi-grid mb-xl">
+      <Card variant="compact" class="metrics-card">
+        <div class="metrics-card__content">
+          <div class="metrics-card__icon metrics-card__icon--primary">
+            <svg
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <div class="metrics-card__info">
+            <h3 class="metrics-card__title">Response Time</h3>
+            <p class="metrics-card__value">{currentMetrics.responseTime}ms</p>
+            <Badge variant="primary">Excellent</Badge>
+          </div>
+        </div>
+      </Card>
+
+      <Card variant="compact" class="metrics-card">
+        <div class="metrics-card__content">
+          <div class="metrics-card__icon metrics-card__icon--secondary">
+            <svg
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <div class="metrics-card__info">
+            <h3 class="metrics-card__title">Uptime</h3>
+            <p class="metrics-card__value">{currentMetrics.uptime}%</p>
+            <Badge variant="primary">Stable</Badge>
+          </div>
+        </div>
+      </Card>
+
+      <Card variant="compact" class="metrics-card">
+        <div class="metrics-card__content">
+          <div class="metrics-card__icon metrics-card__icon--primary">
+            <svg
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"
+              ></path>
+            </svg>
+          </div>
+          <div class="metrics-card__info">
+            <h3 class="metrics-card__title">Total Requests</h3>
+            <p class="metrics-card__value">
+              {formatNumber(currentMetrics.totalRequests)}
+            </p>
+            <Badge variant="secondary">All Time</Badge>
+          </div>
+        </div>
+      </Card>
+
+      <Card variant="compact" class="metrics-card">
+        <div class="metrics-card__content">
+          <div class="metrics-card__icon metrics-card__icon--secondary">
+            <svg
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
+              ></path>
+            </svg>
+          </div>
+          <div class="metrics-card__info">
+            <h3 class="metrics-card__title">Requests Today</h3>
+            <p class="metrics-card__value">
+              {formatNumber(currentMetrics.requestsToday)}
+            </p>
+            <Badge variant="primary">+15.3%</Badge>
+          </div>
+        </div>
+      </Card>
+    </div>
+
+    <!-- Response Time Chart and System Health -->
+    <div class="metrics-content-grid mb-xl">
+      <Card>
+        <h3 class="text-primary mb-lg text-2xl font-bold">
+          Response Time Trend (24h)
+        </h3>
+        <div class="response-time-chart">
+          <div class="chart-container">
+            {
+              responseTimeHistory.map((point) => (
+                <div
+                  class="chart-bar"
+                  data-value={point.value}
+                  data-time={point.time}
+                >
+                  <div
+                    class="chart-bar__fill"
+                    style={`height: ${(point.value / 250) * 100}%`}
+                  />
+                  <span class="chart-bar__label">{point.time}</span>
+                  <span class="chart-bar__value">{point.value}ms</span>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </Card>
+
+      <Card>
+        <h3 class="text-primary mb-lg text-2xl font-bold">System Health</h3>
+        <div class="system-health">
+          <div class="metric-row">
+            <span class="text-secondary">Active Connections</span>
+            <span class="text-primary font-semibold"
+              >{currentMetrics.activeConnections}</span
+            >
+          </div>
+          <div class="metric-row">
+            <span class="text-secondary">Error Rate</span>
+            <span class="text-primary font-semibold"
+              >{currentMetrics.errorRate}%</span
+            >
+          </div>
+          <div class="metric-row">
+            <span class="text-secondary">Throughput</span>
+            <span class="text-primary font-semibold"
+              >{currentMetrics.throughput} req/min</span
+            >
+          </div>
+          <div class="metric-row">
+            <span class="text-secondary">Average Load</span>
+            <span class="text-primary font-semibold"
+              >{currentMetrics.avgLoad}%</span
+            >
+          </div>
+        </div>
+      </Card>
+    </div>
+
+    <!-- Endpoint Performance -->
+    <Card class="mb-xl">
+      <h3 class="text-primary mb-lg text-2xl font-bold">
+        Endpoint Performance
+      </h3>
+      <div class="endpoint-metrics">
+        <div class="endpoint-metrics__header">
+          <span class="text-secondary font-semibold">Endpoint</span>
+          <span class="text-secondary endpoint-metrics__calls font-semibold"
+            >Calls (24h)</span
+          >
+          <span class="text-secondary endpoint-metrics__response font-semibold"
+            >Avg Response</span
+          >
+          <span class="text-secondary font-semibold">Status</span>
+        </div>
+        {
+          endpointMetrics.map((endpoint) => (
+            <div class="endpoint-metrics__row">
+              <span class="text-primary endpoint-path font-mono">
+                {endpoint.endpoint}
+              </span>
+              <span class="text-secondary endpoint-metrics__calls">
+                {formatNumber(endpoint.calls)}
+              </span>
+              <span class="text-secondary endpoint-metrics__response">
+                {endpoint.avgTime}ms
+              </span>
+              <div class={`endpoint-status ${getStatusColor(endpoint.status)}`}>
+                <div class={`status-dot status-dot--${endpoint.status}`} />
+                <span class="status-text">{endpoint.status}</span>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </Card>
+
+    <!-- Real-time Status -->
+    <div class="metrics-status">
+      <div class="live-indicator">
+        <div class="pulse-dot"></div>
+        <span class="live-text">Live Monitoring Active</span>
+        <span class="live-subtitle">Updated every 30 seconds</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* KPI Grid */
+  .metrics-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+  }
+
+  /* Content Grid */
+  .metrics-content-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  @media (min-width: 1024px) {
+    .metrics-content-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* Metrics Card */
+  .metrics-card__content {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .metrics-card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-lg);
+    flex-shrink: 0;
+  }
+
+  .metrics-card__icon--primary {
+    background: rgba(42, 143, 255, 0.1);
+    color: var(--color-accent);
+  }
+
+  .metrics-card__icon--secondary {
+    background: rgba(34, 176, 126, 0.1);
+    color: var(--color-primary);
+  }
+
+  .metrics-card__info {
+    flex: 1;
+  }
+
+  .metrics-card__title {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xs);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .metrics-card__value {
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-sm);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+  }
+
+  /* Response Time Chart */
+  .response-time-chart {
+    position: relative;
+    height: 12rem;
+    width: 100%;
+  }
+
+  .chart-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 100%;
+    gap: var(--space-sm);
+  }
+
+  .chart-bar {
+    position: relative;
+    flex: 1;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .chart-bar:hover {
+    opacity: 0.8;
+  }
+
+  .chart-bar__fill {
+    background: linear-gradient(
+      to top,
+      rgba(42, 143, 255, 0.6),
+      var(--color-accent)
+    );
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    transition: all var(--transition-fast);
+    min-height: 8px;
+  }
+
+  .chart-bar__label {
+    position: absolute;
+    bottom: -1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);
+  }
+
+  .chart-bar__value {
+    position: absolute;
+    top: -1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+  }
+
+  .chart-bar:hover .chart-bar__value {
+    opacity: 1;
+  }
+
+  /* System Health */
+  .system-health {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .metric-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .metric-row:last-child {
+    border-bottom: none;
+  }
+
+  /* Endpoint Metrics */
+  .endpoint-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .endpoint-metrics__header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--space-md);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .endpoint-metrics__row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--space-md);
+    align-items: center;
+    padding: var(--space-sm);
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition-fast);
+  }
+
+  .endpoint-metrics__row:hover {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .endpoint-path {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+  }
+
+  .endpoint-status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .status-dot--healthy {
+    background: #10b981;
+  }
+
+  .status-dot--warning {
+    background: #f59e0b;
+  }
+
+  .status-dot--error {
+    background: #ef4444;
+  }
+
+  .status-healthy {
+    color: #10b981;
+  }
+
+  .status-warning {
+    color: #f59e0b;
+  }
+
+  .status-error {
+    color: #ef4444;
+  }
+
+  .status-default {
+    color: var(--color-text-secondary);
+  }
+
+  /* Live Status */
+  .metrics-status {
+    text-align: center;
+  }
+
+  .live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    background: rgba(16, 185, 129, 0.1);
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: var(--radius-full);
+    color: #10b981;
+  }
+
+  .pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    animation: pulse 2s infinite;
+  }
+
+  .live-text {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .live-subtitle {
+    font-size: var(--font-size-xs);
+    opacity: 0.75;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .metrics-kpi-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .endpoint-metrics__header,
+    .endpoint-metrics__row {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .endpoint-metrics__calls,
+    .endpoint-metrics__response {
+      display: none;
+    }
+
+    .live-indicator {
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+  }
+</style>
