@@ -3,6 +3,8 @@ import SectionHeader from "@/components/layouts/SectionHeader.astro";
 import Card from "@/components/ui/Card.astro";
 import Badge from "@/components/ui/Badge.astro";
 
+type Status = "healthy" | "warning" | "error";
+
 // Simulated real-time API metrics data
 const currentMetrics = {
   responseTime: 156,
@@ -24,7 +26,12 @@ const responseTimeHistory = [
   { time: "20:00", value: 134 },
 ];
 
-const endpointMetrics = [
+const endpointMetrics: {
+  endpoint: string;
+  calls: number;
+  avgTime: number;
+  status: Status;
+}[] = [
   { endpoint: "/api/users", calls: 23567, avgTime: 89, status: "healthy" },
   { endpoint: "/api/projects", calls: 18324, avgTime: 124, status: "healthy" },
   { endpoint: "/api/auth", calls: 15892, avgTime: 67, status: "healthy" },
@@ -32,13 +39,13 @@ const endpointMetrics = [
   { endpoint: "/api/reports", calls: 6432, avgTime: 445, status: "error" },
 ];
 
-const getStatusColor = (status: string) => {
-  const statusColorMap = {
+const getStatusColor = (status: Status) => {
+  const statusColorMap: Record<Status, string> = {
     healthy: "status-healthy",
     warning: "status-warning",
     error: "status-error",
   };
-  return statusColorMap[status] || "status-default";
+  return statusColorMap[status] ?? "status-default";
 };
 
 const MILLION = 1_000_000;
