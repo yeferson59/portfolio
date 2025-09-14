@@ -33,16 +33,12 @@ const endpointMetrics = [
 ];
 
 const getStatusColor = (status: string) => {
-  switch (status) {
-    case "healthy":
-      return "status-healthy";
-    case "warning":
-      return "status-warning";
-    case "error":
-      return "status-error";
-    default:
-      return "status-default";
-  }
+  const statusColorMap = {
+    healthy: "status-healthy",
+    warning: "status-warning",
+    error: "status-error",
+  };
+  return statusColorMap[status] || "status-default";
 };
 
 const formatNumber = (num: number) => {
