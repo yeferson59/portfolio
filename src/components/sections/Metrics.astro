@@ -41,9 +41,12 @@ const getStatusColor = (status: string) => {
   return statusColorMap[status] || "status-default";
 };
 
+const MILLION = 1_000_000;
+const THOUSAND = 1_000;
+
 const formatNumber = (num: number) => {
-  if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";
-  if (num >= 1000) return (num / 1000).toFixed(1) + "K";
+  if (num >= MILLION) return (num / MILLION).toFixed(1) + "M";
+  if (num >= THOUSAND) return (num / THOUSAND).toFixed(1) + "K";
   return num.toString();
 };
 ---
