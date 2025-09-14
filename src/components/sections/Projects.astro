@@ -2,63 +2,9 @@
 import SectionHeader from "@/components/layouts/SectionHeader.astro";
 import ProjectCard from "@/components/layouts/ProjectCard.astro";
 import Button from "@/components/ui/Button.astro";
+import { getCollection } from "astro:content";
 
-const projects = [
-  {
-    title: "Scalable E-commerce API",
-    description:
-      "Modular REST API with JWT authentication, caching (Redis), and metrics. Architecture optimized for high concurrency and low latency.",
-    stack: ["Node.js", "Express", "MongoDB", "Redis", "JWT"],
-    year: "2023",
-    status: "In development",
-    href: "#",
-  },
-  {
-    title: "Real-Time Analytics",
-    description:
-      "Event pipeline with streaming ingestion, processing, and real-time dashboards for immediate decision-making.",
-    stack: ["Python", "Kafka", "PostgreSQL", "Django", "Grafana"],
-    year: "2023",
-    status: "In production",
-    href: "#",
-  },
-  {
-    title: "Microservices Platform",
-    description:
-      "Microservices design with observability (tracing + metrics), deployment on Kubernetes, and automated CI/CD.",
-    stack: ["Go", "gRPC", "Docker", "Kubernetes", "Prometheus"],
-    year: "2024",
-    status: "In development",
-    href: "#",
-  },
-  {
-    title: "Queues and Asynchronous Processing",
-    description:
-      "Resilient job engine with retries, exponential backoff, and metrics for business-critical tasks.",
-    stack: ["Node.js", "BullMQ", "Redis", "TypeScript"],
-    year: "2024",
-    status: "Completed",
-    href: "#",
-  },
-  {
-    title: "Batch Reporting Engine",
-    description:
-      "Generation and distribution of batch reports (PDF/CSV), with S3 storage and concurrency control.",
-    stack: ["Python", "Celery", "PostgreSQL", "S3", "Docker"],
-    year: "2024",
-    status: "In development",
-    href: "#",
-  },
-  {
-    title: "SSO and Identity Management",
-    description:
-      "Centralized OAuth2 / OpenID Connect service for unified authentication across multiple internal applications.",
-    stack: ["Keycloak", "Nginx", "PostgreSQL", "Docker"],
-    year: "2024",
-    status: "Planned",
-    href: "#",
-  },
-];
+const projects = await getCollection("projects");
 ---
 
 <section id="projects">
@@ -72,12 +18,12 @@ const projects = [
       {
         projects.map((project) => (
           <ProjectCard
-            title={project.title}
-            description={project.description}
-            stack={project.stack}
-            year={project.year}
-            status={project.status}
-            href={project.href}
+            title={project.data.title}
+            description={project.data.description}
+            stack={project.data.stack}
+            year={project.data.year}
+            status={project.data.status}
+            href={project.data.href}
           />
         ))
       }
