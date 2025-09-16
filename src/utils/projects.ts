@@ -9,6 +9,16 @@ export type Project = CollectionEntry<"projects">;
  * 2. Newest projects first (by year)
  * 3. Active projects first (by status)
  */
+
+// Then by status (Active first)
+const statusOrder = {
+  Active: 0,
+  "In Progress": 1,
+  Completed: 2,
+  Closed: 3,
+  Archived: 4,
+};
+
 export async function getAllProjects(): Promise<Project[]> {
   const projects = await getCollection("projects");
 
@@ -20,17 +30,10 @@ export async function getAllProjects(): Promise<Project[]> {
     // Then by year (newest first)
     if (a.data.year !== b.data.year) return b.data.year - a.data.year;
 
-    // Then by status (Active first)
-    const statusOrder = {
-      Active: 0,
-      "In Progress": 1,
-      Completed: 2,
-      Closed: 3,
-      Archived: 4,
-    };
     const DEFAULT_STATUS_ORDER = 5;
     return (
-      (statusOrder[a.data.status] ?? DEFAULT_STATUS_ORDER) - (statusOrder[b.data.status] ?? DEFAULT_STATUS_ORDER)
+      (statusOrder[a.data.status] ?? DEFAULT_STATUS_ORDER) -
+      (statusOrder[b.data.status] ?? DEFAULT_STATUS_ORDER)
     );
   });
 }
