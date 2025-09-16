@@ -18,4 +18,6 @@ stack:
 year: 2025
 status: "Closed"
 href: "https://github.com/yeferson59/joxicrochet-backend"
+featured: true
+category: "E-commerce"
 ---
