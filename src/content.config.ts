@@ -1,6 +1,8 @@
 import { glob } from "astro/loaders";
 import { defineCollection, z } from "astro:content";
 
+const maxDate = new Date().getFullYear() + 1;
+
 const projects = defineCollection({
   loader: glob({
     base: "./src/content/projects",
@@ -12,10 +14,7 @@ const projects = defineCollection({
       .string()
       .min(10, "Description must be at least 10 characters"),
     stack: z.array(z.string()).min(1, "At least one technology is required"),
-    year: z.coerce
-      .number()
-      .min(2020)
-      .max(new Date().getFullYear() + 1),
+    year: z.coerce.number().min(2020).max(maxDate),
     status: z.enum([
       "Active",
       "Completed",
