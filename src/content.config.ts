@@ -2,14 +2,40 @@ import { glob } from "astro/loaders";
 import { defineCollection, z } from "astro:content";
 
 const projects = defineCollection({
-  loader: glob({ base: "./src/content/projects", pattern: "**/*.md" }),
+  loader: glob({
+    base: "./src/content/projects",
+    pattern: "**/*.md",
+  }),
   schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    stack: z.array(z.string()),
-    year: z.coerce.number(),
-    status: z.coerce.string(),
-    href: z.coerce.string().url(),
+    title: z.string().min(1, "Title is required"),
+    description: z
+      .string()
+      .min(10, "Description must be at least 10 characters"),
+    stack: z.array(z.string()).min(1, "At least one technology is required"),
+    year: z.coerce
+      .number()
+      .min(2020)
+      .max(new Date().getFullYear() + 1),
+    status: z.enum([
+      "Active",
+      "Completed",
+      "In Progress",
+      "Archived",
+      "Closed",
+    ]),
+    href: z.string().url("Must be a valid URL"),
+    featured: z.boolean().optional().default(false),
+    category: z
+      .enum([
+        "API",
+        "Microservices",
+        "DevOps",
+        "Analytics",
+        "Blockchain",
+        "Storage",
+        "E-commerce",
+      ])
+      .optional(),
   }),
 });
 
