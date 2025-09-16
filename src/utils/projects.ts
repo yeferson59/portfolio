@@ -28,8 +28,9 @@ export async function getAllProjects(): Promise<Project[]> {
       Closed: 3,
       Archived: 4,
     };
+    const DEFAULT_STATUS_ORDER = 5;
     return (
-      (statusOrder[a.data.status] || 5) - (statusOrder[b.data.status] || 5)
+      (statusOrder[a.data.status] ?? DEFAULT_STATUS_ORDER) - (statusOrder[b.data.status] ?? DEFAULT_STATUS_ORDER)
     );
   });
 }
