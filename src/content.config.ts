@@ -38,6 +38,21 @@ const projects = defineCollection({
   }),
 });
 
+const pricing = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/pricing" }),
+  schema: z.object({
+    name: z.string(),
+    subtitle: z.string(),
+    price: z.string(),
+    period: z.string().optional(),
+    description: z.string(),
+    features: z.array(z.string()),
+    cta: z.string(),
+    popular: z.boolean(),
+  }),
+});
+
 export const collections = {
   projects,
+  pricing,
 };
