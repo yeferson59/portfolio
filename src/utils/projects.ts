@@ -19,7 +19,7 @@ const statusOrder = {
   Archived: 4,
 };
 
-export async function getAllProjects(): Promise<Project[]> {
+export const getAllProjects = async (): Promise<Project[]> => {
   const projects = await getCollection("projects");
 
   return projects.sort((a, b) => {
@@ -36,38 +36,40 @@ export async function getAllProjects(): Promise<Project[]> {
       (statusOrder[b.data.status] ?? DEFAULT_STATUS_ORDER)
     );
   });
-}
+};
 
 /**
  * Get only featured projects
  */
-export async function getFeaturedProjects(): Promise<Project[]> {
+export const getFeaturedProjects = async (): Promise<Project[]> => {
   const projects = await getAllProjects();
   return projects.filter((project) => project.data.featured);
-}
+};
 
 /**
  * Get projects by category
  */
-export async function getProjectsByCategory(
+export const getProjectsByCategory = async (
   category: string,
-): Promise<Project[]> {
+): Promise<Project[]> => {
   const projects = await getAllProjects();
   return projects.filter((project) => project.data.category === category);
-}
+};
 
 /**
  * Get projects by status
  */
-export async function getProjectsByStatus(status: string): Promise<Project[]> {
+export const getProjectsByStatus = async (
+  status: string,
+): Promise<Project[]> => {
   const projects = await getAllProjects();
   return projects.filter((project) => project.data.status === status);
-}
+};
 
 /**
  * Get project statistics
  */
-export async function getProjectStats() {
+export const getProjectStats = async () => {
   const projects = await getAllProjects();
   const featuredCount = projects.filter((p) => p.data.featured).length;
   const totalCount = projects.length;
@@ -102,4 +104,4 @@ export async function getProjectStats() {
     statusDistribution: statusCounts,
     categoryDistribution: categoryCounts,
   };
-}
+};
