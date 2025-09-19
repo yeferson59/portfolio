@@ -39,7 +39,7 @@ const projects = defineCollection({
 });
 
 const pricing = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/pricing" }),
+  loader: glob({ pattern: "**/*.md", base: "./src/content/pricings" }),
   schema: z.object({
     name: z.string(),
     subtitle: z.string(),
