@@ -3,20 +3,23 @@ import "@/styles/main.css";
 import Header from "@/components/layouts/Header.astro";
 import Footer from "@/components/layouts/Footer.astro";
 import ScrollReveal from "@/components/layouts/ScrollReveal.astro";
+import Head from "@/components/layouts/Head.astro";
+import type { Props as HeadProps } from "@/components/layouts/Head.astro";
+
+export interface Props {
+  /**
+   * Head component props for SEO and metadata
+   */
+  head?: HeadProps;
+}
+
+const { head = {} } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="generator" content={Astro.generator} />
-    <meta
-      name="description"
-      content="Backend Developer Portfolio - Especializado en arquitectura de sistemas, APIs escalables y bases de datos."
-    />
-    <title>Backend Developer Portfolio</title>
+    <Head {...head} />
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to main content</a>

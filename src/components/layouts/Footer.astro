@@ -1,5 +1,12 @@
 ---
-import { navigationLinks, services, socialLinks, brand, meta, footerLinks } from "@/data/site";
+import {
+  navigationLinks,
+  services,
+  socialLinks,
+  brand,
+  meta,
+  footerLinks,
+} from "@/data/site";
 ---
 
 <footer class="footer">
@@ -109,12 +116,16 @@ import { navigationLinks, services, socialLinks, brand, meta, footerLinks } from
         {meta.copyright}
       </p>
       <div class="gap-md text-muted flex items-center text-xs">
-        <a href={footerLinks.terms} class="hover:text-primary transition-colors">Terms</a>
-        <a href={footerLinks.privacy} class="hover:text-primary transition-colors"
-          >Privacy</a
+        <a href={footerLinks.terms} class="hover:text-primary transition-colors"
+          >Terms</a
         >
-        <a href={footerLinks.licenses} class="hover:text-primary transition-colors"
-          >Licenses</a
+        <a
+          href={footerLinks.privacy}
+          class="hover:text-primary transition-colors">Privacy</a
+        >
+        <a
+          href={footerLinks.licenses}
+          class="hover:text-primary transition-colors">Licenses</a
         >
       </div>
     </div>

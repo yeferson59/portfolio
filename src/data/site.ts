@@ -7,7 +7,8 @@
 export const developer = {
   name: "Yeferson Toloza C.",
   title: "Full-Stack Developer (Backend Oriented)",
-  description: "Specialized in architecture systems, scalable APIs and databases. Passionate about efficiency, security and performance.",
+  description:
+    "Specialized in architecture systems, scalable APIs and databases. Passionate about efficiency, security and performance.",
   bio: "I focus on building robust APIs, scalable architectures, and observable systems. My expertise lies in designing and developing microservices and distributed solutions with a strong emphasis on security, performance, and reliability.",
   email: "yefersontoloza59@gmail.com",
   location: "Pamplona, Colombia",
@@ -19,7 +20,8 @@ export const brand = {
   name: "Full Stack Developer",
   subtitle: "Portfolio",
   tagline: "Full-Stack Developer",
-  description: "Building scalable and resilient web applications. Specializing in robust backend systems, API design, and creating seamless user experiences from server to screen.",
+  description:
+    "Building scalable and resilient web applications. Specializing in robust backend systems, API design, and creating seamless user experiences from server to screen.",
 } as const;
 
 // Navigation Links
@@ -83,22 +85,26 @@ export const skills = [
 export const coreFeatures = [
   {
     title: "Clean Code",
-    description: "I prioritize readability, testing, and modular design to ensure maintainable and evolving codebases.",
+    description:
+      "I prioritize readability, testing, and modular design to ensure maintainable and evolving codebases.",
     variant: "primary" as const,
   },
   {
     title: "Security",
-    description: "Authentication, authorization, encryption, and dependency auditing are integrated into my workflow.",
+    description:
+      "Authentication, authorization, encryption, and dependency auditing are integrated into my workflow.",
     variant: "secondary" as const,
   },
   {
     title: "Performance",
-    description: "I optimize bottlenecks, caching strategies, and query tuning to reduce latency and infrastructure costs.",
+    description:
+      "I optimize bottlenecks, caching strategies, and query tuning to reduce latency and infrastructure costs.",
     variant: "primary" as const,
   },
   {
     title: "Observability",
-    description: "I implement tracing, metrics, and proactive alerting to detect and resolve incidents before they escalate.",
+    description:
+      "I implement tracing, metrics, and proactive alerting to detect and resolve incidents before they escalate.",
     variant: "secondary" as const,
   },
 ] as const;
@@ -123,7 +129,8 @@ export const contactMethods = [
   {
     label: "Location",
     value: "Pamplona, Colombia",
-    action: "https://www.google.com/maps/place/Pamplona,+Norte+de+Santander/@7.3719791,-72.6708932,14z/data=!3m1!4b1!4m6!3m5!1s0x8e68811722aa0c15:0x83b790e98f7db7d4!8m2!3d7.3733146!4d-72.6482058!16s%2Fm%2F026324g?entry=ttu&g_ep=EgoyMDI1MDkwOS4wIKXMDSoASAFQAw%3D%3D",
+    action:
+      "https://www.google.com/maps/place/Pamplona,+Norte+de+Santander/@7.3719791,-72.6708932,14z/data=!3m1!4b1!4m6!3m5!1s0x8e68811722aa0c15:0x83b790e98f7db7d4!8m2!3d7.3733146!4d-72.6482058!16s%2Fm%2F026324g?entry=ttu&g_ep=EgoyMDI1MDkwOS4wIKXMDSoASAFQAw%3D%3D",
     icon: "map",
     variant: "secondary" as const,
   },
@@ -162,7 +169,7 @@ export const icons = {
 // Footer links
 export const footerLinks = {
   terms: "/terms",
-  privacy: "/privacy", 
+  privacy: "/privacy",
   licenses: "/licenses",
 } as const;
 
@@ -170,4 +177,54 @@ export const footerLinks = {
 export const meta = {
   year: new Date().getFullYear(),
   copyright: `© ${new Date().getFullYear()} Full-Stack Developer. All rights reserved.`,
+} as const;
+
+// SEO and Site metadata
+export const siteMetadata = {
+  title: "Backend Developer Portfolio",
+  titleTemplate: "%s | Backend Developer Portfolio",
+  description:
+    "Backend Developer Portfolio - Especializado en arquitectura de sistemas, APIs escalables y bases de datos.",
+  siteUrl: "https://yeferson-portfolio.netlify.app", // Update with actual domain
+  siteName: "Yeferson Toloza - Full-Stack Developer",
+  author: developer.name,
+  authorEmail: developer.email,
+  keywords: [
+    "backend developer",
+    "full-stack developer",
+    "API development",
+    "microservices",
+    "system architecture",
+    "database optimization",
+    "scalable systems",
+    "Node.js",
+    "TypeScript",
+    "PostgreSQL",
+    "MongoDB",
+    "Docker",
+    "AWS",
+    "DevOps",
+  ],
+  language: "en",
+  locale: "en_US",
+  type: "website",
+  twitterHandle: "@yefersont59",
+  image: {
+    url: "/favicon.svg", // Using favicon as fallback until og-image.jpg is created
+    alt: "Yeferson Toloza - Full-Stack Developer Portfolio",
+    width: 1200,
+    height: 630,
+  },
+  favicon: {
+    icon: "/favicon.svg",
+    appleTouchIcon: "/favicon.svg", // Using favicon as fallback
+    manifest: "/site.webmanifest",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    noarchive: false,
+    noimageindex: false,
+    nocache: false,
+  },
 } as const;
