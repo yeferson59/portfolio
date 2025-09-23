@@ -21,7 +21,17 @@ const subtitle =
             <Card>
               <div class="flex items-start gap-y-6">
                 <div class={`icon icon--${method.variant} flex-shrink-0`}>
-                  <span set:html={icons[method.icon === "mail" ? "mail-lg" : method.icon === "code" ? "code-lg" : method.icon as keyof typeof icons]} />
+                  <span
+                    set:html={
+                      icons[
+                        method.icon === "mail"
+                          ? "mail-lg"
+                          : method.icon === "code"
+                            ? "code-lg"
+                            : (method.icon as keyof typeof icons)
+                      ]
+                    }
+                  />
                 </div>
 
                 <div class="flex-1">
