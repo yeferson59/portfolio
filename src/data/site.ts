@@ -185,7 +185,7 @@ export const siteMetadata = {
   titleTemplate: "%s | Backend Developer Portfolio",
   description:
     "Backend Developer Portfolio - Especializado en arquitectura de sistemas, APIs escalables y bases de datos.",
-  siteUrl: "https://yeferson-portfolio.netlify.app", // Update with actual domain
+  siteUrl: "https://portfolio-yefersons-projects.vercel.app", // Update with actual domain
   siteName: "Yeferson Toloza - Full-Stack Developer",
   author: developer.name,
   authorEmail: developer.email,
