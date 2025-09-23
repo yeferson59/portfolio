@@ -4,60 +4,19 @@ import Card from "@/components/ui/Card.astro";
 import Badge from "@/components/ui/Badge.astro";
 import Button from "@/components/ui/Button.astro";
 import { Image } from "astro:assets";
-
-const developerName = "Yeferson Toloza C.";
-const title = "Full-Stack Developer (Backend Oriented)";
-const description =
-  "Specialized in architecture systems, scalable APIs and databases. Passionate about efficiency, security and performance.";
-const skills = [
-  "Node.js",
-  "TypeScript",
-  "Golang (go)",
-  "Fiber",
-  "Gin",
-  "Express.js",
-  "PostgreSQL",
-  "Docker",
-  "Redis",
-];
-const features = [
-  {
-    title: "Clean Code",
-    description:
-      "I prioritize readability, testing, and modular design to ensure maintainable and evolving codebases.",
-    variant: "primary",
-  },
-  {
-    title: "Security",
-    description:
-      "Authentication, authorization, encryption, and dependency auditing are integrated into my workflow.",
-    variant: "secondary",
-  },
-  {
-    title: "Performance",
-    description:
-      "I optimize bottlenecks, caching strategies, and query tuning to reduce latency and infrastructure costs.",
-    variant: "primary",
-  },
-  {
-    title: "Observability",
-    description:
-      "I implement tracing, metrics, and proactive alerting to detect and resolve incidents before they escalate.",
-    variant: "secondary",
-  },
-];
+import { developer, skills, coreFeatures } from "@/data/site";
 ---
 
 <section id="about" class="gradient-overlay">
   <div class="container">
-    <SectionHeader title="About Me" subtitle={description} />
+    <SectionHeader title="About Me" subtitle={developer.description} />
 
     <div class="gap-xl grid grid-cols-1 items-start lg:grid-cols-3">
       <!-- Profile card -->
       <aside>
         <Card class="h-full text-center">
           <Image
-            src="https://avatars.githubusercontent.com/u/116679774?v=4"
+            src={developer.avatar}
             alt="Avatar"
             class="avatar avatar--xl mb-lg mx-auto"
             loading="eager"
@@ -68,14 +27,11 @@ const features = [
             priority
           />
 
-          <h3 class="text-primary mb-xs text-2xl font-bold">{developerName}</h3>
-          <p class="text-accent mb-lg font-semibold">{title}</p>
+          <h3 class="text-primary mb-xs text-2xl font-bold">{developer.name}</h3>
+          <p class="text-accent mb-lg font-semibold">{developer.title}</p>
 
           <p class="text-secondary mb-lg leading-relaxed">
-            I focus on building robust APIs, scalable architectures, and
-            observable systems. My expertise lies in designing and developing
-            microservices and distributed solutions with a strong emphasis on
-            security, performance, and reliability.
+            {developer.bio}
           </p>
 
           <div class="gap-xs flex flex-wrap justify-center">
@@ -89,7 +45,7 @@ const features = [
         <h2 class="text-primary mb-sm text-2xl font-bold">Core Principles</h2>
         <div class="gap-lg mb-xl grid grid-cols-1 sm:grid-cols-2">
           {
-            features.map((feature) => (
+            coreFeatures.map((feature) => (
               <Card variant="compact">
                 <div class="gap-md flex items-start">
                   <div class="mt-xs flex-shrink-0">

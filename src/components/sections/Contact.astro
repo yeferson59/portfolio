@@ -2,57 +2,11 @@
 import SectionHeader from "@/components/layouts/SectionHeader.astro";
 import Card from "@/components/ui/Card.astro";
 import Button from "@/components/ui/Button.astro";
+import { contactMethods, icons } from "@/data/site";
 
 const heading = "Get in touch";
 const subtitle =
   "Got an interesting project? Let's talk about architecture, APIs, or infrastructure.";
-
-const icons = {
-  mail: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 4.26a2 2 0 0 0 2.22 0L21 8M5 19h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2Z"/></svg>`,
-  map: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657 13.414 20.9a2 2 0 0 1-2.828 0l-4.243-4.243a8 8 0 1 1 11.314 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>`,
-  linkedin: `<svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5c0 1.38-1.11 2.5-2.48 2.5S.02 4.88.02 3.5C.02 2.12 1.13 1 2.5 1s2.48 1.12 2.48 2.5ZM.5 8h4.9v13.5H.5V8Zm7.48 0H12.7l.02 1.85h.09c.59-1.07 2.04-2.15 4.2-2.15 4 0 4.98 2.38 4.98 6.53V21.5h-4.9v-6.29c0-1.5-.03-3.44-2.18-3.44-2.18 0-2.51 1.63-2.51 3.32v6.41H7.98V8Z"/></svg>`,
-  code: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m7 8-4 4 4 4m10-8 4 4-4 4m-6 6 2-20"/></svg>`,
-};
-
-type IconKey = keyof typeof icons;
-
-const contactMethods: {
-  label: string;
-  value: string;
-  action: string;
-  icon: IconKey;
-  variant: "primary" | "secondary";
-}[] = [
-  {
-    label: "Email",
-    value: "yefersontoloza59@gmail.com",
-    action: "mailto:yefersontoloza59@gmail.com",
-    icon: "mail",
-    variant: "primary",
-  },
-  {
-    label: "Location",
-    value: "Pamplona, Colombia",
-    action:
-      "https://www.google.com/maps/place/Pamplona,+Norte+de+Santander/@7.3719791,-72.6708932,14z/data=!3m1!4b1!4m6!3m5!1s0x8e68811722aa0c15:0x83b790e98f7db7d4!8m2!3d7.3733146!4d-72.6482058!16s%2Fm%2F026324g?entry=ttu&g_ep=EgoyMDI1MDkwOS4wIKXMDSoASAFQAw%3D%3D",
-    icon: "map",
-    variant: "secondary",
-  },
-  {
-    label: "LinkedIn",
-    value: "Let's connect professionally",
-    action: "https://www.linkedin.com/in/yeferson-toloza-42a6a7279",
-    icon: "linkedin",
-    variant: "primary",
-  },
-  {
-    label: "GitHub",
-    value: "Explore my repositories",
-    action: "https://github.com/yeferson59",
-    icon: "code",
-    variant: "secondary",
-  },
-];
 ---
 
 <section id="contact">
@@ -67,7 +21,7 @@ const contactMethods: {
             <Card>
               <div class="flex items-start gap-y-6">
                 <div class={`icon icon--${method.variant} flex-shrink-0`}>
-                  <span set:html={icons[method.icon]} />
+                  <span set:html={icons[method.icon === "mail" ? "mail-lg" : method.icon === "code" ? "code-lg" : method.icon as keyof typeof icons]} />
                 </div>
 
                 <div class="flex-1">
