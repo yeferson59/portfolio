@@ -216,8 +216,41 @@ section:first-child {
 /* Projects grid */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr));
   gap: var(--space-xl);
+  align-items: start;
+  justify-content: center;
+}
+
+/* Responsive adjustments for projects grid */
+@media (max-width: 480px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-lg);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    max-width: none;
+  }
+}
+
+@media (min-width: 1025px) {
+  .projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 /* Pricing grid */

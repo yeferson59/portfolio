@@ -15,7 +15,7 @@ const services = await getAllServices();
       subtitle="Technical solutions and consulting tailored to your project's needs."
     />
 
-    <div class="services-grid mb-3xl" style="padding-top: var(--space-lg);">
+    <div class="services-grid mb-4xl" style="padding-top: var(--space-3xl); margin-bottom: var(--space-4xl);">
       {
         services.map(({ data: service }) => (
           <ServiceCard
@@ -31,7 +31,7 @@ const services = await getAllServices();
     </div>
 
     <!-- Bottom CTA -->
-    <div class="text-center">
+    <div class="text-center" style="margin-top: var(--space-4xl); padding-top: var(--space-xl);">
       <Card class="mx-auto max-w-3xl">
         <h3 class="text-primary mb-md text-2xl font-bold">
           Can't find what you need?
@@ -64,23 +64,38 @@ const services = await getAllServices();
 <style>
   .services-section {
     padding: var(--space-3xl) 0;
+    position: relative;
   }
 
   .services-grid {
     display: grid;
-    gap: var(--space-xl);
+    gap: var(--space-2xl);
     grid-template-columns: 1fr;
+    align-items: stretch;
+    margin-bottom: var(--space-4xl);
   }
 
   @media (min-width: 768px) {
     .services-grid {
       grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-xl);
     }
   }
 
   @media (min-width: 1024px) {
     .services-grid {
       grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-xl);
+      max-width: 1400px;
+      margin: 0 auto;
+      padding-top: var(--space-2xl);
+    }
+  }
+
+  /* Ensure badge visibility on all screen sizes */
+  @media (max-width: 767px) {
+    .services-grid {
+      padding-top: var(--space-2xl);
     }
   }
 </style>

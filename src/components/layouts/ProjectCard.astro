@@ -1,5 +1,4 @@
 ---
-import Card from "@/components/ui/Card.astro";
 import Badge from "@/components/ui/Badge.astro";
 import Button from "@/components/ui/Button.astro";
 
@@ -10,6 +9,7 @@ interface Props {
   year: number;
   status?: string;
   href?: string;
+  featured?: boolean;
 }
 
 const {
@@ -19,32 +19,75 @@ const {
   year,
   status = "development",
   href,
+  featured = false,
 } = Astro.props;
+
+// Determine if we have many technologies (for styling)
+const hasMany = stack.length > 7;
+const shouldTruncate = stack.length > 10;
+
+// Status styling helper
+const getStatusClass = (status: string) => {
+  const normalized = status.toLowerCase().replace(/\s+/g, '-');
+  if (normalized.includes('development') || normalized.includes('progress')) {
+    return 'project-card__status-text--development';
+  }
+  if (normalized.includes('closed') || normalized.includes('archived')) {
+    return 'project-card__status-text--closed';
+  }
+  if (normalized.includes('active') || normalized.includes('completed')) {
+    return '';
+  }
+  return 'project-card__status-text--progress';
+};
+
+const statusClass = getStatusClass(status);
 ---
 
-<Card>
-  <div class="mb-md flex items-center justify-between">
-    <Badge variant="primary">{year}</Badge>
-    <div class="accent-dot accent-dot--secondary"></div>
-  </div>
+<article class={`project-card ${featured ? 'project-card--featured' : ''}`}>
+  <!-- Header with year and status indicator -->
+  <header class="project-card__header">
+    <Badge variant="primary" class="project-card__year">{year}</Badge>
+    <div class="project-card__status accent-dot accent-dot--secondary"></div>
+  </header>
 
-  <h3 class="text-primary mb-sm text-xl font-bold">{title}</h3>
-  <p class="text-secondary mb-lg text-sm leading-relaxed">{description}</p>
+  <!-- Main content area -->
+  <div class="project-card__content">
+    <h3 class="project-card__title">{title}</h3>
+    <p class="project-card__description">{description}</p>
 
-  <div class="gap-sm mb-xl flex flex-wrap">
-    {
-      stack.map((tech, index) => (
-        <Badge variant={index % 2 === 0 ? "primary" : "secondary"}>
-          {tech}
-        </Badge>
-      ))
-    }
-  </div>
-
-  <div class="pt-md mt-auto flex w-full items-center justify-between">
-    <span class="text-800 rounded-full text-xs font-black text-green-800"
-      >{status}</span
+    <!-- Technology stack with adaptive layout -->
+    <div 
+      class={`project-card__stack ${
+        hasMany ? 'project-card__stack--many' : ''
+      } ${
+        shouldTruncate ? 'project-card__stack--overflow' : ''
+      }`}
+      data-remaining={shouldTruncate ? stack.length - 7 : ''}
     >
-    <Button variant="primary" size="sm" href={href}> Ver detalles </Button>
+      {
+        stack.map((tech, index) => (
+          <Badge 
+            variant={index % 2 === 0 ? "primary" : "secondary"}
+            class={shouldTruncate && index >= 7 ? 'badge--hidden' : ''}
+          >
+            {tech}
+          </Badge>
+        ))
+      }
+    </div>
   </div>
-</Card>
+
+  <!-- Footer with status and CTA -->
+  <footer class="project-card__footer">
+    <span class={`project-card__status-text ${statusClass}`}>
+      {status}
+    </span>
+    
+    {href && (
+      <Button variant="primary" size="sm" href={href}>
+        Ver detalles
+      </Button>
+    )}
+  </footer>
+</article>

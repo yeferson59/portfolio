@@ -27,7 +27,7 @@ const {
   {
     featured && (
       <div class="service-card__badge">
-        <Badge variant="primary">✨ Featured Service</Badge>
+        <Badge variant="primary" class="featured-badge">⭐ Most Popular</Badge>
       </div>
     )
   }
@@ -92,22 +92,60 @@ const {
   .service-card {
     position: relative;
     height: 100%;
+    min-height: 480px;
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-xl);
+    margin-top: var(--space-sm);
   }
 
   .service-card--featured {
-    border: 2px solid rgba(42, 143, 255, 0.2);
+    border: 2px solid rgba(42, 143, 255, 0.3);
+    background: linear-gradient(
+      135deg,
+      rgba(42, 143, 255, 0.02) 0%,
+      rgba(42, 143, 255, 0.05) 100%
+    );
+    transform: scale(1.02);
+    box-shadow: 0 8px 30px rgba(42, 143, 255, 0.15);
+    margin-top: var(--space-lg);
+  }
+
+  .service-card--featured:hover {
+    border-color: rgba(42, 143, 255, 0.5);
+    box-shadow: 0 12px 40px rgba(42, 143, 255, 0.2);
+    transform: scale(1.02) translateY(-2px);
   }
 
   .service-card__badge {
     position: absolute;
-    top: -0.5rem;
+    top: -8px;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 10;
+    animation: featured-pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes featured-pulse {
+    0%, 100% {
+      transform: translateX(-50%) scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: translateX(-50%) scale(1.02);
+      opacity: 0.95;
+    }
+  }
+
+  .service-card--featured:hover .service-card__badge {
+    animation-play-state: paused;
+    transform: translateX(-50%) scale(1.05);
   }
 
   .service-card__header {
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--space-xl);
     text-align: center;
+    flex-shrink: 0;
   }
 
   .service-card__title {
@@ -139,7 +177,8 @@ const {
   }
 
   .service-card__features {
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--space-xl);
+    flex: 1;
   }
 
   .service-card__features-title {
@@ -152,7 +191,10 @@ const {
   .service-card__features-list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-sm);
+    gap: var(--space-md);
+    list-style: none;
+    padding: 0;
+    margin: 0;
   }
 
   .service-card__feature {
