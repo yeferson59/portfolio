@@ -1,0 +1,194 @@
+---
+import Badge from "@/components/ui/Badge.astro";
+import Button from "@/components/ui/Button.astro";
+
+interface Props {
+  name: string;
+  subtitle: string;
+  description: string;
+  features: string[];
+  cta: string;
+  featured?: boolean;
+  href?: string;
+}
+
+const {
+  name,
+  subtitle,
+  description,
+  features,
+  cta,
+  featured = false,
+  href = "#contact",
+} = Astro.props;
+---
+
+<div class={`card service-card ${featured ? "service-card--featured" : ""}`}>
+  {
+    featured && (
+      <div class="service-card__badge">
+        <Badge variant="primary">✨ Featured Service</Badge>
+      </div>
+    )
+  }
+
+  <!-- Service Header -->
+  <div class="service-card__header">
+    <Badge variant={featured ? "primary" : "secondary"} class="mb-md">
+      {subtitle}
+    </Badge>
+
+    <h3 class="service-card__title">{name}</h3>
+
+    <div class="service-card__quote">
+      <div class="service-card__quote-text">Get Quote</div>
+      <div class="service-card__quote-subtext">Custom pricing based on scope</div>
+    </div>
+
+    <p class="service-card__description">{description}</p>
+  </div>
+
+  <!-- Features -->
+  <div class="service-card__features">
+    <h4 class="service-card__features-title">Includes:</h4>
+    <ul class="service-card__features-list">
+      {
+        features.map((feature, index) => (
+          <li class="service-card__feature">
+            <div
+              class={`service-card__feature-icon ${index % 2 === 0 ? "service-card__feature-icon--primary" : "service-card__feature-icon--secondary"}`}
+            >
+              <svg
+                width="10"
+                height="10"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </div>
+            <span class="service-card__feature-text">{feature}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <!-- CTA Button -->
+  <div class="service-card__cta">
+    <Button variant={featured ? "primary" : "secondary"} fullWidth href={href}>
+      {cta}
+    </Button>
+  </div>
+</div>
+
+<style>
+  .service-card {
+    position: relative;
+    height: 100%;
+  }
+
+  .service-card--featured {
+    border: 2px solid rgba(42, 143, 255, 0.2);
+  }
+
+  .service-card__badge {
+    position: absolute;
+    top: -0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .service-card__header {
+    margin-bottom: var(--space-lg);
+    text-align: center;
+  }
+
+  .service-card__title {
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-sm);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .service-card__quote {
+    margin-bottom: var(--space-md);
+  }
+
+  .service-card__quote-text {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .service-card__quote-subtext {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+  }
+
+  .service-card__description {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .service-card__features {
+    margin-bottom: var(--space-lg);
+  }
+
+  .service-card__features-title {
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-md);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .service-card__features-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .service-card__feature {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+
+  .service-card__feature-icon {
+    margin-top: 0.125rem;
+    display: flex;
+    height: 1.25rem;
+    width: 1.25rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+  }
+
+  .service-card__feature-icon--primary {
+    background-color: rgba(42, 143, 255, 0.1);
+    color: var(--color-primary);
+  }
+
+  .service-card__feature-icon--secondary {
+    background-color: rgba(34, 176, 126, 0.1);
+    color: var(--color-secondary);
+  }
+
+  .service-card__feature-text {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .service-card__cta {
+    margin-top: auto;
+  }
+</style>

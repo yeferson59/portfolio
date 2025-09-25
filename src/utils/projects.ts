@@ -14,9 +14,10 @@ export type Project = CollectionEntry<"projects">;
 const statusOrder = {
   Active: 0,
   "In Progress": 1,
-  Completed: 2,
-  Closed: 3,
-  Archived: 4,
+  "In Development": 2,
+  Completed: 3,
+  Closed: 4,
+  Archived: 5,
 };
 
 export const getAllProjects = async (): Promise<Project[]> => {
