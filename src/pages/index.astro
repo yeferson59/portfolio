@@ -6,9 +6,91 @@ import Metrics from "@/components/sections/Metrics.astro";
 import Projects from "@/components/sections/Projects.astro";
 import Services from "@/components/sections/Services.astro";
 import Contact from "@/components/sections/Contact.astro";
+import { developer, siteMetadata } from "@/data/site";
+
+// Enhanced schema markup for developer and services
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${siteMetadata.siteUrl}#person`,
+      name: developer.name,
+      jobTitle: developer.title,
+      description: developer.description,
+      url: siteMetadata.siteUrl,
+      email: developer.email,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Pamplona",
+        addressCountry: "Colombia"
+      },
+      sameAs: [
+        "https://github.com/yeferson59",
+        "https://www.linkedin.com/in/yeferson-toloza-42a6a7279",
+        "https://x.com/yefersont59"
+      ],
+      knowsAbout: [
+        "Backend Development",
+        "API Architecture",
+        "Database Design",
+        "System Integration",
+        "Performance Optimization",
+        "Node.js",
+        "TypeScript",
+        "PostgreSQL",
+        "Microservices",
+        "Docker"
+      ]
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": `${siteMetadata.siteUrl}#service`,
+      name: "Backend Development Services",
+      description: "Professional backend development and system architecture services",
+      provider: {
+        "@id": `${siteMetadata.siteUrl}#person`
+      },
+      serviceType: [
+        "API Development & Architecture",
+        "Database Design & Optimization", 
+        "System Integration & Migration",
+        "Performance Audit & Scaling"
+      ],
+      areaServed: "Worldwide",
+      availableLanguage: ["English", "Spanish"]
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteMetadata.siteUrl}#website`,
+      url: siteMetadata.siteUrl,
+      name: siteMetadata.siteName,
+      description: siteMetadata.description,
+      publisher: {
+        "@id": `${siteMetadata.siteUrl}#person`
+      },
+      inLanguage: "en-US"
+    }
+  ]
+};
+
+const head = {
+  title: "Professional Backend Developer - API Architecture & Database Optimization",
+  description: siteMetadata.description,
+  type: "website" as const,
+  structuredData,
+  keywords: [
+    "hire backend developer",
+    "API development services",
+    "database optimization",
+    "system architecture consultant",
+    "microservices expert",
+    "scalable backend solutions"
+  ]
+};
 ---
 
-<Layout>
+<Layout {head}>
   <About />
   <Skills />
   <Metrics />
