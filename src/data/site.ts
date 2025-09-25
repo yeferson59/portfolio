@@ -226,14 +226,16 @@ export const siteMetadata = {
   type: "website",
   twitterHandle: "@yefersont59",
   image: {
-    url: "/favicon.svg", // Using favicon as fallback until og-image.jpg is created
+    url: "/og-image.png",
     alt: "Yeferson Toloza - Full-Stack Developer Portfolio",
     width: 1200,
     height: 630,
   },
   favicon: {
-    icon: "/favicon.svg",
-    appleTouchIcon: "/favicon.svg", // Using favicon as fallback
+    icon: "/favicon.ico",
+    iconThirdTwoForThirdTwo: "/favicon-32x32.png",
+    iconSixteenForSixteen: "/favicon-16x16.png",
+    appleTouchIcon: "/apple-touch-icon.png",
     manifest: "/site.webmanifest",
   },
   robots: {

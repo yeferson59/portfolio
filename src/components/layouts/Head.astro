@@ -182,8 +182,23 @@ const finalStructuredData = structuredData || defaultStructuredData;
 <link rel="canonical" href={canonicalUrl} />
 
 <!-- Favicon and Icons -->
-<link rel="icon" type="image/svg+xml" href={siteMetadata.favicon.icon} />
-<link rel="apple-touch-icon" href={siteMetadata.favicon.appleTouchIcon} />
+<link
+  rel="apple-touch-icon"
+  sizes="180x180"
+  href={siteMetadata.favicon.appleTouchIcon}
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="32x32"
+  href={siteMetadata.favicon.iconThirdTwoForThirdTwo}
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="16x16"
+  href={siteMetadata.favicon.iconSixteenForSixteen}
+/>
 <link rel="manifest" href={siteMetadata.favicon.manifest} />
 
 <!-- Open Graph Meta Tags -->
@@ -259,7 +274,7 @@ const finalStructuredData = structuredData || defaultStructuredData;
 <link rel="dns-prefetch" href="//avatars.githubusercontent.com" />
 
 <!-- Preload critical resources -->
-<link rel="preload" href="/favicon.svg" as="image" type="image/svg+xml" />
+<link rel="preload" href={siteMetadata.favicon.icon} as="image" />
 
 <!-- Early hints for Core Web Vitals -->
 <link rel="modulepreload" href="/_astro/client.js" />
