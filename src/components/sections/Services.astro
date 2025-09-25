@@ -1,32 +1,30 @@
 ---
 import SectionHeader from "@/components/layouts/SectionHeader.astro";
-import PricingCard from "@/components/layouts/PricingCard.astro";
+import ServiceCard from "@/components/layouts/ServiceCard.astro";
 import Card from "@/components/ui/Card.astro";
 import Button from "@/components/ui/Button.astro";
-import { getAllPricing } from "@/utils/pricing";
+import { getAllServices } from "@/utils/services";
 
-const plans = await getAllPricing();
+const services = await getAllServices();
 ---
 
-<section id="pricing" class="pricing-section">
+<section id="services" class="services-section scroll-reveal">
   <div class="container">
     <SectionHeader
-      title="Services & Pricing"
-      subtitle="Professional backend solutions tailored to your project's needs."
+      title="Professional Services"
+      subtitle="Technical solutions and consulting tailored to your project's needs."
     />
 
-    <div class="pricing-grid mb-3xl" style="padding-top: var(--space-lg);">
+    <div class="services-grid mb-3xl" style="padding-top: var(--space-lg);">
       {
-        plans.map(({ data: plan }) => (
-          <PricingCard
-            name={plan.name}
-            subtitle={plan.subtitle}
-            price={plan.price}
-            period={plan.period}
-            description={plan.description}
-            features={plan.features}
-            cta={plan.cta}
-            popular={plan.popular}
+        services.map(({ data: service }) => (
+          <ServiceCard
+            name={service.name}
+            subtitle={service.subtitle}
+            description={service.description}
+            features={service.features}
+            cta={service.cta}
+            featured={service.featured}
           />
         ))
       }
@@ -62,3 +60,27 @@ const plans = await getAllPricing();
     </div>
   </div>
 </section>
+
+<style>
+  .services-section {
+    padding: var(--space-3xl) 0;
+  }
+
+  .services-grid {
+    display: grid;
+    gap: var(--space-xl);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 768px) {
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .services-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

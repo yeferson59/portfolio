@@ -19,6 +19,7 @@ const projects = defineCollection({
       "Active",
       "Completed",
       "In Progress",
+      "In Development",
       "Archived",
       "Closed",
     ]),
@@ -33,26 +34,27 @@ const projects = defineCollection({
         "Blockchain",
         "Storage",
         "E-commerce",
+        "Middleware",
+        "Database",
+        "Monitoring",
       ])
       .optional(),
   }),
 });
 
-const pricing = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/pricings" }),
+const services = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/services" }),
   schema: z.object({
     name: z.string(),
     subtitle: z.string(),
-    price: z.string(),
-    period: z.string().optional(),
     description: z.string(),
     features: z.array(z.string()),
     cta: z.string(),
-    popular: z.boolean(),
+    featured: z.boolean().optional().default(false),
   }),
 });
 
 export const collections = {
   projects,
-  pricing,
+  services,
 };

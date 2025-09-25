@@ -256,6 +256,13 @@ const finalStructuredData = structuredData || defaultStructuredData;
 <!-- DNS Prefetch for Performance -->
 <link rel="dns-prefetch" href="//fonts.googleapis.com" />
 <link rel="dns-prefetch" href="//www.google-analytics.com" />
+<link rel="dns-prefetch" href="//avatars.githubusercontent.com" />
+
+<!-- Preload critical resources -->
+<link rel="preload" href="/favicon.svg" as="image" type="image/svg+xml" />
+
+<!-- Early hints for Core Web Vitals -->
+<link rel="modulepreload" href="/_astro/client.js" />
 
 <!-- Theme Color -->
 <meta name="theme-color" content="#0f172a" />
