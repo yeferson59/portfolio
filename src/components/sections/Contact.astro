@@ -45,6 +45,7 @@ const subtitle =
                     variant={method.variant}
                     size="sm"
                     href={method.action}
+                    aria-label={`Contact via ${method.label}: ${method.value}`}
                   >
                     Get in touch
                     <svg
@@ -54,6 +55,7 @@ const subtitle =
                       stroke="currentColor"
                       stroke-width="2"
                       viewBox="0 0 24 24"
+                      aria-hidden="true"
                     >
                       <path
                         stroke-linecap="round"
@@ -81,10 +83,10 @@ const subtitle =
           </p>
         </div>
 
-        <form class="space-y-lg">
+        <form class="space-y-lg" novalidate>
           <div class="gap-md grid grid-cols-1 md:grid-cols-2">
             <div class="form-group">
-              <label for="name" class="form-label">Name</label>
+              <label for="name" class="form-label">Name*</label>
               <input
                 id="name"
                 name="name"
@@ -92,10 +94,13 @@ const subtitle =
                 required
                 placeholder="Your name"
                 class="form-input"
+                aria-describedby="name-error"
+                aria-invalid="false"
               />
+              <div id="name-error" class="form-error" role="alert" aria-live="polite"></div>
             </div>
             <div class="form-group">
-              <label for="email" class="form-label">Email</label>
+              <label for="email" class="form-label">Email*</label>
               <input
                 id="email"
                 name="email"
@@ -103,12 +108,15 @@ const subtitle =
                 required
                 placeholder="your@email.com"
                 class="form-input"
+                aria-describedby="email-error"
+                aria-invalid="false"
               />
+              <div id="email-error" class="form-error" role="alert" aria-live="polite"></div>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="subject" class="form-label">Subject</label>
+            <label for="subject" class="form-label">Subject*</label>
             <input
               id="subject"
               name="subject"
@@ -116,18 +124,24 @@ const subtitle =
               required
               placeholder="What would you like to talk about?"
               class="form-input"
+              aria-describedby="subject-error"
+              aria-invalid="false"
             />
+            <div id="subject-error" class="form-error" role="alert" aria-live="polite"></div>
           </div>
 
           <div class="form-group">
-            <label for="message" class="form-label">Message</label>
+            <label for="message" class="form-label">Message*</label>
             <textarea
               id="message"
               name="message"
               rows="6"
               required
               placeholder="Tell me about your project..."
-              class="form-input form-textarea"></textarea>
+              class="form-input form-textarea"
+              aria-describedby="message-error"
+              aria-invalid="false"></textarea>
+            <div id="message-error" class="form-error" role="alert" aria-live="polite"></div>
           </div>
 
           <div
@@ -136,7 +150,7 @@ const subtitle =
             <p class="text-secondary max-w-xs text-sm leading-relaxed">
               By submitting, you agree to be contacted. No spam.
             </p>
-            <Button type="submit" size="lg">
+            <Button type="submit" size="lg" aria-describedby="submit-status">
               Send Message
               <svg
                 width="20"
@@ -145,6 +159,7 @@ const subtitle =
                 stroke="currentColor"
                 stroke-width="2"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path
                   stroke-linecap="round"
@@ -153,6 +168,7 @@ const subtitle =
               </svg>
             </Button>
           </div>
+          <div id="submit-status" class="form-status" role="status" aria-live="polite"></div>
         </form>
       </Card>
     </div>

@@ -117,8 +117,9 @@ const getLinkIcon = (type: string = "repository") => {
             size="sm"
             href={link.url}
             class="project-card__link"
+            aria-label={`${link.name} for ${title} project - ${link.type === "repository" ? "View source code" : link.type === "demo" ? "View live demo" : link.type === "documentation" ? "View documentation" : "View link"}`}
           >
-            <span set:html={getLinkIcon(link.type)} />
+            <span set:html={getLinkIcon(link.type)} aria-hidden="true" />
             <span class="project-card__link-text">{link.name}</span>
           </Button>
         ))

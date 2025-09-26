@@ -25,12 +25,12 @@ import {
             socialLinks.map((social) => (
               <a
                 href={social.href}
-                aria-label={social.label}
+                aria-label={`Visit ${social.label} profile (opens in new tab)`}
                 class="icon hover-grow"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span set:html={social.icon} />
+                <span set:html={social.icon} aria-hidden="true" />
               </a>
             ))
           }
