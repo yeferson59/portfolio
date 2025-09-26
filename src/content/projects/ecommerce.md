@@ -1,6 +1,6 @@
 ---
 title: "Scalable E-commerce API"
-description: "Modular REST API with JWT authentication, caching (Redis), and metrics. Architecture optimized for high concurrency and low latency."
+description: "Modular REST API with JWT authentication, caching (Redis), and metrics. Using ORM Drizzle with PostgreSQL"
 stack:
   [
     "Bun.js",
