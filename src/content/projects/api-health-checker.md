@@ -13,8 +13,14 @@ stack:
     "Docker",
   ]
 year: 2025
-status: "In Development" 
-href: "https://github.com/yeferson59/api-health-checker"
+status: "In Development"
+links:
+  - name: "Main Repository"
+    url: "https://github.com/yeferson59/api-health-checker"
+    type: "repository"
+  - name: "Live Demo"
+    url: "https://api-health-checker-demo.vercel.app"
+    type: "demo"
 featured: false
 category: "Monitoring"
 ---
