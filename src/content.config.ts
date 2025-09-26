@@ -23,7 +23,18 @@ const projects = defineCollection({
       "Archived",
       "Closed",
     ]),
-    href: z.string().url("Must be a valid URL"),
+    links: z
+      .array(
+        z.object({
+          name: z.string().min(1, "Link name is required"),
+          url: z.string().url("Must be a valid URL"),
+          type: z
+            .enum(["repository", "demo", "documentation", "api"])
+            .optional()
+            .default("repository"),
+        }),
+      )
+      .min(1, "At least one link is required"),
     featured: z.boolean().optional().default(false),
     category: z
       .enum([
