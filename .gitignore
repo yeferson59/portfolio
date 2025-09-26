@@ -24,3 +24,14 @@ pnpm-debug.log*
 .idea/
 
 package-lock.json
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+# Test coverage
+coverage/
+.nyc_output/
