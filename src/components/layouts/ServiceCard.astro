@@ -27,7 +27,9 @@ const {
   {
     featured && (
       <div class="service-card__badge">
-        <Badge variant="primary" class="featured-badge">⭐ Most Popular</Badge>
+        <Badge variant="primary" class="most-popular-badge">
+          Most Popular
+        </Badge>
       </div>
     )
   }
@@ -42,7 +44,9 @@ const {
 
     <div class="service-card__quote">
       <div class="service-card__quote-text">Get Quote</div>
-      <div class="service-card__quote-subtext">Custom pricing based on scope</div>
+      <div class="service-card__quote-subtext">
+        Custom pricing based on scope
+      </div>
     </div>
 
     <p class="service-card__description">{description}</p>
@@ -97,6 +101,7 @@ const {
     flex-direction: column;
     padding: var(--space-xl);
     margin-top: var(--space-sm);
+    overflow: visible;
   }
 
   .service-card--featured {
@@ -108,7 +113,9 @@ const {
     );
     transform: scale(1.02);
     box-shadow: 0 8px 30px rgba(42, 143, 255, 0.15);
-    margin-top: var(--space-lg);
+    margin-top: var(--space-2xl);
+    overflow: visible;
+    isolation: isolate;
   }
 
   .service-card--featured:hover {
@@ -119,27 +126,86 @@ const {
 
   .service-card__badge {
     position: absolute;
-    top: -8px;
+    top: -20px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 10;
+    z-index: 100;
     animation: featured-pulse 3s ease-in-out infinite;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+    pointer-events: none;
   }
 
   @keyframes featured-pulse {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateX(-50%) scale(1);
       opacity: 1;
     }
     50% {
-      transform: translateX(-50%) scale(1.02);
-      opacity: 0.95;
+      transform: translateX(-50%) scale(1.05);
+      opacity: 0.9;
     }
   }
 
   .service-card--featured:hover .service-card__badge {
     animation-play-state: paused;
-    transform: translateX(-50%) scale(1.05);
+    transform: translateX(-50%) scale(1.1);
+    filter: drop-shadow(0 6px 12px rgba(42, 143, 255, 0.2));
+  }
+
+  .most-popular-badge {
+    background: linear-gradient(
+      135deg,
+      rgba(42, 143, 255, 1) 0%,
+      rgba(34, 176, 126, 1) 100%
+    ) !important;
+    color: white !important;
+    font-weight: var(--font-weight-bold) !important;
+    font-size: var(--font-size-2xs) !important;
+    padding: var(--space-sm) var(--space-lg) !important;
+    border-radius: var(--radius-full) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    border: 2px solid rgba(255, 255, 255, 0.4) !important;
+    box-shadow:
+      0 4px 16px rgba(42, 143, 255, 0.4),
+      0 0 20px rgba(42, 143, 255, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+    backdrop-filter: blur(10px) !important;
+    white-space: nowrap !important;
+  }
+
+  .service-card--featured:hover .most-popular-badge {
+    background: linear-gradient(
+      135deg,
+      rgba(42, 143, 255, 1) 0%,
+      rgba(34, 176, 126, 1) 100%
+    ) !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 0 6px 16px rgba(42, 143, 255, 0.4) !important;
+  }
+
+  /* Responsive badge adjustments */
+  @media (max-width: 768px) {
+    .service-card__badge {
+      top: -18px;
+    }
+
+    .most-popular-badge {
+      font-size: var(--font-size-3xs) !important;
+      padding: var(--space-xs) var(--space-md) !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .service-card__badge {
+      top: -16px;
+    }
+
+    .most-popular-badge {
+      padding: 6px var(--space-sm) !important;
+      letter-spacing: 0.06em !important;
+    }
   }
 
   .service-card__header {
