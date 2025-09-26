@@ -4,7 +4,7 @@ frontend/.github/copilot-instructions.md
 
 **ALWAYS FOLLOW THESE INSTRUCTIONS FIRST.** Only search for additional context or run exploratory commands if the information here is incomplete or incorrect.
 
-Personal portfolio website built with Astro.js v5.13.7, TailwindCSS v4.1.13, and TypeScript 5.9.2. Features a dark theme design showcasing backend development services, skills, projects, and contact information with a modern, responsive layout.
+Personal portfolio website built with Astro.js v5.14.0, TailwindCSS v4.1.13, and TypeScript 5.9.2. Features a dark theme design showcasing backend development services, skills, projects, and contact information with a modern, responsive layout.
 
 ### Warning
 
@@ -92,11 +92,11 @@ npm run format:check
 1. **Homepage Loading**:
    - Visit http://localhost:4321/
    - Verify dark theme loads correctly
-   - Check all sections are visible: About, Skills, Projects, Pricing, Contact
+   - Check all sections are visible: About, Skills, Metrics, Projects, Services, Contact
 
 2. **Navigation Testing**:
    - Test smooth scrolling between sections
-   - Verify all navigation links work (About, Skills, Projects, Pricing, Contact)
+   - Verify all navigation links work (About, Skills, Metrics, Projects, Services, Contact)
    - Check mobile menu functionality (hamburger menu on mobile)
 
 3. **Interactive Elements**:
@@ -145,14 +145,14 @@ npm run astro check
 
 ### Node.js Version
 
-- Compatible with Node.js 18+ (required by Astro v5.13.7)
+- Compatible with Node.js 18+ (required by Astro v5.14.0)
 - Use `node --version` to verify
 
 ### Dependencies
 
 **Core dependencies** (automatically installed):
 
-- `astro` v5.13.7 - Static site generator
+- `astro` v5.14.0 - Static site generator
 - `@astrojs/check` v0.9.4 - Type checking for Astro
 - `@tailwindcss/vite` v4.1.13 - Vite integration for TailwindCSS
 - `tailwindcss` v4.1.13 - Utility-first CSS framework
@@ -174,7 +174,7 @@ npm run astro check
 ### Key Directories
 
 ```
-frontend/
+portfolio/
 ├── src/                    # Source code
 │   ├── components/         # Astro components (organized by type)
 │   │   ├── layouts/        # Layout components (Header, Footer, etc.)
@@ -219,7 +219,7 @@ Components are organized by type in `src/components/`:
 - `Navigation.astro` - Desktop navigation
 - `ScrollReveal.astro` - JavaScript for smooth scrolling and animations
 - `SectionHeader.astro` - Reusable section headers
-- `PricingCard.astro` - Pricing tier cards
+- `ServiceCard.astro` - Service showcase cards
 - `ProjectCard.astro` - Project showcase cards
 - `SkillCard.astro` - Skill progress cards
 
@@ -228,7 +228,7 @@ Components are organized by type in `src/components/`:
 - `About.astro` - About section with skills highlights
 - `Skills.astro` - Technical skills with progress bars
 - `Projects.astro` - Featured projects showcase
-- `Pricing.astro` - Service pricing tiers
+- `Services.astro` - Professional services showcase
 - `Contact.astro` - Contact form and information
 
 #### UI Components (`ui/`)
