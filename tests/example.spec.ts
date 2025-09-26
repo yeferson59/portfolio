@@ -1,11 +1,13 @@
 import { test, expect } from '@playwright/test';
 
+const PORTFOLIO_TITLE_PATTERN = /Backend Developer Portfolio/;
+
 test.describe('Portfolio Homepage', () => {
   test('has correct title and loads main sections', async ({ page }) => {
     await page.goto('/');
     
     // Check page title
-    await expect(page).toHaveTitle(/Backend Developer Portfolio/);
+    await expect(page).toHaveTitle(PORTFOLIO_TITLE_PATTERN);
     
     // Check main sections are visible
     await expect(page.getByText('About')).toBeVisible();
