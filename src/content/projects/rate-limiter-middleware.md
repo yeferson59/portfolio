@@ -14,7 +14,13 @@ stack:
   ]
 year: 2025
 status: "In Development"
-href: "https://github.com/yeferson59/rate-limiter-middleware"
+links:
+  - name: "Main Repository"
+    url: "https://github.com/yeferson59/rate-limiter-middleware"
+    type: "repository"
+  - name: "NPM Package"
+    url: "https://www.npmjs.com/package/@yeferson59/rate-limiter-middleware"
+    type: "api"
 featured: false
 category: "Middleware"
 ---
