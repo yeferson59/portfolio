@@ -6,216 +6,216 @@
 [![Node.js](https://img.shields.io/badge/Node.js-22+-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![bun.js](https://img.shields.io/badge/bun.js-1.2+-F5BABB?style=for-the-badge&logo=bun&logoColor=white)](https://bun.sh/)
 
-Un portfolio moderno y elegante construido con **Astro.js**, **TailwindCSS** y **TypeScript**, diseñado para destacar habilidades en desarrollo backend, proyectos destacados y servicios profesionales.
+A modern and elegant portfolio built with **Astro.js**, **TailwindCSS**, and **TypeScript**, designed to showcase backend development skills, featured projects, and professional services.
 
-## ✨ Características Principales
+## ✨ Key Features
 
-- 🎨 **Tema Oscuro Elegante**: Diseño moderno con gradientes y animaciones suaves
-- 📱 **Completamente Responsivo**: Optimizado para dispositivos móviles y desktop
-- ⚡ **Rendimiento Optimizado**: Generación estática rápida con Astro.js
-- 🛠️ **Tecnologías Modernas**: TypeScript, TailwindCSS v4, y mejores prácticas
-- 📧 **Formulario de Contacto**: Integración completa para consultas profesionales
-- 🎯 **Secciones Especializadas**: About, Skills, Projects, Pricing y Contact
+- 🎨 **Elegant Dark Theme**: Modern design with gradients and smooth animations
+- 📱 **Fully Responsive**: Optimized for mobile and desktop devices
+- ⚡ **Performance Optimized**: Fast static generation with Astro.js
+- 🛠️ **Modern Technologies**: TypeScript, TailwindCSS v4, and best practices
+- 📧 **Contact Form**: Complete integration for professional inquiries
+- 🎯 **Specialized Sections**: About, Skills, Projects, Services, and Contact
 
-## 🛠️ Tecnologías Utilizadas
+## 🛠️ Technologies Used
 
 ### Core Framework
 
-- **Astro.js 5.13.7** - Generador de sitios estáticos ultrarrápido
-- **TypeScript 5.9.2** - Tipado estático para mayor robustez
+- **Astro.js 5.14.0** - Ultra-fast static site generator
+- **TypeScript 5.9.2** - Static typing for greater robustness
 
-### Estilos y UI
+### Styles and UI
 
-- **TailwindCSS 4.1.13** - Framework CSS utility-first
-- **CSS Variables** - Tema oscuro personalizado con variables CSS
+- **TailwindCSS 4.1.13** - Utility-first CSS framework
+- **CSS Variables** - Custom dark theme with CSS variables
 
-### Desarrollo y Calidad
+### Development and Quality
 
-- **ESLint** - Linting y formateo de código
-- **Prettier** - Formateo automático del código
-- **@astrojs/check** - Validación de tipos para archivos .astro
+- **ESLint** - Code linting and formatting
+- **Prettier** - Automatic code formatting
+- **@astrojs/check** - Type validation for .astro files
 
-## 🚀 Instalación y Configuración
+## 🚀 Installation and Setup
 
-### Prerrequisitos
+### Prerequisites
 
-- **Node.js 18+** (verifica con `node --version`)
-- **npm** o **bun** (recomendado bun por el archivo `bun.lock`)
+- **Node.js 18+** (verify with `node --version`)
+- **npm** or **bun** (bun recommended due to `bun.lock` file)
 
-### Instalación
+### Installation
 
 ```bash
-# Clona el repositorio
-git clone <tu-repositorio-url>
-cd frontend
+# Clone the repository
+git clone <your-repository-url>
+cd portfolio
 
-# Instala dependencias (toma ~45-60 segundos)
+# Install dependencies (takes ~45-60 seconds)
 npm install
-# o si usas bun:
+# or if using bun:
 bun install
 
-# Verifica la instalación
+# Verify installation
 npm run astro -- --version
 ```
 
-## 📋 Scripts Disponibles
+## 📋 Available Scripts
 
-| Comando               | Descripción                                               | Tiempo Estimado |
-| --------------------- | --------------------------------------------------------- | --------------- |
-| `npm run dev`         | Inicia servidor de desarrollo en `http://localhost:4321/` | ~2-5s           |
-| `npm run build`       | Construye para producción en `./dist/`                    | ~3-5s           |
-| `npm run preview`     | Vista previa del build en `http://localhost:4321/`        | ~2-3s           |
-| `npm run lint`        | Ejecuta ESLint para verificar código                      | ~5-10s          |
-| `npm run lint:fix`    | Corrige automáticamente errores de linting                | ~5-10s          |
-| `npm run format`      | Formatea código con Prettier                              | ~5-10s          |
-| `npm run astro check` | Valida tipos TypeScript en archivos .astro                | ~5-10s          |
+| Command               | Description                                          | Estimated Time |
+| --------------------- | ---------------------------------------------------- | -------------- |
+| `npm run dev`         | Start development server at `http://localhost:4321/` | ~2-5s          |
+| `npm run build`       | Build for production in `./dist/`                    | ~3-5s          |
+| `npm run preview`     | Preview build at `http://localhost:4321/`            | ~2-3s          |
+| `npm run lint`        | Run ESLint to check code                             | ~5-10s         |
+| `npm run lint:fix`    | Automatically fix linting issues                     | ~5-10s         |
+| `npm run format`      | Format code with Prettier                            | ~5-10s         |
+| `npm run astro check` | Validate TypeScript in .astro files                  | ~5-10s         |
 
-## 📁 Estructura del Proyecto
+## 📁 Project Structure
 
 ```
-frontend/
+portfolio/
 ├── src/
 │   ├── components/
 │   │   ├── layouts/          # Header, Footer, SectionHeader
-│   │   ├── sections/         # About, Skills, Projects, Pricing, Contact
-│   │   └── ui/               # Componentes reutilizables (Card, Badge, Button)
+│   │   ├── sections/         # About, Skills, Projects, Services, Contact
+│   │   └── ui/               # Reusable components (Card, Badge, Button)
 │   ├── layouts/
-│   │   └── Layout.astro      # Layout base con meta tags y estructura
+│   │   └── Layout.astro      # Base layout with meta tags and structure
 │   ├── pages/
-│   │   └── index.astro       # Página principal
+│   │   └── index.astro       # Main page
 │   └── styles/
-│       └── main.css          # Estilos globales y tema oscuro
-├── public/                   # Assets estáticos (imágenes, favicon)
-├── astro.config.mjs          # Configuración de Astro
-├── package.json              # Dependencias y scripts
-├── tsconfig.json             # Configuración TypeScript
-└── tailwind.config.mjs       # Configuración TailwindCSS
+│       └── main.css          # Global styles and dark theme
+├── public/                   # Static assets (images, favicon)
+├── astro.config.mjs          # Astro configuration
+├── package.json              # Dependencies and scripts
+├── tsconfig.json             # TypeScript configuration
+└── tailwind.config.mjs       # TailwindCSS configuration
 ```
 
-## 🎯 Secciones del Portfolio
+## 🎯 Portfolio Sections
 
-### 👨‍💻 Sobre Mí
+### 👨‍💻 About Me
 
-- Perfil profesional con avatar y descripción
-- Habilidades destacadas en badges
-- Características principales: código claro, rendimiento, seguridad, observabilidad
+- Professional profile with avatar and description
+- Featured skills in badges
+- Key characteristics: clean code, performance, security, observability
 
-### 🛠️ Habilidades Técnicas
+### 🛠️ Technical Skills
 
-- Barra de progreso para cada tecnología
-- Categorización por áreas (Backend, Bases de Datos, DevOps, etc.)
-- Animaciones suaves al hacer scroll
+- Progress bar for each technology
+- Categorization by areas (Backend, Databases, DevOps, etc.)
+- Smooth animations on scroll
 
-### 💼 Proyectos
+### 💼 Projects
 
-- Tarjetas de proyectos con descripciones
-- Enlaces a repositorios y demos
-- Tecnologías utilizadas en cada proyecto
+- Project cards with descriptions
+- Links to repositories and demos
+- Technologies used in each project
 
-### 💰 Precios
+### 💰 Services
 
-- Paquetes de servicios (Básico, Profesional, Enterprise)
-- Características incluidas en cada plan
-- Llamado a la acción para contactar
+- Service packages (Basic, Professional, Enterprise)
+- Features included in each plan
+- Call-to-action to contact
 
-### 📞 Contacto
+### 📞 Contact
 
-- Formulario funcional con validación
-- Información de contacto (email, LinkedIn, etc.)
-- Redes sociales y enlaces profesionales
+- Functional form with validation
+- Contact information (email, LinkedIn, etc.)
+- Social networks and professional links
 
-## 🔧 Desarrollo
+## 🔧 Development
 
-### Servidor de Desarrollo
+### Development Server
 
 ```bash
 npm run dev
 ```
 
-- Hot reload automático
-- Servidor en `http://localhost:4321/`
-- Integración con Vite para builds rápidos
+- Automatic hot reload
+- Server at `http://localhost:4321/`
+- Vite integration for fast builds
 
-### Build de Producción
+### Production Build
 
 ```bash
 npm run build
 ```
 
-- Genera archivos estáticos en `./dist/`
-- Optimización automática de CSS y JS
-- Tiempo de build: ~3-5 segundos
+- Generates static files in `./dist/`
+- Automatic CSS and JS optimization
+- Build time: ~3-5 seconds
 
-### Validación de Tipos
+### Type Validation
 
 ```bash
 npm run astro check
 ```
 
-- Verifica tipos en archivos .astro y .ts
-- Requiere instalación previa de dependencias de desarrollo
+- Verifies types in .astro and .ts files
+- Requires prior installation of development dependencies
 
-## 🎨 Personalización
+## 🎨 Customization
 
-### Cambiar Contenido
+### Change Content
 
-- **Texto**: Edita directamente en los componentes `.astro`
-- **Estilos**: Modifica `src/styles/main.css` o usa clases Tailwind
-- **Imágenes**: Agrega a `public/` y referencia con `/nombre-archivo.ext`
+- **Text**: Edit directly in `.astro` components
+- **Styles**: Modify `src/styles/main.css` or use Tailwind classes
+- **Images**: Add to `public/` and reference with `/filename.ext`
 
-### Tema y Diseño
+### Theme and Design
 
-- Variables CSS en `src/styles/main.css` para colores del tema oscuro
-- Gradientes y animaciones personalizables
-- Fuentes y tipografía ajustables
+- CSS variables in `src/styles/main.css` for dark theme colors
+- Customizable gradients and animations
+- Adjustable fonts and typography
 
-## 📱 Validación Manual
+## 📱 Manual Validation
 
-Después de cambios, valida manualmente:
+After changes, manually validate:
 
-1. **Carga de Homepage**: Verifica tema oscuro y todas las secciones
-2. **Navegación**: Prueba scroll suave entre secciones
-3. **Elementos Interactivos**: Formulario de contacto, botones, barras de progreso
-4. **Responsive**: Prueba en diferentes tamaños de pantalla
-5. **Build**: Ejecuta `npm run build` y `npm run preview`
+1. **Homepage Loading**: Verify dark theme and all sections
+2. **Navigation**: Test smooth scrolling between sections
+3. **Interactive Elements**: Contact form, buttons, progress bars
+4. **Responsive**: Test on different screen sizes
+5. **Build**: Run `npm run build` and `npm run preview`
 
-## 🚀 Despliegue
+## 🚀 Deployment
 
-### Preparación para Producción
+### Production Preparation
 
 ```bash
-# Build final
+# Final build
 npm run build
 
-# Vista previa local
+# Local preview
 npm run preview
 
-# El contenido de ./dist/ está listo para desplegar
+# Content in ./dist/ is ready to deploy
 ```
 
-### Opciones de Despliegue
+### Deployment Options
 
-- **Vercel**: Despliegue automático desde Git
-- **Netlify**: Integración con builds estáticos
-- **GitHub Pages**: Despliegue gratuito
-- **Servidor propio**: Sirve archivos desde `./dist/`
+- **Vercel**: Automatic deployment from Git
+- **Netlify**: Static build integration
+- **GitHub Pages**: Free deployment
+- **Own server**: Serve files from `./dist/`
 
-## 🤝 Contribución
+## 🤝 Contributing
 
-¡Las contribuciones son bienvenidas! Para contribuir:
+Contributions are welcome! To contribute:
 
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+1. Fork the project
+2. Create a branch for your feature (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 📄 Licencia
+## 📄 License
 
-Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
+This project is under the MIT License - see the [LICENSE](LICENSE) file for more details.
 
 ---
 
-⭐ **¡Si te gusta este proyecto, dale una estrella!**
+⭐ **If you like this project, give it a star!**
 
-Hecho con ❤️ usando Astro.js y TailwindCSS
+Made with ❤️ using Astro.js and TailwindCSS

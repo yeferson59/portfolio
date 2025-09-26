@@ -19,13 +19,16 @@ const { isOpen = false, class: className = "" } = Astro.props;
   <nav class="mobile-menu__nav">
     {
       mobileNavigationItems.map((item) => (
-        <a 
-          href={item.href} 
-          aria-label={`Navigate to ${item.label} section`} 
+        <a
+          href={item.href}
+          aria-label={`Navigate to ${item.label} section`}
           class="mobile-menu__link"
         >
           <div class="accent-dot" aria-hidden="true" />
-          <span set:html={icons[item.icon as keyof typeof icons]} aria-hidden="true" />
+          <span
+            set:html={icons[item.icon as keyof typeof icons]}
+            aria-hidden="true"
+          />
           {item.label}
         </a>
       ))
@@ -50,16 +53,18 @@ const { isOpen = false, class: className = "" } = Astro.props;
       mobileMenuButton.addEventListener("click", function () {
         const isCurrentlyOpen = mobileMenu.classList.contains("open");
         mobileMenu.classList.toggle("open");
-        
+
         // Update ARIA attributes
         const newIsOpen = !isCurrentlyOpen;
         mobileMenuButton.setAttribute("aria-expanded", newIsOpen.toString());
         mobileMenu.setAttribute("aria-hidden", (!newIsOpen).toString());
-        
+
         // Focus management
         if (newIsOpen) {
           // Focus first menu item when opening
-          const firstLink = mobileMenu.querySelector(".mobile-menu__link") as HTMLElement;
+          const firstLink = mobileMenu.querySelector(
+            ".mobile-menu__link",
+          ) as HTMLElement;
           if (firstLink) {
             setTimeout(() => firstLink.focus(), 100);
           }
