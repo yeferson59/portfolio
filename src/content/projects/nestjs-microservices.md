@@ -13,7 +13,19 @@ stack:
   ]
 year: 2025
 status: Closed
-href: https://github.com/yeferson59/client-gateway-msc.git
+links:
+  - name: "Client Gateway"
+    url: "https://github.com/yeferson59/client-gateway-msc"
+    type: "repository"
+  - name: "Market Service"
+    url: "https://github.com/yeferson59/market-msc"
+    type: "repository"
+  - name: "User Service"
+    url: "https://github.com/yeferson59/users-msc"
+    type: "repository"
+  - name: "Auth Service"
+    url: "https://github.com/yeferson59/auth-service"
+    type: "repository"
 featured: true
 category: Microservices
 ---
