@@ -18,7 +18,7 @@ const sortServices = (services: Service[]): Service[] => {
     // Featured services first
     if (a.data.featured && !b.data.featured) return -1;
     if (!a.data.featured && b.data.featured) return 1;
-    
+
     // Then alphabetically
     return a.data.name.localeCompare(b.data.name);
   });

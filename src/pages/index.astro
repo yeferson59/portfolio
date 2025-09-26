@@ -23,12 +23,12 @@ const structuredData = {
       address: {
         "@type": "PostalAddress",
         addressLocality: "Pamplona",
-        addressCountry: "Colombia"
+        addressCountry: "Colombia",
       },
       sameAs: [
         "https://github.com/yeferson59",
         "https://www.linkedin.com/in/yeferson-toloza-42a6a7279",
-        "https://x.com/yefersont59"
+        "https://x.com/yefersont59",
       ],
       knowsAbout: [
         "Backend Development",
@@ -40,25 +40,26 @@ const structuredData = {
         "TypeScript",
         "PostgreSQL",
         "Microservices",
-        "Docker"
-      ]
+        "Docker",
+      ],
     },
     {
       "@type": "ProfessionalService",
       "@id": `${siteMetadata.siteUrl}#service`,
       name: "Backend Development Services",
-      description: "Professional backend development and system architecture services",
+      description:
+        "Professional backend development and system architecture services",
       provider: {
-        "@id": `${siteMetadata.siteUrl}#person`
+        "@id": `${siteMetadata.siteUrl}#person`,
       },
       serviceType: [
         "API Development & Architecture",
-        "Database Design & Optimization", 
+        "Database Design & Optimization",
         "System Integration & Migration",
-        "Performance Audit & Scaling"
+        "Performance Audit & Scaling",
       ],
       areaServed: "Worldwide",
-      availableLanguage: ["English", "Spanish"]
+      availableLanguage: ["English", "Spanish"],
     },
     {
       "@type": "WebSite",
@@ -67,15 +68,16 @@ const structuredData = {
       name: siteMetadata.siteName,
       description: siteMetadata.description,
       publisher: {
-        "@id": `${siteMetadata.siteUrl}#person`
+        "@id": `${siteMetadata.siteUrl}#person`,
       },
-      inLanguage: "en-US"
-    }
-  ]
+      inLanguage: "en-US",
+    },
+  ],
 };
 
 const head = {
-  title: "Professional Backend Developer - API Architecture & Database Optimization",
+  title:
+    "Professional Backend Developer - API Architecture & Database Optimization",
   description: siteMetadata.description,
   type: "website" as const,
   structuredData,
@@ -85,8 +87,8 @@ const head = {
     "database optimization",
     "system architecture consultant",
     "microservices expert",
-    "scalable backend solutions"
-  ]
+    "scalable backend solutions",
+  ],
 };
 ---
 
