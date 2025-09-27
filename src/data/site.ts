@@ -1,3 +1,5 @@
+import { config } from "@/config";
+
 /**
  * Centralized site configuration and data
  * This file contains all repeated information used across the project
@@ -186,7 +188,7 @@ export const siteMetadata = {
   titleTemplate: "%s | Backend Developer Portfolio",
   description:
     "Professional Backend Developer specializing in scalable API architecture, database optimization, and high-performance systems. Expert in Node.js, PostgreSQL, microservices, and cloud-native solutions.",
-  siteUrl: "https://portfolio-yefersons-projects.vercel.app", // Update with actual domain
+  siteUrl: config.baseUrl,
   siteName: "Yeferson Toloza - Full-Stack Developer",
   author: developer.name,
   authorEmail: developer.email,
