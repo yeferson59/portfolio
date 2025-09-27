@@ -1,0 +1,223 @@
+---
+import { generatePageNumbers } from "@/utils/pagination";
+
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  baseUrl?: string;
+  class?: string;
+}
+
+const { currentPage, totalPages, baseUrl = "/projects", class: className = "" } = Astro.props;
+
+const pageNumbers = generatePageNumbers(currentPage, totalPages, 5);
+const hasMultiplePages = totalPages > 1;
+
+// Generate URLs for pagination
+const getPageUrl = (page: number) => {
+  if (page === 1) return baseUrl;
+  return `${baseUrl}/${page}`;
+};
+---
+
+{hasMultiplePages && (
+  <nav class={`pagination ${className}`} aria-label="Projects pagination">
+    <div class="pagination__container">
+      
+      <!-- First and Previous buttons -->
+      <div class="pagination__nav pagination__nav--prev">
+        {currentPage > 1 ? (
+          <>
+            <a href={getPageUrl(1)} class="pagination__button pagination__button--nav" aria-label="First page">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m11 17-5-5 5-5m6 5h-12"/>
+              </svg>
+              First
+            </a>
+            <a href={getPageUrl(currentPage - 1)} class="pagination__button pagination__button--nav" aria-label="Previous page">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/>
+              </svg>
+              Prev
+            </a>
+          </>
+        ) : (
+          <>
+            <span class="pagination__button pagination__button--nav pagination__button--disabled" aria-disabled="true">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m11 17-5-5 5-5m6 5h-12"/>
+              </svg>
+              First
+            </span>
+            <span class="pagination__button pagination__button--nav pagination__button--disabled" aria-disabled="true">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/>
+              </svg>
+              Prev
+            </span>
+          </>
+        )}
+      </div>
+
+      <!-- Page numbers -->
+      <div class="pagination__numbers">
+        {pageNumbers.map((page) => 
+          page === currentPage ? (
+            <span class="pagination__button pagination__button--current" aria-current="page">{page}</span>
+          ) : (
+            <a href={getPageUrl(page)} class="pagination__button pagination__button--page">{page}</a>
+          )
+        )}
+      </div>
+
+      <!-- Next and Last buttons -->
+      <div class="pagination__nav pagination__nav--next">
+        {currentPage < totalPages ? (
+          <>
+            <a href={getPageUrl(currentPage + 1)} class="pagination__button pagination__button--nav" aria-label="Next page">
+              Next
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/>
+              </svg>
+            </a>
+            <a href={getPageUrl(totalPages)} class="pagination__button pagination__button--nav" aria-label="Last page">
+              Last
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m13 17 5-5-5-5m-6 5h12"/>
+              </svg>
+            </a>
+          </>
+        ) : (
+          <>
+            <span class="pagination__button pagination__button--nav pagination__button--disabled" aria-disabled="true">
+              Next
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/>
+              </svg>
+            </span>
+            <span class="pagination__button pagination__button--nav pagination__button--disabled" aria-disabled="true">
+              Last
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m13 17 5-5-5-5m-6 5h12"/>
+              </svg>
+            </span>
+          </>
+        )}
+      </div>
+    </div>
+
+    <!-- Page info -->
+    <div class="pagination__info">
+      <span class="text-secondary text-sm">
+        Page {currentPage} of {totalPages}
+      </span>
+    </div>
+  </nav>
+)}
+
+<style>
+  .pagination {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    align-items: center;
+    padding: var(--space-xl) 0;
+  }
+
+  .pagination__container {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .pagination__nav {
+    display: flex;
+    gap: var(--space-sm);
+  }
+
+  .pagination__numbers {
+    display: flex;
+    gap: var(--space-xs);
+  }
+
+  .pagination__button {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    transition: all var(--transition-fast);
+    text-decoration: none;
+    min-width: 2.5rem;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    background: var(--surface-secondary);
+    color: var(--text-secondary);
+  }
+
+  .pagination__button:hover:not(.pagination__button--disabled):not(.pagination__button--current) {
+    background: var(--surface-hover);
+    color: var(--text-primary);
+    border-color: var(--border-hover);
+    transform: translateY(-1px);
+  }
+
+  .pagination__button--current {
+    background: var(--accent-primary);
+    color: var(--surface-primary);
+    border-color: var(--accent-primary);
+    cursor: default;
+  }
+
+  .pagination__button--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--surface-secondary);
+    color: var(--text-muted);
+  }
+
+  .pagination__button--nav {
+    font-size: var(--font-size-sm);
+  }
+
+  .pagination__button--page {
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+  }
+
+  .pagination__info {
+    text-align: center;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .pagination__container {
+      gap: var(--space-sm);
+    }
+    
+    .pagination__button {
+      padding: var(--space-xs) var(--space-sm);
+      font-size: var(--font-size-xs);
+    }
+
+    .pagination__button--page {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .pagination__nav {
+      gap: var(--space-xs);
+    }
+
+    .pagination__numbers {
+      order: -1;
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
