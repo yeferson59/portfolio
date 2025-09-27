@@ -9,7 +9,7 @@ test.describe("Portfolio Homepage", () => {
     // Check page title
     await expect(page).toHaveTitle(PORTFOLIO_TITLE_PATTERN, { timeout: 10000 });
 
-    // Check main sections are visible with timeouts (usando selectores estrictos)
+    // Check main sections are visible with timeouts (using strict selectors)
     await expect(page.getByRole("heading", { name: "About Me" })).toBeVisible({
       timeout: 10000,
     });
