@@ -12,7 +12,7 @@ describe("Page Sections Integration Tests", () => {
 
       // Should contain section structure
       expect(result).toContain("section");
-      
+
       // Should have meaningful content (checking for common about section elements)
       expect(result.length).toBeGreaterThan(100); // Should have substantial content
     });
@@ -25,17 +25,17 @@ describe("Page Sections Integration Tests", () => {
 
       // Should contain section structure
       expect(result).toContain("section");
-      
+
       // Should have meaningful content
       expect(result.length).toBeGreaterThan(100);
-      
+
       // Skills section might contain progress bars, lists, or skill cards
-      const hasSkillIndicators = 
-        result.includes("progress") || 
-        result.includes("skill") || 
+      const hasSkillIndicators =
+        result.includes("progress") ||
+        result.includes("skill") ||
         result.includes("technology") ||
         result.includes("stack");
-        
+
       expect(hasSkillIndicators).toBe(true);
     });
   });
@@ -47,14 +47,14 @@ describe("Page Sections Integration Tests", () => {
 
       // Should contain section structure
       expect(result).toContain("section");
-      
+
       // Should have form elements
-      const hasFormElements = 
-        result.includes("form") || 
-        result.includes("input") || 
+      const hasFormElements =
+        result.includes("form") ||
+        result.includes("input") ||
         result.includes("textarea") ||
         result.includes("contact");
-        
+
       expect(hasFormElements).toBe(true);
     });
 
@@ -63,9 +63,13 @@ describe("Page Sections Integration Tests", () => {
       const result = await container.renderToString(Contact);
 
       // Common contact form fields
-      const hasNameField = result.includes('name="name"') || result.includes('placeholder') && result.includes('name');
-      const hasEmailField = result.includes('type="email"') || result.includes('name="email"');
-      const hasMessageField = result.includes('textarea') || result.includes('name="message"');
+      const hasNameField =
+        result.includes('name="name"') ||
+        (result.includes("placeholder") && result.includes("name"));
+      const hasEmailField =
+        result.includes('type="email"') || result.includes('name="email"');
+      const hasMessageField =
+        result.includes("textarea") || result.includes('name="message"');
 
       // Should have at least some form of contact mechanism
       expect(hasNameField || hasEmailField || hasMessageField).toBe(true);

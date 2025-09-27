@@ -58,7 +58,7 @@ describe("Button Component", () => {
     });
 
     expect(result).toContain("Link Button");
-    expect(result).toContain('<a');
+    expect(result).toContain("<a");
     expect(result).toContain('href="https://example.com"');
   });
 

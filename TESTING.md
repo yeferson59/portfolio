@@ -27,21 +27,23 @@ portfolio/
 
 ## Available Test Commands
 
-| Command                | Description                                    |
-| ---------------------- | ---------------------------------------------- |
-| `npm run test`         | Run all unit and integration tests            |
-| `npm run test:watch`   | Run tests in watch mode                       |
-| `npm run test:ui`      | Open Vitest UI for interactive testing        |
-| `npm run test:e2e`     | Run end-to-end tests                          |
-| `npm run test:e2e:ui`  | Run E2E tests with Playwright UI              |
-| `npm run test:all`     | Run all tests (unit + integration + E2E)      |
+| Command               | Description                              |
+| --------------------- | ---------------------------------------- |
+| `npm run test`        | Run all unit and integration tests       |
+| `npm run test:watch`  | Run tests in watch mode                  |
+| `npm run test:ui`     | Open Vitest UI for interactive testing   |
+| `npm run test:e2e`    | Run end-to-end tests                     |
+| `npm run test:e2e:ui` | Run E2E tests with Playwright UI         |
+| `npm run test:all`    | Run all tests (unit + integration + E2E) |
 
 ## Unit Testing with Vitest
 
 ### Overview
+
 Unit tests use Vitest with Astro's Container API to test individual components in isolation. The Container API allows rendering Astro components to strings for testing without a browser environment.
 
 ### Configuration
+
 - **Framework**: Vitest with happy-dom environment
 - **Location**: `src/test/`
 - **Pattern**: `**/*.{test,spec}.{js,ts}`
@@ -50,6 +52,7 @@ Unit tests use Vitest with Astro's Container API to test individual components i
 ### Writing Unit Tests
 
 #### Testing UI Components
+
 ```typescript
 import { experimental_AstroContainer as AstroContainer } from "astro/container";
 import { expect, test, describe } from "vitest";
@@ -72,6 +75,7 @@ describe("Button Component", () => {
 ```
 
 #### Testing with Props
+
 ```typescript
 test("renders secondary variant button", async () => {
   const container = await AstroContainer.create();
@@ -86,7 +90,7 @@ test("renders secondary variant button", async () => {
   });
 
   expect(result).toContain("btn--secondary");
-  expect(result).toContain('<a');
+  expect(result).toContain("<a");
   expect(result).toContain('href="https://example.com"');
 });
 ```
@@ -94,17 +98,20 @@ test("renders secondary variant button", async () => {
 ### Current Unit Tests
 
 #### Components Tested
+
 - **Button**: All variants, states, and prop combinations
 - **Card**: Different variants and hover states
 - **Badge**: All color variants and custom classes
 - **SectionHeader**: Title/subtitle combinations
 
 #### Integration Tests
+
 - **Page Sections**: About, Skills, Contact sections
 - **Content Validation**: Ensures sections render with expected content
 - **Form Elements**: Validates contact form structure
 
 ### Running Unit Tests
+
 ```bash
 # Run all tests once
 npm run test
@@ -118,10 +125,8 @@ npm run test:ui
 
 ## End-to-End Testing with Playwright
 
-### Overview
 E2E tests use Playwright to test the complete user experience across different browsers and viewports. Tests cover functionality, accessibility, performance, and SEO.
 
-### Configuration
 - **Browsers**: Chromium, Firefox, WebKit
 - **Base URL**: `http://localhost:4321`
 - **Auto-server**: Automatically starts preview server
@@ -129,7 +134,6 @@ E2E tests use Playwright to test the complete user experience across different b
 
 ### Test Categories
 
-#### 1. Homepage Functionality (`example.spec.ts`)
 - Page loading and title verification
 - Navigation functionality
 - Contact form interaction
@@ -137,6 +141,7 @@ E2E tests use Playwright to test the complete user experience across different b
 - Mobile menu functionality
 
 #### 2. Accessibility (`accessibility-performance.spec.ts`)
+
 - Heading hierarchy validation
 - Image alt text verification
 - Link accessibility
@@ -146,6 +151,7 @@ E2E tests use Playwright to test the complete user experience across different b
 - Console error detection
 
 #### 3. SEO and Metadata (`seo-metadata.spec.ts`)
+
 - Meta tag validation (title, description)
 - Open Graph tags
 - Twitter Card metadata
@@ -156,20 +162,21 @@ E2E tests use Playwright to test the complete user experience across different b
 - Robots meta tags
 
 ### Example E2E Test
-```typescript
-import { test, expect } from '@playwright/test';
 
-test.describe('Portfolio Homepage', () => {
-  test('has correct title and loads main sections', async ({ page }) => {
-    await page.goto('/');
-    
+```typescript
+import { test, expect } from "@playwright/test";
+
+test.describe("Portfolio Homepage", () => {
+  test("has correct title and loads main sections", async ({ page }) => {
+    await page.goto("/");
+
     // Check page title
     await expect(page).toHaveTitle(/Backend Developer Portfolio/);
-    
+
     // Check main sections are visible
-    await expect(page.getByText('About')).toBeVisible();
-    await expect(page.getByText('Skills')).toBeVisible();
-    await expect(page.getByText('Projects')).toBeVisible();
+    await expect(page.getByText("About")).toBeVisible();
+    await expect(page.getByText("Skills")).toBeVisible();
+    await expect(page.getByText("Projects")).toBeVisible();
   });
 });
 ```
@@ -177,12 +184,15 @@ test.describe('Portfolio Homepage', () => {
 ### Running E2E Tests
 
 #### Prerequisites
+
 First install Playwright browsers:
+
 ```bash
 npx playwright install
 ```
 
 #### Running Tests
+
 ```bash
 # Run all E2E tests
 npm run test:e2e
@@ -201,14 +211,14 @@ npx playwright show-report
 ```
 
 ### Browser Support
+
 - **Chromium**: Desktop Chrome/Edge testing
-- **Firefox**: Mozilla Firefox testing  
+- **Firefox**: Mozilla Firefox testing
 - **WebKit**: Safari testing
 - **Mobile**: Optional mobile viewport testing
 
 ## Best Practices
 
-### Unit Testing
 1. **Test Behavior, Not Implementation**: Focus on component output and user-visible behavior
 2. **Use Descriptive Test Names**: Clearly describe what the test validates
 3. **Test Edge Cases**: Include tests for disabled states, empty content, error conditions
@@ -216,6 +226,7 @@ npx playwright show-report
 5. **Keep Tests Isolated**: Each test should be independent and not rely on others
 
 ### E2E Testing
+
 1. **Test User Workflows**: Focus on complete user journeys
 2. **Use Page Object Model**: Create reusable page objects for complex interactions
 3. **Test Across Browsers**: Ensure compatibility across different browsers
@@ -224,6 +235,7 @@ npx playwright show-report
 6. **Mobile First**: Test responsive design and mobile interactions
 
 ### General Guidelines
+
 1. **Maintain Test Coverage**: Aim for good coverage of critical functionality
 2. **Keep Tests Fast**: Optimize test execution time
 3. **Regular Maintenance**: Update tests when components change
@@ -235,7 +247,9 @@ npx playwright show-report
 ### Common Issues
 
 #### Vitest Configuration
+
 If you encounter TypeScript errors with the Vitest config, ensure it's excluded from Astro's type checking:
+
 ```json
 // tsconfig.json
 {
@@ -244,7 +258,9 @@ If you encounter TypeScript errors with the Vitest config, ensure it's excluded 
 ```
 
 #### Playwright Browser Installation
+
 If browser installation fails:
+
 ```bash
 # Install specific browser
 npx playwright install chromium
@@ -257,7 +273,9 @@ npx playwright --version
 ```
 
 #### Port Conflicts
+
 If port 4321 is in use:
+
 ```bash
 # Kill process using port
 lsof -ti:4321 | xargs kill
@@ -266,12 +284,15 @@ lsof -ti:4321 | xargs kill
 ```
 
 #### Container API Issues
+
 Ensure you're using the correct import:
+
 ```typescript
 import { experimental_AstroContainer as AstroContainer } from "astro/container";
 ```
 
 ### Test Failures
+
 1. **Check Browser Compatibility**: Some features may not work in all browsers
 2. **Timing Issues**: Add appropriate waits for async operations
 3. **Selector Changes**: Update selectors if component markup changes
@@ -280,19 +301,23 @@ import { experimental_AstroContainer as AstroContainer } from "astro/container";
 ## Extending Tests
 
 ### Adding New Component Tests
+
 1. Create test file in `src/test/components/`
 2. Import component and AstroContainer
 3. Write tests for all props and variants
 4. Include edge cases and error states
 
 ### Adding New E2E Tests
+
 1. Create test file in `tests/` directory
 2. Use descriptive test suite names
 3. Include setup and teardown as needed
 4. Test both happy path and error scenarios
 
 ### Custom Test Utilities
+
 Create helper functions in `src/test/utils/` for:
+
 - Common test data
 - Reusable assertions
 - Mock functions
@@ -301,12 +326,14 @@ Create helper functions in `src/test/utils/` for:
 ## Performance Considerations
 
 ### Unit Tests
+
 - Use Container API for isolated component testing
 - Avoid unnecessary DOM manipulation
 - Mock heavy dependencies
 - Run tests in parallel when possible
 
 ### E2E Tests
+
 - Use `page.waitForLoadState()` for better reliability
 - Implement proper wait strategies
 - Take screenshots on failure for debugging
@@ -315,6 +342,7 @@ Create helper functions in `src/test/utils/` for:
 ## Security Testing
 
 While not fully implemented, consider adding:
+
 - Input validation testing
 - XSS protection verification
 - CSRF token validation
@@ -324,12 +352,14 @@ While not fully implemented, consider adding:
 ## Continuous Integration
 
 Tests are configured to run in CI/CD pipelines:
+
 - Unit tests run on every pull request
 - E2E tests run on main branch changes
 - Test reports are generated and stored
 - Failed tests prevent deployment
 
 For questions or issues with testing, refer to:
+
 - [Vitest Documentation](https://vitest.dev/)
 - [Playwright Documentation](https://playwright.dev/)
 - [Astro Container API](https://docs.astro.build/en/reference/container-reference/)
