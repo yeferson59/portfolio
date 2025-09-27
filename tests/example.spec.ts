@@ -33,7 +33,7 @@ test.describe("Portfolio Homepage", () => {
     // Wait for page to load with increased timeout
     await expect(page.getByRole("navigation")).toBeVisible({ timeout: 10000 });
 
-    // Test navigation to different sections (si hay múltiples, usar el primero)
+    // Test navigation to different sections (if there are multiple, use the first one)
     const aboutLinks = page.getByRole("link", { name: "About" });
     if ((await aboutLinks.count()) > 0) {
       await aboutLinks.nth(0).click();
