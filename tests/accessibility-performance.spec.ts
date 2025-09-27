@@ -168,7 +168,7 @@ test.describe("Performance Tests", () => {
         !error.includes("telemetry") &&
         !error.includes(
           "Failed to load resource: the server responded with a status of 404 (Not Found)",
-        ), // Ignorar errores 404 de recursos
+        ), // Ignore 404 errors for resources
     );
 
     expect(criticalErrors).toHaveLength(0);
