@@ -21,23 +21,23 @@ const statusOrder = {
 };
 
 export const getAllProjects = async (): Promise<Project[]> => {
-  let projects = await getCollection("projects");
+  const projects = await getCollection("projects");
 
-  projects = projects.filter((project) => project.data.draft !== true);
+  return projects
+    .filter((project) => project.data.draft !== true)
+    .sort((a, b) => {
+      if (a.data.featured && !b.data.featured) return -1;
+      if (!a.data.featured && b.data.featured) return 1;
 
-  return projects.sort((a, b) => {
-    if (a.data.featured && !b.data.featured) return -1;
-    if (!a.data.featured && b.data.featured) return 1;
+      // Then by year (newest first)
+      if (a.data.year !== b.data.year) return b.data.year - a.data.year;
 
-    // Then by year (newest first)
-    if (a.data.year !== b.data.year) return b.data.year - a.data.year;
-
-    const DEFAULT_STATUS_ORDER = 5;
-    return (
-      (statusOrder[a.data.status] ?? DEFAULT_STATUS_ORDER) -
-      (statusOrder[b.data.status] ?? DEFAULT_STATUS_ORDER)
-    );
-  });
+      const DEFAULT_STATUS_ORDER = 5;
+      return (
+        (statusOrder[a.data.status] ?? DEFAULT_STATUS_ORDER) -
+        (statusOrder[b.data.status] ?? DEFAULT_STATUS_ORDER)
+      );
+    });
 };
 
 /**
@@ -55,7 +55,9 @@ export const getProjectsByCategory = async (
   category: string,
 ): Promise<Project[]> => {
   const projects = await getAllProjects();
-  return projects.filter((project) => project.data.category === category);
+  return projects.filter(
+    (project) => project.data.category === category && !project.data.draft,
+  );
 };
 
 /**
