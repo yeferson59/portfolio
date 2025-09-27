@@ -10,11 +10,11 @@ test.describe('Portfolio Homepage', () => {
     await expect(page).toHaveTitle(PORTFOLIO_TITLE_PATTERN, { timeout: 10000 });
     
     // Check main sections are visible with timeouts
-    await expect(page.getByText('About')).toBeVisible({ timeout: 10000 });
-    await expect(page.getByText('Skills')).toBeVisible({ timeout: 10000 });
-    await expect(page.getByText('Projects')).toBeVisible({ timeout: 10000 });
-    await expect(page.getByText('Services')).toBeVisible({ timeout: 10000 });
-    await expect(page.getByText('Contact')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText('About Me')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText('Technical Skills')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText('Featured Projects')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText('Professional Services')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText('Get in touch')).toBeVisible({ timeout: 10000 });
   });
 
   test('navigation links work correctly', async ({ page }) => {

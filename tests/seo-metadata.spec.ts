@@ -136,11 +136,11 @@ test.describe('SEO and Metadata Tests', () => {
   });
 
   test('page has proper heading hierarchy for SEO', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'networkidle' });
     
     // Check that there's exactly one H1
     const h1Elements = page.locator('h1');
-    await expect(h1Elements).toHaveCount(1);
+    await expect(h1Elements).toHaveCount(1, { timeout: 10000 });
     
     // H1 should have meaningful content
     const h1Text = await h1Elements.textContent();
