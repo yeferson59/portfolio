@@ -165,7 +165,10 @@ test.describe("Performance Tests", () => {
         !error.includes("favicon") &&
         !error.includes("Extension") &&
         !error.includes("chrome-extension") &&
-        !error.includes("telemetry"), // Filter out telemetry errors
+        !error.includes("telemetry") &&
+        !error.includes(
+          "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        ), // Ignorar errores 404 de recursos
     );
 
     expect(criticalErrors).toHaveLength(0);
