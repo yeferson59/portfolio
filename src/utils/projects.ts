@@ -1,5 +1,6 @@
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
+import { paginate, type PaginationData } from "@/utils/pagination";
 
 export type Project = CollectionEntry<"projects">;
 
@@ -108,4 +109,23 @@ export const getProjectStats = async () => {
     statusDistribution: statusCounts,
     categoryDistribution: categoryCounts,
   };
+};
+
+/**
+ * Get paginated projects
+ */
+export const getPaginatedProjects = async (
+  page: number = 1,
+  itemsPerPage: number = 6,
+): Promise<PaginationData<Project>> => {
+  const projects = await getAllProjects();
+  return paginate(projects, page, itemsPerPage);
+};
+
+/**
+ * Get projects for homepage (limited to featured or first N projects)
+ */
+export const getHomepageProjects = async (limit: number = 6): Promise<Project[]> => {
+  const projects = await getAllProjects();
+  return projects.slice(0, limit);
 };

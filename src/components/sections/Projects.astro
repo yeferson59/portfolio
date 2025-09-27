@@ -2,10 +2,10 @@
 import SectionHeader from "@/components/layouts/SectionHeader.astro";
 import ProjectCard from "@/components/layouts/ProjectCard.astro";
 import Button from "@/components/ui/Button.astro";
-import { getAllProjects, getProjectStats } from "@/utils/projects";
+import { getHomepageProjects, getProjectStats } from "@/utils/projects";
 
-// Get all projects using the utility function
-const projects = await getAllProjects();
+// Get limited projects for homepage (first 6 projects)
+const projects = await getHomepageProjects(6);
 
 // Get project statistics for better content presentation
 const stats = await getProjectStats();
@@ -45,8 +45,8 @@ const stats = await getProjectStats();
     </div>
 
     <div class="btn-container--xl text-center">
-      <Button size="lg" href="#contact">
-        Have a project in mind?
+      <Button size="lg" href="/projects">
+        View All Projects
         <svg
           width="20"
           height="20"

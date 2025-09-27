@@ -1,0 +1,243 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import SectionHeader from "@/components/layouts/SectionHeader.astro";
+import ProjectCard from "@/components/layouts/ProjectCard.astro";
+import Pagination from "@/components/ui/Pagination.astro";
+import Button from "@/components/ui/Button.astro";
+import { getPaginatedProjects, getProjectStats } from "@/utils/projects";
+
+// Get the current page from URL (default to 1)
+const currentPage = 1;
+const projectsPerPage = 6;
+
+// Get paginated projects and stats
+const paginatedData = await getPaginatedProjects(currentPage, projectsPerPage);
+const stats = await getProjectStats();
+
+const { items: projects, totalPages } = paginatedData;
+---
+
+<Layout
+  head={{
+    title: "All Projects",
+    description: "Browse all backend development projects including APIs, microservices, databases, and distributed systems."
+  }}
+>
+  <main class="projects-page">
+    <!-- Hero Section -->
+    <section class="projects-hero">
+      <div class="container">
+        <div class="projects-hero__content">
+          <div class="projects-hero__breadcrumb">
+            <a href="/" class="text-secondary hover:text-primary transition-colors">Home</a>
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/>
+            </svg>
+            <span class="text-primary">Projects</span>
+          </div>
+
+          <SectionHeader
+            title="All Projects"
+            subtitle={`Complete collection of ${stats.total} backend development projects spanning APIs, microservices, databases, and distributed systems.`}
+          />
+
+          <!-- Enhanced project summary with statistics -->
+          <div class="projects-hero__stats">
+            <div class="projects-stats">
+              <div class="projects-stats__item">
+                <span class="projects-stats__value">{stats.total}</span>
+                <span class="projects-stats__label">Total Projects</span>
+              </div>
+              <div class="projects-stats__item">
+                <span class="projects-stats__value">{stats.featured}</span>
+                <span class="projects-stats__label">Featured</span>
+              </div>
+              <div class="projects-stats__item">
+                <span class="projects-stats__value">{stats.technologies.length}</span>
+                <span class="projects-stats__label">Technologies</span>
+              </div>
+              <div class="projects-stats__item">
+                <span class="projects-stats__value">{Object.keys(stats.categoryDistribution).length}</span>
+                <span class="projects-stats__label">Categories</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Grid Section -->
+    <section class="projects-grid-section">
+      <div class="container">
+        {projects.length > 0 ? (
+          <>
+            <div class="projects-grid mb-4xl">
+              {projects.map((project) => (
+                <ProjectCard
+                  title={project.data.title}
+                  description={project.data.description}
+                  stack={project.data.stack}
+                  year={project.data.year}
+                  status={project.data.status}
+                  links={project.data.links}
+                  featured={project.data.featured}
+                />
+              ))}
+            </div>
+
+            <!-- Pagination Controls -->
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              baseUrl="/projects"
+              class="projects-pagination"
+            />
+          </>
+        ) : (
+          <div class="projects-empty">
+            <h3 class="text-xl font-bold text-primary mb-md">No projects found</h3>
+            <p class="text-secondary mb-lg">There are currently no projects to display.</p>
+            <Button href="/">Back to Home</Button>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="projects-cta">
+      <div class="container">
+        <div class="projects-cta__content">
+          <h2 class="text-2xl font-bold text-primary mb-md">Ready to Start Your Project?</h2>
+          <p class="text-secondary mb-lg leading-relaxed">
+            Let's discuss how we can bring your backend ideas to life with scalable, 
+            secure, and high-performance solutions.
+          </p>
+          <Button size="lg" href="/#contact">
+            Get in Touch
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          </Button>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .projects-page {
+    padding-top: var(--header-height);
+  }
+
+  .projects-hero {
+    padding: var(--space-4xl) 0 var(--space-3xl);
+    background: var(--surface-primary);
+    position: relative;
+  }
+
+  .projects-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(42, 143, 255, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .projects-hero__content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .projects-hero__breadcrumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+    font-size: var(--font-size-sm);
+  }
+
+  .projects-hero__breadcrumb a {
+    text-decoration: none;
+  }
+
+  .projects-hero__stats {
+    margin-top: var(--space-xl);
+  }
+
+  .projects-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--space-lg);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .projects-stats__item {
+    text-align: center;
+    padding: var(--space-md);
+    border-radius: var(--radius-lg);
+    background: var(--surface-secondary);
+    border: 1px solid var(--border-color);
+  }
+
+  .projects-stats__value {
+    display: block;
+    font-size: var(--font-size-xl);
+    font-weight: bold;
+    color: var(--accent-primary);
+    line-height: 1.2;
+  }
+
+  .projects-stats__label {
+    display: block;
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    margin-top: var(--space-xs);
+  }
+
+  .projects-grid-section {
+    padding: var(--space-4xl) 0;
+  }
+
+  .projects-empty {
+    text-align: center;
+    padding: var(--space-4xl) 0;
+  }
+
+  .projects-cta {
+    padding: var(--space-4xl) 0;
+    background: var(--surface-secondary);
+  }
+
+  .projects-cta__content {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .projects-pagination {
+    margin-top: var(--space-2xl);
+  }
+
+  /* Mobile responsive adjustments */
+  @media (max-width: 768px) {
+    .projects-hero {
+      padding: var(--space-3xl) 0 var(--space-2xl);
+    }
+
+    .projects-stats {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-md);
+    }
+
+    .projects-grid-section {
+      padding: var(--space-3xl) 0;
+    }
+
+    .projects-cta {
+      padding: var(--space-3xl) 0;
+    }
+  }
+</style>
