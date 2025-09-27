@@ -1,15 +1,19 @@
 import { test, expect } from "@playwright/test";
 
+const TIMEOUT = 10000;
+const MAX_TIMEOUT = 30000;
+const MAX_SIZE = 1024 * 1024;
+
 test.describe("Accessibility Tests", () => {
   test("page has proper heading structure", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });
 
     // Check for proper heading hierarchy
     const h1 = page.locator("h1");
-    await expect(h1).toHaveCount(1, { timeout: 10000 }); // Exactly one H1 per page
+    await expect(h1).toHaveCount(1, { timeout: TIMEOUT }); // Exactly one H1 per page
 
     const h2s = page.locator("h2");
-    await expect(h2s.first()).toBeVisible({ timeout: 10000 });
+    await expect(h2s.first()).toBeVisible({ timeout: TIMEOUT });
   });
 
   test("images have alt text", async ({ page }) => {
@@ -36,7 +40,7 @@ test.describe("Accessibility Tests", () => {
 
     // Wait for navigation to be ready
     await expect(page.locator("nav.header__nav")).toBeVisible({
-      timeout: 10000,
+      timeout: TIMEOUT,
     });
 
     // Check navigation links
@@ -101,24 +105,24 @@ test.describe("Accessibility Tests", () => {
 
 test.describe("Performance Tests", () => {
   test("page loads within reasonable time", async ({ page }) => {
-    test.setTimeout(30000); // Increase timeout for CI
+    test.setTimeout(MAX_TIMEOUT); // Increase timeout for CI
 
     const startTime = Date.now();
     await page.goto("/", { waitUntil: "networkidle" });
 
     // Wait for main content to be visible
     await expect(page.getByRole("heading", { name: "About Me" })).toBeVisible({
-      timeout: 10000,
+      timeout: TIMEOUT,
     });
 
     const loadTime = Date.now() - startTime;
 
     // Page should load within 10 seconds in CI (more lenient)
-    expect(loadTime).toBeLessThan(10000);
+    expect(loadTime).toBeLessThan(TIMEOUT);
   });
 
   test("images are optimized", async ({ page }) => {
-    test.setTimeout(30000); // Increase timeout for CI
+    test.setTimeout(MAX_TIMEOUT); // Increase timeout for CI
 
     await page.goto("/", { waitUntil: "networkidle" });
 
@@ -140,7 +144,7 @@ test.describe("Performance Tests", () => {
         // Check file size is reasonable (less than 5MB for CI)
         const contentLength = response.headers()["content-length"];
         if (contentLength) {
-          const sizeInMB = parseInt(contentLength) / (1024 * 1024);
+          const sizeInMB = parseInt(contentLength) / MAX_SIZE;
           expect(sizeInMB).toBeLessThan(5);
         }
       }
@@ -157,7 +161,7 @@ test.describe("Performance Tests", () => {
     });
 
     await page.goto("/", { waitUntil: "networkidle" });
-    await page.waitForTimeout(3000); // Wait for any async operations
+    await page.waitForTimeout(MAX_TIMEOUT); // Wait for any async operations
 
     // Filter out common non-critical errors
     const criticalErrors = consoleErrors.filter(
