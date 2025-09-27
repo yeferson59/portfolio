@@ -107,7 +107,9 @@ test.describe("Performance Tests", () => {
     await page.goto("/", { waitUntil: "networkidle" });
 
     // Wait for main content to be visible
-    await expect(page.getByText("About")).toBeVisible({ timeout: 10000 });
+    await expect(page.getByRole("heading", { name: "About Me" })).toBeVisible({
+      timeout: 10000,
+    });
 
     const loadTime = Date.now() - startTime;
 
