@@ -12,22 +12,11 @@ const {
   class: className = "",
   headingLevel = "h2",
 } = Astro.props;
-
-function renderHeading(level: string, props: any, children: any) {
-  switch (level) {
-    case "h1":
-      return <h1 {...props}>{children}</h1>;
-    case "h2":
-      return <h2 {...props}>{children}</h2>;
-    case "h3":
-      return <h3 {...props}>{children}</h3>;
-    default:
-      return <h2 {...props}>{children}</h2>;
-  }
-}
 ---
 
 <div class={`section-header ${className}`}>
-  {renderHeading(headingLevel, { class: "section-header__title" }, title)}
+  {headingLevel === "h1" && <h1 class="section-header__title">{title}</h1>}
+  {headingLevel === "h2" && <h2 class="section-header__title">{title}</h2>}
+  {headingLevel === "h3" && <h3 class="section-header__title">{title}</h3>}
   {subtitle && <p class="section-header__subtitle">{subtitle}</p>}
 </div>
