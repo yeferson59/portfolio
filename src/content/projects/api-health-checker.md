@@ -23,4 +23,5 @@ links:
     type: "demo"
 featured: false
 category: "Monitoring"
+draft: true
 ---

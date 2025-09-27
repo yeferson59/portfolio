@@ -21,10 +21,11 @@ const statusOrder = {
 };
 
 export const getAllProjects = async (): Promise<Project[]> => {
-  const projects = await getCollection("projects");
+  let projects = await getCollection("projects");
+
+  projects = projects.filter((project) => project.data.draft !== true);
 
   return projects.sort((a, b) => {
-    // Featured projects first
     if (a.data.featured && !b.data.featured) return -1;
     if (!a.data.featured && b.data.featured) return 1;
 

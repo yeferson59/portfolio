@@ -51,6 +51,7 @@ const projects = defineCollection({
         "AI",
       ])
       .optional(),
+    draft: z.boolean().optional().default(false),
   }),
 });
 
