@@ -27,6 +27,8 @@ jobs:
 
       - name: Build Astro site
         run: bun run build
+        env:
+          BASE_URL: http://localhost:4321
 
       - name: Run Playwright tests
         run: bunx playwright test --project=chromium --reporter=github,html
