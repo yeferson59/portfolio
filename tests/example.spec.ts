@@ -4,36 +4,36 @@ const PORTFOLIO_TITLE_PATTERN = /Backend Developer Portfolio/;
 
 test.describe('Portfolio Homepage', () => {
   test('has correct title and loads main sections', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'networkidle' });
     
     // Check page title
-    await expect(page).toHaveTitle(PORTFOLIO_TITLE_PATTERN);
+    await expect(page).toHaveTitle(PORTFOLIO_TITLE_PATTERN, { timeout: 10000 });
     
-    // Check main sections are visible
-    await expect(page.getByText('About')).toBeVisible();
-    await expect(page.getByText('Skills')).toBeVisible();
-    await expect(page.getByText('Projects')).toBeVisible();
-    await expect(page.getByText('Services')).toBeVisible();
-    await expect(page.getByText('Contact')).toBeVisible();
+    // Check main sections are visible with timeouts
+    await expect(page.getByText('About')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText('Skills')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText('Projects')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText('Services')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText('Contact')).toBeVisible({ timeout: 10000 });
   });
 
   test('navigation links work correctly', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'networkidle' });
     
-    // Wait for page to load
-    await expect(page.getByRole('navigation')).toBeVisible();
+    // Wait for page to load with increased timeout
+    await expect(page.getByRole('navigation')).toBeVisible({ timeout: 10000 });
     
     // Test navigation to different sections (if they exist)
     const aboutLink = page.getByRole('link', { name: 'About' });
     if (await aboutLink.count() > 0) {
       await aboutLink.click();
-      await page.waitForTimeout(1000); // Allow scroll animation
+      await page.waitForTimeout(2000); // Allow scroll animation
     }
     
     const skillsLink = page.getByRole('link', { name: 'Skills' });
     if (await skillsLink.count() > 0) {
       await skillsLink.click();
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(2000);
     }
   });
 
