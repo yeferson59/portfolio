@@ -48,6 +48,7 @@ const projects = defineCollection({
         "Middleware",
         "Database",
         "Monitoring",
+        "AI",
       ])
       .optional(),
   }),
