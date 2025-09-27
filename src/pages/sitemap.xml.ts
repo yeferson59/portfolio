@@ -28,7 +28,7 @@ export const GET: APIRoute = async () => {
   <url>
     <loc>${baseUrl}${page}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
-    <changefreq>${page === "" ? "weekly" : page.startsWith("/projects") ? "monthly" : "monthly"}</changefreq>
+    <changefreq>${page === "" ? "weekly" : "monthly"}</changefreq>
     <priority>${page === "" ? "1.0" : page === "/projects" ? "0.9" : page.startsWith("/projects") ? "0.8" : "0.7"}</priority>
   </url>`,
     )
