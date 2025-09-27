@@ -17,7 +17,7 @@ test.describe("SEO and Metadata Tests", () => {
     const descriptionContent = await metaDescription.getAttribute("content");
     expect(descriptionContent).toBeTruthy();
     expect(descriptionContent!.length).toBeGreaterThan(20); // More lenient for CI
-    expect(descriptionContent!.length).toBeLessThan(220); // Más tolerante para CI
+    expect(descriptionContent!.length).toBeLessThan(220); // More lenient for CI
   });
 
   test("has Open Graph meta tags", async ({ page }) => {
