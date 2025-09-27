@@ -3,12 +3,31 @@ interface Props {
   title: string;
   subtitle?: string;
   class?: string;
+  headingLevel?: string;
 }
 
-const { title, subtitle, class: className = "" } = Astro.props;
+const {
+  title,
+  subtitle,
+  class: className = "",
+  headingLevel = "h2",
+} = Astro.props;
+
+function renderHeading(level: string, props: any, children: any) {
+  switch (level) {
+    case "h1":
+      return <h1 {...props}>{children}</h1>;
+    case "h2":
+      return <h2 {...props}>{children}</h2>;
+    case "h3":
+      return <h3 {...props}>{children}</h3>;
+    default:
+      return <h2 {...props}>{children}</h2>;
+  }
+}
 ---
 
 <div class={`section-header ${className}`}>
-  <h2 class="section-header__title">{title}</h2>
+  {renderHeading(headingLevel, { class: "section-header__title" }, title)}
   {subtitle && <p class="section-header__subtitle">{subtitle}</p>}
 </div>
