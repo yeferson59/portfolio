@@ -7,7 +7,7 @@ test.describe("Portfolio Site Basic Validation", () => {
     // Check page title
     await expect(page).toHaveTitle(/Backend Developer Portfolio/);
 
-    // Check main sections are visible (usando selectores estrictos)
+    // Check main sections are visible (using strict selectors)
     await expect(page.getByRole("heading", { name: "About Me" })).toBeVisible();
     await expect(
       page.getByRole("heading", { name: "Technical Skills" }),
