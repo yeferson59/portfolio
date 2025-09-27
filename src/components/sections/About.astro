@@ -1,15 +1,20 @@
 ---
-import SectionHeader from "@/components/layouts/SectionHeader.astro";
 import Card from "@/components/ui/Card.astro";
 import Badge from "@/components/ui/Badge.astro";
 import Button from "@/components/ui/Button.astro";
 import { Image } from "astro:assets";
 import { developer, skills, coreFeatures } from "@/data/site";
+import SectionHeader from "@/components/layouts/SectionHeader.astro";
 ---
 
 <section id="about" class="gradient-overlay">
   <div class="container">
-    <SectionHeader title="About Me" subtitle={developer.description} />
+    <!-- Main heading as h1 for SEO and accessibility -->
+    <SectionHeader
+      title="About Me"
+      subtitle={developer.description}
+      headingLevel="h1"
+    />
 
     <div class="gap-xl grid grid-cols-1 items-start lg:grid-cols-3">
       <!-- Profile card -->

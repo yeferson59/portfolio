@@ -3,12 +3,20 @@ interface Props {
   title: string;
   subtitle?: string;
   class?: string;
+  headingLevel?: string;
 }
 
-const { title, subtitle, class: className = "" } = Astro.props;
+const {
+  title,
+  subtitle,
+  class: className = "",
+  headingLevel = "h2",
+} = Astro.props;
 ---
 
 <div class={`section-header ${className}`}>
-  <h2 class="section-header__title">{title}</h2>
+  {headingLevel === "h1" && <h1 class="section-header__title">{title}</h1>}
+  {headingLevel === "h2" && <h2 class="section-header__title">{title}</h2>}
+  {headingLevel === "h3" && <h3 class="section-header__title">{title}</h3>}
   {subtitle && <p class="section-header__subtitle">{subtitle}</p>}
 </div>
