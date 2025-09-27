@@ -1,17 +1,25 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test.describe('Portfolio Site Basic Validation', () => {
-  test.skip('Page loads successfully', async ({ page }) => {
-    await page.goto('/');
-    
+test.describe("Portfolio Site Basic Validation", () => {
+  test("Page loads successfully", async ({ page }) => {
+    await page.goto("/");
+
     // Check page title
     await expect(page).toHaveTitle(/Backend Developer Portfolio/);
-    
-    // Check main sections are visible
-    await expect(page.getByText('About')).toBeVisible();
-    await expect(page.getByText('Skills')).toBeVisible();
-    await expect(page.getByText('Projects')).toBeVisible();
-    await expect(page.getByText('Services')).toBeVisible();
-    await expect(page.getByText('Contact')).toBeVisible();
+
+    // Check main sections are visible (usando selectores estrictos)
+    await expect(page.getByRole("heading", { name: "About Me" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Technical Skills" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Featured Projects" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Professional Services" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Get in touch" }),
+    ).toBeVisible();
   });
 });
