@@ -15,6 +15,8 @@ jobs:
         run: bun ci
       - name: Install Playwright Browsers
         run: bunx playwright install --with-deps
+      - name: Build Astro site
+        run: bunx run build
       - name: Run Playwright tests
         run: bunx playwright test
       - uses: actions/upload-artifact@v4
