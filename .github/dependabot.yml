@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: "bun"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/Bogota"
+    open-pull-requests-limit: 10
+    assignees:
+      - "yeferson59"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "bun"
+    ignore:
+      - dependency-name: "astro"
+        update-types: ["version-update:semver-major"]
