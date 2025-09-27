@@ -161,7 +161,7 @@ test.describe("Performance Tests", () => {
     });
 
     await page.goto("/", { waitUntil: "networkidle" });
-    await page.waitForTimeout(MAX_TIMEOUT); // Wait for any async operations
+    await page.waitForTimeout(3000); // Wait for any async operations
 
     // Filter out common non-critical errors
     const criticalErrors = consoleErrors.filter(
