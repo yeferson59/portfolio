@@ -49,6 +49,7 @@ const projects = defineCollection({
         "Database",
         "Monitoring",
         "AI",
+        "Simulation",
       ])
       .optional(),
     draft: z.boolean().optional().default(false),
