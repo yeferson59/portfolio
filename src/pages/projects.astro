@@ -20,7 +20,8 @@ const { items: projects, totalPages } = paginatedData;
 <Layout
   head={{
     title: "All Projects",
-    description: "Browse all backend development projects including APIs, microservices, databases, and distributed systems."
+    description:
+      "Browse all backend development projects including APIs, microservices, databases, and distributed systems.",
   }}
 >
   <main class="projects-page">
@@ -29,9 +30,23 @@ const { items: projects, totalPages } = paginatedData;
       <div class="container">
         <div class="projects-hero__content">
           <div class="projects-hero__breadcrumb">
-            <a href="/" class="text-secondary hover:text-primary transition-colors">Home</a>
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/>
+            <a
+              href="/"
+              class="text-secondary hover:text-primary transition-colors"
+              >Home</a
+            >
+            <svg
+              width="16"
+              height="16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 18l6-6-6-6"></path>
             </svg>
             <span class="text-primary">Projects</span>
           </div>
@@ -53,11 +68,15 @@ const { items: projects, totalPages } = paginatedData;
                 <span class="projects-stats__label">Featured</span>
               </div>
               <div class="projects-stats__item">
-                <span class="projects-stats__value">{stats.technologies.length}</span>
+                <span class="projects-stats__value"
+                  >{stats.technologies.length}</span
+                >
                 <span class="projects-stats__label">Technologies</span>
               </div>
               <div class="projects-stats__item">
-                <span class="projects-stats__value">{Object.keys(stats.categoryDistribution).length}</span>
+                <span class="projects-stats__value"
+                  >{Object.keys(stats.categoryDistribution).length}</span
+                >
                 <span class="projects-stats__label">Categories</span>
               </div>
             </div>
@@ -69,37 +88,42 @@ const { items: projects, totalPages } = paginatedData;
     <!-- Projects Grid Section -->
     <section class="projects-grid-section">
       <div class="container">
-        {projects.length > 0 ? (
-          <>
-            <div class="projects-grid mb-4xl">
-              {projects.map((project) => (
-                <ProjectCard
-                  title={project.data.title}
-                  description={project.data.description}
-                  stack={project.data.stack}
-                  year={project.data.year}
-                  status={project.data.status}
-                  links={project.data.links}
-                  featured={project.data.featured}
-                />
-              ))}
-            </div>
+        {
+          projects.length > 0 ? (
+            <>
+              <div class="projects-grid mb-4xl">
+                {projects.map((project) => (
+                  <ProjectCard
+                    title={project.data.title}
+                    description={project.data.description}
+                    stack={project.data.stack}
+                    year={project.data.year}
+                    status={project.data.status}
+                    links={project.data.links}
+                    featured={project.data.featured}
+                  />
+                ))}
+              </div>
 
-            <!-- Pagination Controls -->
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              baseUrl="/projects"
-              class="projects-pagination"
-            />
-          </>
-        ) : (
-          <div class="projects-empty">
-            <h3 class="text-xl font-bold text-primary mb-md">No projects found</h3>
-            <p class="text-secondary mb-lg">There are currently no projects to display.</p>
-            <Button href="/">Back to Home</Button>
-          </div>
-        )}
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                baseUrl="/projects"
+                class="projects-pagination"
+              />
+            </>
+          ) : (
+            <div class="projects-empty">
+              <h3 class="text-primary mb-md text-xl font-bold">
+                No projects found
+              </h3>
+              <p class="text-secondary mb-lg">
+                There are currently no projects to display.
+              </p>
+              <Button href="/">Back to Home</Button>
+            </div>
+          )
+        }
       </div>
     </section>
 
@@ -107,15 +131,27 @@ const { items: projects, totalPages } = paginatedData;
     <section class="projects-cta">
       <div class="container">
         <div class="projects-cta__content">
-          <h2 class="text-2xl font-bold text-primary mb-md">Ready to Start Your Project?</h2>
+          <h2 class="text-primary mb-md text-2xl font-bold">
+            Ready to Start Your Project?
+          </h2>
           <p class="text-secondary mb-lg leading-relaxed">
-            Let's discuss how we can bring your backend ideas to life with scalable, 
-            secure, and high-performance solutions.
+            Let's discuss how we can bring your backend ideas to life with
+            scalable, secure, and high-performance solutions.
           </p>
           <Button size="lg" href="/#contact">
             Get in Touch
-            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            <svg
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
             </svg>
           </Button>
         </div>
@@ -136,10 +172,14 @@ const { items: projects, totalPages } = paginatedData;
   }
 
   .projects-hero::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 50% 0%, rgba(42, 143, 255, 0.05) 0%, transparent 50%);
+    background: radial-gradient(
+      circle at 50% 0%,
+      rgba(42, 143, 255, 0.05) 0%,
+      transparent 50%
+    );
     pointer-events: none;
   }
 

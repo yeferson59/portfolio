@@ -8,10 +8,10 @@ import { config } from "@/config";
 // Developer Information
 export const developer = {
   name: "Yeferson Toloza C.",
-  title: "Full-Stack Developer (Backend Oriented)",
+  title: "Full-Stack Developer & Systems Architect",
   description:
-    "Specialized in architecture systems, scalable APIs and databases. Passionate about efficiency, security and performance.",
-  bio: "I focus on building robust APIs, scalable architectures, and observable systems. My expertise lies in designing and developing microservices and distributed solutions with a strong emphasis on security, performance, and reliability.",
+    "Computer Engineering student specialized in building high-performance full-stack applications and distributed systems. Expert in Node.js, TypeScript, Go, and PostgreSQL with real-world experience in e-commerce platforms, AI integrations, and scalable systems.",
+  bio: "Full-stack developer and Computer Engineering student (7th semester) with hands-on experience building production systems. I've architected complete e-commerce platforms with JWT authentication, Redis caching, and Docker orchestration. My expertise spans modern frontend applications with Next.js and Astro to scalable backend systems with Node.js and Go. I've worked on AI chatbot integrations, database management with PostgreSQL, and DevOps practices. I'm passionate about emerging technologies, AI, Machine Learning, and fintech. I believe in writing clean, testable code and building systems that scale—demonstrated through my 50+ repositories covering microservices, university projects, and experimental tech.",
   email: "yefersontoloza59@gmail.com",
   location: "Pamplona, Colombia",
   avatar: "https://avatars.githubusercontent.com/u/116679774?v=4",
@@ -19,11 +19,11 @@ export const developer = {
 
 // Brand Information
 export const brand = {
-  name: "Full Stack Developer",
-  subtitle: "Portfolio",
-  tagline: "Full-Stack Developer",
+  name: "Full-Stack Developer",
+  subtitle: "& Systems Architect",
+  tagline: "Full-Stack Developer & Systems Architect",
   description:
-    "Building scalable and resilient web applications. Specializing in robust backend systems, API design, and creating seamless user experiences from server to screen.",
+    "Crafting high-performance full-stack applications and distributed architectures. From modern frontend experiences with Next.js and Astro to scalable backend systems with Node.js and Go—I build complete solutions that handle thousands of users, integrate AI capabilities, and power modern digital experiences.",
 } as const;
 
 // Navigation Links
@@ -70,18 +70,58 @@ export const socialLinks = [
   },
 ] as const;
 
-// Technical Skills
-export const skills = [
-  "Node.js",
-  "TypeScript",
-  "Golang (go)",
-  "Fiber",
-  "Gin",
-  "Express.js",
-  "PostgreSQL",
-  "Docker",
-  "Redis",
-] as const;
+// Technical Skills - Organized by proficiency level
+export const skills = {
+  expert: [
+    "Node.js",
+    "TypeScript",
+    "Express.js",
+    "PostgreSQL",
+    "Docker",
+    "JWT Authentication",
+    "RESTful APIs",
+    "JavaScript",
+    "Git",
+  ],
+  proficient: [
+    "Golang",
+    "Fiber",
+    "Gin",
+    "Redis",
+    "Microservices",
+    "Better-Auth",
+    "Drizzle ORM",
+    "Docker Swarm",
+    "WebSocket",
+    "gRPC",
+    "Bun.js",
+    "NestJS",
+    "Python",
+    "Rust",
+    "Next.js",
+    "Astro",
+    "TailwindCSS",
+    "Makefile",
+  ],
+  familiar: [
+    "C#",
+    "Java",
+    "GitHub Actions",
+    "Swagger/OpenAPI",
+    "Jest Testing",
+    "ESLint",
+    "NPM Publishing",
+    "Prettier",
+    "Husky",
+    "Commitlint",
+    "Django",
+    "PLpgSQL",
+    "Shell Scripting",
+    "WordPress",
+    "Machine Learning",
+    "AI/Gemini API",
+  ],
+} as const;
 
 // Core Features/Principles
 export const coreFeatures = [
@@ -109,14 +149,6 @@ export const coreFeatures = [
       "I implement tracing, metrics, and proactive alerting to detect and resolve incidents before they escalate.",
     variant: "secondary" as const,
   },
-] as const;
-
-// Services
-export const services = [
-  "Full-Stack Development",
-  "API Design & Development",
-  "Microservices Architecture",
-  "Database & Performance Optimization",
 ] as const;
 
 // Contact Methods
