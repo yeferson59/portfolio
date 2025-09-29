@@ -50,9 +50,32 @@ const projects = defineCollection({
         "Monitoring",
         "AI",
         "Simulation",
+        "CMS",
+        "Template",
       ])
       .optional(),
     draft: z.boolean().optional().default(false),
+    performance: z
+      .object({
+        response_time_p50: z.string().optional(),
+        response_time_p95: z.string().optional(),
+        response_time_p99: z.string().optional(),
+        requests_per_second: z.string().optional(),
+        uptime: z.string().optional(),
+        cache_hit_ratio: z.string().optional(),
+        concurrent_users: z.string().optional(),
+        database_queries_optimized: z.string().optional(),
+        build_time: z.string().optional(),
+        bundle_size: z.string().optional(),
+        container_size: z.string().optional(),
+        memory_usage: z.string().optional(),
+        test_coverage: z.string().optional(),
+        concurrent_requests: z.string().optional(),
+        database_queries: z.string().optional(),
+        data_refresh_rate: z.string().optional(),
+        concurrent_connections: z.string().optional(),
+      })
+      .optional(),
   }),
 });
 
