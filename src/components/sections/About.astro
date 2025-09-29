@@ -42,7 +42,24 @@ import SectionHeader from "@/components/layouts/SectionHeader.astro";
           </p>
 
           <div class="gap-xs flex flex-wrap justify-center">
-            {skills.map((skill) => <Badge variant="primary">{skill}</Badge>)}
+            <!-- Expert Skills -->
+            {
+              skills.expert.map((skill) => (
+                <Badge variant="primary">{skill}</Badge>
+              ))
+            }
+            <!-- Proficient Skills (limited to most relevant) -->
+            {
+              skills.proficient
+                .slice(0, 6)
+                .map((skill) => <Badge variant="secondary">{skill}</Badge>)
+            }
+            <!-- Familiar Skills (limited) -->
+            {
+              skills.familiar
+                .slice(0, 4)
+                .map((skill) => <Badge variant="secondary">{skill}</Badge>)
+            }
           </div>
         </Card>
       </aside>

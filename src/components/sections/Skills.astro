@@ -2,40 +2,86 @@
 import SectionHeader from "@/components/layouts/SectionHeader.astro";
 import SkillCard from "@/components/layouts/SkillCard.astro";
 import Button from "@/components/ui/Button.astro";
+import { skills } from "@/data/site";
 
+// Percentages tuned based on your GitHub activity (repos in TS/Node, Go, Python, Rust, infra)
+const levelMap: Record<string, number> = {
+  // Expert core stack
+  "Node.js": 95,
+  TypeScript: 95,
+  "Express.js": 92,
+  PostgreSQL: 90,
+  Docker: 90,
+  "JWT Authentication": 92,
+  "RESTful APIs": 92,
+  JavaScript: 90,
+  Git: 85,
+
+  // Proficient ecosystem
+  Golang: 80,
+  Fiber: 75,
+  Gin: 72,
+  Redis: 80,
+  Microservices: 82,
+  "Better-Auth": 70,
+  "Drizzle ORM": 76,
+  "Docker Swarm": 72,
+  WebSocket: 75,
+  gRPC: 72,
+  "Bun.js": 68,
+  NestJS: 72,
+  Python: 68,
+  Rust: 62,
+  "Next.js": 72,
+  Astro: 70,
+  TailwindCSS: 72,
+  Makefile: 65,
+
+  // Familiar & tools
+  "C#": 55,
+  Java: 58,
+  "GitHub Actions": 62,
+  "Swagger/OpenAPI": 62,
+  "Jest Testing": 58,
+  ESLint: 62,
+  "NPM Publishing": 58,
+  Prettier: 62,
+  Husky: 62,
+  Commitlint: 62,
+  Django: 58,
+  PLpgSQL: 68,
+  "Shell Scripting": 68,
+  WordPress: 55,
+  "Machine Learning": 55,
+  "AI/Gemini API": 65,
+};
+
+const toItems = (names: readonly string[]) =>
+  names.map((name) => {
+    const level = levelMap[name] ?? 60;
+    const variant = level >= 85 ? ("primary" as const) : ("secondary" as const);
+    return { name, level, variant } as const;
+  });
+
+// Build categories with improved titles/icons
 const skillCategories = [
   {
-    title: "Languages",
-    icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m10 20 4-16m4 4 4 4-4 4M6 16l-4-4 4-4"/></svg>`,
+    title: "Expert • Core Stack",
+    icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`,
     iconVariant: "primary" as const,
-    skills: [
-      { name: "TypeScript / Node.js", level: 90, variant: "primary" as const },
-      { name: "Go", level: 80, variant: "secondary" as const },
-      { name: "Python", level: 70, variant: "secondary" as const },
-      { name: "Java", level: 60, variant: "primary" as const },
-    ],
+    skills: toItems(skills.expert),
   },
   {
-    title: "Databases",
-    icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4"/></svg>`,
+    title: "Proficient • Ecosystem",
+    icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>`,
     iconVariant: "secondary" as const,
-    skills: [
-      { name: "PostgreSQL", level: 90, variant: "primary" as const },
-      { name: "MySQL", level: 80, variant: "primary" as const },
-      { name: "MongoDB", level: 75, variant: "secondary" as const },
-      { name: "Redis", level: 70, variant: "secondary" as const },
-    ],
+    skills: toItems(skills.proficient),
   },
   {
-    title: "Frameworks & Tools",
-    icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>`,
+    title: "Familiar • Tools & Platforms",
+    icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>`,
     iconVariant: "primary" as const,
-    skills: [
-      { name: "Express.js", level: 90, variant: "primary" as const },
-      { name: "Docker", level: 85, variant: "secondary" as const },
-      { name: "Fiber", level: 75, variant: "secondary" as const },
-      { name: "AWS", level: 65, variant: "secondary" as const },
-    ],
+    skills: toItems(skills.familiar),
   },
 ];
 ---

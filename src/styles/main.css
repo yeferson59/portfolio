@@ -1,17 +1,20 @@
 /* ========================================
    Main CSS Entry Point
    Portfolio - Backend Developer
+   Performance Optimized Entry Point
    ======================================== */
 
-/* Import Tailwind CSS */
-@import "tailwindcss";
-
-/* Import Design System */
+/* Critical CSS - Load first */
 @import "./variables.css";
 @import "./base.css";
+
+/* Tailwind CSS - Core utilities */
+@import "tailwindcss";
+
+/* Non-critical CSS - Load after critical rendering path */
 @import "./utilities.css";
 @import "./components.css";
-@import "./animations.css";
+@import "./animations.css" layer(animations);
 
 /* ========================================
    Page-Specific Styles
