@@ -26,14 +26,30 @@ main {
   min-height: 100vh;
 }
 
-/* Section spacing */
+/* Section spacing - Improved consistency */
 section {
-  padding: var(--space-3xl) 0;
+  padding: var(--space-4xl) 0;
   position: relative;
 }
 
 section:first-child {
-  padding-top: var(--space-2xl);
+  padding-top: var(--space-3xl);
+}
+
+/* Specific section adjustments for better visual hierarchy */
+#about {
+  padding-top: var(--space-3xl);
+  padding-bottom: var(--space-4xl);
+}
+
+#skills, #projects, #services, #contact {
+  padding-top: var(--space-4xl);
+  padding-bottom: var(--space-4xl);
+}
+
+#metrics {
+  padding-top: var(--space-3xl);
+  padding-bottom: var(--space-3xl);
 }
 
 /* Pricing section specific */

@@ -18,13 +18,11 @@ const stats = await getProjectStats();
       subtitle={`Showcasing ${stats.total} backend-focused projects: APIs, distributed systems, observability, and performance optimization.`}
     />
 
-    <!-- Enhanced project summary with statistics -->
-    <div class="mb-lg text-center">
-      <p class="text-secondary text-sm">
-        {stats.featured} featured • {stats.total} total projects •
-        {stats.technologies.length} technologies • Categories: {
-          Object.keys(stats.categoryDistribution).join(", ")
-        }
+    <!-- Enhanced project summary -->
+    <div class="mb-xl text-center">
+      <p class="text-secondary text-sm opacity-75">
+        {stats.featured} featured projects • {stats.total} total • 
+        {stats.technologies.length} technologies
       </p>
     </div>
 
@@ -44,7 +42,7 @@ const stats = await getProjectStats();
       }
     </div>
 
-    <div class="btn-container--xl text-center">
+    <div class="mt-4xl text-center">
       <Button size="lg" href="/projects">
         View All Projects
         <svg
