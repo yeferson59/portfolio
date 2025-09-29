@@ -125,7 +125,9 @@ export const getPaginatedProjects = async (
 /**
  * Get projects for homepage (limited to featured or first N projects)
  */
-export const getHomepageProjects = async (limit: number = 6): Promise<Project[]> => {
+export const getHomepageProjects = async (
+  limit: number = 6,
+): Promise<Project[]> => {
   const projects = await getAllProjects();
   return projects.slice(0, limit);
 };
