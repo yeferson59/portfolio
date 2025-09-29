@@ -15,10 +15,7 @@ const services = await getAllServices();
       subtitle="Technical solutions and consulting tailored to your project's needs."
     />
 
-    <div
-      class="services-grid mb-4xl"
-      style="padding-top: var(--space-4xl); margin-bottom: var(--space-4xl); overflow: visible;"
-    >
+    <div class="services-grid mb-4xl">
       {
         services.map(({ data: service }) => (
           <ServiceCard
@@ -34,10 +31,7 @@ const services = await getAllServices();
     </div>
 
     <!-- Bottom CTA -->
-    <div
-      class="text-center"
-      style="margin-top: var(--space-4xl); padding-top: var(--space-xl);"
-    >
+    <div class="mt-4xl text-center">
       <Card class="mx-auto max-w-3xl">
         <h3 class="text-primary mb-md text-2xl font-bold">
           Can't find what you need?
@@ -68,18 +62,11 @@ const services = await getAllServices();
 </section>
 
 <style>
-  .services-section {
-    padding: var(--space-3xl) 0;
-    position: relative;
-  }
-
   .services-grid {
     display: grid;
     gap: var(--space-2xl);
     grid-template-columns: 1fr;
     align-items: stretch;
-    margin-bottom: var(--space-4xl);
-    overflow: visible;
   }
 
   @media (min-width: 768px) {
@@ -95,14 +82,6 @@ const services = await getAllServices();
       gap: var(--space-xl);
       max-width: 1400px;
       margin: 0 auto;
-      padding-top: var(--space-4xl);
-    }
-  }
-
-  /* Ensure badge visibility on all screen sizes */
-  @media (max-width: 767px) {
-    .services-grid {
-      padding-top: var(--space-4xl);
     }
   }
 </style>

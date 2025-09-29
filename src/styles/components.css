@@ -5,9 +5,9 @@
 /* ========== CARDS ========== */
 .card {
   background: var(--color-surface);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-xl);
-  padding: var(--space-lg);
+  padding: var(--space-xl);
   transition: all var(--transition-normal);
   backdrop-filter: blur(10px);
   position: relative;
@@ -20,7 +20,7 @@
   inset: 0;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.08) 0%,
     rgba(255, 255, 255, 0.02) 100%
   );
   opacity: 0;
@@ -31,7 +31,7 @@
 .card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-xl);
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .card:hover::before {
@@ -39,11 +39,12 @@
 }
 
 .card--compact {
-  padding: var(--space-md);
+  padding: var(--space-lg);
 }
 
 .card--raised {
   background: var(--color-surface-raised);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 /* ========== BUTTONS ========== */
@@ -884,6 +885,9 @@
 .section-header {
   text-align: center;
   margin-bottom: var(--space-3xl);
+  max-width: 56rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .section-header__title {
@@ -895,6 +899,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
+  line-height: var(--line-height-tight);
 }
 
 .section-header__subtitle {
@@ -903,6 +908,7 @@
   max-width: 48rem;
   margin: 0 auto;
   line-height: var(--line-height-relaxed);
+  opacity: 0.9;
 }
 
 /* ========== ACCENT DOTS ========== */

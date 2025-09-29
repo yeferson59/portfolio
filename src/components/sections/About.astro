@@ -66,29 +66,32 @@ import SectionHeader from "@/components/layouts/SectionHeader.astro";
 
       <!-- Features -->
       <div class="lg:col-span-2">
-        <h3 class="text-primary mb-sm text-2xl font-bold">Core Principles</h3>
-        <div class="gap-lg mb-xl grid grid-cols-1 sm:grid-cols-2">
-          {
-            coreFeatures.map((feature) => (
-              <Card variant="compact">
-                <div class="gap-md flex items-start">
-                  <div class="mt-xs flex-shrink-0">
-                    <div
-                      class={`accent-dot ${feature.variant === "secondary" ? "accent-dot--secondary" : ""}`}
-                    />
+        <!-- Core Principles -->
+        <div class="mb-4xl">
+          <h3 class="text-primary mb-xl text-2xl font-bold text-center">Core Principles</h3>
+          <div class="gap-lg grid grid-cols-1 sm:grid-cols-2">
+            {
+              coreFeatures.map((feature) => (
+                <Card variant="compact">
+                  <div class="gap-md flex items-start">
+                    <div class="mt-xs flex-shrink-0">
+                      <div
+                        class={`accent-dot ${feature.variant === "secondary" ? "accent-dot--secondary" : ""}`}
+                      />
+                    </div>
+                    <div>
+                      <h4 class="text-primary mb-sm text-lg font-bold">
+                        {feature.title}
+                      </h4>
+                      <p class="text-secondary leading-relaxed">
+                        {feature.description}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 class="text-primary mb-sm text-lg font-bold">
-                      {feature.title}
-                    </h4>
-                    <p class="text-secondary leading-relaxed">
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
-              </Card>
-            ))
-          }
+                </Card>
+              ))
+            }
+          </div>
         </div>
 
         <!-- CTA section -->
@@ -124,7 +127,7 @@ import SectionHeader from "@/components/layouts/SectionHeader.astro";
                     d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
                 </svg>
               </Button>
-              <Button variant="secondary" href="#contact"> Contact </Button>
+              <Button variant="secondary" href="#contact"> Contact Me </Button>
             </div>
           </div>
         </Card>
