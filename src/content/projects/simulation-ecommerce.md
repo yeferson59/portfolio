@@ -2,7 +2,7 @@
 title: "Simulation Ecommerce for Computers"
 description: "System for simulating an ecommerce platform, using OOP principles and design patterns"
 stack: ["C#", "Array List"]
-year: 2025
+year: 2024
 status: "Archived"
 links:
   - name: "Sell computers"

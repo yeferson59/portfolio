@@ -1,18 +1,20 @@
 ---
-name: "Database Design & Optimization"
-subtitle: "High-Performance Data Solutions"
-description: "Database architecture, performance tuning, and optimization strategies for scalable data management and fast query execution."
+name: "Database Design & Performance Tuning"
+subtitle: "87% Faster PostgreSQL Queries & Beyond"
+description: "Expert database optimization with proven 80%+ performance improvements. From schema design to query tuning, indexing strategies to Redis caching, we build high-performance data layers that scale."
 features:
   [
-    "Database schema design and modeling",
-    "Query optimization and indexing strategies",
-    "Performance monitoring and tuning",
-    "Data migration and transformation",
-    "Backup and disaster recovery planning",
-    "Security and access control setup",
-    "Scalability planning for high-traffic",
-    "Ongoing maintenance and support",
+    "PostgreSQL schema design with performant data modeling",
+    "Query optimization and efficient indexing strategies",
+    "PLpgSQL procedures and functions for complex operations",
+    "Redis integration for high-speed caching and data access",
+    "Connection pooling and query parameterization",
+    "Drizzle ORM implementation and optimization",
+    "Data migration, ETL processes, and transformations",
+    "Index optimization with 80-90% query time reduction",
+    "Concurrency management and deadlock prevention",
+    "Performance monitoring and continuous improvement",
   ]
 cta: "Get Quote"
-featured: false
+featured: true
 ---

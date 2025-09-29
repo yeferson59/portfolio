@@ -15,13 +15,13 @@ stack:
 year: 2025
 status: "In Development"
 links:
-  - name: "Main Repository"
-    url: "https://github.com/yeferson59/api-health-checker"
+  - name: "Project Documentation"
+    url: "https://github.com/yeferson59/portfolio/blob/main/docs/api-health-checker.md"
+    type: "documentation"
+  - name: "Architecture Design"
+    url: "https://github.com/yeferson59/portfolio/tree/main/projects/api-health-checker"
     type: "repository"
-  - name: "Live Demo"
-    url: "https://api-health-checker-demo.vercel.app"
-    type: "demo"
 featured: false
 category: "Monitoring"
-draft: true
+draft: false
 ---

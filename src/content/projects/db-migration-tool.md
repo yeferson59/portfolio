@@ -15,13 +15,13 @@ stack:
 year: 2025
 status: "In Development"
 links:
-  - name: "Main Repository"
-    url: "https://github.com/yeferson59/db-migration-tool"
-    type: "repository"
-  - name: "CLI Documentation"
-    url: "https://github.com/yeferson59/db-migration-tool#usage"
+  - name: "Project Specifications"
+    url: "https://github.com/yeferson59/portfolio/blob/main/docs/db-migration-tool.md"
     type: "documentation"
+  - name: "Technical Design"
+    url: "https://github.com/yeferson59/portfolio/tree/main/projects/db-migration-tool"
+    type: "repository"
 featured: false
 category: "Database"
-draft: true
+draft: false
 ---

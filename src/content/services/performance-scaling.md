@@ -1,18 +1,18 @@
 ---
 name: "Performance Audit & Scaling"
-subtitle: "Enterprise Performance Solutions"
-description: "Comprehensive performance analysis and scaling strategies for high-traffic applications requiring enterprise-level reliability."
+subtitle: "From Bottlenecks to 10x Throughput"
+description: "End-to-end performance analysis and scaling strategies. We identify bottlenecks, optimize code and queries, implement caching, and validate results with load testing."
 features:
   [
-    "Complete performance audit and bottleneck analysis",
-    "Load testing and capacity planning",
-    "Caching and CDN optimization strategies",
-    "Auto-scaling and infrastructure management",
-    "Monitoring and alerting setup",
-    "Security assessment and compliance",
-    "24/7 support and incident response",
-    "Team training and knowledge transfer",
+    "Comprehensive performance audit (API, DB, infra)",
+    "Load testing with realistic traffic simulations",
+    "Redis caching strategies and TTL optimization",
+    "PostgreSQL indexing and query tuning",
+    "Docker image slimming and startup time reduction",
+    "CDN and edge optimization guidance",
+    "Monitoring dashboards and alerting setup",
+    "Before/after metrics with concrete improvements",
   ]
 cta: "Get Quote"
-featured: false
+featured: true
 ---
