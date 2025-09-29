@@ -14,5 +14,5 @@ features:
     "Before/after metrics with concrete improvements",
   ]
 cta: "Get Quote"
-featured: true
+featured: false
 ---

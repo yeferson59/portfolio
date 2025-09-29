@@ -16,5 +16,5 @@ features:
     "Zero-downtime deployments and rollback capabilities",
   ]
 cta: "Get Quote"
-featured: true
+featured: false
 ---

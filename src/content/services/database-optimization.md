@@ -16,5 +16,5 @@ features:
     "Performance monitoring and continuous improvement",
   ]
 cta: "Get Quote"
-featured: true
+featured: false
 ---

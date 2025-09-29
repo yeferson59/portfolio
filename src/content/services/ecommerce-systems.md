@@ -18,5 +18,5 @@ features:
     "Load tested for Black Friday-level traffic spikes",
   ]
 cta: "Get Quote"
-featured: true
+featured: false
 ---

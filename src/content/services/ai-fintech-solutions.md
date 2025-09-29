@@ -18,5 +18,5 @@ features:
     "Data processing pipelines for financial analytics",
   ]
 cta: "Get Quote"
-featured: true
+featured: false
 ---
