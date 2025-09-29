@@ -576,3 +576,50 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
+
+/* Additional utility classes for improved layout consistency */
+.space-y-xl > * + * {
+  margin-top: var(--space-xl);
+}
+
+.space-y-lg > * + * {
+  margin-top: var(--space-lg);
+}
+
+.space-y-md > * + * {
+  margin-top: var(--space-md);
+}
+
+/* Max width constraints for better readability */
+.max-w-prose {
+  max-width: 65ch;
+}
+
+.max-w-2xl {
+  max-width: 42rem;
+}
+
+.max-w-3xl {
+  max-width: 48rem;
+}
+
+.max-w-4xl {
+  max-width: 56rem;
+}
+
+.max-w-5xl {
+  max-width: 64rem;
+}
+
+/* Text utilities */
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
