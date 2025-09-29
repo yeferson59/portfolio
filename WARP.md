@@ -4,15 +4,17 @@ This file provides guidance to WARP (warp.dev) when working with code in this re
 
 ## Project Overview
 
-This is a **Backend Developer Portfolio** built with **Astro.js v5.13.7**, **TailwindCSS v4.1.13**, and **TypeScript**. The project features a dark theme design showcasing backend development services, skills, projects, and contact information.
+This is a **Backend Developer Portfolio** built with **Astro.js v5.14.1**, **TailwindCSS v4.1.13**, and **TypeScript 5.9.2**. The project features a dark theme design showcasing backend development services, skills, projects, and contact information with **comprehensive testing infrastructure** using Vitest and Playwright.
 
 ## Key Architecture
 
 ### Technology Stack
 
-- **Framework**: Astro.js v5.13.7 (Static Site Generator)
+- **Framework**: Astro.js v5.14.1 (Static Site Generator)
 - **Styling**: TailwindCSS v4.1.13 with modular CSS architecture
-- **TypeScript**: Strict mode enabled with Astro's recommended config
+- **TypeScript**: v5.9.2 - Strict mode enabled with Astro's recommended config
+- **Testing**: Vitest (unit/integration) + Playwright (E2E) with coverage reporting
+- **Code Quality**: ESLint v9.36.0 + Prettier v3.6.2 with Astro plugins
 - **Package Manager**: Bun (preferred) or npm (fallback)
 - **Build Tool**: Vite (integrated with Astro)
 
@@ -21,40 +23,53 @@ This is a **Backend Developer Portfolio** built with **Astro.js v5.13.7**, **Tai
 ```
 /
 ├── src/
-│   ├── components/        # Astro components (.astro files)
+│   ├── components/        # 22 Astro components (.astro files)
 │   │   ├── sections/      # Page sections (About, Skills, Projects, etc.)
 │   │   ├── ui/           # Reusable UI components (Button, Card, Badge)
-│   │   └── layout/       # Layout components (Header, Footer)
+│   │   └── layouts/      # Layout components (Header, Footer)
+│   ├── config/           # Configuration files (index.ts)
+│   ├── content/          # Content collections (projects, services)
+│   │   ├── projects/     # Project markdown files
+│   │   └── services/     # Service definitions
+│   ├── data/             # Site configuration (site.ts)
 │   ├── layouts/          # Page layouts (Layout.astro)
-│   ├── pages/            # Route pages (index.astro)
-│   └── styles/           # Modular CSS system
-│       ├── main.css      # Entry point
-│       ├── variables.css # Design tokens
-│       ├── base.css      # Reset & base styles
-│       ├── components.css# Component styles
-│       └── animations.css# Performance-optimized animations
+│   ├── pages/            # Route pages (index.astro, 404.astro, etc.)
+│   │   └── projects/     # Dynamic project pages
+│   ├── styles/           # Modular CSS system (2,816 total lines)
+│   │   ├── main.css      # Entry point (373 lines)
+│   │   ├── variables.css # Design tokens (126 lines)
+│   │   ├── base.css      # Reset & base styles (230 lines)
+│   │   ├── components.css# Component styles (1,076 lines)
+│   │   ├── animations.css# Performance-optimized animations (433 lines)
+│   │   └── utilities.css # Utility classes (578 lines)
+│   ├── test/             # Component and integration tests
+│   └── utils/            # Utility functions (pagination, projects, services)
+├── tests/                # Test suite (4 test files)
 ├── public/               # Static assets
 ├── dist/                 # Build output
-└── .astro/              # Generated types
+├── .astro/              # Generated types
+└── docs/                 # Additional documentation
 ```
 
 ### CSS Architecture
 
-The project uses a **modular CSS architecture** (recently refactored from monolithic 840+ line global.css):
+The project uses a **modular CSS architecture** with **2,816 total lines** across 6 specialized files:
 
-- **40% smaller bundle size** through modular loading
-- **Design system** with CSS custom properties for consistent theming
-- **BEM-inspired naming** for component styles (`.btn--primary`, `.card--raised`)
-- **Performance-first animations** using CSS-only transforms and Intersection Observer
+- **Comprehensive modular system** with dedicated files for components, utilities, animations
+- **Design system** with CSS custom properties for consistent theming (126 lines of variables)
+- **Component-focused architecture** (1,076 lines) with BEM-inspired naming
+- **Performance-first animations** (433 lines) using CSS-only transforms and Intersection Observer
+- **Extensive utility system** (578 lines) for rapid development
 
 ### Component System
 
-**12 reusable components** following composition-over-configuration principle:
+**22 reusable components** following composition-over-configuration principle:
 
-- **UI Components**: Button, Card, Badge, SectionHeader
+- **UI Components**: Button, Card, Badge, SectionHeader, and more
 - **Layout Components**: Header, Footer, ScrollReveal
 - **Specialized Components**: Logo, Navigation, MobileMenu, SkillCard, ProjectCard, PricingCard
 - **Page Sections**: About, Skills, Projects, Pricing, Contact
+- **Content Management**: Dynamic project pages with markdown content collections
 
 ## Essential Commands
 
@@ -83,7 +98,7 @@ npm run astro -- --version
 ### Build & Preview
 
 ```bash
-# Build for production (extremely fast ~3-5 seconds)
+# Build for production with type checking (extremely fast ~3-5 seconds)
 bun run build
 
 # Build for production fallback
@@ -99,7 +114,7 @@ npm run preview
 ### Code Quality
 
 ```bash
-# Lint code (includes .astro, .ts, .js, .md files)
+# Lint code (includes .astro, .ts, .js, .md files) - ESLint 9.36.0
 bun run lint
 
 # Lint code fallback
@@ -111,11 +126,48 @@ bun run lint:fix
 # Auto-fix linting issues fallback
 npm run lint:fix
 
+# Format code with Prettier 3.6.2
+bun run format
+
+# Format code fallback
+npm run format
+
+# Check formatting without changes
+bun run format:check
+
 # Check Astro-specific issues
 bun run astro check
 
 # Check Astro-specific issues fallback
 npm run astro check
+```
+
+### Testing Commands
+
+```bash
+# Run unit and integration tests (Vitest)
+bun run test
+
+# Run unit and integration tests fallback
+npm run test
+
+# Run tests in watch mode
+bun run test:watch
+
+# Run tests with UI
+bun run test:ui
+
+# Run tests with coverage reporting
+bun run test:coverage
+
+# Run E2E tests (Playwright)
+bun run test:e2e
+
+# Run E2E tests with UI
+bun run test:e2e:ui
+
+# Run all tests (unit + E2E)
+bun run test:all
 ```
 
 ### Astro CLI Commands
@@ -158,21 +210,33 @@ npm run astro add [integration]
 
 ### Testing Changes
 
-Always validate manually through these scenarios:
+**Automated Testing** (4 test files covering critical functionality):
+
+```bash
+bun run test        # Unit/integration tests with Vitest
+bun run test:e2e    # End-to-end tests with Playwright
+bun run test:all    # Complete test suite
+```
+
+**Manual Validation** scenarios:
 
 1. **Homepage loading** - verify dark theme and all sections visible
 2. **Navigation** - test smooth scrolling and mobile menu
 3. **Interactive elements** - contact form, buttons, animations
 4. **Responsiveness** - test on different screen sizes
+5. **Project pages** - dynamic routing and content collections
+6. **Content management** - markdown rendering and metadata
 
 ### Build Validation
 
 ```bash
 # Complete validation sequence
-bun run build
-bun run dev     # Test functionality
-bun run preview # Test production build
-bun run astro check # Optional type checking
+bun run lint           # ESLint validation
+bun run format:check   # Prettier validation
+bun run test           # Unit/integration tests
+bun run test:e2e       # End-to-end tests
+bun run build          # Production build (includes type checking)
+bun run preview        # Test production build
 ```
 
 ## Architecture Details
@@ -195,25 +259,29 @@ Components follow consistent prop interfaces:
 
 ### Performance Optimizations
 
-- **Static Site Generation** with Astro for fast builds
-- **CSS-only animations** using Intersection Observer
-- **Modular CSS loading** reduces bundle size
+- **Static Site Generation** with Astro 5.14.1 for extremely fast builds
+- **CSS-only animations** (433 lines) using Intersection Observer
+- **Modular CSS architecture** (2,816 lines across 6 files) for optimized loading
+- **Content Collections** for efficient content management
 - **Image optimization** and lazy loading ready
-- **Critical CSS** with base styles loading first
+- **Critical CSS** with base styles (230 lines) loading first
+- **Build-time type checking** integrated into production builds
 
 ## Important Notes
 
 ### Environment Requirements
 
-- **Node.js 18+** (required by Astro v5.13.7)
+- **Node.js 18+** (required by Astro v5.14.1)
 - **Package Manager**: Bun preferred (bun.lock present), npm works perfectly
+- **Testing**: Vitest 3.2.4+ for unit tests, Playwright 1.55.1+ for E2E tests
 
 ### Critical Reminders
 
 - ⏰ **NEVER CANCEL** npm install (takes 45-60s, must complete)
-- 🧪 **ALWAYS test manually** after changes using the validation scenarios
+- 🧪 **RUN TESTS FIRST** - Use automated test suite before manual validation
 - 🔍 **Build and preview** before considering work complete
 - 🏗️ **Validate with browser testing** - functionality over assumptions
+- 📝 **Content collections** - Use markdown files in `src/content/` for new projects/services
 
 ### Performance Expectations
 
@@ -242,10 +310,24 @@ Components follow consistent prop interfaces:
 ### Build Validation Before Deployment
 
 ```bash
-bun lint
-bun format
-bun run build      # Must complete successfully
-# Manual test all user scenarios
+bun run lint           # ESLint validation
+bun run format:check   # Code formatting validation
+bun run test           # Unit and integration tests
+bun run test:e2e       # End-to-end tests
+bun run build          # Production build (includes Astro check)
+# Manual test critical user scenarios
 ```
 
-This is a recently refactored, performance-optimized static site with a mature component system and design tokens. The modular architecture supports rapid development while maintaining consistency and performance.
+## Recent Updates
+
+### Latest Changes (September 2024)
+
+- **Astro upgraded** to v5.14.1 with enhanced performance
+- **Comprehensive testing infrastructure** added with Vitest and Playwright
+- **Content collections** implemented for dynamic project management
+- **Enhanced build pipeline** with integrated type checking
+- **Code quality tools** upgraded (ESLint 9.36.0, Prettier 3.6.2)
+- **Extended component library** now includes 22 specialized components
+- **CSS architecture expanded** to 2,816 lines across 6 modular files
+
+This is a **production-ready, fully tested** static site with comprehensive testing infrastructure, mature component system, and content management capabilities. The modular architecture supports rapid development while maintaining consistency, performance, and reliability through automated testing.
