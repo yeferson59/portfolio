@@ -2,7 +2,14 @@ import type { APIRoute } from "astro";
 import { siteMetadata } from "@/data/site";
 import { getPaginatedProjects } from "@/utils/projects";
 
-const staticPages = ["", "/projects", "/blog", "/terms", "/privacy", "/licenses"];
+const staticPages = [
+  "",
+  "/projects",
+  "/blog",
+  "/terms",
+  "/privacy",
+  "/licenses",
+];
 
 export const GET: APIRoute = async () => {
   const baseUrl = siteMetadata.siteUrl;

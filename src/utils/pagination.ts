@@ -25,21 +25,21 @@ export interface PaginationInfo {
 export function paginate<T>(
   items: T[],
   currentPage: number = 1,
-  itemsPerPage: number = 6
+  itemsPerPage: number = 6,
 ): PaginationData<T> {
   const totalItems = items.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  
+
   // Ensure current page is within bounds
   const page = Math.max(1, Math.min(currentPage, totalPages));
-  
+
   // Calculate start and end indices
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  
+
   // Get items for current page
   const paginatedItems = items.slice(startIndex, endIndex);
-  
+
   return {
     items: paginatedItems,
     currentPage: page,
@@ -57,7 +57,7 @@ export function paginate<T>(
 export function generatePageNumbers(
   currentPage: number,
   totalPages: number,
-  maxVisiblePages: number = 5
+  maxVisiblePages: number = 5,
 ): number[] {
   if (totalPages <= maxVisiblePages) {
     return Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -80,7 +80,7 @@ export function generatePageNumbers(
  */
 export function getPaginationInfo(
   currentPage: number,
-  totalPages: number
+  totalPages: number,
 ): PaginationInfo {
   return {
     currentPage: Math.max(1, Math.min(currentPage, totalPages)),
