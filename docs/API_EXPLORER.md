@@ -7,12 +7,14 @@ El **Interactive API Explorer** es una herramienta completa y desacoplada para p
 ## ✨ Características Principales
 
 ### 🎯 Testing en Tiempo Real
+
 - Envío de requests HTTP reales a APIs configuradas
 - Soporte para todos los métodos HTTP (GET, POST, PUT, DELETE, PATCH, etc.)
 - Visualización de respuestas con formato JSON automático
 - Métricas de rendimiento en tiempo real (duración, tamaño, cache)
 
 ### 🔐 Sistema de Autenticación
+
 - **Bearer Token**: Para APIs con JWT
 - **API Key**: Soporte en headers o query params
 - **Basic Auth**: Autenticación básica HTTP
@@ -20,7 +22,9 @@ El **Interactive API Explorer** es una herramienta completa y desacoplada para p
 - Configuración flexible por API y endpoint
 
 ### 💻 Generación de Código
+
 Genera snippets listos para usar en:
+
 - **cURL**: Comandos de terminal
 - **JavaScript**: Fetch API con async/await
 - **Python**: Librería requests
@@ -30,6 +34,7 @@ Genera snippets listos para usar en:
 - **Ruby**: Net::HTTP
 
 ### 📊 Métricas de Performance
+
 - Tiempo de respuesta (ms)
 - Tamaño del payload (KB/MB)
 - Estado del cache (HIT/MISS)
@@ -37,6 +42,7 @@ Genera snippets listos para usar en:
 - Códigos de estado HTTP con categorización
 
 ### 🎨 Interfaz de Usuario
+
 - Editor JSON interactivo con validación
 - Syntax highlighting para código
 - Tabs organizados por tipo de parámetro
@@ -96,61 +102,61 @@ src/
 Cada API se define mediante un objeto `APIConfiguration`:
 
 ```typescript
-import type { APIConfiguration } from '@/utils/api-explorer/types';
+import type { APIConfiguration } from "@/utils/api-explorer/types";
 
 export const myAPIConfig: APIConfiguration = {
-  id: 'my-api',
-  name: 'My API',
-  baseUrl: 'https://api.example.com/v1',
-  version: '1.0.0',
-  description: 'API description',
-  
+  id: "my-api",
+  name: "My API",
+  baseUrl: "https://api.example.com/v1",
+  version: "1.0.0",
+  description: "API description",
+
   // Autenticación global (opcional)
   authentication: {
-    type: 'bearer',
+    type: "bearer",
     required: true,
-    tokenEndpoint: '/auth/token',
-    description: 'JWT token',
+    tokenEndpoint: "/auth/token",
+    description: "JWT token",
   },
 
   // Headers globales
   globalHeaders: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
+    "Content-Type": "application/json",
+    Accept: "application/json",
   },
 
   // Categorías para organización
-  categories: ['Users', 'Products', 'Orders'],
+  categories: ["Users", "Products", "Orders"],
 
   // Rate limiting info
   rateLimit: {
     requests: 100,
-    period: '1 minute',
+    period: "1 minute",
   },
 
   // Endpoints
   endpoints: [
     {
-      id: 'get-users',
-      name: 'Get Users',
-      method: 'GET',
-      path: '/users',
-      category: 'Users',
-      description: 'Retrieve list of users',
-      
+      id: "get-users",
+      name: "Get Users",
+      method: "GET",
+      path: "/users",
+      category: "Users",
+      description: "Retrieve list of users",
+
       // Parámetros del endpoint
       parameters: {
         query: {
           page: {
-            type: 'integer',
+            type: "integer",
             default: 1,
-            description: 'Page number',
+            description: "Page number",
           },
           limit: {
-            type: 'integer',
+            type: "integer",
             default: 10,
             max: 100,
-            description: 'Items per page',
+            description: "Items per page",
           },
         },
       },
@@ -164,8 +170,8 @@ export const myAPIConfig: APIConfiguration = {
           response: {
             status: 200,
             body: {
-              data: [...],
-              meta: { total: 100 }
+              data: [],
+              meta: { total: 100 },
             },
           },
         },
@@ -182,7 +188,7 @@ export const myAPIConfig: APIConfiguration = {
 3. Importar y agregar al array en `src/utils/api-explorer/config/index.ts`:
 
 ```typescript
-import { myAPIConfig } from './my-api';
+import { myAPIConfig } from "./my-api";
 
 export const availableAPIs: APIConfiguration[] = [
   ecommerceAPIConfig,
@@ -198,7 +204,7 @@ export const availableAPIs: APIConfiguration[] = [
 
 ```astro
 ---
-import APIExplorer from '@/components/api-explorer/core/APIExplorer.astro';
+import APIExplorer from "@/components/api-explorer/core/APIExplorer.astro";
 ---
 
 <APIExplorer defaultAPI="ecommerce-api" />
@@ -212,18 +218,21 @@ import APIExplorer from '@/components/api-explorer/core/APIExplorer.astro';
 ## 🔧 APIs Configuradas
 
 ### 1. E-commerce API
+
 - **Base URL**: `https://api.ecommerce-demo.example.com/v1`
 - **Auth**: Bearer Token (JWT)
 - **Endpoints**: 11
 - **Categorías**: Authentication, Products, Orders, Users, Cart, Payments
 
 ### 2. FastAPI Template
+
 - **Base URL**: `https://api.fastapi-template.example.com/api/v1`
 - **Auth**: OAuth2 (Bearer Token)
 - **Endpoints**: 10
 - **Categorías**: Authentication, Users, Items, Health
 
 ### 3. Finance MCP API
+
 - **Base URL**: `https://api.finance-mcp.example.com/v1`
 - **Auth**: API Key (Header)
 - **Endpoints**: 12
@@ -236,7 +245,10 @@ import APIExplorer from '@/components/api-explorer/core/APIExplorer.astro';
 El sistema incluye tracking completo de métricas:
 
 ```typescript
-import { analyzeMetrics, exportMetrics } from '@/utils/api-explorer/metrics/performance-tracker';
+import {
+  analyzeMetrics,
+  exportMetrics,
+} from "@/utils/api-explorer/metrics/performance-tracker";
 
 // Analizar historial de requests
 const summary = analyzeMetrics(requestHistory);
@@ -291,7 +303,7 @@ export function generateRust(request: APIRequest): string {
 // Agregar a availableLanguages
 export const availableLanguages = [
   // ... existing
-  { id: 'rust', name: 'Rust' },
+  { id: "rust", name: "Rust" },
 ];
 ```
 
@@ -300,26 +312,26 @@ export const availableLanguages = [
 ### Validación de Parámetros
 
 ```typescript
-import { validateRequestParameters } from '@/utils/api-explorer/validation/param-validator';
+import { validateRequestParameters } from "@/utils/api-explorer/validation/param-validator";
 
 const result = validateRequestParameters(endpoint, {
   pathParams: { id: 1 },
   queryParams: { page: 1, limit: 10 },
-  body: { name: 'Test' },
+  body: { name: "Test" },
 });
 
 if (!result.valid) {
-  console.error('Validation errors:', result.errors);
+  console.error("Validation errors:", result.errors);
 }
 ```
 
 ### Testing de Cliente HTTP
 
 ```typescript
-import { apiClient } from '@/utils/api-explorer/client/api-client';
+import { apiClient } from "@/utils/api-explorer/client/api-client";
 
 // Test endpoint connectivity
-const connectivity = await apiClient.testEndpoint('https://api.example.com');
+const connectivity = await apiClient.testEndpoint("https://api.example.com");
 
 // Execute with retry
 const result = await apiClient.executeWithRetry(request, 3, 1000);
@@ -379,6 +391,7 @@ Para agregar nuevas APIs o mejorar funcionalidad:
 ## 📞 Soporte
 
 Para preguntas o issues:
+
 - Abre un issue en GitHub
 - Contacta al desarrollador
 

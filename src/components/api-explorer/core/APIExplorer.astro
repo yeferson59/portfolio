@@ -4,32 +4,32 @@
  * Interactive API testing interface with request builder and response viewer
  */
 
-import { availableAPIs } from '@/utils/api-explorer/config';
-import JSONEditor from '../ui/JSONEditor.astro';
-import CodeBlock from '../ui/CodeBlock.astro';
-import TabPanel from '../ui/TabPanel.astro';
-import StatusIndicator from '../response/StatusIndicator.astro';
-import MetricsPanel from '../response/MetricsPanel.astro';
-import ResponseViewer from '../response/ResponseViewer.astro';
+import { availableAPIs } from "@/utils/api-explorer/config";
+import JSONEditor from "../ui/JSONEditor.astro";
+import CodeBlock from "../ui/CodeBlock.astro";
+import TabPanel from "../ui/TabPanel.astro";
+import StatusIndicator from "../response/StatusIndicator.astro";
+import MetricsPanel from "../response/MetricsPanel.astro";
+import ResponseViewer from "../response/ResponseViewer.astro";
 
 interface Props {
   defaultAPI?: string;
   className?: string;
 }
 
-const { defaultAPI = availableAPIs[0]?.id, className = '' } = Astro.props;
+const { defaultAPI = availableAPIs[0]?.id, className = "" } = Astro.props;
 
 const tabs = [
-  { id: 'params', label: 'Parameters', icon: '⚙️' },
-  { id: 'headers', label: 'Headers', icon: '📋' },
-  { id: 'body', label: 'Body', icon: '📝' },
-  { id: 'auth', label: 'Auth', icon: '🔐' },
+  { id: "params", label: "Parameters", icon: "⚙️" },
+  { id: "headers", label: "Headers", icon: "📋" },
+  { id: "body", label: "Body", icon: "📝" },
+  { id: "auth", label: "Auth", icon: "🔐" },
 ];
 
 const responseTabs = [
-  { id: 'response', label: 'Response', icon: '📄' },
-  { id: 'headers-response', label: 'Headers', icon: '📋' },
-  { id: 'code', label: 'Code', icon: '💻' },
+  { id: "response", label: "Response", icon: "📄" },
+  { id: "headers-response", label: "Headers", icon: "📋" },
+  { id: "code", label: "Code", icon: "💻" },
 ];
 ---
 
@@ -39,11 +39,13 @@ const responseTabs = [
     <div class="api-selector-group">
       <label for="api-select" class="selector-label">API</label>
       <select id="api-select" class="api-select" data-api-select>
-        {availableAPIs.map((api) => (
-          <option value={api.id} selected={api.id === defaultAPI}>
-            {api.name} v{api.version}
-          </option>
-        ))}
+        {
+          availableAPIs.map((api) => (
+            <option value={api.id} selected={api.id === defaultAPI}>
+              {api.name} v{api.version}
+            </option>
+          ))
+        }
       </select>
     </div>
 
@@ -69,9 +71,9 @@ const responseTabs = [
             <option value="DELETE">DELETE</option>
             <option value="PATCH">PATCH</option>
           </select>
-          <input 
-            type="text" 
-            class="url-input" 
+          <input
+            type="text"
+            class="url-input"
             data-url-input
             placeholder="https://api.example.com/endpoint"
             readonly
@@ -88,7 +90,7 @@ const responseTabs = [
               <p class="empty-state">No path parameters</p>
             </div>
           </div>
-          
+
           <div class="param-section">
             <h4 class="section-title">Query Parameters</h4>
             <div id="query-params" class="params-list" data-query-params>
@@ -97,7 +99,6 @@ const responseTabs = [
           </div>
         </div>
 
-        <!-- Headers Tab -->
         <div data-tab-panel-content="headers">
           <div class="param-section">
             <h4 class="section-title">Request Headers</h4>
@@ -110,9 +111,8 @@ const responseTabs = [
           </div>
         </div>
 
-        <!-- Body Tab -->
         <div data-tab-panel-content="body">
-          <JSONEditor 
+          <JSONEditor
             id="request-body-editor"
             label="Request Body (JSON)"
             placeholder='{\n  "key": "value"\n}'
@@ -120,7 +120,6 @@ const responseTabs = [
           />
         </div>
 
-        <!-- Auth Tab -->
         <div data-tab-panel-content="auth">
           <div class="auth-section">
             <div class="auth-type-selector">
@@ -157,7 +156,11 @@ const responseTabs = [
         <h3 class="panel-title">Response</h3>
       </div>
 
-      <div id="response-container" class="response-container" data-response-container>
+      <div
+        id="response-container"
+        class="response-container"
+        data-response-container
+      >
         <ResponseViewer />
       </div>
     </div>
@@ -273,7 +276,7 @@ const responseTabs = [
   .url-input {
     flex: 1;
     padding: 0.75rem;
-    font-family: 'Monaco', 'Menlo', monospace;
+    font-family: "Monaco", "Menlo", monospace;
     font-size: 0.875rem;
     color: var(--color-text-primary);
     background: var(--color-bg-tertiary);
@@ -406,7 +409,6 @@ const responseTabs = [
     background: rgba(var(--color-primary-rgb), 0.2);
   }
 
-
   /* Response */
   .response-container {
     flex: 1;
@@ -480,7 +482,7 @@ const responseTabs = [
     height: 4rem;
     font-size: 1.5rem;
     font-weight: 700;
-    font-family: 'Monaco', 'Menlo', monospace;
+    font-family: "Monaco", "Menlo", monospace;
     border-radius: 0.5rem;
   }
 
@@ -635,7 +637,7 @@ const responseTabs = [
   .metric-value {
     font-size: 1.125rem;
     font-weight: 600;
-    font-family: 'Monaco', 'Menlo', monospace;
+    font-family: "Monaco", "Menlo", monospace;
     color: var(--color-text-primary);
   }
 
@@ -878,7 +880,7 @@ const responseTabs = [
   }
 
   .json-content {
-    font-family: 'Monaco', 'Menlo', monospace;
+    font-family: "Monaco", "Menlo", monospace;
     font-size: 0.875rem;
     line-height: 1.5;
     color: var(--color-text-primary);
@@ -929,7 +931,7 @@ const responseTabs = [
 
   .header-name code,
   .header-value code {
-    font-family: 'Monaco', 'Menlo', monospace;
+    font-family: "Monaco", "Menlo", monospace;
     font-size: 0.8125rem;
     color: var(--color-text-primary);
     background: transparent;
@@ -985,7 +987,7 @@ const responseTabs = [
   }
 
   .raw-content {
-    font-family: 'Monaco', 'Menlo', monospace;
+    font-family: "Monaco", "Menlo", monospace;
     font-size: 0.875rem;
     line-height: 1.5;
     color: var(--color-text-primary);
@@ -1081,12 +1083,22 @@ const responseTabs = [
 </style>
 
 <script>
-  import { apiClient } from '@/utils/api-explorer/client/api-client';
-  import { buildAPIRequest, getDefaultParameters } from '@/utils/api-explorer/client/request-builder';
-  import { validateRequestParameters } from '@/utils/api-explorer/validation/param-validator';
-  import { generateCode, availableLanguages } from '@/utils/api-explorer/code-generation/generators';
-  import { getAPIConfig } from '@/utils/api-explorer/config';
-  import type { APIConfiguration, APIEndpoint, APIRequestResult } from '@/utils/api-explorer/types';
+  import { apiClient } from "@/utils/api-explorer/client/api-client";
+  import {
+    buildAPIRequest,
+    getDefaultParameters,
+  } from "@/utils/api-explorer/client/request-builder";
+  import { validateRequestParameters } from "@/utils/api-explorer/validation/param-validator";
+  import {
+    generateCode,
+    availableLanguages,
+  } from "@/utils/api-explorer/code-generation/generators";
+  import { getAPIConfig } from "@/utils/api-explorer/config";
+  import type {
+    APIConfiguration,
+    APIEndpoint,
+    APIRequestResult,
+  } from "@/utils/api-explorer/types";
 
   class APIExplorerController {
     private currentAPI?: APIConfiguration;
@@ -1102,30 +1114,40 @@ const responseTabs = [
 
     private initEventListeners() {
       // API selection
-      const apiSelect = document.querySelector('[data-api-select]') as HTMLSelectElement;
-      apiSelect?.addEventListener('change', (e) => {
+      const apiSelect = document.querySelector(
+        "[data-api-select]",
+      ) as HTMLSelectElement;
+      apiSelect?.addEventListener("change", (e) => {
         const apiId = (e.target as HTMLSelectElement).value;
         this.loadAPI(apiId);
       });
 
       // Endpoint selection
-      const endpointSelect = document.querySelector('[data-endpoint-select]') as HTMLSelectElement;
-      endpointSelect?.addEventListener('change', (e) => {
+      const endpointSelect = document.querySelector(
+        "[data-endpoint-select]",
+      ) as HTMLSelectElement;
+      endpointSelect?.addEventListener("change", (e) => {
         const endpointId = (e.target as HTMLSelectElement).value;
         this.loadEndpoint(endpointId);
       });
 
       // Send request
-      const sendBtn = document.querySelector('[data-send-request]') as HTMLButtonElement;
-      sendBtn?.addEventListener('click', () => this.sendRequest());
+      const sendBtn = document.querySelector(
+        "[data-send-request]",
+      ) as HTMLButtonElement;
+      sendBtn?.addEventListener("click", () => this.sendRequest());
 
       // Clear request
-      const clearBtn = document.querySelector('[data-clear-request]') as HTMLButtonElement;
-      clearBtn?.addEventListener('click', () => this.clearRequest());
+      const clearBtn = document.querySelector(
+        "[data-clear-request]",
+      ) as HTMLButtonElement;
+      clearBtn?.addEventListener("click", () => this.clearRequest());
     }
 
     private loadDefaultAPI() {
-      const apiSelect = document.querySelector('[data-api-select]') as HTMLSelectElement;
+      const apiSelect = document.querySelector(
+        "[data-api-select]",
+      ) as HTMLSelectElement;
       if (apiSelect?.value) {
         this.loadAPI(apiSelect.value);
       }
@@ -1136,11 +1158,14 @@ const responseTabs = [
       if (!this.currentAPI) return;
 
       // Populate endpoints
-      const endpointSelect = document.querySelector('[data-endpoint-select]') as HTMLSelectElement;
+      const endpointSelect = document.querySelector(
+        "[data-endpoint-select]",
+      ) as HTMLSelectElement;
       if (endpointSelect) {
-        endpointSelect.innerHTML = '<option value="">Select an endpoint...</option>';
+        endpointSelect.innerHTML =
+          '<option value="">Select an endpoint...</option>';
         this.currentAPI.endpoints.forEach((endpoint) => {
-          const option = document.createElement('option');
+          const option = document.createElement("option");
           option.value = endpoint.id;
           option.textContent = `${endpoint.method} ${endpoint.name}`;
           endpointSelect.appendChild(option);
@@ -1150,18 +1175,24 @@ const responseTabs = [
 
     private loadEndpoint(endpointId: string) {
       if (!this.currentAPI) return;
-      
-      this.currentEndpoint = this.currentAPI.endpoints.find((e) => e.id === endpointId);
+
+      this.currentEndpoint = this.currentAPI.endpoints.find(
+        (e) => e.id === endpointId,
+      );
       if (!this.currentEndpoint) return;
 
       // Update method select
-      const methodSelect = document.querySelector('[data-method-select]') as HTMLSelectElement;
+      const methodSelect = document.querySelector(
+        "[data-method-select]",
+      ) as HTMLSelectElement;
       if (methodSelect) {
         methodSelect.value = this.currentEndpoint.method;
       }
 
       // Update URL input
-      const urlInput = document.querySelector('[data-url-input]') as HTMLInputElement;
+      const urlInput = document.querySelector(
+        "[data-url-input]",
+      ) as HTMLInputElement;
       if (urlInput) {
         const fullPath = `${this.currentAPI.baseUrl}${this.currentEndpoint.path}`;
         urlInput.value = fullPath;
@@ -1175,7 +1206,7 @@ const responseTabs = [
       if (!this.currentEndpoint) return;
 
       const defaults = getDefaultParameters(this.currentEndpoint);
-      
+
       // TODO: Render path parameters
       // TODO: Render query parameters
       // TODO: Load body example
@@ -1183,35 +1214,44 @@ const responseTabs = [
 
     private async sendRequest() {
       if (!this.currentAPI || !this.currentEndpoint) {
-        alert('Please select an API and endpoint');
+        alert("Please select an API and endpoint");
         return;
       }
 
       // Get authentication
-      const authType = (document.querySelector('[data-auth-type]') as HTMLSelectElement)?.value;
-      const authToken = (document.querySelector('[data-auth-token]') as HTMLInputElement)?.value;
+      const authType = (
+        document.querySelector("[data-auth-type]") as HTMLSelectElement
+      )?.value;
+      const authToken = (
+        document.querySelector("[data-auth-token]") as HTMLInputElement
+      )?.value;
 
       // Build request
       const request = buildAPIRequest(this.currentAPI, this.currentEndpoint, {
         pathParams: {},
         queryParams: {},
-        authentication: authType !== 'none' ? {
-          type: authType as any,
-          token: authToken,
-        } : undefined,
+        authentication:
+          authType !== "none"
+            ? {
+                type: authType as any,
+                token: authToken,
+              }
+            : undefined,
       });
 
       // Send request
-      const sendBtn = document.querySelector('[data-send-request]') as HTMLButtonElement;
+      const sendBtn = document.querySelector(
+        "[data-send-request]",
+      ) as HTMLButtonElement;
       sendBtn.disabled = true;
-      sendBtn.textContent = 'Sending...';
+      sendBtn.textContent = "Sending...";
 
       try {
         const result = await apiClient.executeRequest(request);
         this.requestHistory.push(result);
         this.displayResponse(result);
       } catch (error) {
-        console.error('Request failed:', error);
+        console.error("Request failed:", error);
       } finally {
         sendBtn.disabled = false;
         sendBtn.innerHTML = '<span class="btn-icon">🚀</span> Send Request';
@@ -1220,7 +1260,7 @@ const responseTabs = [
 
     private initResponseViewer() {
       // Get reference to the ResponseViewer component
-      this.responseViewer = document.querySelector('[data-response-viewer]');
+      this.responseViewer = document.querySelector("[data-response-viewer]");
     }
 
     private displayResponse(result: APIRequestResult) {
@@ -1229,7 +1269,9 @@ const responseTabs = [
     }
 
     private updateResponseViewer(result: APIRequestResult) {
-      const container = document.querySelector('[data-response-container]') as HTMLElement;
+      const container = document.querySelector(
+        "[data-response-container]",
+      ) as HTMLElement;
       if (!container) return;
 
       // Create a new ResponseViewer instance with the result data
@@ -1243,7 +1285,7 @@ const responseTabs = [
     private createResponseViewerHTML(result: APIRequestResult): string {
       // Helper to escape HTML
       const escapeHtml = (str: string) => {
-        const div = document.createElement('div');
+        const div = document.createElement("div");
         div.textContent = str;
         return div.innerHTML;
       };
@@ -1251,89 +1293,103 @@ const responseTabs = [
       // Performance optimizations for large objects
       const isLargeObject = (obj: any): boolean => {
         if (!obj) return false;
-        const jsonString = typeof obj === 'string' ? obj : JSON.stringify(obj);
+        const jsonString = typeof obj === "string" ? obj : JSON.stringify(obj);
         return jsonString.length > 50000; // 50KB threshold
       };
 
       const truncateForDisplay = (obj: any, maxDepth: number = 3): any => {
-        if (maxDepth <= 0) return '[Object]';
-        
+        if (maxDepth <= 0) return "[Object]";
+
         if (Array.isArray(obj)) {
           if (obj.length > 100) {
             return [
               ...obj.slice(0, 50),
               `... ${obj.length - 50} more items ...`,
-              ...obj.slice(-25)
+              ...obj.slice(-25),
             ];
           }
-          return obj.map(item => 
-            typeof item === 'object' ? truncateForDisplay(item, maxDepth - 1) : item
+          return obj.map((item) =>
+            typeof item === "object"
+              ? truncateForDisplay(item, maxDepth - 1)
+              : item,
           );
         }
-        
-        if (obj && typeof obj === 'object') {
+
+        if (obj && typeof obj === "object") {
           const keys = Object.keys(obj);
           if (keys.length > 50) {
             const truncated: any = {};
-            keys.slice(0, 25).forEach(key => {
-              truncated[key] = typeof obj[key] === 'object' 
-                ? truncateForDisplay(obj[key], maxDepth - 1) 
-                : obj[key];
+            keys.slice(0, 25).forEach((key) => {
+              truncated[key] =
+                typeof obj[key] === "object"
+                  ? truncateForDisplay(obj[key], maxDepth - 1)
+                  : obj[key];
             });
-            truncated['...'] = `${keys.length - 25} more properties`;
-            keys.slice(-10).forEach(key => {
-              truncated[key] = typeof obj[key] === 'object' 
-                ? truncateForDisplay(obj[key], maxDepth - 1) 
-                : obj[key];
+            truncated["..."] = `${keys.length - 25} more properties`;
+            keys.slice(-10).forEach((key) => {
+              truncated[key] =
+                typeof obj[key] === "object"
+                  ? truncateForDisplay(obj[key], maxDepth - 1)
+                  : obj[key];
             });
             return truncated;
           }
-          
+
           const result: any = {};
-          keys.forEach(key => {
-            result[key] = typeof obj[key] === 'object' 
-              ? truncateForDisplay(obj[key], maxDepth - 1) 
-              : obj[key];
+          keys.forEach((key) => {
+            result[key] =
+              typeof obj[key] === "object"
+                ? truncateForDisplay(obj[key], maxDepth - 1)
+                : obj[key];
           });
           return result;
         }
-        
+
         return obj;
       };
 
       // Format response size
       const getResponseSize = () => {
         if (!result.response) return undefined;
-        const bodySize = result.response.body 
-          ? JSON.stringify(result.response.body).length 
+        const bodySize = result.response.body
+          ? JSON.stringify(result.response.body).length
           : 0;
-        const headersSize = Object.entries(result.response.headers || {})
-          .reduce((acc, [key, value]) => acc + key.length + value.length, 0);
+        const headersSize = Object.entries(
+          result.response.headers || {},
+        ).reduce((acc, [key, value]) => acc + key.length + value.length, 0);
         return bodySize + headersSize;
       };
 
       const responseSize = getResponseSize();
-      const isLarge = result.response?.body && isLargeObject(result.response.body);
-      
+      const isLarge =
+        result.response?.body && isLargeObject(result.response.body);
+
       // Use truncated version for display if object is large
-      const displayBody = isLarge && result.response
-        ? truncateForDisplay(result.response.body, 3)
-        : result.response?.body;
-      
-      const formattedBody = displayBody 
+      const displayBody =
+        isLarge && result.response
+          ? truncateForDisplay(result.response.body, 3)
+          : result.response?.body;
+
+      const formattedBody = displayBody
         ? JSON.stringify(displayBody, null, 2)
-        : '';
-      
-      const rawContent = JSON.stringify({
-        status: result.response?.status,
-        statusText: result.response?.statusText,
-        headers: result.response?.headers,
-        body: result.response?.body
-      }, null, 2);
+        : "";
+
+      const rawContent = JSON.stringify(
+        {
+          status: result.response?.status,
+          statusText: result.response?.statusText,
+          headers: result.response?.headers,
+          body: result.response?.body,
+        },
+        null,
+        2,
+      );
 
       // Build headers table rows
-      const headersHTML = result.response?.headers 
-        ? Object.entries(result.response.headers).map(([key, value]) => `
+      const headersHTML = result.response?.headers
+        ? Object.entries(result.response.headers)
+            .map(
+              ([key, value]) => `
             <tr class="header-row" data-header-name="${key.toLowerCase()}">
               <td class="header-name"><code>${escapeHtml(key)}</code></td>
               <td class="header-value"><code>${escapeHtml(value)}</code></td>
@@ -1341,16 +1397,17 @@ const responseTabs = [
                 <button type="button" class="copy-header-btn" data-copy-header="${escapeHtml(`${key}: ${value}`)}" title="Copy Header">📋</button>
               </td>
             </tr>
-          `).join('')
-        : '';
+          `,
+            )
+            .join("")
+        : "";
 
       return `
         <div class="response-viewer" data-response-viewer>
           <div class="response-content">
-            <!-- Response Header with Status and Metrics -->
             <div class="response-header">
               <div class="status-indicator status-${this.getStatusColor(result.response?.status)}">
-                <div class="status-code">${result.response?.status || '---'}</div>
+                <div class="status-code">${result.response?.status || "---"}</div>
                 <div class="status-details">
                   <div class="status-text">${result.response?.statusText || this.getStatusCategory(result.response?.status)}</div>
                   <div class="status-description">${this.getStatusDescription(result.response?.status)}</div>
@@ -1376,7 +1433,7 @@ const responseTabs = [
                   <div class="metric-icon">📦</div>
                   <div class="metric-content">
                     <div class="metric-label">Size</div>
-                    <div class="metric-value">${responseSize ? this.formatSize(responseSize) : '--'}</div>
+                    <div class="metric-value">${responseSize ? this.formatSize(responseSize) : "--"}</div>
                   </div>
                 </div>
                 <div class="metric-item">
@@ -1386,7 +1443,9 @@ const responseTabs = [
                     <div class="metric-value">${new Date(result.timestamp).toLocaleTimeString()}</div>
                   </div>
                 </div>
-                ${result.metrics.cached ? `
+                ${
+                  result.metrics.cached
+                    ? `
                   <div class="metric-item metric-cached">
                     <div class="metric-icon">💾</div>
                     <div class="metric-content">
@@ -1394,11 +1453,12 @@ const responseTabs = [
                       <div class="metric-value">HIT</div>
                     </div>
                   </div>
-                ` : ''}
+                `
+                    : ""
+                }
               </div>
             </div>
 
-            <!-- Response Tabs -->
             <div class="response-tabs-container">
               <div class="tab-panel" data-tab-panel>
                 <div class="tab-buttons">
@@ -1413,12 +1473,13 @@ const responseTabs = [
                   </button>
                 </div>
 
-                <!-- Body Tab -->
                 <div class="tab-content tab-content-active" data-tab-panel-content="body">
                   <div class="tab-header">
                     <h4 class="tab-title">Response Body</h4>
                     <div class="tab-actions">
-                      ${isLarge ? `
+                      ${
+                        isLarge
+                          ? `
                         <div class="size-indicator">
                           <span class="size-badge size-large">
                             📊 Large Response (${this.formatSize(responseSize || 0)})
@@ -1427,15 +1488,21 @@ const responseTabs = [
                         <button type="button" class="expand-btn" data-expand-all title="Show Full Response">
                           🔍 Show Full
                         </button>
-                      ` : ''}
+                      `
+                          : ""
+                      }
                       <button type="button" class="copy-btn" data-copy-body title="Copy Body">📋 Copy</button>
                       <button type="button" class="format-btn" data-format-toggle title="Toggle Format">🎨 Format</button>
                     </div>
                   </div>
                   <div class="response-body-container">
-                    ${formattedBody ? `
+                    ${
+                      formattedBody
+                        ? `
                       <div class="json-viewer">
-                        ${isLarge ? `
+                        ${
+                          isLarge
+                            ? `
                           <div class="performance-warning">
                             <div class="warning-icon">⚠️</div>
                             <div class="warning-content">
@@ -1443,18 +1510,21 @@ const responseTabs = [
                               <p>This response has been truncated for performance. Click "Show Full" to see the complete data.</p>
                             </div>
                           </div>
-                        ` : ''}
+                        `
+                            : ""
+                        }
                         <pre class="json-content" data-json-content data-is-large="${isLarge}" data-original-size="${responseSize || 0}">${escapeHtml(formattedBody)}</pre>
                       </div>
-                    ` : `
+                    `
+                        : `
                       <div class="empty-body">
                         <p>No response body</p>
                       </div>
-                    `}
+                    `
+                    }
                   </div>
                 </div>
 
-                <!-- Headers Tab -->
                 <div class="tab-content" data-tab-panel-content="headers">
                   <div class="tab-header">
                     <h4 class="tab-title">Response Headers</h4>
@@ -1464,7 +1534,9 @@ const responseTabs = [
                     </div>
                   </div>
                   <div class="headers-container">
-                    ${headersHTML ? `
+                    ${
+                      headersHTML
+                        ? `
                       <div class="headers-table">
                         <table>
                           <thead>
@@ -1473,13 +1545,14 @@ const responseTabs = [
                           <tbody data-headers-body>${headersHTML}</tbody>
                         </table>
                       </div>
-                    ` : `
+                    `
+                        : `
                       <div class="empty-headers"><p>No response headers</p></div>
-                    `}
+                    `
+                    }
                   </div>
                 </div>
 
-                <!-- Raw Tab -->
                 <div class="tab-content" data-tab-panel-content="raw">
                   <div class="tab-header">
                     <h4 class="tab-title">Raw Response</h4>
@@ -1492,7 +1565,7 @@ const responseTabs = [
                   <div class="raw-container">
                     <div class="raw-info">
                       <span class="info-item">Status: <strong>${result.response?.status} ${result.response?.statusText}</strong></span>
-                      <span class="info-item">Size: <strong>${responseSize ? this.formatSize(responseSize) : 'Unknown'}</strong></span>
+                      <span class="info-item">Size: <strong>${responseSize ? this.formatSize(responseSize) : "Unknown"}</strong></span>
                       <span class="info-item">Duration: <strong>${result.metrics.duration}ms</strong></span>
                     </div>
                     <div class="raw-content-container">
@@ -1519,54 +1592,54 @@ const responseTabs = [
 
     // Helper methods for ResponseViewer
     private getStatusColor(status?: number): string {
-      if (!status) return 'gray';
-      if (status >= 200 && status < 300) return 'green';
-      if (status >= 300 && status < 400) return 'blue';
-      if (status >= 400 && status < 500) return 'orange';
-      if (status >= 500) return 'red';
-      return 'gray';
+      if (!status) return "gray";
+      if (status >= 200 && status < 300) return "green";
+      if (status >= 300 && status < 400) return "blue";
+      if (status >= 400 && status < 500) return "orange";
+      if (status >= 500) return "red";
+      return "gray";
     }
 
     private getStatusCategory(status?: number): string {
-      if (!status) return 'Pending';
-      if (status >= 200 && status < 300) return 'Success';
-      if (status >= 300 && status < 400) return 'Redirect';
-      if (status >= 400 && status < 500) return 'Client Error';
-      if (status >= 500) return 'Server Error';
-      return 'Unknown';
+      if (!status) return "Pending";
+      if (status >= 200 && status < 300) return "Success";
+      if (status >= 300 && status < 400) return "Redirect";
+      if (status >= 400 && status < 500) return "Client Error";
+      if (status >= 500) return "Server Error";
+      return "Unknown";
     }
 
     private getStatusDescription(status?: number): string {
-      if (!status) return 'No request sent';
-      if (status >= 200 && status < 300) return 'Request succeeded';
-      if (status >= 300 && status < 400) return 'Request redirected';
-      if (status >= 400 && status < 500) return 'Client-side error';
-      if (status >= 500) return 'Server-side error';
-      return 'Unknown status';
+      if (!status) return "No request sent";
+      if (status >= 200 && status < 300) return "Request succeeded";
+      if (status >= 300 && status < 400) return "Request redirected";
+      if (status >= 400 && status < 500) return "Client-side error";
+      if (status >= 500) return "Server-side error";
+      return "Unknown status";
     }
 
     private getDurationColor(ms?: number): string {
-      if (!ms) return 'gray';
-      if (ms < 100) return 'green';
-      if (ms < 500) return 'blue';
-      if (ms < 1000) return 'orange';
-      return 'red';
+      if (!ms) return "gray";
+      if (ms < 100) return "green";
+      if (ms < 500) return "blue";
+      if (ms < 1000) return "orange";
+      return "red";
     }
 
     private formatDuration(ms?: number): string {
-      if (!ms && ms !== 0) return '--';
+      if (!ms && ms !== 0) return "--";
       if (ms < 1000) return `${Math.round(ms)}ms`;
       return `${(ms / 1000).toFixed(2)}s`;
     }
 
     private formatSize(bytes?: number): string {
-      if (!bytes && bytes !== 0) return '--';
-      if (bytes === 0) return '0 B';
-      
-      const units = ['B', 'KB', 'MB', 'GB'];
+      if (!bytes && bytes !== 0) return "--";
+      if (bytes === 0) return "0 B";
+
+      const units = ["B", "KB", "MB", "GB"];
       const i = Math.floor(Math.log(bytes) / Math.log(1024));
       const size = bytes / Math.pow(1024, i);
-      
+
       return `${size.toFixed(2)} ${units[i]}`;
     }
 
@@ -1577,14 +1650,14 @@ const responseTabs = [
         return true;
       } catch (error) {
         // Fallback for older browsers
-        const textArea = document.createElement('textarea');
+        const textArea = document.createElement("textarea");
         textArea.value = text;
         document.body.appendChild(textArea);
         textArea.focus();
         textArea.select();
-        
+
         try {
-          const successful = document.execCommand('copy');
+          const successful = document.execCommand("copy");
           document.body.removeChild(textArea);
           return successful;
         } catch (err) {
@@ -1596,49 +1669,61 @@ const responseTabs = [
 
     private showCopyFeedback(button: HTMLElement) {
       const originalContent = button.innerHTML;
-      button.innerHTML = '✅ Copied!';
-      button.style.color = 'var(--color-primary)';
-      
+      button.innerHTML = "✅ Copied!";
+      button.style.color = "var(--color-primary)";
+
       setTimeout(() => {
         button.innerHTML = originalContent;
-        button.style.color = '';
+        button.style.color = "";
       }, 2000);
     }
 
     private initCopyButtons() {
-      document.addEventListener('click', async (e) => {
+      document.addEventListener("click", async (e) => {
         const target = e.target as HTMLElement;
-        
-        if (target.matches('[data-copy-body]')) {
-          const jsonContent = document.querySelector('[data-json-content]') as HTMLElement;
+
+        if (target.matches("[data-copy-body]")) {
+          const jsonContent = document.querySelector(
+            "[data-json-content]",
+          ) as HTMLElement;
           if (jsonContent) {
-            const success = await this.copyToClipboard(jsonContent.textContent || '');
+            const success = await this.copyToClipboard(
+              jsonContent.textContent || "",
+            );
             if (success) this.showCopyFeedback(target);
           }
         }
 
-        if (target.matches('[data-copy-headers]')) {
-          const headerRows = document.querySelectorAll('.header-row');
-          const headers = Array.from(headerRows).map(row => {
-            const name = row.querySelector('.header-name code')?.textContent || '';
-            const value = row.querySelector('.header-value code')?.textContent || '';
-            return `${name}: ${value}`;
-          }).join('\n');
-          
+        if (target.matches("[data-copy-headers]")) {
+          const headerRows = document.querySelectorAll(".header-row");
+          const headers = Array.from(headerRows)
+            .map((row) => {
+              const name =
+                row.querySelector(".header-name code")?.textContent || "";
+              const value =
+                row.querySelector(".header-value code")?.textContent || "";
+              return `${name}: ${value}`;
+            })
+            .join("\n");
+
           const success = await this.copyToClipboard(headers);
           if (success) this.showCopyFeedback(target);
         }
 
-        if (target.matches('[data-copy-header]')) {
-          const headerValue = target.getAttribute('data-copy-header') || '';
+        if (target.matches("[data-copy-header]")) {
+          const headerValue = target.getAttribute("data-copy-header") || "";
           const success = await this.copyToClipboard(headerValue);
           if (success) this.showCopyFeedback(target);
         }
 
-        if (target.matches('[data-copy-raw]')) {
-          const rawContent = document.querySelector('[data-raw-content]') as HTMLElement;
+        if (target.matches("[data-copy-raw]")) {
+          const rawContent = document.querySelector(
+            "[data-raw-content]",
+          ) as HTMLElement;
           if (rawContent) {
-            const success = await this.copyToClipboard(rawContent.textContent || '');
+            const success = await this.copyToClipboard(
+              rawContent.textContent || "",
+            );
             if (success) this.showCopyFeedback(target);
           }
         }
@@ -1646,149 +1731,161 @@ const responseTabs = [
     }
 
     private initHeaderSearch() {
-      document.addEventListener('input', (e) => {
+      document.addEventListener("input", (e) => {
         const target = e.target as HTMLElement;
-        if (target.matches('[data-header-search]')) {
+        if (target.matches("[data-header-search]")) {
           const searchTerm = (target as HTMLInputElement).value.toLowerCase();
-          const headerRows = document.querySelectorAll('.header-row');
+          const headerRows = document.querySelectorAll(".header-row");
 
           headerRows.forEach((row) => {
-            const headerName = row.getAttribute('data-header-name') || '';
-            const visible = headerName.includes(searchTerm) || searchTerm === '';
-            (row as HTMLElement).style.display = visible ? '' : 'none';
+            const headerName = row.getAttribute("data-header-name") || "";
+            const visible =
+              headerName.includes(searchTerm) || searchTerm === "";
+            (row as HTMLElement).style.display = visible ? "" : "none";
           });
         }
       });
     }
 
     private initFormatToggle() {
-      document.addEventListener('click', (e) => {
+      document.addEventListener("click", (e) => {
         const target = e.target as HTMLElement;
-        
-        if (target.matches('[data-format-toggle]')) {
-          const jsonContent = document.querySelector('[data-json-content]') as HTMLElement;
+
+        if (target.matches("[data-format-toggle]")) {
+          const jsonContent = document.querySelector(
+            "[data-json-content]",
+          ) as HTMLElement;
           if (!jsonContent) return;
 
-          const isFormatted = jsonContent.style.whiteSpace !== 'pre-line';
-          
+          const isFormatted = jsonContent.style.whiteSpace !== "pre-line";
+
           if (isFormatted) {
-            jsonContent.style.whiteSpace = 'pre-line';
-            target.textContent = '📋 Minify';
+            jsonContent.style.whiteSpace = "pre-line";
+            target.textContent = "📋 Minify";
           } else {
-            jsonContent.style.whiteSpace = 'pre';
-            target.textContent = '🎨 Format';
+            jsonContent.style.whiteSpace = "pre";
+            target.textContent = "🎨 Format";
           }
         }
 
-        if (target.matches('[data-toggle-wrap]')) {
-          const rawContent = document.querySelector('[data-raw-content]') as HTMLElement;
+        if (target.matches("[data-toggle-wrap]")) {
+          const rawContent = document.querySelector(
+            "[data-raw-content]",
+          ) as HTMLElement;
           if (!rawContent) return;
 
-          const isWrapped = rawContent.style.whiteSpace === 'pre-wrap';
-          
+          const isWrapped = rawContent.style.whiteSpace === "pre-wrap";
+
           if (isWrapped) {
-            rawContent.style.whiteSpace = 'pre';
-            target.textContent = '🔄 Wrap';
+            rawContent.style.whiteSpace = "pre";
+            target.textContent = "🔄 Wrap";
           } else {
-            rawContent.style.whiteSpace = 'pre-wrap';
-            target.textContent = '↩️ No Wrap';
+            rawContent.style.whiteSpace = "pre-wrap";
+            target.textContent = "↩️ No Wrap";
           }
         }
       });
     }
 
     private initExportButtons() {
-      document.addEventListener('click', async (e) => {
+      document.addEventListener("click", async (e) => {
         const target = e.target as HTMLElement;
-        
-        if (target.matches('[data-download-response]')) {
-          const rawContent = document.querySelector('[data-raw-content]') as HTMLElement;
+
+        if (target.matches("[data-download-response]")) {
+          const rawContent = document.querySelector(
+            "[data-raw-content]",
+          ) as HTMLElement;
           if (!rawContent) return;
 
-          const content = rawContent.textContent || '';
-          const blob = new Blob([content], { type: 'application/json' });
+          const content = rawContent.textContent || "";
+          const blob = new Blob([content], { type: "application/json" });
           const url = URL.createObjectURL(blob);
-          
-          const a = document.createElement('a');
+
+          const a = document.createElement("a");
           a.href = url;
-          a.download = `api-response-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.json`;
+          a.download = `api-response-${new Date().toISOString().slice(0, 19).replace(/:/g, "-")}.json`;
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
           URL.revokeObjectURL(url);
         }
 
-        if (target.matches('[data-clear-response]')) {
+        if (target.matches("[data-clear-response]")) {
           this.clearRequest();
         }
       });
     }
 
     private initTabPanel() {
-      document.addEventListener('click', (e) => {
+      document.addEventListener("click", (e) => {
         const target = e.target as HTMLElement;
-        const tabButton = target.closest('[data-tab-button]') as HTMLElement;
-        
+        const tabButton = target.closest("[data-tab-button]") as HTMLElement;
+
         if (tabButton) {
-          const tabId = tabButton.getAttribute('data-tab-button');
+          const tabId = tabButton.getAttribute("data-tab-button");
           if (!tabId) return;
 
           // Update active tab button
-          document.querySelectorAll('.tab-button').forEach(btn => {
-            btn.classList.remove('tab-button-active');
+          document.querySelectorAll(".tab-button").forEach((btn) => {
+            btn.classList.remove("tab-button-active");
           });
-          tabButton.classList.add('tab-button-active');
+          tabButton.classList.add("tab-button-active");
 
           // Update active tab content
-          document.querySelectorAll('.tab-content').forEach(content => {
-            content.classList.remove('tab-content-active');
+          document.querySelectorAll(".tab-content").forEach((content) => {
+            content.classList.remove("tab-content-active");
           });
-          
-          const tabContent = document.querySelector(`[data-tab-panel-content="${tabId}"]`);
+
+          const tabContent = document.querySelector(
+            `[data-tab-panel-content="${tabId}"]`,
+          );
           if (tabContent) {
-            tabContent.classList.add('tab-content-active');
+            tabContent.classList.add("tab-content-active");
           }
         }
       });
     }
 
     private initLargeObjectHandlers() {
-      document.addEventListener('click', async (e) => {
+      document.addEventListener("click", async (e) => {
         const target = e.target as HTMLElement;
-        
-        if (target.matches('[data-expand-all]')) {
-          const jsonContent = document.querySelector('[data-json-content]') as HTMLElement;
+
+        if (target.matches("[data-expand-all]")) {
+          const jsonContent = document.querySelector(
+            "[data-json-content]",
+          ) as HTMLElement;
           if (!jsonContent) return;
 
-          const isLarge = jsonContent.getAttribute('data-is-large') === 'true';
+          const isLarge = jsonContent.getAttribute("data-is-large") === "true";
           if (!isLarge) return;
 
           // Show loading state
           const originalText = target.textContent;
-          target.textContent = '⏳ Loading...';
+          target.textContent = "⏳ Loading...";
           (target as HTMLButtonElement).disabled = true;
 
           // Get the original full response from the last API result
           if (this.requestHistory.length > 0) {
-            const lastResult = this.requestHistory[this.requestHistory.length - 1];
-            const fullContent = lastResult.response?.body 
+            const lastResult =
+              this.requestHistory[this.requestHistory.length - 1];
+            const fullContent = lastResult.response?.body
               ? JSON.stringify(lastResult.response.body, null, 2)
-              : '';
+              : "";
 
             // Use setTimeout to prevent blocking
             setTimeout(() => {
               jsonContent.textContent = fullContent;
-              
+
               // Update button to show collapse option
-              target.textContent = '🔹 Show Less';
-              target.setAttribute('data-collapse-all', 'true');
-              target.removeAttribute('data-expand-all');
+              target.textContent = "🔹 Show Less";
+              target.setAttribute("data-collapse-all", "true");
+              target.removeAttribute("data-expand-all");
               (target as HTMLButtonElement).disabled = false;
 
               // Hide performance warning
-              const warning = document.querySelector('.performance-warning');
+              const warning = document.querySelector(".performance-warning");
               if (warning) {
-                (warning as HTMLElement).style.display = 'none';
+                (warning as HTMLElement).style.display = "none";
               }
             }, 100);
           } else {
@@ -1797,25 +1894,26 @@ const responseTabs = [
           }
         }
 
-        if (target.matches('[data-collapse-all]')) {
+        if (target.matches("[data-collapse-all]")) {
           // Reload the truncated version
           if (this.requestHistory.length > 0) {
-            const lastResult = this.requestHistory[this.requestHistory.length - 1];
+            const lastResult =
+              this.requestHistory[this.requestHistory.length - 1];
             this.updateResponseViewer(lastResult);
           }
         }
       });
 
       // Add scroll-based lazy loading for very large objects
-      const jsonViewers = document.querySelectorAll('.json-viewer');
-      jsonViewers.forEach(viewer => {
-        const container = viewer.querySelector('.response-body-container');
+      const jsonViewers = document.querySelectorAll(".json-viewer");
+      jsonViewers.forEach((viewer) => {
+        const container = viewer.querySelector(".response-body-container");
         if (container) {
           let isLoading = false;
-          container.addEventListener('scroll', () => {
+          container.addEventListener("scroll", () => {
             const { scrollTop, scrollHeight, clientHeight } = container;
             const isNearBottom = scrollTop + clientHeight >= scrollHeight - 100;
-            
+
             if (isNearBottom && !isLoading) {
               // Could implement incremental loading here for extremely large responses
               // For now, we'll just show a loading indicator if needed
@@ -1827,20 +1925,26 @@ const responseTabs = [
     }
 
     private checkPerformanceThresholds(container: Element) {
-      const jsonContent = container.querySelector('[data-json-content]') as HTMLElement;
+      const jsonContent = container.querySelector(
+        "[data-json-content]",
+      ) as HTMLElement;
       if (!jsonContent) return;
 
       const contentLength = jsonContent.textContent?.length || 0;
-      const originalSize = parseInt(jsonContent.getAttribute('data-original-size') || '0');
-      
+      const originalSize = parseInt(
+        jsonContent.getAttribute("data-original-size") || "0",
+      );
+
       // Show performance warnings for very large content
-      if (contentLength > 1000000) { // 1MB
-        const warning = container.querySelector('.performance-warning');
+      if (contentLength > 1000000) {
+        // 1MB
+        const warning = container.querySelector(".performance-warning");
         if (warning && warning instanceof HTMLElement) {
-          warning.style.display = 'flex';
-          const warningContent = warning.querySelector('.warning-content p');
+          warning.style.display = "flex";
+          const warningContent = warning.querySelector(".warning-content p");
           if (warningContent) {
-            warningContent.textContent = 'This is a very large response. Consider using pagination or filtering on the API side for better performance.';
+            warningContent.textContent =
+              "This is a very large response. Consider using pagination or filtering on the API side for better performance.";
           }
         }
       }
@@ -1848,23 +1952,30 @@ const responseTabs = [
 
     private clearRequest() {
       // Clear all inputs
-      const urlInput = document.querySelector('[data-url-input]') as HTMLInputElement;
-      if (urlInput) urlInput.value = '';
+      const urlInput = document.querySelector(
+        "[data-url-input]",
+      ) as HTMLInputElement;
+      if (urlInput) urlInput.value = "";
 
-      const bodyEditor = document.querySelector('#request-body-editor') as HTMLTextAreaElement;
-      if (bodyEditor) bodyEditor.value = '';
+      const bodyEditor = document.querySelector(
+        "#request-body-editor",
+      ) as HTMLTextAreaElement;
+      if (bodyEditor) bodyEditor.value = "";
 
       // Clear response - reset to empty ResponseViewer
-      const container = document.querySelector('[data-response-container]') as HTMLElement;
+      const container = document.querySelector(
+        "[data-response-container]",
+      ) as HTMLElement;
       if (container) {
-        container.innerHTML = '<div data-response-viewer><div class="response-empty"><div class="empty-icon">📡</div><h3>Ready to Send</h3><p>Configure your request and click "Send Request" to see the response here.</p></div></div>';
+        container.innerHTML =
+          '<div data-response-viewer><div class="response-empty"><div class="empty-icon">📡</div><h3>Ready to Send</h3><p>Configure your request and click "Send Request" to see the response here.</p></div></div>';
       }
     }
   }
 
   // Initialize on DOM ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
       new APIExplorerController();
     });
   } else {

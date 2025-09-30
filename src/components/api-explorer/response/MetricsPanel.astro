@@ -12,37 +12,37 @@ interface Props {
   className?: string;
 }
 
-const { duration, size, cached, timestamp, className = '' } = Astro.props;
+const { duration, size, cached, timestamp, className = "" } = Astro.props;
 
 function formatDuration(ms?: number): string {
-  if (!ms && ms !== 0) return '--';
+  if (!ms && ms !== 0) return "--";
   if (ms < 1000) return `${Math.round(ms)}ms`;
   return `${(ms / 1000).toFixed(2)}s`;
 }
 
 function formatSize(bytes?: number): string {
-  if (!bytes && bytes !== 0) return '--';
-  if (bytes === 0) return '0 B';
-  
-  const units = ['B', 'KB', 'MB', 'GB'];
+  if (!bytes && bytes !== 0) return "--";
+  if (bytes === 0) return "0 B";
+
+  const units = ["B", "KB", "MB", "GB"];
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
   const size = bytes / Math.pow(1024, i);
-  
+
   return `${size.toFixed(2)} ${units[i]}`;
 }
 
 function formatTimestamp(ts?: string): string {
-  if (!ts) return '--';
+  if (!ts) return "--";
   const date = new Date(ts);
   return date.toLocaleTimeString();
 }
 
 function getDurationColor(ms?: number): string {
-  if (!ms) return 'gray';
-  if (ms < 100) return 'green';
-  if (ms < 500) return 'blue';
-  if (ms < 1000) return 'orange';
-  return 'red';
+  if (!ms) return "gray";
+  if (ms < 100) return "green";
+  if (ms < 500) return "blue";
+  if (ms < 1000) return "orange";
+  return "red";
 }
 ---
 
@@ -72,15 +72,17 @@ function getDurationColor(ms?: number): string {
       </div>
     </div>
 
-    {cached && (
-      <div class="metric-item metric-cached">
-        <div class="metric-icon">💾</div>
-        <div class="metric-content">
-          <div class="metric-label">Cache</div>
-          <div class="metric-value">HIT</div>
+    {
+      cached && (
+        <div class="metric-item metric-cached">
+          <div class="metric-icon">💾</div>
+          <div class="metric-content">
+            <div class="metric-label">Cache</div>
+            <div class="metric-value">HIT</div>
+          </div>
         </div>
-      </div>
-    )}
+      )
+    }
   </div>
 </div>
 
@@ -139,7 +141,7 @@ function getDurationColor(ms?: number): string {
   .metric-value {
     font-size: 1.125rem;
     font-weight: 600;
-    font-family: 'Monaco', 'Menlo', monospace;
+    font-family: "Monaco", "Menlo", monospace;
     color: var(--color-text-primary);
   }
 

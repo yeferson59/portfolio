@@ -7,7 +7,7 @@ import type {
   ParameterDefinition,
   ValidationResult,
   APIEndpoint,
-} from '../types';
+} from "../types";
 
 /**
  * Validate all request parameters
@@ -26,7 +26,7 @@ export function validateRequestParameters(
   if (endpoint.parameters?.path) {
     Object.entries(endpoint.parameters.path).forEach(([key, definition]) => {
       const value = params.pathParams?.[key];
-      const paramErrors = validateParameter(key, value, definition, 'path');
+      const paramErrors = validateParameter(key, value, definition, "path");
       errors.push(...paramErrors);
     });
   }
@@ -35,18 +35,20 @@ export function validateRequestParameters(
   if (endpoint.parameters?.query) {
     Object.entries(endpoint.parameters.query).forEach(([key, definition]) => {
       const value = params.queryParams?.[key];
-      const paramErrors = validateParameter(key, value, definition, 'query');
+      const paramErrors = validateParameter(key, value, definition, "query");
       errors.push(...paramErrors);
     });
   }
 
   // Validate body parameters
   if (endpoint.parameters?.body?.schema) {
-    Object.entries(endpoint.parameters.body.schema).forEach(([key, definition]) => {
-      const value = params.body?.[key];
-      const paramErrors = validateParameter(key, value, definition, 'body');
-      errors.push(...paramErrors);
-    });
+    Object.entries(endpoint.parameters.body.schema).forEach(
+      ([key, definition]) => {
+        const value = params.body?.[key];
+        const paramErrors = validateParameter(key, value, definition, "body");
+        errors.push(...paramErrors);
+      },
+    );
   }
 
   return {
@@ -62,13 +64,16 @@ export function validateParameter(
   name: string,
   value: any,
   definition: ParameterDefinition,
-  location: 'path' | 'query' | 'body' | 'header',
+  location: "path" | "query" | "body" | "header",
 ): Array<{ field: string; message: string; value?: any }> {
   const errors: Array<{ field: string; message: string; value?: any }> = [];
   const field = `${location}.${name}`;
 
   // Check required
-  if (definition.required && (value === undefined || value === null || value === '')) {
+  if (
+    definition.required &&
+    (value === undefined || value === null || value === "")
+  ) {
     errors.push({
       field,
       message: `${name} is required`,
@@ -78,7 +83,10 @@ export function validateParameter(
   }
 
   // Skip validation if not required and empty
-  if (!definition.required && (value === undefined || value === null || value === '')) {
+  if (
+    !definition.required &&
+    (value === undefined || value === null || value === "")
+  ) {
     return errors;
   }
 
@@ -89,7 +97,7 @@ export function validateParameter(
   }
 
   // Pattern validation (for strings)
-  if (definition.pattern && typeof value === 'string') {
+  if (definition.pattern && typeof value === "string") {
     const regex = new RegExp(definition.pattern);
     if (!regex.test(value)) {
       errors.push({
@@ -106,14 +114,14 @@ export function validateParameter(
     if (!enumValues.includes(value as string | number)) {
       errors.push({
         field,
-        message: `${name} must be one of: ${enumValues.join(', ')}`,
+        message: `${name} must be one of: ${enumValues.join(", ")}`,
         value,
       });
     }
   }
 
   // Min/Max validation
-  if (typeof value === 'number') {
+  if (typeof value === "number") {
     if (definition.min !== undefined && value < definition.min) {
       errors.push({
         field,
@@ -131,7 +139,7 @@ export function validateParameter(
   }
 
   // String length validation (using min/max for strings)
-  if (typeof value === 'string') {
+  if (typeof value === "string") {
     if (definition.min !== undefined && value.length < definition.min) {
       errors.push({
         field,
@@ -162,8 +170,12 @@ function validateType(
   const actualType = getValueType(value);
 
   // Handle type conversions
-  if (expectedType === 'number' || expectedType === 'integer' || expectedType === 'float') {
-    if (actualType !== 'number') {
+  if (
+    expectedType === "number" ||
+    expectedType === "integer" ||
+    expectedType === "float"
+  ) {
+    if (actualType !== "number") {
       const converted = Number(value);
       if (isNaN(converted)) {
         return {
@@ -172,37 +184,37 @@ function validateType(
         };
       }
     }
-    if (expectedType === 'integer' && !Number.isInteger(Number(value))) {
+    if (expectedType === "integer" && !Number.isInteger(Number(value))) {
       return {
         message: `${name} must be an integer`,
         value,
       };
     }
-  } else if (expectedType === 'boolean') {
-    if (actualType !== 'boolean') {
-      if (value !== 'true' && value !== 'false' && value !== 0 && value !== 1) {
+  } else if (expectedType === "boolean") {
+    if (actualType !== "boolean") {
+      if (value !== "true" && value !== "false" && value !== 0 && value !== 1) {
         return {
           message: `${name} must be a boolean`,
           value,
         };
       }
     }
-  } else if (expectedType === 'array') {
+  } else if (expectedType === "array") {
     if (!Array.isArray(value)) {
       return {
         message: `${name} must be an array`,
         value,
       };
     }
-  } else if (expectedType === 'object') {
-    if (actualType !== 'object' || Array.isArray(value)) {
+  } else if (expectedType === "object") {
+    if (actualType !== "object" || Array.isArray(value)) {
       return {
         message: `${name} must be an object`,
         value,
       };
     }
-  } else if (expectedType === 'string') {
-    if (actualType !== 'string') {
+  } else if (expectedType === "string") {
+    if (actualType !== "string") {
       return {
         message: `${name} must be a string`,
         value,
@@ -217,8 +229,8 @@ function validateType(
  * Get actual type of value
  */
 function getValueType(value: any): string {
-  if (value === null) return 'null';
-  if (Array.isArray(value)) return 'array';
+  if (value === null) return "null";
+  if (Array.isArray(value)) return "array";
   return typeof value;
 }
 
@@ -234,8 +246,8 @@ export function validateJSON(jsonString: string): ValidationResult {
       valid: false,
       errors: [
         {
-          field: 'json',
-          message: 'Invalid JSON format',
+          field: "json",
+          message: "Invalid JSON format",
         },
       ],
     };
@@ -254,8 +266,8 @@ export function validateURL(url: string): ValidationResult {
       valid: false,
       errors: [
         {
-          field: 'url',
-          message: 'Invalid URL format',
+          field: "url",
+          message: "Invalid URL format",
         },
       ],
     };
@@ -274,29 +286,29 @@ export function validateEmail(email: string): boolean {
  * Sanitize parameter value based on type
  */
 export function sanitizeValue(value: any, type: string): any {
-  if (value === undefined || value === null || value === '') {
+  if (value === undefined || value === null || value === "") {
     return undefined;
   }
 
   switch (type) {
-    case 'number':
-    case 'integer':
-    case 'float':
+    case "number":
+    case "integer":
+    case "float":
       return Number(value);
-    
-    case 'boolean':
-      if (typeof value === 'boolean') return value;
-      if (value === 'true' || value === 1) return true;
-      if (value === 'false' || value === 0) return false;
+
+    case "boolean":
+      if (typeof value === "boolean") return value;
+      if (value === "true" || value === 1) return true;
+      if (value === "false" || value === 0) return false;
       return Boolean(value);
-    
-    case 'array':
+
+    case "array":
       return Array.isArray(value) ? value : [value];
-    
-    case 'object':
-      return typeof value === 'object' ? value : {};
-    
-    case 'string':
+
+    case "object":
+      return typeof value === "object" ? value : {};
+
+    case "string":
     default:
       return String(value);
   }

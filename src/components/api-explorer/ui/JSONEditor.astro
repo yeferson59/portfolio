@@ -15,13 +15,13 @@ interface Props {
 }
 
 const {
-  value = '',
+  value = "",
   placeholder = '{\n  "key": "value"\n}',
   label,
   error,
   rows = 10,
   readonly = false,
-  id = 'json-editor',
+  id = "json-editor",
 } = Astro.props;
 
 // Format JSON if valid
@@ -37,46 +37,55 @@ try {
 ---
 
 <div class="json-editor-container">
-  {label && (
-    <label for={id} class="json-editor-label">
-      {label}
-    </label>
-  )}
-  
-  <div class="json-editor-wrapper" data-error={error ? 'true' : 'false'}>
+  {
+    label && (
+      <label for={id} class="json-editor-label">
+        {label}
+      </label>
+    )
+  }
+
+  <div class="json-editor-wrapper" data-error={error ? "true" : "false"}>
     <textarea
       id={id}
       class="json-editor"
       rows={rows}
       placeholder={placeholder}
       readonly={readonly}
-      data-json-editor
-    >{formattedValue}</textarea>
-    
+      data-json-editor>{formattedValue}</textarea
+    >
+
     <div class="json-editor-toolbar">
-      <button type="button" class="btn-format" data-format-json title="Format JSON">
+      <button
+        type="button"
+        class="btn-format"
+        data-format-json
+        title="Format JSON"
+      >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-          <path d="M4 4h8v1H4V4zm0 3h8v1H4V7zm0 3h5v1H4v-1z"/>
+          <path d="M4 4h8v1H4V4zm0 3h8v1H4V7zm0 3h5v1H4v-1z"></path>
         </svg>
         Format
       </button>
-      
+
       <button type="button" class="btn-copy" data-copy-json title="Copy JSON">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-          <path d="M4 2h7v1H4V2zm0 3h7v1H4V5zm0 3h5v1H4V8z"/>
+          <path d="M4 2h7v1H4V2zm0 3h7v1H4V5zm0 3h5v1H4V8z"></path>
         </svg>
         Copy
       </button>
-      
+
       <span class="json-status" data-json-status></span>
     </div>
   </div>
-  
-  {error && (
-    <div class="json-editor-error" role="alert">
-      {error}
-    </div>
-  )}
+
+  {
+    error && (
+      <div class="json-editor-error" role="alert">
+        {error}
+      </div>
+    )
+  }
 </div>
 
 <style>
@@ -112,7 +121,7 @@ try {
   .json-editor {
     width: 100%;
     padding: 1rem;
-    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
     font-size: 0.875rem;
     line-height: 1.5;
     color: var(--color-text-primary);
@@ -184,25 +193,33 @@ try {
   // JSON Editor functionality
   class JSONEditorController {
     constructor(container: HTMLElement) {
-      const editor = container.querySelector('[data-json-editor]') as HTMLTextAreaElement;
-      const formatBtn = container.querySelector('[data-format-json]') as HTMLButtonElement;
-      const copyBtn = container.querySelector('[data-copy-json]') as HTMLButtonElement;
-      const status = container.querySelector('[data-json-status]') as HTMLSpanElement;
+      const editor = container.querySelector(
+        "[data-json-editor]",
+      ) as HTMLTextAreaElement;
+      const formatBtn = container.querySelector(
+        "[data-format-json]",
+      ) as HTMLButtonElement;
+      const copyBtn = container.querySelector(
+        "[data-copy-json]",
+      ) as HTMLButtonElement;
+      const status = container.querySelector(
+        "[data-json-status]",
+      ) as HTMLSpanElement;
 
       if (!editor || !formatBtn || !copyBtn || !status) return;
 
       // Validate on input
-      editor.addEventListener('input', () => {
+      editor.addEventListener("input", () => {
         this.validateJSON(editor, status);
       });
 
       // Format button
-      formatBtn.addEventListener('click', () => {
+      formatBtn.addEventListener("click", () => {
         this.formatJSON(editor, status);
       });
 
       // Copy button
-      copyBtn.addEventListener('click', () => {
+      copyBtn.addEventListener("click", () => {
         this.copyJSON(editor, copyBtn);
       });
 
@@ -212,36 +229,36 @@ try {
 
     validateJSON(editor: HTMLTextAreaElement, status: HTMLSpanElement) {
       const value = editor.value.trim();
-      
+
       if (!value) {
-        status.textContent = '';
-        status.className = 'json-status';
+        status.textContent = "";
+        status.className = "json-status";
         return;
       }
 
       try {
         JSON.parse(value);
-        status.textContent = '✓ Valid JSON';
-        status.className = 'json-status valid';
+        status.textContent = "✓ Valid JSON";
+        status.className = "json-status valid";
       } catch (error) {
-        status.textContent = '✗ Invalid JSON';
-        status.className = 'json-status invalid';
+        status.textContent = "✗ Invalid JSON";
+        status.className = "json-status invalid";
       }
     }
 
     formatJSON(editor: HTMLTextAreaElement, status: HTMLSpanElement) {
       const value = editor.value.trim();
-      
+
       if (!value) return;
 
       try {
         const parsed = JSON.parse(value);
         editor.value = JSON.stringify(parsed, null, 2);
-        status.textContent = '✓ Formatted';
-        status.className = 'json-status valid';
+        status.textContent = "✓ Formatted";
+        status.className = "json-status valid";
       } catch (error) {
-        status.textContent = '✗ Cannot format invalid JSON';
-        status.className = 'json-status invalid';
+        status.textContent = "✗ Cannot format invalid JSON";
+        status.className = "json-status invalid";
       }
     }
 
@@ -249,18 +266,18 @@ try {
       try {
         await navigator.clipboard.writeText(editor.value);
         const originalText = button.innerHTML;
-        button.innerHTML = '✓ Copied!';
+        button.innerHTML = "✓ Copied!";
         setTimeout(() => {
           button.innerHTML = originalText;
         }, 2000);
       } catch (error) {
-        console.error('Failed to copy:', error);
+        console.error("Failed to copy:", error);
       }
     }
   }
 
   // Initialize all JSON editors
-  document.querySelectorAll('.json-editor-container').forEach((container) => {
+  document.querySelectorAll(".json-editor-container").forEach((container) => {
     new JSONEditorController(container as HTMLElement);
   });
 </script>

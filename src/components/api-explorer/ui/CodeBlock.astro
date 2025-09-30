@@ -14,31 +14,35 @@ interface Props {
 
 const {
   code,
-  language = 'text',
+  language = "text",
   title,
   showLineNumbers = false,
-  maxHeight = '400px',
+  maxHeight = "400px",
 } = Astro.props;
 
-const lines = code.split('\n');
+const lines = code.split("\n");
 ---
 
 <div class="code-block">
-  {title && (
-    <div class="code-block-header">
-      <span class="code-block-title">{title}</span>
-      <span class="code-block-language">{language}</span>
-      <button type="button" class="code-block-copy" data-copy-code>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-          <path d="M4 2h7v1H4V2zm0 3h7v1H4V5zm0 3h5v1H4V8z"/>
-        </svg>
-        Copy
-      </button>
-    </div>
-  )}
-  
+  {
+    title && (
+      <div class="code-block-header">
+        <span class="code-block-title">{title}</span>
+        <span class="code-block-language">{language}</span>
+        <button type="button" class="code-block-copy" data-copy-code>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M4 2h7v1H4V2zm0 3h7v1H4V5zm0 3h5v1H4V8z" />
+          </svg>
+          Copy
+        </button>
+      </div>
+    )
+  }
+
   <div class="code-block-content" style={`max-height: ${maxHeight}`}>
-    <pre class="code-pre" data-language={language}><code class="code-text" data-code={code}>{
+    <pre
+      class="code-pre"
+      data-language={language}><code class="code-text" data-code={code}>{
       showLineNumbers
         ? lines.map((line, i) => `${String(i + 1).padStart(3, ' ')} | ${line}`).join('\n')
         : code
@@ -107,7 +111,7 @@ const lines = code.split('\n');
   .code-pre {
     margin: 0;
     padding: 1rem;
-    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
     font-size: 0.875rem;
     line-height: 1.5;
     color: var(--color-text-primary);
@@ -141,24 +145,26 @@ const lines = code.split('\n');
 
 <script>
   // Copy functionality
-  document.querySelectorAll('[data-copy-code]').forEach((button) => {
-    button.addEventListener('click', async () => {
-      const codeBlock = button.closest('.code-block');
-      const codeElement = codeBlock?.querySelector('[data-code]') as HTMLElement;
-      
+  document.querySelectorAll("[data-copy-code]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const codeBlock = button.closest(".code-block");
+      const codeElement = codeBlock?.querySelector(
+        "[data-code]",
+      ) as HTMLElement;
+
       if (!codeElement) return;
 
-      const code = codeElement.dataset.code || codeElement.textContent || '';
+      const code = codeElement.dataset.code || codeElement.textContent || "";
 
       try {
         await navigator.clipboard.writeText(code);
         const originalHTML = button.innerHTML;
-        button.innerHTML = '✓ Copied!';
+        button.innerHTML = "✓ Copied!";
         setTimeout(() => {
           button.innerHTML = originalHTML;
         }, 2000);
       } catch (error) {
-        console.error('Failed to copy code:', error);
+        console.error("Failed to copy code:", error);
       }
     });
   });

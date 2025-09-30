@@ -3,7 +3,7 @@
  * Track and analyze API performance metrics
  */
 
-import type { APIRequestResult } from '../types';
+import type { APIRequestResult } from "../types";
 
 export interface MetricsSummary {
   totalRequests: number;
@@ -22,9 +22,12 @@ export interface MetricsSummary {
 /**
  * Calculate performance percentile
  */
-export function calculatePercentile(values: number[], percentile: number): number {
+export function calculatePercentile(
+  values: number[],
+  percentile: number,
+): number {
   if (values.length === 0) return 0;
-  
+
   const sorted = [...values].sort((a, b) => a - b);
   const index = Math.ceil((percentile / 100) * sorted.length) - 1;
   return sorted[Math.max(0, index)];
@@ -94,12 +97,12 @@ export function formatDuration(ms: number): string {
  * Format file size for display
  */
 export function formatSize(bytes: number): string {
-  if (bytes === 0) return '0 B';
-  
-  const units = ['B', 'KB', 'MB', 'GB'];
+  if (bytes === 0) return "0 B";
+
+  const units = ["B", "KB", "MB", "GB"];
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
   const size = bytes / Math.pow(1024, i);
-  
+
   return `${size.toFixed(2)} ${units[i]}`;
 }
 
@@ -113,40 +116,40 @@ export function getStatusCategory(status: number): {
 } {
   if (status >= 200 && status < 300) {
     return {
-      category: 'Success',
-      color: 'green',
-      description: 'Request succeeded',
+      category: "Success",
+      color: "green",
+      description: "Request succeeded",
     };
   }
-  
+
   if (status >= 300 && status < 400) {
     return {
-      category: 'Redirect',
-      color: 'blue',
-      description: 'Request redirected',
+      category: "Redirect",
+      color: "blue",
+      description: "Request redirected",
     };
   }
-  
+
   if (status >= 400 && status < 500) {
     return {
-      category: 'Client Error',
-      color: 'orange',
-      description: 'Client-side error',
+      category: "Client Error",
+      color: "orange",
+      description: "Client-side error",
     };
   }
-  
+
   if (status >= 500) {
     return {
-      category: 'Server Error',
-      color: 'red',
-      description: 'Server-side error',
+      category: "Server Error",
+      color: "red",
+      description: "Server-side error",
     };
   }
-  
+
   return {
-    category: 'Unknown',
-    color: 'gray',
-    description: 'Unknown status',
+    category: "Unknown",
+    color: "gray",
+    description: "Unknown status",
   };
 }
 
@@ -158,9 +161,9 @@ export function calculateRequestRate(results: APIRequestResult[]): number {
 
   const timestamps = results.map((r) => new Date(r.timestamp).getTime());
   const timeSpan = Math.max(...timestamps) - Math.min(...timestamps);
-  
+
   if (timeSpan === 0) return 0;
-  
+
   return (results.length / timeSpan) * 1000; // Convert to per second
 }
 
@@ -183,7 +186,7 @@ export function groupMetricsByTime(
   results.forEach((result) => {
     const time = new Date(result.timestamp).getTime();
     const window = Math.floor(time / windowMs) * windowMs;
-    
+
     if (!groups.has(window)) {
       groups.set(window, []);
     }
@@ -193,8 +196,11 @@ export function groupMetricsByTime(
   return Array.from(groups.entries())
     .map(([window, windowResults]) => {
       const successful = windowResults.filter((r) => r.success).length;
-      const totalDuration = windowResults.reduce((sum, r) => sum + r.metrics.duration, 0);
-      
+      const totalDuration = windowResults.reduce(
+        (sum, r) => sum + r.metrics.duration,
+        0,
+      );
+
       return {
         timestamp: new Date(window).toISOString(),
         count: windowResults.length,
@@ -235,14 +241,14 @@ export function exportMetrics(results: APIRequestResult[]): string {
  */
 export function exportMetricsCSV(results: APIRequestResult[]): string {
   const headers = [
-    'Timestamp',
-    'Endpoint',
-    'Method',
-    'URL',
-    'Status',
-    'Duration (ms)',
-    'Size (bytes)',
-    'Success',
+    "Timestamp",
+    "Endpoint",
+    "Method",
+    "URL",
+    "Status",
+    "Duration (ms)",
+    "Size (bytes)",
+    "Success",
   ];
 
   const rows = results.map((r) => [
@@ -253,8 +259,8 @@ export function exportMetricsCSV(results: APIRequestResult[]): string {
     r.metrics.status,
     r.metrics.duration,
     r.metrics.size || 0,
-    r.success ? 'Yes' : 'No',
+    r.success ? "Yes" : "No",
   ]);
 
-  return [headers, ...rows].map((row) => row.join(',')).join('\n');
+  return [headers, ...rows].map((row) => row.join(",")).join("\n");
 }

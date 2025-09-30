@@ -8,7 +8,7 @@ import type {
   APIEndpoint,
   APIRequest,
   AuthenticationType,
-} from '../types';
+} from "../types";
 
 /**
  * Build complete request from endpoint configuration and parameters
@@ -29,10 +29,20 @@ export function buildAPIRequest(
   } = {},
 ): APIRequest {
   // Build URL with path parameters
-  const url = buildURL(api.baseUrl, endpoint.path, params.pathParams, params.queryParams);
+  const url = buildURL(
+    api.baseUrl,
+    endpoint.path,
+    params.pathParams,
+    params.queryParams,
+  );
 
   // Build headers
-  const headers = buildHeaders(api, endpoint, params.headers, params.authentication);
+  const headers = buildHeaders(
+    api,
+    endpoint,
+    params.headers,
+    params.authentication,
+  );
 
   // Build request
   const request: APIRequest = {
@@ -62,7 +72,10 @@ export function buildURL(
   let finalPath = path;
   if (pathParams) {
     Object.entries(pathParams).forEach(([key, value]) => {
-      finalPath = finalPath.replace(`{${key}}`, encodeURIComponent(String(value)));
+      finalPath = finalPath.replace(
+        `{${key}}`,
+        encodeURIComponent(String(value)),
+      );
     });
   }
 
@@ -72,7 +85,7 @@ export function buildURL(
   // Add query parameters
   if (queryParams) {
     Object.entries(queryParams).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== '') {
+      if (value !== undefined && value !== null && value !== "") {
         url.searchParams.append(key, String(value));
       }
     });
@@ -108,7 +121,10 @@ export function buildHeaders(
 
   // Add authentication headers
   if (authentication) {
-    const authHeaders = buildAuthHeaders(authentication, api.authentication || endpoint.authentication);
+    const authHeaders = buildAuthHeaders(
+      authentication,
+      api.authentication || endpoint.authentication,
+    );
     Object.assign(headers, authHeaders);
   }
 
@@ -126,36 +142,38 @@ export function buildAuthHeaders(
   },
   config?: {
     type: AuthenticationType;
-    location?: 'header' | 'query';
+    location?: "header" | "query";
     parameterName?: string;
   },
 ): Record<string, string> {
   const headers: Record<string, string> = {};
 
   switch (auth.type) {
-    case 'bearer':
+    case "bearer":
       if (auth.token) {
-        headers['Authorization'] = `Bearer ${auth.token}`;
+        headers["Authorization"] = `Bearer ${auth.token}`;
       }
       break;
 
-    case 'apiKey':
-      if (auth.token && config?.location === 'header') {
-        const headerName = config.parameterName || 'X-API-Key';
+    case "apiKey":
+      if (auth.token && config?.location === "header") {
+        const headerName = config.parameterName || "X-API-Key";
         headers[headerName] = auth.token;
       }
       break;
 
-    case 'basic':
+    case "basic":
       if (auth.credentials?.username && auth.credentials?.password) {
-        const encoded = btoa(`${auth.credentials.username}:${auth.credentials.password}`);
-        headers['Authorization'] = `Basic ${encoded}`;
+        const encoded = btoa(
+          `${auth.credentials.username}:${auth.credentials.password}`,
+        );
+        headers["Authorization"] = `Basic ${encoded}`;
       }
       break;
 
-    case 'oauth2':
+    case "oauth2":
       if (auth.token) {
-        headers['Authorization'] = `Bearer ${auth.token}`;
+        headers["Authorization"] = `Bearer ${auth.token}`;
       }
       break;
   }
@@ -168,15 +186,15 @@ export function buildAuthHeaders(
  */
 export function buildRequestBody(
   body: any,
-  contentType: string = 'application/json',
+  contentType: string = "application/json",
 ): string | FormData | undefined {
   if (!body) return undefined;
 
-  if (contentType === 'application/json') {
+  if (contentType === "application/json") {
     return JSON.stringify(body);
   }
 
-  if (contentType === 'application/x-www-form-urlencoded') {
+  if (contentType === "application/x-www-form-urlencoded") {
     const formData = new URLSearchParams();
     Object.entries(body).forEach(([key, value]) => {
       formData.append(key, String(value));
@@ -184,7 +202,7 @@ export function buildRequestBody(
     return formData.toString();
   }
 
-  if (contentType.startsWith('multipart/form-data')) {
+  if (contentType.startsWith("multipart/form-data")) {
     const formData = new FormData();
     Object.entries(body).forEach(([key, value]) => {
       if (value instanceof File) {

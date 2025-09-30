@@ -3,10 +3,10 @@
  * Central registry of all available API configurations
  */
 
-import type { APIConfiguration } from '../types';
-import { ecommerceAPIConfig } from './ecommerce-api';
-import { fastapiTemplateConfig } from './fastapi-template';
-import { financeMCPConfig } from './finance-mcp';
+import type { APIConfiguration } from "../types";
+import { ecommerceAPIConfig } from "./ecommerce-api";
+import { fastapiTemplateConfig } from "./fastapi-template";
+import { financeMCPConfig } from "./finance-mcp";
 
 /**
  * All available API configurations
@@ -35,9 +35,7 @@ export function getAPIIds(): string[] {
  * Get APIs by category
  */
 export function getAPIsByCategory(category: string): APIConfiguration[] {
-  return availableAPIs.filter((api) =>
-    api.categories?.includes(category),
-  );
+  return availableAPIs.filter((api) => api.categories?.includes(category));
 }
 
 /**
@@ -68,7 +66,7 @@ export function getAPIStats() {
     (sum, api) => sum + api.endpoints.length,
     0,
   );
-  
+
   const authTypes = new Set<string>();
   availableAPIs.forEach((api) => {
     if (api.authentication) {

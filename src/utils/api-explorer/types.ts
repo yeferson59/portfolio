@@ -4,10 +4,22 @@
  */
 
 // HTTP Methods
-export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS';
+export type HTTPMethod =
+  | "GET"
+  | "POST"
+  | "PUT"
+  | "DELETE"
+  | "PATCH"
+  | "HEAD"
+  | "OPTIONS";
 
 // Authentication Types
-export type AuthenticationType = 'bearer' | 'apiKey' | 'basic' | 'oauth2' | 'none';
+export type AuthenticationType =
+  | "bearer"
+  | "apiKey"
+  | "basic"
+  | "oauth2"
+  | "none";
 
 export interface AuthenticationConfig {
   type: AuthenticationType;
@@ -15,19 +27,19 @@ export interface AuthenticationConfig {
   tokenEndpoint?: string;
   description?: string;
   placeholder?: string;
-  location?: 'header' | 'query'; // For API Key
+  location?: "header" | "query"; // For API Key
   parameterName?: string; // For API Key in query or custom header
 }
 
 // Parameter Types
-export type ParameterType = 
-  | 'string' 
-  | 'number' 
-  | 'boolean' 
-  | 'array' 
-  | 'object'
-  | 'integer'
-  | 'float';
+export type ParameterType =
+  | "string"
+  | "number"
+  | "boolean"
+  | "array"
+  | "object"
+  | "integer"
+  | "float";
 
 export interface ParameterDefinition {
   type: ParameterType;
@@ -43,7 +55,7 @@ export interface ParameterDefinition {
 
 // Body Definition
 export interface BodyDefinition {
-  type: 'json' | 'formData' | 'xml' | 'text';
+  type: "json" | "formData" | "xml" | "text";
   schema?: Record<string, ParameterDefinition>;
   example?: any;
   description?: string;
@@ -162,7 +174,14 @@ export interface APIRequestResult {
 }
 
 // Code Generation Types
-export type CodeLanguage = 'curl' | 'javascript' | 'python' | 'go' | 'php' | 'java' | 'ruby';
+export type CodeLanguage =
+  | "curl"
+  | "javascript"
+  | "python"
+  | "go"
+  | "php"
+  | "java"
+  | "ruby";
 
 export interface CodeGenerationOptions {
   language: CodeLanguage;

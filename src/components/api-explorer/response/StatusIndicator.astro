@@ -10,53 +10,53 @@ interface Props {
   className?: string;
 }
 
-const { status, statusText, className = '' } = Astro.props;
+const { status, statusText, className = "" } = Astro.props;
 
 function getStatusInfo(status?: number) {
   if (!status) {
     return {
-      category: 'Pending',
-      color: 'gray',
-      description: 'No request sent',
+      category: "Pending",
+      color: "gray",
+      description: "No request sent",
     };
   }
 
   if (status >= 200 && status < 300) {
     return {
-      category: 'Success',
-      color: 'green',
-      description: 'Request succeeded',
+      category: "Success",
+      color: "green",
+      description: "Request succeeded",
     };
   }
 
   if (status >= 300 && status < 400) {
     return {
-      category: 'Redirect',
-      color: 'blue',
-      description: 'Request redirected',
+      category: "Redirect",
+      color: "blue",
+      description: "Request redirected",
     };
   }
 
   if (status >= 400 && status < 500) {
     return {
-      category: 'Client Error',
-      color: 'orange',
-      description: 'Client-side error',
+      category: "Client Error",
+      color: "orange",
+      description: "Client-side error",
     };
   }
 
   if (status >= 500) {
     return {
-      category: 'Server Error',
-      color: 'red',
-      description: 'Server-side error',
+      category: "Server Error",
+      color: "red",
+      description: "Server-side error",
     };
   }
 
   return {
-    category: 'Unknown',
-    color: 'gray',
-    description: 'Unknown status',
+    category: "Unknown",
+    color: "gray",
+    description: "Unknown status",
   };
 }
 
@@ -65,7 +65,7 @@ const statusInfo = getStatusInfo(status);
 
 <div class={`status-indicator status-${statusInfo.color} ${className}`}>
   <div class="status-code">
-    {status || '---'}
+    {status || "---"}
   </div>
   <div class="status-details">
     <div class="status-text">{statusText || statusInfo.category}</div>
@@ -91,7 +91,7 @@ const statusInfo = getStatusInfo(status);
     height: 4rem;
     font-size: 1.5rem;
     font-weight: 700;
-    font-family: 'Monaco', 'Menlo', monospace;
+    font-family: "Monaco", "Menlo", monospace;
     border-radius: 0.5rem;
   }
 

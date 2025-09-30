@@ -4,17 +4,18 @@
  * Interactive API testing interface showcase
  */
 
-import Layout from '@/layouts/Layout.astro';
-import APIExplorer from '@/components/api-explorer/core/APIExplorer.astro';
-import { getAPIStats } from '@/utils/api-explorer/config';
+import Layout from "@/layouts/Layout.astro";
+import APIExplorer from "@/components/api-explorer/core/APIExplorer.astro";
+import { getAPIStats } from "@/utils/api-explorer/config";
 
 const stats = getAPIStats();
 ---
 
-<Layout 
+<Layout
   head={{
     title: "API Explorer - Interactive API Testing",
-    description: "Test and explore our APIs interactively. Real-time request/response testing with code generation and performance metrics.",
+    description:
+      "Test and explore our APIs interactively. Real-time request/response testing with code generation and performance metrics.",
   }}
 >
   <main class="api-explorer-page">
@@ -22,11 +23,10 @@ const stats = getAPIStats();
     <section class="hero-section">
       <div class="container">
         <div class="hero-content">
-          <h1 class="hero-title">
-            🚀 Interactive API Explorer
-          </h1>
+          <h1 class="hero-title">🚀 Interactive API Explorer</h1>
           <p class="hero-description">
-            Test our production APIs in real-time. Send requests, view responses, and generate code snippets in multiple languages.
+            Test our production APIs in real-time. Send requests, view
+            responses, and generate code snippets in multiple languages.
           </p>
           <div class="hero-stats">
             <div class="stat-item">
@@ -62,7 +62,8 @@ const stats = getAPIStats();
             <div class="feature-icon">🎯</div>
             <h3 class="feature-title">Real-Time Testing</h3>
             <p class="feature-description">
-              Send actual HTTP requests and see responses instantly with performance metrics.
+              Send actual HTTP requests and see responses instantly with
+              performance metrics.
             </p>
           </div>
 
@@ -70,7 +71,8 @@ const stats = getAPIStats();
             <div class="feature-icon">💻</div>
             <h3 class="feature-title">Code Generation</h3>
             <p class="feature-description">
-              Generate ready-to-use code snippets in cURL, JavaScript, Python, Go, and more.
+              Generate ready-to-use code snippets in cURL, JavaScript, Python,
+              Go, and more.
             </p>
           </div>
 
@@ -78,7 +80,8 @@ const stats = getAPIStats();
             <div class="feature-icon">🔐</div>
             <h3 class="feature-title">Authentication</h3>
             <p class="feature-description">
-              Support for Bearer tokens, API keys, Basic Auth, and OAuth2 workflows.
+              Support for Bearer tokens, API keys, Basic Auth, and OAuth2
+              workflows.
             </p>
           </div>
 
@@ -86,7 +89,8 @@ const stats = getAPIStats();
             <div class="feature-icon">📊</div>
             <h3 class="feature-title">Performance Metrics</h3>
             <p class="feature-description">
-              Track response times, payload sizes, and success rates in real-time.
+              Track response times, payload sizes, and success rates in
+              real-time.
             </p>
           </div>
 
@@ -94,7 +98,8 @@ const stats = getAPIStats();
             <div class="feature-icon">🎨</div>
             <h3 class="feature-title">Beautiful UI</h3>
             <p class="feature-description">
-              Clean, modern interface with syntax highlighting and JSON formatting.
+              Clean, modern interface with syntax highlighting and JSON
+              formatting.
             </p>
           </div>
 
@@ -120,7 +125,8 @@ const stats = getAPIStats();
               <span class="api-version">v1.0.0</span>
             </div>
             <p class="api-description">
-              Complete e-commerce backend with microservices architecture. Handles 2,800+ RPS with sub-100ms response times.
+              Complete e-commerce backend with microservices architecture.
+              Handles 2,800+ RPS with sub-100ms response times.
             </p>
             <div class="api-tags">
               <span class="tag">Authentication</span>
@@ -137,7 +143,8 @@ const stats = getAPIStats();
               <span class="api-version">v1.0.0</span>
             </div>
             <p class="api-description">
-              Professional FastAPI template with SQLModel, async operations, and comprehensive testing suite.
+              Professional FastAPI template with SQLModel, async operations, and
+              comprehensive testing suite.
             </p>
             <div class="api-tags">
               <span class="tag">Authentication</span>
@@ -153,7 +160,8 @@ const stats = getAPIStats();
               <span class="api-version">v1.0.0</span>
             </div>
             <p class="api-description">
-              Real-time market data and financial information API with comprehensive stock, crypto, and forex data.
+              Real-time market data and financial information API with
+              comprehensive stock, crypto, and forex data.
             </p>
             <div class="api-tags">
               <span class="tag">Market Data</span>
@@ -184,7 +192,11 @@ const stats = getAPIStats();
   /* Hero Section */
   .hero-section {
     padding: 6rem 0 4rem;
-    background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.1), rgba(var(--color-primary-rgb), 0.05));
+    background: linear-gradient(
+      135deg,
+      rgba(var(--color-primary-rgb), 0.1),
+      rgba(var(--color-primary-rgb), 0.05)
+    );
     border-bottom: 1px solid var(--color-border);
   }
 

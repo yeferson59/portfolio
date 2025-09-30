@@ -4,10 +4,10 @@
  * Enhanced response visualization with tabs, JSON formatting, and copy functionality
  */
 
-import StatusIndicator from './StatusIndicator.astro';
-import MetricsPanel from './MetricsPanel.astro';
-import TabPanel from '../ui/TabPanel.astro';
-import type { APIRequestResult } from '@/utils/api-explorer/types';
+import StatusIndicator from "./StatusIndicator.astro";
+import MetricsPanel from "./MetricsPanel.astro";
+import TabPanel from "../ui/TabPanel.astro";
+import type { APIRequestResult } from "@/utils/api-explorer/types";
 
 interface Props {
   result?: APIRequestResult;
@@ -16,29 +16,31 @@ interface Props {
   className?: string;
 }
 
-const { result, loading, error, className = '' } = Astro.props;
+const { result, loading, error, className = "" } = Astro.props;
 
 const responseTabs = [
-  { id: 'body', label: 'Body', icon: '📄' },
-  { id: 'headers', label: 'Headers', icon: '📋' },
-  { id: 'raw', label: 'Raw', icon: '📝' },
+  { id: "body", label: "Body", icon: "📄" },
+  { id: "headers", label: "Headers", icon: "📋" },
+  { id: "raw", label: "Raw", icon: "📝" },
 ];
 
 // Helper functions for data formatting
 function formatResponseSize(result?: APIRequestResult): number | undefined {
   if (!result?.response) return undefined;
-  
-  const bodySize = result.response.body 
-    ? JSON.stringify(result.response.body).length 
+
+  const bodySize = result.response.body
+    ? JSON.stringify(result.response.body).length
     : 0;
-  const headersSize = Object.entries(result.response.headers || {})
-    .reduce((acc, [key, value]) => acc + key.length + value.length, 0);
-  
+  const headersSize = Object.entries(result.response.headers || {}).reduce(
+    (acc, [key, value]) => acc + key.length + value.length,
+    0,
+  );
+
   return bodySize + headersSize;
 }
 
 function isValidJSON(str: any): boolean {
-  if (typeof str !== 'string') return true; // Assume objects are valid
+  if (typeof str !== "string") return true; // Assume objects are valid
   try {
     JSON.parse(str);
     return true;
@@ -48,9 +50,9 @@ function isValidJSON(str: any): boolean {
 }
 
 function formatJSON(data: any, indent = 2): string {
-  if (data === undefined || data === null) return '';
-  if (typeof data === 'string' && !isValidJSON(data)) return data;
-  
+  if (data === undefined || data === null) return "";
+  if (typeof data === "string" && !isValidJSON(data)) return data;
+
   try {
     return JSON.stringify(data, null, indent);
   } catch {
@@ -62,194 +64,255 @@ const responseSize = formatResponseSize(result);
 ---
 
 <div class={`response-viewer ${className}`} data-response-viewer>
-  {loading && (
-    <div class="response-loading">
-      <div class="loading-spinner"></div>
-      <p>Sending request...</p>
-    </div>
-  )}
-
-  {error && (
-    <div class="response-error">
-      <div class="error-icon">⚠️</div>
-      <div class="error-content">
-        <h3>Request Failed</h3>
-        <p>{error}</p>
-        <button type="button" class="retry-btn" data-retry-request>
-          🔄 Retry Request
-        </button>
+  {
+    loading && (
+      <div class="response-loading">
+        <div class="loading-spinner" />
+        <p>Sending request...</p>
       </div>
-    </div>
-  )}
+    )
+  }
 
-  {!loading && !error && !result && (
-    <div class="response-empty">
-      <div class="empty-icon">📡</div>
-      <h3>Ready to Send</h3>
-      <p>Configure your request and click "Send Request" to see the response here.</p>
-    </div>
-  )}
-
-  {!loading && !error && result && (
-    <div class="response-content">
-      <!-- Response Header with Status and Metrics -->
-      <div class="response-header">
-        <StatusIndicator 
-          status={result.response?.status} 
-          statusText={result.response?.statusText}
-        />
-        <div class="header-actions">
-          <button type="button" class="export-btn" data-export-response title="Export Response">
-            📥 Export
-          </button>
-          <button type="button" class="clear-btn" data-clear-response title="Clear Response">
-            🗑️ Clear
+  {
+    error && (
+      <div class="response-error">
+        <div class="error-icon">⚠️</div>
+        <div class="error-content">
+          <h3>Request Failed</h3>
+          <p>{error}</p>
+          <button type="button" class="retry-btn" data-retry-request>
+            🔄 Retry Request
           </button>
         </div>
       </div>
+    )
+  }
 
-      <!-- Metrics Panel -->
-      <MetricsPanel 
-        duration={result.metrics.duration}
-        size={responseSize}
-        timestamp={result.timestamp}
-        cached={result.metrics.cached}
-      />
-
-      <!-- Response Tabs -->
-      <div class="response-tabs-container">
-        <TabPanel tabs={responseTabs} defaultTab="body">
-          <!-- Body Tab -->
-          <div data-tab-panel-content="body">
-            <div class="tab-header">
-              <h4 class="tab-title">Response Body</h4>
-              <div class="tab-actions">
-                <button type="button" class="copy-btn" data-copy-body title="Copy Body">
-                  📋 Copy
-                </button>
-                <button type="button" class="format-btn" data-format-toggle title="Toggle Format">
-                  🎨 Format
-                </button>
-              </div>
-            </div>
-            
-            <div class="response-body-container">
-              {result.response?.body ? (
-                <div class="json-viewer" data-json-viewer>
-                  <pre class="json-content" data-json-content>{formatJSON(result.response.body)}</pre>
-                </div>
-              ) : (
-                <div class="empty-body">
-                  <p>No response body</p>
-                </div>
-              )}
-            </div>
-          </div>
-
-          <!-- Headers Tab -->
-          <div data-tab-panel-content="headers">
-            <div class="tab-header">
-              <h4 class="tab-title">Response Headers</h4>
-              <div class="tab-actions">
-                <button type="button" class="copy-btn" data-copy-headers title="Copy Headers">
-                  📋 Copy
-                </button>
-                <input 
-                  type="search" 
-                  placeholder="Filter headers..." 
-                  class="header-search"
-                  data-header-search
-                />
-              </div>
-            </div>
-            
-            <div class="headers-container">
-              {result.response?.headers && Object.keys(result.response.headers).length > 0 ? (
-                <div class="headers-table">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Header</th>
-                        <th>Value</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody data-headers-body>
-                      {Object.entries(result.response.headers).map(([key, value]) => (
-                        <tr class="header-row" data-header-name={key.toLowerCase()}>
-                          <td class="header-name">
-                            <code>{key}</code>
-                          </td>
-                          <td class="header-value">
-                            <code>{value}</code>
-                          </td>
-                          <td class="header-actions">
-                            <button 
-                              type="button" 
-                              class="copy-header-btn" 
-                              data-copy-header={`${key}: ${value}`}
-                              title="Copy Header"
-                            >
-                              📋
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              ) : (
-                <div class="empty-headers">
-                  <p>No response headers</p>
-                </div>
-              )}
-            </div>
-          </div>
-
-          <!-- Raw Tab -->
-          <div data-tab-panel-content="raw">
-            <div class="tab-header">
-              <h4 class="tab-title">Raw Response</h4>
-              <div class="tab-actions">
-                <button type="button" class="copy-btn" data-copy-raw title="Copy Raw">
-                  📋 Copy
-                </button>
-                <button type="button" class="download-btn" data-download-response title="Download">
-                  💾 Download
-                </button>
-                <button type="button" class="wrap-btn" data-toggle-wrap title="Toggle Text Wrap">
-                  🔄 Wrap
-                </button>
-              </div>
-            </div>
-            
-            <div class="raw-container">
-              <div class="raw-info">
-                <span class="info-item">
-                  Status: <strong>{result.response?.status} {result.response?.statusText}</strong>
-                </span>
-                <span class="info-item">
-                  Size: <strong>{responseSize ? `${responseSize} bytes` : 'Unknown'}</strong>
-                </span>
-                <span class="info-item">
-                  Duration: <strong>{result.metrics.duration}ms</strong>
-                </span>
-              </div>
-              
-              <div class="raw-content-container">
-                <pre class="raw-content" data-raw-content>{formatJSON({
-                  status: result.response?.status,
-                  statusText: result.response?.statusText,
-                  headers: result.response?.headers,
-                  body: result.response?.body
-                })}</pre>
-              </div>
-            </div>
-          </div>
-        </TabPanel>
+  {
+    !loading && !error && !result && (
+      <div class="response-empty">
+        <div class="empty-icon">📡</div>
+        <h3>Ready to Send</h3>
+        <p>
+          Configure your request and click "Send Request" to see the response
+          here.
+        </p>
       </div>
-    </div>
-  )}
+    )
+  }
+
+  {
+    !loading && !error && result && (
+      <div class="response-content">
+        <div class="response-header">
+          <StatusIndicator
+            status={result.response?.status}
+            statusText={result.response?.statusText}
+          />
+          <div class="header-actions">
+            <button
+              type="button"
+              class="export-btn"
+              data-export-response
+              title="Export Response"
+            >
+              📥 Export
+            </button>
+            <button
+              type="button"
+              class="clear-btn"
+              data-clear-response
+              title="Clear Response"
+            >
+              🗑️ Clear
+            </button>
+          </div>
+        </div>
+
+        <MetricsPanel
+          duration={result.metrics.duration}
+          size={responseSize}
+          timestamp={result.timestamp}
+          cached={result.metrics.cached}
+        />
+
+        <div class="response-tabs-container">
+          <TabPanel tabs={responseTabs} defaultTab="body">
+            <div data-tab-panel-content="body">
+              <div class="tab-header">
+                <h4 class="tab-title">Response Body</h4>
+                <div class="tab-actions">
+                  <button
+                    type="button"
+                    class="copy-btn"
+                    data-copy-body
+                    title="Copy Body"
+                  >
+                    📋 Copy
+                  </button>
+                  <button
+                    type="button"
+                    class="format-btn"
+                    data-format-toggle
+                    title="Toggle Format"
+                  >
+                    🎨 Format
+                  </button>
+                </div>
+              </div>
+
+              <div class="response-body-container">
+                {result.response?.body ? (
+                  <div class="json-viewer" data-json-viewer>
+                    <pre class="json-content" data-json-content>
+                      {formatJSON(result.response.body)}
+                    </pre>
+                  </div>
+                ) : (
+                  <div class="empty-body">
+                    <p>No response body</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div data-tab-panel-content="headers">
+              <div class="tab-header">
+                <h4 class="tab-title">Response Headers</h4>
+                <div class="tab-actions">
+                  <button
+                    type="button"
+                    class="copy-btn"
+                    data-copy-headers
+                    title="Copy Headers"
+                  >
+                    📋 Copy
+                  </button>
+                  <input
+                    type="search"
+                    placeholder="Filter headers..."
+                    class="header-search"
+                    data-header-search
+                  />
+                </div>
+              </div>
+
+              <div class="headers-container">
+                {result.response?.headers &&
+                Object.keys(result.response.headers).length > 0 ? (
+                  <div class="headers-table">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Header</th>
+                          <th>Value</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody data-headers-body>
+                        {Object.entries(result.response.headers).map(
+                          ([key, value]) => (
+                            <tr
+                              class="header-row"
+                              data-header-name={key.toLowerCase()}
+                            >
+                              <td class="header-name">
+                                <code>{key}</code>
+                              </td>
+                              <td class="header-value">
+                                <code>{value}</code>
+                              </td>
+                              <td class="header-actions">
+                                <button
+                                  type="button"
+                                  class="copy-header-btn"
+                                  data-copy-header={`${key}: ${value}`}
+                                  title="Copy Header"
+                                >
+                                  📋
+                                </button>
+                              </td>
+                            </tr>
+                          ),
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div class="empty-headers">
+                    <p>No response headers</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div data-tab-panel-content="raw">
+              <div class="tab-header">
+                <h4 class="tab-title">Raw Response</h4>
+                <div class="tab-actions">
+                  <button
+                    type="button"
+                    class="copy-btn"
+                    data-copy-raw
+                    title="Copy Raw"
+                  >
+                    📋 Copy
+                  </button>
+                  <button
+                    type="button"
+                    class="download-btn"
+                    data-download-response
+                    title="Download"
+                  >
+                    💾 Download
+                  </button>
+                  <button
+                    type="button"
+                    class="wrap-btn"
+                    data-toggle-wrap
+                    title="Toggle Text Wrap"
+                  >
+                    🔄 Wrap
+                  </button>
+                </div>
+              </div>
+
+              <div class="raw-container">
+                <div class="raw-info">
+                  <span class="info-item">
+                    Status:{" "}
+                    <strong>
+                      {result.response?.status} {result.response?.statusText}
+                    </strong>
+                  </span>
+                  <span class="info-item">
+                    Size:{" "}
+                    <strong>
+                      {responseSize ? `${responseSize} bytes` : "Unknown"}
+                    </strong>
+                  </span>
+                  <span class="info-item">
+                    Duration: <strong>{result.metrics.duration}ms</strong>
+                  </span>
+                </div>
+
+                <div class="raw-content-container">
+                  <pre class="raw-content" data-raw-content>
+                    {formatJSON({
+                      status: result.response?.status,
+                      statusText: result.response?.statusText,
+                      headers: result.response?.headers,
+                      body: result.response?.body,
+                    })}
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </TabPanel>
+        </div>
+      </div>
+    )
+  }
 </div>
 
 <style>
@@ -283,8 +346,12 @@ const responseSize = formatResponseSize(result);
   }
 
   @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 
   .response-loading p {
@@ -488,7 +555,7 @@ const responseSize = formatResponseSize(result);
   }
 
   .json-content {
-    font-family: 'Monaco', 'Menlo', monospace;
+    font-family: "Monaco", "Menlo", monospace;
     font-size: 0.875rem;
     line-height: 1.5;
     color: var(--color-text-primary);
@@ -539,7 +606,7 @@ const responseSize = formatResponseSize(result);
 
   .header-name code,
   .header-value code {
-    font-family: 'Monaco', 'Menlo', monospace;
+    font-family: "Monaco", "Menlo", monospace;
     font-size: 0.8125rem;
     color: var(--color-text-primary);
     background: transparent;
@@ -595,7 +662,7 @@ const responseSize = formatResponseSize(result);
   }
 
   .raw-content {
-    font-family: 'Monaco', 'Menlo', monospace;
+    font-family: "Monaco", "Menlo", monospace;
     font-size: 0.875rem;
     line-height: 1.5;
     color: var(--color-text-primary);
@@ -659,7 +726,7 @@ const responseSize = formatResponseSize(result);
     .header-actions {
       display: none;
     }
-    
+
     .headers-table th:last-child,
     .headers-table td:last-child {
       display: none;
@@ -670,36 +737,70 @@ const responseSize = formatResponseSize(result);
 <script>
   // Copy functionality
   async function copyToClipboard(text: string): Promise<boolean> {
+    // Primary: modern asynchronous clipboard API
     try {
-      await navigator.clipboard.writeText(text);
-      return true;
+      if (
+        navigator.clipboard &&
+        typeof navigator.clipboard.writeText === "function"
+      ) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
     } catch (error) {
-      // Fallback for older browsers
-      const textArea = document.createElement('textarea');
+      // fallthrough to alternative methods below
+    }
+
+    // Secondary: try navigator.clipboard.write with a ClipboardItem if available
+    try {
+      const clipboard = (navigator as any).clipboard;
+      const ClipboardItemCtor = (window as any).ClipboardItem;
+      if (
+        clipboard &&
+        typeof clipboard.write === "function" &&
+        ClipboardItemCtor
+      ) {
+        const blob = new Blob([text], { type: "text/plain" });
+        const item = new ClipboardItemCtor({ "text/plain": blob });
+        await clipboard.write([item]);
+        return true;
+      }
+    } catch {
+      // fallthrough to last-resort (best-effort) approach
+    }
+
+    // Last-resort: best-effort fallback that attempts to select text so the user can copy manually.
+    // We avoid calling document.execCommand('copy') since it's deprecated.
+    try {
+      const textArea = document.createElement("textarea");
       textArea.value = text;
+      // Make textarea invisible but still selectable
+      textArea.style.position = "fixed";
+      textArea.style.top = "-9999px";
+      textArea.style.left = "-9999px";
+      textArea.setAttribute("aria-hidden", "true");
       document.body.appendChild(textArea);
+
       textArea.focus();
       textArea.select();
-      
-      try {
-        const successful = document.execCommand('copy');
-        document.body.removeChild(textArea);
-        return successful;
-      } catch (err) {
-        document.body.removeChild(textArea);
-        return false;
-      }
+
+      // Do NOT use document.execCommand('copy') because it's deprecated.
+      // Instead, leave the selected text for the user to copy manually (or rely on the browser's native copy handling).
+      // Remove the textarea and return false to indicate we couldn't programmatically copy.
+      document.body.removeChild(textArea);
+      return false;
+    } catch (err) {
+      return false;
     }
   }
 
   function showCopyFeedback(button: HTMLElement) {
     const originalContent = button.innerHTML;
-    button.innerHTML = '✅ Copied!';
-    button.style.color = 'var(--color-primary)';
-    
+    button.innerHTML = "✅ Copied!";
+    button.style.color = "var(--color-primary)";
+
     setTimeout(() => {
       button.innerHTML = originalContent;
-      button.style.color = '';
+      button.style.color = "";
     }, 2000);
   }
 
@@ -713,40 +814,51 @@ const responseSize = formatResponseSize(result);
 
     private initCopyButtons() {
       // Copy body
-      document.addEventListener('click', async (e) => {
-        if ((e.target as HTMLElement).matches('[data-copy-body]')) {
-          const jsonContent = document.querySelector('[data-json-content]') as HTMLElement;
+      document.addEventListener("click", async (e) => {
+        if ((e.target as HTMLElement).matches("[data-copy-body]")) {
+          const jsonContent = document.querySelector(
+            "[data-json-content]",
+          ) as HTMLElement;
           if (jsonContent) {
-            const success = await copyToClipboard(jsonContent.textContent || '');
+            const success = await copyToClipboard(
+              jsonContent.textContent || "",
+            );
             if (success) showCopyFeedback(e.target as HTMLElement);
           }
         }
 
         // Copy headers
-        if ((e.target as HTMLElement).matches('[data-copy-headers]')) {
-          const headerRows = document.querySelectorAll('.header-row');
-          const headers = Array.from(headerRows).map(row => {
-            const name = row.querySelector('.header-name code')?.textContent || '';
-            const value = row.querySelector('.header-value code')?.textContent || '';
-            return `${name}: ${value}`;
-          }).join('\n');
-          
+        if ((e.target as HTMLElement).matches("[data-copy-headers]")) {
+          const headerRows = document.querySelectorAll(".header-row");
+          const headers = Array.from(headerRows)
+            .map((row) => {
+              const name =
+                row.querySelector(".header-name code")?.textContent || "";
+              const value =
+                row.querySelector(".header-value code")?.textContent || "";
+              return `${name}: ${value}`;
+            })
+            .join("\n");
+
           const success = await copyToClipboard(headers);
           if (success) showCopyFeedback(e.target as HTMLElement);
         }
 
         // Copy individual header
-        if ((e.target as HTMLElement).matches('[data-copy-header]')) {
-          const headerValue = (e.target as HTMLElement).getAttribute('data-copy-header') || '';
+        if ((e.target as HTMLElement).matches("[data-copy-header]")) {
+          const headerValue =
+            (e.target as HTMLElement).getAttribute("data-copy-header") || "";
           const success = await copyToClipboard(headerValue);
           if (success) showCopyFeedback(e.target as HTMLElement);
         }
 
         // Copy raw
-        if ((e.target as HTMLElement).matches('[data-copy-raw]')) {
-          const rawContent = document.querySelector('[data-raw-content]') as HTMLElement;
+        if ((e.target as HTMLElement).matches("[data-copy-raw]")) {
+          const rawContent = document.querySelector(
+            "[data-raw-content]",
+          ) as HTMLElement;
           if (rawContent) {
-            const success = await copyToClipboard(rawContent.textContent || '');
+            const success = await copyToClipboard(rawContent.textContent || "");
             if (success) showCopyFeedback(e.target as HTMLElement);
           }
         }
@@ -754,68 +866,76 @@ const responseSize = formatResponseSize(result);
     }
 
     private initHeaderSearch() {
-      const searchInput = document.querySelector('[data-header-search]') as HTMLInputElement;
+      const searchInput = document.querySelector(
+        "[data-header-search]",
+      ) as HTMLInputElement;
       if (!searchInput) return;
 
-      searchInput.addEventListener('input', (e) => {
+      searchInput.addEventListener("input", (e) => {
         const searchTerm = (e.target as HTMLInputElement).value.toLowerCase();
-        const headerRows = document.querySelectorAll('.header-row');
+        const headerRows = document.querySelectorAll(".header-row");
 
         headerRows.forEach((row) => {
-          const headerName = row.getAttribute('data-header-name') || '';
-          const visible = headerName.includes(searchTerm) || searchTerm === '';
-          (row as HTMLElement).style.display = visible ? '' : 'none';
+          const headerName = row.getAttribute("data-header-name") || "";
+          const visible = headerName.includes(searchTerm) || searchTerm === "";
+          (row as HTMLElement).style.display = visible ? "" : "none";
         });
       });
     }
 
     private initFormatToggle() {
-      document.addEventListener('click', (e) => {
-        if ((e.target as HTMLElement).matches('[data-format-toggle]')) {
-          const jsonContent = document.querySelector('[data-json-content]') as HTMLElement;
+      document.addEventListener("click", (e) => {
+        if ((e.target as HTMLElement).matches("[data-format-toggle]")) {
+          const jsonContent = document.querySelector(
+            "[data-json-content]",
+          ) as HTMLElement;
           if (!jsonContent) return;
 
-          const isFormatted = jsonContent.style.whiteSpace !== 'pre-line';
-          
+          const isFormatted = jsonContent.style.whiteSpace !== "pre-line";
+
           if (isFormatted) {
-            jsonContent.style.whiteSpace = 'pre-line';
-            (e.target as HTMLElement).textContent = '📋 Minify';
+            jsonContent.style.whiteSpace = "pre-line";
+            (e.target as HTMLElement).textContent = "📋 Minify";
           } else {
-            jsonContent.style.whiteSpace = 'pre';
-            (e.target as HTMLElement).textContent = '🎨 Format';
+            jsonContent.style.whiteSpace = "pre";
+            (e.target as HTMLElement).textContent = "🎨 Format";
           }
         }
 
-        if ((e.target as HTMLElement).matches('[data-toggle-wrap]')) {
-          const rawContent = document.querySelector('[data-raw-content]') as HTMLElement;
+        if ((e.target as HTMLElement).matches("[data-toggle-wrap]")) {
+          const rawContent = document.querySelector(
+            "[data-raw-content]",
+          ) as HTMLElement;
           if (!rawContent) return;
 
-          const isWrapped = rawContent.style.whiteSpace === 'pre-wrap';
-          
+          const isWrapped = rawContent.style.whiteSpace === "pre-wrap";
+
           if (isWrapped) {
-            rawContent.style.whiteSpace = 'pre';
-            (e.target as HTMLElement).textContent = '🔄 Wrap';
+            rawContent.style.whiteSpace = "pre";
+            (e.target as HTMLElement).textContent = "🔄 Wrap";
           } else {
-            rawContent.style.whiteSpace = 'pre-wrap';
-            (e.target as HTMLElement).textContent = '↩️ No Wrap';
+            rawContent.style.whiteSpace = "pre-wrap";
+            (e.target as HTMLElement).textContent = "↩️ No Wrap";
           }
         }
       });
     }
 
     private initExportButtons() {
-      document.addEventListener('click', async (e) => {
-        if ((e.target as HTMLElement).matches('[data-download-response]')) {
-          const rawContent = document.querySelector('[data-raw-content]') as HTMLElement;
+      document.addEventListener("click", async (e) => {
+        if ((e.target as HTMLElement).matches("[data-download-response]")) {
+          const rawContent = document.querySelector(
+            "[data-raw-content]",
+          ) as HTMLElement;
           if (!rawContent) return;
 
-          const content = rawContent.textContent || '';
-          const blob = new Blob([content], { type: 'application/json' });
+          const content = rawContent.textContent || "";
+          const blob = new Blob([content], { type: "application/json" });
           const url = URL.createObjectURL(blob);
-          
-          const a = document.createElement('a');
+
+          const a = document.createElement("a");
           a.href = url;
-          a.download = `api-response-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.json`;
+          a.download = `api-response-${new Date().toISOString().slice(0, 19).replace(/:/g, "-")}.json`;
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
@@ -826,8 +946,8 @@ const responseSize = formatResponseSize(result);
   }
 
   // Initialize controller when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
       new ResponseViewerController();
     });
   } else {

@@ -9,7 +9,7 @@ import type {
   APIResponse,
   APIRequestResult,
   PerformanceMetrics,
-} from '../types';
+} from "../types";
 
 export class APIClient {
   /**
@@ -27,12 +27,13 @@ export class APIClient {
       };
 
       // Add body if present (not for GET/HEAD)
-      if (request.body && !['GET', 'HEAD'].includes(request.method)) {
-        const contentType = request.headers['Content-Type'] || 'application/json';
-        
-        if (contentType === 'application/json') {
+      if (request.body && !["GET", "HEAD"].includes(request.method)) {
+        const contentType =
+          request.headers["Content-Type"] || "application/json";
+
+        if (contentType === "application/json") {
           fetchOptions.body = JSON.stringify(request.body);
-        } else if (contentType === 'application/x-www-form-urlencoded') {
+        } else if (contentType === "application/x-www-form-urlencoded") {
           const params = new URLSearchParams();
           Object.entries(request.body).forEach(([key, value]) => {
             params.append(key, String(value));
@@ -45,20 +46,20 @@ export class APIClient {
 
       // Execute request
       const response = await fetch(request.url, fetchOptions);
-      
+
       // Calculate metrics
       const endTime = performance.now();
       const duration = endTime - startTime;
 
       // Parse response
       const responseHeaders = this.extractHeaders(response.headers);
-      const contentType = response.headers.get('content-type') || '';
-      
+      const contentType = response.headers.get("content-type") || "";
+
       let responseBody: any;
       try {
-        if (contentType.includes('application/json')) {
+        if (contentType.includes("application/json")) {
           responseBody = await response.json();
-        } else if (contentType.includes('text/')) {
+        } else if (contentType.includes("text/")) {
           responseBody = await response.text();
         } else {
           responseBody = await response.blob();
@@ -72,8 +73,8 @@ export class APIClient {
         duration: Math.round(duration),
         status: response.status,
         statusText: response.statusText,
-        size: parseInt(response.headers.get('content-length') || '0'),
-        cached: response.headers.get('x-cache') === 'HIT',
+        size: parseInt(response.headers.get("content-length") || "0"),
+        cached: response.headers.get("x-cache") === "HIT",
       };
 
       // Build response
@@ -87,7 +88,8 @@ export class APIClient {
       // Check for errors
       if (!response.ok) {
         apiResponse.error = {
-          message: responseBody?.message || responseBody?.error || response.statusText,
+          message:
+            responseBody?.message || responseBody?.error || response.statusText,
           code: responseBody?.code || String(response.status),
           details: responseBody,
         };
@@ -100,7 +102,6 @@ export class APIClient {
         timestamp,
         success: response.ok,
       };
-
     } catch (error) {
       const endTime = performance.now();
       const duration = endTime - startTime;
@@ -110,11 +111,12 @@ export class APIClient {
         metrics: {
           duration: Math.round(duration),
           status: 0,
-          statusText: 'Network Error',
+          statusText: "Network Error",
         },
         timestamp,
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error occurred',
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
       };
     }
   }
@@ -133,15 +135,17 @@ export class APIClient {
   /**
    * Test endpoint connectivity
    */
-  async testEndpoint(url: string): Promise<{ reachable: boolean; responseTime: number }> {
+  async testEndpoint(
+    url: string,
+  ): Promise<{ reachable: boolean; responseTime: number }> {
     const startTime = performance.now();
-    
+
     try {
-      await fetch(url, { 
-        method: 'HEAD',
-        mode: 'no-cors',
+      await fetch(url, {
+        method: "HEAD",
+        mode: "no-cors",
       });
-      
+
       const endTime = performance.now();
       return {
         reachable: true,
@@ -183,7 +187,11 @@ export class APIClient {
       lastError = result;
 
       // Don't retry on client errors (4xx)
-      if (result.response?.status && result.response.status >= 400 && result.response.status < 500) {
+      if (
+        result.response?.status &&
+        result.response.status >= 400 &&
+        result.response.status < 500
+      ) {
         break;
       }
 
@@ -193,13 +201,15 @@ export class APIClient {
       }
     }
 
-    return lastError || {
-      request,
-      metrics: { duration: 0, status: 0, statusText: 'Failed' },
-      timestamp: new Date().toISOString(),
-      success: false,
-      error: 'Max retries exceeded',
-    };
+    return (
+      lastError || {
+        request,
+        metrics: { duration: 0, status: 0, statusText: "Failed" },
+        timestamp: new Date().toISOString(),
+        success: false,
+        error: "Max retries exceeded",
+      }
+    );
   }
 
   /**
