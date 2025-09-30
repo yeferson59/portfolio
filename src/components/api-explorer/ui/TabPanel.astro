@@ -1,0 +1,208 @@
+---
+/**
+ * Tab Panel Component
+ * Reusable tab interface for organizing content
+ */
+
+interface Tab {
+  id: string;
+  label: string;
+  icon?: string;
+  badge?: string | number;
+}
+
+interface Props {
+  tabs: Tab[];
+  defaultTab?: string;
+  className?: string;
+}
+
+const { tabs, defaultTab = tabs[0]?.id, className = '' } = Astro.props;
+---
+
+<div class={`tab-panel ${className}`} data-tab-panel>
+  <div class="tab-list" role="tablist">
+    {tabs.map((tab, index) => (
+      <button
+        type="button"
+        role="tab"
+        class="tab-button"
+        data-tab-id={tab.id}
+        data-active={tab.id === defaultTab ? 'true' : 'false'}
+        aria-selected={tab.id === defaultTab ? 'true' : 'false'}
+        aria-controls={`panel-${tab.id}`}
+        id={`tab-${tab.id}`}
+      >
+        {tab.icon && <span class="tab-icon" set:html={tab.icon} />}
+        <span class="tab-label">{tab.label}</span>
+        {tab.badge && <span class="tab-badge">{tab.badge}</span>}
+      </button>
+    ))}
+  </div>
+
+  <div class="tab-content">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .tab-panel {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    background: var(--color-bg-secondary);
+    overflow: hidden;
+  }
+
+  .tab-list {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    background: var(--color-bg-tertiary);
+    border-bottom: 1px solid var(--color-border);
+    overflow-x: auto;
+  }
+
+  .tab-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .tab-button:hover {
+    color: var(--color-text-primary);
+    background: var(--color-bg-hover);
+  }
+
+  .tab-button[data-active="true"] {
+    color: var(--color-primary);
+    background: var(--color-bg-primary);
+    border-color: var(--color-primary);
+  }
+
+  .tab-icon {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+  }
+
+  .tab-label {
+    font-size: 0.875rem;
+  }
+
+  .tab-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    padding: 0 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-bg-primary);
+    background: var(--color-primary);
+    border-radius: 0.625rem;
+  }
+
+  .tab-content {
+    padding: 1rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .tab-list {
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .tab-button {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8125rem;
+    }
+  }
+</style>
+
+<script>
+  // Tab Panel Controller
+  class TabPanelController {
+    private activeTab: string;
+
+    constructor(private container: HTMLElement) {
+      const firstTab = container.querySelector('[data-tab-id]') as HTMLElement;
+      this.activeTab = firstTab?.dataset.tabId || '';
+
+      this.initTabs();
+      this.initPanels();
+    }
+
+    private initTabs() {
+      const tabButtons = this.container.querySelectorAll('[data-tab-id]');
+      
+      tabButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const tabId = (button as HTMLElement).dataset.tabId;
+          if (tabId) {
+            this.switchTab(tabId);
+          }
+        });
+      });
+    }
+
+    private initPanels() {
+      // Hide all panels except active
+      const panels = this.container.querySelectorAll('[data-tab-panel-content]');
+      panels.forEach((panel) => {
+        const panelId = (panel as HTMLElement).dataset.tabPanelContent;
+        if (panelId !== this.activeTab) {
+          (panel as HTMLElement).style.display = 'none';
+        }
+      });
+    }
+
+    private switchTab(tabId: string) {
+      if (tabId === this.activeTab) return;
+
+      // Update buttons
+      const tabButtons = this.container.querySelectorAll('[data-tab-id]');
+      tabButtons.forEach((button) => {
+        const isActive = (button as HTMLElement).dataset.tabId === tabId;
+        button.setAttribute('data-active', isActive ? 'true' : 'false');
+        button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      // Update panels
+      const panels = this.container.querySelectorAll('[data-tab-panel-content]');
+      panels.forEach((panel) => {
+        const panelElement = panel as HTMLElement;
+        const isActive = panelElement.dataset.tabPanelContent === tabId;
+        panelElement.style.display = isActive ? 'block' : 'none';
+      });
+
+      this.activeTab = tabId;
+
+      // Dispatch custom event
+      this.container.dispatchEvent(
+        new CustomEvent('tab-changed', {
+          detail: { tabId },
+          bubbles: true,
+        })
+      );
+    }
+  }
+
+  // Initialize all tab panels
+  document.querySelectorAll('[data-tab-panel]').forEach((container) => {
+    new TabPanelController(container as HTMLElement);
+  });
+</script>

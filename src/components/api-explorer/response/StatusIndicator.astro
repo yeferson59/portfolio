@@ -1,0 +1,185 @@
+---
+/**
+ * Status Indicator Component
+ * Displays HTTP status code with color coding
+ */
+
+interface Props {
+  status?: number;
+  statusText?: string;
+  className?: string;
+}
+
+const { status, statusText, className = '' } = Astro.props;
+
+function getStatusInfo(status?: number) {
+  if (!status) {
+    return {
+      category: 'Pending',
+      color: 'gray',
+      description: 'No request sent',
+    };
+  }
+
+  if (status >= 200 && status < 300) {
+    return {
+      category: 'Success',
+      color: 'green',
+      description: 'Request succeeded',
+    };
+  }
+
+  if (status >= 300 && status < 400) {
+    return {
+      category: 'Redirect',
+      color: 'blue',
+      description: 'Request redirected',
+    };
+  }
+
+  if (status >= 400 && status < 500) {
+    return {
+      category: 'Client Error',
+      color: 'orange',
+      description: 'Client-side error',
+    };
+  }
+
+  if (status >= 500) {
+    return {
+      category: 'Server Error',
+      color: 'red',
+      description: 'Server-side error',
+    };
+  }
+
+  return {
+    category: 'Unknown',
+    color: 'gray',
+    description: 'Unknown status',
+  };
+}
+
+const statusInfo = getStatusInfo(status);
+---
+
+<div class={`status-indicator status-${statusInfo.color} ${className}`}>
+  <div class="status-code">
+    {status || '---'}
+  </div>
+  <div class="status-details">
+    <div class="status-text">{statusText || statusInfo.category}</div>
+    <div class="status-description">{statusInfo.description}</div>
+  </div>
+</div>
+
+<style>
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .status-code {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: 'Monaco', 'Menlo', monospace;
+    border-radius: 0.5rem;
+  }
+
+  .status-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .status-text {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .status-description {
+    font-size: 0.875rem;
+    opacity: 0.8;
+  }
+
+  /* Status colors */
+  .status-green {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.3);
+  }
+
+  .status-green .status-code {
+    color: rgb(22, 163, 74);
+    background: rgba(34, 197, 94, 0.2);
+  }
+
+  .status-green .status-text {
+    color: rgb(22, 163, 74);
+  }
+
+  .status-blue {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+
+  .status-blue .status-code {
+    color: rgb(37, 99, 235);
+    background: rgba(59, 130, 246, 0.2);
+  }
+
+  .status-blue .status-text {
+    color: rgb(37, 99, 235);
+  }
+
+  .status-orange {
+    background: rgba(249, 115, 22, 0.1);
+    border-color: rgba(249, 115, 22, 0.3);
+  }
+
+  .status-orange .status-code {
+    color: rgb(234, 88, 12);
+    background: rgba(249, 115, 22, 0.2);
+  }
+
+  .status-orange .status-text {
+    color: rgb(234, 88, 12);
+  }
+
+  .status-red {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+  }
+
+  .status-red .status-code {
+    color: rgb(220, 38, 38);
+    background: rgba(239, 68, 68, 0.2);
+  }
+
+  .status-red .status-text {
+    color: rgb(220, 38, 38);
+  }
+
+  .status-gray {
+    background: rgba(107, 114, 128, 0.1);
+    border-color: rgba(107, 114, 128, 0.3);
+  }
+
+  .status-gray .status-code {
+    color: rgb(75, 85, 99);
+    background: rgba(107, 114, 128, 0.2);
+  }
+
+  .status-gray .status-text {
+    color: rgb(75, 85, 99);
+  }
+</style>
