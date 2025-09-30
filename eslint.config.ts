@@ -50,6 +50,7 @@ export default defineConfig([
         HTMLInputElement: "readonly",
         HTMLButtonElement: "readonly",
         HTMLSelectElement: "readonly",
+        RequestInit: "readonly",
       },
     },
     rules: {
