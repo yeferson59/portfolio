@@ -1,0 +1,391 @@
+---
+/**
+ * API Explorer Demo Page
+ * Interactive API testing interface showcase
+ */
+
+import Layout from '@/layouts/Layout.astro';
+import APIExplorer from '@/components/api-explorer/core/APIExplorer.astro';
+import { getAPIStats } from '@/utils/api-explorer/config';
+
+const stats = getAPIStats();
+---
+
+<Layout 
+  head={{
+    title: "API Explorer - Interactive API Testing",
+    description: "Test and explore our APIs interactively. Real-time request/response testing with code generation and performance metrics.",
+  }}
+>
+  <main class="api-explorer-page">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">
+            🚀 Interactive API Explorer
+          </h1>
+          <p class="hero-description">
+            Test our production APIs in real-time. Send requests, view responses, and generate code snippets in multiple languages.
+          </p>
+          <div class="hero-stats">
+            <div class="stat-item">
+              <div class="stat-value">{stats.totalAPIs}</div>
+              <div class="stat-label">APIs</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">{stats.totalEndpoints}</div>
+              <div class="stat-label">Endpoints</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">{stats.categories.length}</div>
+              <div class="stat-label">Categories</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- API Explorer -->
+    <section class="explorer-section">
+      <div class="container">
+        <APIExplorer />
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+      <div class="container">
+        <h2 class="section-title">Explorer Features</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3 class="feature-title">Real-Time Testing</h3>
+            <p class="feature-description">
+              Send actual HTTP requests and see responses instantly with performance metrics.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">💻</div>
+            <h3 class="feature-title">Code Generation</h3>
+            <p class="feature-description">
+              Generate ready-to-use code snippets in cURL, JavaScript, Python, Go, and more.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🔐</div>
+            <h3 class="feature-title">Authentication</h3>
+            <p class="feature-description">
+              Support for Bearer tokens, API keys, Basic Auth, and OAuth2 workflows.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3 class="feature-title">Performance Metrics</h3>
+            <p class="feature-description">
+              Track response times, payload sizes, and success rates in real-time.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🎨</div>
+            <h3 class="feature-title">Beautiful UI</h3>
+            <p class="feature-description">
+              Clean, modern interface with syntax highlighting and JSON formatting.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">📱</div>
+            <h3 class="feature-title">Fully Responsive</h3>
+            <p class="feature-description">
+              Works seamlessly on desktop, tablet, and mobile devices.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Available APIs Section -->
+    <section class="apis-section">
+      <div class="container">
+        <h2 class="section-title">Available APIs</h2>
+        <div class="apis-list">
+          <div class="api-card">
+            <div class="api-header">
+              <h3 class="api-name">E-commerce API</h3>
+              <span class="api-version">v1.0.0</span>
+            </div>
+            <p class="api-description">
+              Complete e-commerce backend with microservices architecture. Handles 2,800+ RPS with sub-100ms response times.
+            </p>
+            <div class="api-tags">
+              <span class="tag">Authentication</span>
+              <span class="tag">Products</span>
+              <span class="tag">Orders</span>
+              <span class="tag">Cart</span>
+              <span class="tag">Payments</span>
+            </div>
+          </div>
+
+          <div class="api-card">
+            <div class="api-header">
+              <h3 class="api-name">FastAPI Template</h3>
+              <span class="api-version">v1.0.0</span>
+            </div>
+            <p class="api-description">
+              Professional FastAPI template with SQLModel, async operations, and comprehensive testing suite.
+            </p>
+            <div class="api-tags">
+              <span class="tag">Authentication</span>
+              <span class="tag">Users</span>
+              <span class="tag">Items</span>
+              <span class="tag">Health</span>
+            </div>
+          </div>
+
+          <div class="api-card">
+            <div class="api-header">
+              <h3 class="api-name">Finance MCP API</h3>
+              <span class="api-version">v1.0.0</span>
+            </div>
+            <p class="api-description">
+              Real-time market data and financial information API with comprehensive stock, crypto, and forex data.
+            </p>
+            <div class="api-tags">
+              <span class="tag">Market Data</span>
+              <span class="tag">Stocks</span>
+              <span class="tag">Crypto</span>
+              <span class="tag">News</span>
+              <span class="tag">Analytics</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .api-explorer-page {
+    min-height: 100vh;
+    background: var(--color-bg-primary);
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    padding: 6rem 0 4rem;
+    background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.1), rgba(var(--color-primary-rgb), 0.05));
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .hero-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .hero-description {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 3rem;
+    line-height: 1.6;
+  }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Explorer Section */
+  .explorer-section {
+    padding: 4rem 0;
+  }
+
+  /* Features Section */
+  .features-section {
+    padding: 4rem 0;
+    background: var(--color-bg-secondary);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .feature-card {
+    padding: 2rem;
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-border);
+    border-radius: 1rem;
+    transition: all 0.3s;
+  }
+
+  .feature-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .feature-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .feature-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .feature-description {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  /* APIs Section */
+  .apis-section {
+    padding: 4rem 0 6rem;
+  }
+
+  .apis-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .api-card {
+    padding: 2rem;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 1rem;
+    transition: all 0.3s;
+  }
+
+  .api-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .api-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .api-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  .api-version {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    background: rgba(var(--color-primary-rgb), 0.1);
+    border-radius: 0.375rem;
+  }
+
+  .api-description {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .api-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: 0.375rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .hero-description {
+      font-size: 1rem;
+    }
+
+    .hero-stats {
+      gap: 2rem;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+    }
+
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .container {
+      padding: 0 1rem;
+    }
+  }
+</style>
