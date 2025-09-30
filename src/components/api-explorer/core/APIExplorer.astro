@@ -1316,9 +1316,9 @@ const responseTabs = [
       const isLarge = result.response?.body && isLargeObject(result.response.body);
       
       // Use truncated version for display if object is large
-      const displayBody = isLarge 
+      const displayBody = isLarge && result.response
         ? truncateForDisplay(result.response.body, 3)
-        : result.response.body;
+        : result.response?.body;
       
       const formattedBody = displayBody 
         ? JSON.stringify(displayBody, null, 2)
@@ -1766,7 +1766,7 @@ const responseTabs = [
           // Show loading state
           const originalText = target.textContent;
           target.textContent = '⏳ Loading...';
-          target.disabled = true;
+          (target as HTMLButtonElement).disabled = true;
 
           // Get the original full response from the last API result
           if (this.requestHistory.length > 0) {
@@ -1783,17 +1783,17 @@ const responseTabs = [
               target.textContent = '🔹 Show Less';
               target.setAttribute('data-collapse-all', 'true');
               target.removeAttribute('data-expand-all');
-              target.disabled = false;
+              (target as HTMLButtonElement).disabled = false;
 
               // Hide performance warning
               const warning = document.querySelector('.performance-warning');
               if (warning) {
-                warning.style.display = 'none';
+                (warning as HTMLElement).style.display = 'none';
               }
             }, 100);
           } else {
             target.textContent = originalText;
-            target.disabled = false;
+            (target as HTMLButtonElement).disabled = false;
           }
         }
 

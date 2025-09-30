@@ -17,27 +17,29 @@ interface Props {
   className?: string;
 }
 
-const { tabs, defaultTab = tabs[0]?.id, className = '' } = Astro.props;
+const { tabs, defaultTab = tabs[0]?.id, className = "" } = Astro.props;
 ---
 
 <div class={`tab-panel ${className}`} data-tab-panel>
   <div class="tab-list" role="tablist">
-    {tabs.map((tab, index) => (
-      <button
-        type="button"
-        role="tab"
-        class="tab-button"
-        data-tab-id={tab.id}
-        data-active={tab.id === defaultTab ? 'true' : 'false'}
-        aria-selected={tab.id === defaultTab ? 'true' : 'false'}
-        aria-controls={`panel-${tab.id}`}
-        id={`tab-${tab.id}`}
-      >
-        {tab.icon && <span class="tab-icon" set:html={tab.icon} />}
-        <span class="tab-label">{tab.label}</span>
-        {tab.badge && <span class="tab-badge">{tab.badge}</span>}
-      </button>
-    ))}
+    {
+      tabs.map((tab) => (
+        <button
+          type="button"
+          role="tab"
+          class="tab-button"
+          data-tab-id={tab.id}
+          data-active={tab.id === defaultTab ? "true" : "false"}
+          aria-selected={tab.id === defaultTab ? "true" : "false"}
+          aria-controls={`panel-${tab.id}`}
+          id={`tab-${tab.id}`}
+        >
+          {tab.icon && <span class="tab-icon" set:html={tab.icon} />}
+          <span class="tab-label">{tab.label}</span>
+          {tab.badge && <span class="tab-badge">{tab.badge}</span>}
+        </button>
+      ))
+    }
   </div>
 
   <div class="tab-content">
@@ -139,18 +141,18 @@ const { tabs, defaultTab = tabs[0]?.id, className = '' } = Astro.props;
     private activeTab: string;
 
     constructor(private container: HTMLElement) {
-      const firstTab = container.querySelector('[data-tab-id]') as HTMLElement;
-      this.activeTab = firstTab?.dataset.tabId || '';
+      const firstTab = container.querySelector("[data-tab-id]") as HTMLElement;
+      this.activeTab = firstTab?.dataset.tabId || "";
 
       this.initTabs();
       this.initPanels();
     }
 
     private initTabs() {
-      const tabButtons = this.container.querySelectorAll('[data-tab-id]');
-      
+      const tabButtons = this.container.querySelectorAll("[data-tab-id]");
+
       tabButtons.forEach((button) => {
-        button.addEventListener('click', () => {
+        button.addEventListener("click", () => {
           const tabId = (button as HTMLElement).dataset.tabId;
           if (tabId) {
             this.switchTab(tabId);
@@ -161,11 +163,13 @@ const { tabs, defaultTab = tabs[0]?.id, className = '' } = Astro.props;
 
     private initPanels() {
       // Hide all panels except active
-      const panels = this.container.querySelectorAll('[data-tab-panel-content]');
+      const panels = this.container.querySelectorAll(
+        "[data-tab-panel-content]",
+      );
       panels.forEach((panel) => {
         const panelId = (panel as HTMLElement).dataset.tabPanelContent;
         if (panelId !== this.activeTab) {
-          (panel as HTMLElement).style.display = 'none';
+          (panel as HTMLElement).style.display = "none";
         }
       });
     }
@@ -174,35 +178,37 @@ const { tabs, defaultTab = tabs[0]?.id, className = '' } = Astro.props;
       if (tabId === this.activeTab) return;
 
       // Update buttons
-      const tabButtons = this.container.querySelectorAll('[data-tab-id]');
+      const tabButtons = this.container.querySelectorAll("[data-tab-id]");
       tabButtons.forEach((button) => {
         const isActive = (button as HTMLElement).dataset.tabId === tabId;
-        button.setAttribute('data-active', isActive ? 'true' : 'false');
-        button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        button.setAttribute("data-active", isActive ? "true" : "false");
+        button.setAttribute("aria-selected", isActive ? "true" : "false");
       });
 
       // Update panels
-      const panels = this.container.querySelectorAll('[data-tab-panel-content]');
+      const panels = this.container.querySelectorAll(
+        "[data-tab-panel-content]",
+      );
       panels.forEach((panel) => {
         const panelElement = panel as HTMLElement;
         const isActive = panelElement.dataset.tabPanelContent === tabId;
-        panelElement.style.display = isActive ? 'block' : 'none';
+        panelElement.style.display = isActive ? "block" : "none";
       });
 
       this.activeTab = tabId;
 
       // Dispatch custom event
       this.container.dispatchEvent(
-        new CustomEvent('tab-changed', {
+        new CustomEvent("tab-changed", {
           detail: { tabId },
           bubbles: true,
-        })
+        }),
       );
     }
   }
 
   // Initialize all tab panels
-  document.querySelectorAll('[data-tab-panel]').forEach((container) => {
+  document.querySelectorAll("[data-tab-panel]").forEach((container) => {
     new TabPanelController(container as HTMLElement);
   });
 </script>
