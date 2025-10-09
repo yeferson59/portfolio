@@ -337,18 +337,18 @@ This project has no CI/CD pipeline configured. For production deployment:
 
 ## Quick Reference Commands
 
-| Command                   | Purpose              | Time    | Notes               |
-| ------------------------- | -------------------- | ------- | ------------------- |
-| `npm install`             | Install dependencies | ~45-60s | NEVER CANCEL        |
+| Command                   | Purpose              | Time    | Notes                     |
+| ------------------------- | -------------------- | ------- | ------------------------- |
+| `npm install`             | Install dependencies | ~45-60s | NEVER CANCEL              |
 | `npm run build`           | Production build     | ~3-5s   | Output to .vercel/output/ |
-| `npm run dev`             | Dev server           | ~2-5s   | Hot reload enabled  |
-| `npm run preview`         | Preview build        | ~2-3s   | Uses http-server    |
-| `npm run astro check`     | Type checking        | ~5-10s  | Integrated in build |
-| `npm run lint`            | Code linting         | ~5-10s  | Check code quality  |
-| `npm run lint:fix`        | Fix linting issues   | ~5-10s  | Auto-fix problems   |
-| `npm run format`          | Format code          | ~5-10s  | Prettier formatting |
-| `npm run format:check`    | Check formatting     | ~5-10s  | Verify format       |
-| `npm run astro -- --help` | Show Astro commands  | instant | Reference           |
+| `npm run dev`             | Dev server           | ~2-5s   | Hot reload enabled        |
+| `npm run preview`         | Preview build        | ~2-3s   | Uses http-server          |
+| `npm run astro check`     | Type checking        | ~5-10s  | Integrated in build       |
+| `npm run lint`            | Code linting         | ~5-10s  | Check code quality        |
+| `npm run lint:fix`        | Fix linting issues   | ~5-10s  | Auto-fix problems         |
+| `npm run format`          | Format code          | ~5-10s  | Prettier formatting       |
+| `npm run format:check`    | Check formatting     | ~5-10s  | Verify format             |
+| `npm run astro -- --help` | Show Astro commands  | instant | Reference                 |
 
 **CRITICAL REMINDERS**:
 
