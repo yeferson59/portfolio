@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro check && astro build",
-    "preview": "astro preview",
+    "preview": "http-server .vercel/output/static -p 4321 -s",
     "astro": "astro",
     "test": "vitest run",
     "test:watch": "vitest",
