@@ -24,13 +24,15 @@ const tabs = [
   { id: "headers", label: "Headers", icon: "📋" },
   { id: "body", label: "Body", icon: "📝" },
   { id: "auth", label: "Auth", icon: "🔐" },
+  { id: "code", label: "Code", icon: "💻" },
 ];
 
 const responseTabs = [
   { id: "response", label: "Response", icon: "📄" },
   { id: "headers-response", label: "Headers", icon: "📋" },
-  { id: "code", label: "Code", icon: "💻" },
+  { id: "code-gen", label: "Code", icon: "💻" },
 ];
+
 ---
 
 <div id="api-explorer" class={`api-explorer ${className}`} data-api-explorer>
@@ -137,6 +139,43 @@ const responseTabs = [
             </div>
           </div>
         </div>
+
+        <div data-tab-panel-content="code">
+          <div class="code-generation-section">
+            <div class="code-lang-selector">
+              <label for="code-language">Programming Language</label>
+              <select id="code-language" class="code-lang-select" data-code-language>
+                <option value="curl">cURL</option>
+                <option value="javascript">JavaScript (Fetch)</option>
+                <option value="python">Python (Requests)</option>
+                <option value="go">Go</option>
+                <option value="php">PHP</option>
+                <option value="java">Java</option>
+                <option value="ruby">Ruby</option>
+              </select>
+              <button type="button" class="btn-generate" data-generate-code>
+                🔄 Generate Code
+              </button>
+            </div>
+            
+            <div id="generated-code-container" class="generated-code-container">
+              <div class="empty-code-state">
+                <div class="empty-icon">💻</div>
+                <p>Select a language and click "Generate Code" to see the request code.</p>
+              </div>
+              
+              <!-- Example code block to demonstrate the component -->
+              <div class="example-code-block" style="display: none;">
+                <CodeBlock 
+                  code="curl -X GET https://api.example.com/endpoint"
+                  language="curl"
+                  title="Example cURL Request"
+                  showLineNumbers={false}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </TabPanel>
 
       <div class="request-actions">
@@ -156,10 +195,51 @@ const responseTabs = [
         <h3 class="panel-title">Response</h3>
       </div>
 
+      <!-- Status and Metrics will be shown when there's a response -->
+      <div id="response-status-container" class="response-status-container" style="display: none;">
+        <StatusIndicator className="response-status" />
+      </div>
+
+      <div id="response-metrics-container" class="response-metrics-container" style="display: none;">
+        <MetricsPanel className="response-metrics" />
+      </div>
+
+      <!-- Response Tabs -->
+      <div id="response-tabs-container" class="response-tabs-container" style="display: none;">
+        <TabPanel tabs={responseTabs} defaultTab="response">
+          <div data-tab-panel-content="response" class="response-content-tab">
+            <div id="response-body-content"></div>
+          </div>
+          
+          <div data-tab-panel-content="headers-response" class="response-headers-tab">
+            <div id="response-headers-content"></div>
+          </div>
+          
+          <div data-tab-panel-content="code-gen" class="response-code-tab">
+            <div class="tab-header">
+              <h4 class="tab-title">Generated Code</h4>
+              <div class="tab-actions">
+                <select class="response-code-lang-select" data-response-code-language>
+                  <option value="curl">cURL</option>
+                  <option value="javascript">JavaScript</option>
+                  <option value="python">Python</option>
+                  <option value="go">Go</option>
+                  <option value="php">PHP</option>
+                  <option value="java">Java</option>
+                  <option value="ruby">Ruby</option>
+                </select>
+                <button type="button" class="btn-generate-response" data-generate-response-code>🔄 Generate</button>
+              </div>
+            </div>
+            <div id="response-code-content"></div>
+          </div>
+        </TabPanel>
+      </div>
+
+      <!-- Default empty state -->
       <div
-        id="response-container"
-        class="response-container"
-        data-response-container
+        id="response-empty-state"
+        class="response-empty-state"
       >
         <ResponseViewer />
       </div>
@@ -345,6 +425,74 @@ const responseTabs = [
     display: flex;
     flex-direction: column;
     gap: 1rem;
+  }
+
+  /* Code Generation */
+  .code-generation-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .code-lang-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .code-lang-selector label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  .code-lang-select {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: 0.375rem;
+    color: var(--color-text-primary);
+  }
+
+  .btn-generate {
+    align-self: flex-start;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    background: rgba(var(--color-primary-rgb), 0.1);
+    border: 1px solid var(--color-primary);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-generate:hover {
+    background: rgba(var(--color-primary-rgb), 0.2);
+  }
+
+  .generated-code-container {
+    min-height: 300px;
+  }
+
+  .empty-code-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 3rem 2rem;
+    text-align: center;
+    color: var(--color-text-tertiary);
+    background: var(--color-bg-tertiary);
+    border-radius: 0.5rem;
+    border: 2px dashed var(--color-border);
+  }
+
+  .empty-code-state .empty-icon {
+    font-size: 2.5rem;
+    opacity: 0.5;
   }
 
   /* Actions */
@@ -790,6 +938,35 @@ const responseTabs = [
     cursor: not-allowed;
   }
 
+  .response-code-lang-select {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 0.25rem;
+    color: var(--color-text-primary);
+    margin-right: 0.5rem;
+  }
+
+  .btn-generate-response {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+    border: 1px solid var(--color-primary);
+    background: rgba(var(--color-primary-rgb), 0.1);
+    color: var(--color-primary);
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-generate-response:hover {
+    background: rgba(var(--color-primary-rgb), 0.2);
+  }
+
+  .response-code-container {
+    min-height: 300px;
+  }
+
   /* Size Indicators */
   .size-indicator {
     display: flex;
@@ -1086,12 +1263,9 @@ const responseTabs = [
   import { apiClient } from "@/utils/api-explorer/client/api-client";
   import {
     buildAPIRequest,
-    getDefaultParameters,
   } from "@/utils/api-explorer/client/request-builder";
-  import { validateRequestParameters } from "@/utils/api-explorer/validation/param-validator";
   import {
     generateCode,
-    availableLanguages,
   } from "@/utils/api-explorer/code-generation/generators";
   import { getAPIConfig } from "@/utils/api-explorer/config";
   import type {
@@ -1104,7 +1278,6 @@ const responseTabs = [
     private currentAPI?: APIConfiguration;
     private currentEndpoint?: APIEndpoint;
     private requestHistory: APIRequestResult[] = [];
-    private responseViewer: any; // Will hold reference to ResponseViewer
 
     constructor() {
       this.initEventListeners();
@@ -1142,6 +1315,12 @@ const responseTabs = [
         "[data-clear-request]",
       ) as HTMLButtonElement;
       clearBtn?.addEventListener("click", () => this.clearRequest());
+
+      // Generate code
+      const generateBtn = document.querySelector(
+        "[data-generate-code]",
+      ) as HTMLButtonElement;
+      generateBtn?.addEventListener("click", () => this.generateRequestCode());
     }
 
     private loadDefaultAPI() {
@@ -1205,11 +1384,118 @@ const responseTabs = [
     private loadParameters() {
       if (!this.currentEndpoint) return;
 
-      const defaults = getDefaultParameters(this.currentEndpoint);
-
+      // const defaults = getDefaultParameters(this.currentEndpoint);
+      
       // TODO: Render path parameters
       // TODO: Render query parameters
       // TODO: Load body example
+    }
+
+    private generateRequestCode() {
+      if (!this.currentAPI || !this.currentEndpoint) {
+        alert("Please select an API and endpoint first");
+        return;
+      }
+
+      const languageSelect = document.querySelector(
+        "[data-code-language]"
+      ) as HTMLSelectElement;
+      const language = languageSelect?.value as any;
+
+      if (!language) {
+        alert("Please select a programming language");
+        return;
+      }
+
+      try {
+        // Build the current request
+        const request = buildAPIRequest(this.currentAPI, this.currentEndpoint, {
+          pathParams: {},
+          queryParams: {},
+          // Get current auth settings
+          authentication: this.getCurrentAuthentication(),
+        });
+
+        // Generate code
+        const code = generateCode(request, language);
+        
+        // Display the generated code
+        this.displayGeneratedCode(code, language);
+      } catch (error) {
+        console.error("Failed to generate code:", error);
+        alert("Failed to generate code. Please check your request configuration.");
+      }
+    }
+
+    private getCurrentAuthentication() {
+      const authType = (
+        document.querySelector("[data-auth-type]") as HTMLSelectElement
+      )?.value;
+      const authToken = (
+        document.querySelector("[data-auth-token]") as HTMLInputElement
+      )?.value;
+
+      if (authType && authType !== "none" && authToken) {
+        return {
+          type: authType as any,
+          token: authToken,
+        };
+      }
+      return undefined;
+    }
+
+    private displayGeneratedCode(code: string, language: string) {
+      const container = document.querySelector("#generated-code-container");
+      if (!container) return;
+
+      // Create CodeBlock-like structure manually since we can't use Astro components in JS
+      container.innerHTML = `
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-title">Generated Request Code</span>
+            <span class="code-block-language">${language}</span>
+            <button type="button" class="code-block-copy" data-copy-generated-code>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M4 2h7v1H4V2zm0 3h7v1H4V5zm0 3h5v1H4V8z" />
+              </svg>
+              Copy
+            </button>
+          </div>
+          <div class="code-block-content" style="max-height: 400px">
+            <pre class="code-pre" data-language="${language}"><code class="code-text" data-generated-code="${this.escapeHtml(code)}">${this.escapeHtml(code)}</code></pre>
+          </div>
+        </div>
+      `;
+
+      // Add copy functionality
+      this.initGeneratedCodeCopy();
+    }
+
+    private escapeHtml(text: string): string {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    private initGeneratedCodeCopy() {
+      const copyBtn = document.querySelector('[data-copy-generated-code]');
+      if (!copyBtn) return;
+
+      copyBtn.addEventListener('click', async () => {
+        const codeElement = document.querySelector('[data-generated-code]') as HTMLElement;
+        if (!codeElement) return;
+
+        const code = codeElement.dataset.generatedCode || '';
+        const success = await this.copyToClipboard(code);
+        
+        if (success) {
+          const originalHTML = copyBtn.innerHTML;
+          copyBtn.innerHTML = '✓ Copied!';
+          setTimeout(() => {
+            copyBtn.innerHTML = originalHTML;
+          }, 2000);
+        }
+      });
     }
 
     private async sendRequest() {
@@ -1259,13 +1545,204 @@ const responseTabs = [
     }
 
     private initResponseViewer() {
-      // Get reference to the ResponseViewer component
-      this.responseViewer = document.querySelector("[data-response-viewer]");
+      // Initialize ResponseViewer component
+      // This method is called during controller initialization
     }
 
     private displayResponse(result: APIRequestResult) {
-      // Update the ResponseViewer with the new result
-      this.updateResponseViewer(result);
+      // Hide empty state and show response components
+      this.showResponseComponents();
+      
+      // Update individual components
+      this.updateStatusIndicator(result);
+      this.updateMetricsPanel(result);
+      this.updateResponseContent(result);
+    }
+
+    private showResponseComponents() {
+      // Hide empty state
+      const emptyState = document.getElementById('response-empty-state');
+      if (emptyState) emptyState.style.display = 'none';
+      
+      // Show response components
+      const statusContainer = document.getElementById('response-status-container');
+      const metricsContainer = document.getElementById('response-metrics-container');
+      const tabsContainer = document.getElementById('response-tabs-container');
+      
+      if (statusContainer) statusContainer.style.display = 'block';
+      if (metricsContainer) metricsContainer.style.display = 'block';
+      if (tabsContainer) tabsContainer.style.display = 'block';
+    }
+
+    private updateStatusIndicator(result: APIRequestResult) {
+      const container = document.getElementById('response-status-container');
+      if (!container) return;
+      
+      const status = result.response?.status;
+      const statusText = result.response?.statusText;
+      
+      // Update the StatusIndicator component by modifying its props
+      const statusElement = container.querySelector('.status-indicator');
+      if (statusElement) {
+        statusElement.innerHTML = this.createStatusIndicatorHTML(status, statusText);
+      }
+    }
+
+    private createStatusIndicatorHTML(status?: number, statusText?: string): string {
+      const statusInfo = this.getStatusInfo(status);
+      
+      return `
+        <div class="status-code">${status || "---"}</div>
+        <div class="status-details">
+          <div class="status-text">${statusText || statusInfo.category}</div>
+          <div class="status-description">${statusInfo.description}</div>
+        </div>
+      `;
+    }
+
+    private getStatusInfo(status?: number) {
+      if (!status) {
+        return { category: "Pending", color: "gray", description: "No request sent" };
+      }
+      if (status >= 200 && status < 300) {
+        return { category: "Success", color: "green", description: "Request succeeded" };
+      }
+      if (status >= 300 && status < 400) {
+        return { category: "Redirect", color: "blue", description: "Request redirected" };
+      }
+      if (status >= 400 && status < 500) {
+        return { category: "Client Error", color: "orange", description: "Client-side error" };
+      }
+      if (status >= 500) {
+        return { category: "Server Error", color: "red", description: "Server-side error" };
+      }
+      return { category: "Unknown", color: "gray", description: "Unknown status" };
+    }
+
+    private updateMetricsPanel(result: APIRequestResult) {
+      const container = document.getElementById('response-metrics-container');
+      if (!container) return;
+      
+      // Update metrics display
+      const metricsElement = container.querySelector('.metrics-panel');
+      if (metricsElement) {
+        metricsElement.innerHTML = this.createMetricsPanelHTML(result);
+      }
+    }
+
+    private createMetricsPanelHTML(result: APIRequestResult): string {
+      const responseSize = this.getResponseSize(result);
+      
+      return `
+        <div class="metrics-grid">
+          <div class="metric-item metric-${this.getDurationColor(result.metrics.duration)}">
+            <div class="metric-icon">⚡</div>
+            <div class="metric-content">
+              <div class="metric-label">Duration</div>
+              <div class="metric-value">${this.formatDuration(result.metrics.duration)}</div>
+            </div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-icon">📦</div>
+            <div class="metric-content">
+              <div class="metric-label">Size</div>
+              <div class="metric-value">${responseSize ? this.formatSize(responseSize) : "--"}</div>
+            </div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-icon">🕐</div>
+            <div class="metric-content">
+              <div class="metric-label">Time</div>
+              <div class="metric-value">${new Date(result.timestamp).toLocaleTimeString()}</div>
+            </div>
+          </div>
+          ${
+            result.metrics.cached
+              ? `
+            <div class="metric-item metric-cached">
+              <div class="metric-icon">💾</div>
+              <div class="metric-content">
+                <div class="metric-label">Cache</div>
+                <div class="metric-value">HIT</div>
+              </div>
+            </div>
+          `
+              : ""
+          }
+        </div>
+      `;
+    }
+
+    private getResponseSize(result: APIRequestResult): number | undefined {
+      if (!result.response) return undefined;
+      const bodySize = result.response.body
+        ? JSON.stringify(result.response.body).length
+        : 0;
+      const headersSize = Object.entries(
+        result.response.headers || {},
+      ).reduce((acc, [key, value]) => acc + key.length + value.length, 0);
+      return bodySize + headersSize;
+    }
+
+    private updateResponseContent(result: APIRequestResult) {
+      // Update body content
+      this.updateResponseBodyContent(result);
+      // Update headers content
+      this.updateResponseHeadersContent(result);
+      // Initialize the response code generation
+      this.initResponseCodeGeneration();
+    }
+
+    private updateResponseBodyContent(result: APIRequestResult) {
+      const container = document.getElementById('response-body-content');
+      if (!container) return;
+      
+      const responseBody = result.response?.body;
+      if (responseBody) {
+        const formattedBody = JSON.stringify(responseBody, null, 2);
+        container.innerHTML = `
+          <div class="json-viewer">
+            <pre class="json-content">${this.escapeHtml(formattedBody)}</pre>
+          </div>
+        `;
+      } else {
+        container.innerHTML = '<div class="empty-body"><p>No response body</p></div>';
+      }
+    }
+
+    private updateResponseHeadersContent(result: APIRequestResult) {
+      const container = document.getElementById('response-headers-content');
+      if (!container) return;
+      
+      const headers = result.response?.headers;
+      if (headers && Object.keys(headers).length > 0) {
+        const headersHTML = Object.entries(headers)
+          .map(
+            ([key, value]) => `
+            <tr class="header-row">
+              <td class="header-name"><code>${this.escapeHtml(key)}</code></td>
+              <td class="header-value"><code>${this.escapeHtml(value)}</code></td>
+              <td class="header-actions">
+                <button type="button" class="copy-header-btn" data-copy-header="${this.escapeHtml(`${key}: ${value}`)}" title="Copy Header">📋</button>
+              </td>
+            </tr>
+          `,
+          )
+          .join("");
+          
+        container.innerHTML = `
+          <div class="headers-table">
+            <table>
+              <thead>
+                <tr><th>Header</th><th>Value</th><th>Actions</th></tr>
+              </thead>
+              <tbody>${headersHTML}</tbody>
+            </table>
+          </div>
+        `;
+      } else {
+        container.innerHTML = '<div class="empty-headers"><p>No response headers</p></div>';
+      }
     }
 
     private updateResponseViewer(result: APIRequestResult) {
@@ -1553,6 +2030,30 @@ const responseTabs = [
                   </div>
                 </div>
 
+                <div class="tab-content" data-tab-panel-content="code-gen">
+                  <div class="tab-header">
+                    <h4 class="tab-title">Generated Code</h4>
+                    <div class="tab-actions">
+                      <select class="response-code-lang-select" data-response-code-language>
+                        <option value="curl">cURL</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                        <option value="go">Go</option>
+                        <option value="php">PHP</option>
+                        <option value="java">Java</option>
+                        <option value="ruby">Ruby</option>
+                      </select>
+                      <button type="button" class="btn-generate-response" data-generate-response-code>🔄 Generate</button>
+                    </div>
+                  </div>
+                  <div class="response-code-container" id="response-code-container">
+                    <div class="empty-code-state">
+                      <div class="empty-icon">💻</div>
+                      <p>Select a language and click "Generate" to see the request code based on this response.</p>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="tab-content" data-tab-panel-content="raw">
                   <div class="tab-header">
                     <h4 class="tab-title">Raw Response</h4>
@@ -1588,6 +2089,95 @@ const responseTabs = [
       this.initExportButtons();
       this.initTabPanel();
       this.initLargeObjectHandlers();
+      this.initResponseCodeGeneration();
+    }
+
+    private initResponseCodeGeneration() {
+      const generateBtn = document.querySelector('[data-generate-response-code]');
+      if (!generateBtn) return;
+
+      generateBtn.addEventListener('click', () => {
+        this.generateResponseCode();
+      });
+    }
+
+    private generateResponseCode() {
+      if (!this.currentAPI || !this.currentEndpoint) return;
+
+      const languageSelect = document.querySelector(
+        '[data-response-code-language]'
+      ) as HTMLSelectElement;
+      const language = languageSelect?.value as any;
+
+      if (!language) {
+        alert('Please select a programming language');
+        return;
+      }
+
+      try {
+        // Build the current request (same as what would be sent)
+        const request = buildAPIRequest(this.currentAPI, this.currentEndpoint, {
+          pathParams: {},
+          queryParams: {},
+          authentication: this.getCurrentAuthentication(),
+        });
+
+        // Generate code
+        const code = generateCode(request, language);
+        
+        // Display in response code container
+        this.displayResponseCode(code, language);
+      } catch (error) {
+        console.error('Failed to generate response code:', error);
+        alert('Failed to generate code. Please check your configuration.');
+      }
+    }
+
+    private displayResponseCode(code: string, language: string) {
+      const container = document.querySelector('#response-code-content');
+      if (!container) return;
+
+      container.innerHTML = `
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-title">Request Code</span>
+            <span class="code-block-language">${language}</span>
+            <button type="button" class="code-block-copy" data-copy-response-code>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M4 2h7v1H4V2zm0 3h7v1H4V5zm0 3h5v1H4V8z" />
+              </svg>
+              Copy
+            </button>
+          </div>
+          <div class="code-block-content" style="max-height: 400px">
+            <pre class="code-pre" data-language="${language}"><code class="code-text" data-response-code="${this.escapeHtml(code)}">${this.escapeHtml(code)}</code></pre>
+          </div>
+        </div>
+      `;
+
+      // Add copy functionality
+      this.initResponseCodeCopy();
+    }
+
+    private initResponseCodeCopy() {
+      const copyBtn = document.querySelector('[data-copy-response-code]');
+      if (!copyBtn) return;
+
+      copyBtn.addEventListener('click', async () => {
+        const codeElement = document.querySelector('[data-response-code]') as HTMLElement;
+        if (!codeElement) return;
+
+        const code = codeElement.dataset.responseCode || '';
+        const success = await this.copyToClipboard(code);
+        
+        if (success) {
+          const originalHTML = copyBtn.innerHTML;
+          copyBtn.innerHTML = '✓ Copied!';
+          setTimeout(() => {
+            copyBtn.innerHTML = originalHTML;
+          }, 2000);
+        }
+      });
     }
 
     // Helper methods for ResponseViewer
@@ -1646,24 +2236,36 @@ const responseTabs = [
     // ResponseViewer event handlers
     private async copyToClipboard(text: string): Promise<boolean> {
       try {
-        await navigator.clipboard.writeText(text);
-        return true;
-      } catch (error) {
-        // Fallback for older browsers
+        // Try modern clipboard API first
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          return true;
+        }
+        
+        // Fallback for older browsers or non-secure contexts
         const textArea = document.createElement("textarea");
         textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
         document.body.appendChild(textArea);
         textArea.focus();
         textArea.select();
-
-        try {
-          const successful = document.execCommand("copy");
-          document.body.removeChild(textArea);
-          return successful;
-        } catch (err) {
-          document.body.removeChild(textArea);
-          return false;
-        }
+        
+        // Use the deprecated method as last resort
+        return new Promise((resolve) => {
+          try {
+            const successful = document.execCommand("copy");
+            document.body.removeChild(textArea);
+            resolve(successful);
+          } catch (err) {
+            document.body.removeChild(textArea);
+            resolve(false);
+          }
+        });
+      } catch (error) {
+        console.warn('Copy to clipboard failed:', error);
+        return false;
       }
     }
 
@@ -1931,9 +2533,6 @@ const responseTabs = [
       if (!jsonContent) return;
 
       const contentLength = jsonContent.textContent?.length || 0;
-      const originalSize = parseInt(
-        jsonContent.getAttribute("data-original-size") || "0",
-      );
 
       // Show performance warnings for very large content
       if (contentLength > 1000000) {
@@ -1962,14 +2561,27 @@ const responseTabs = [
       ) as HTMLTextAreaElement;
       if (bodyEditor) bodyEditor.value = "";
 
-      // Clear response - reset to empty ResponseViewer
-      const container = document.querySelector(
-        "[data-response-container]",
-      ) as HTMLElement;
-      if (container) {
-        container.innerHTML =
-          '<div data-response-viewer><div class="response-empty"><div class="empty-icon">📡</div><h3>Ready to Send</h3><p>Configure your request and click "Send Request" to see the response here.</p></div></div>';
+      // Clear generated code
+      const codeContainer = document.querySelector("#generated-code-container");
+      if (codeContainer) {
+        const emptyState = codeContainer.querySelector('.empty-code-state');
+        if (emptyState) {
+          (emptyState as HTMLElement).style.display = 'flex';
+        }
+        const codeBlocks = codeContainer.querySelectorAll('.code-block');
+        codeBlocks.forEach(block => block.remove());
       }
+
+      // Hide response components and show empty state
+      const emptyState = document.getElementById('response-empty-state');
+      const statusContainer = document.getElementById('response-status-container');
+      const metricsContainer = document.getElementById('response-metrics-container');
+      const tabsContainer = document.getElementById('response-tabs-container');
+      
+      if (emptyState) emptyState.style.display = 'block';
+      if (statusContainer) statusContainer.style.display = 'none';
+      if (metricsContainer) metricsContainer.style.display = 'none';
+      if (tabsContainer) tabsContainer.style.display = 'none';
     }
   }
 
