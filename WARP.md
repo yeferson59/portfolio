@@ -320,7 +320,7 @@ bun run build          # Production build (includes Astro check)
 
 ## Recent Updates
 
-### Latest Changes (September 2024)
+### Latest Changes (September 2025)
 
 - **Astro upgraded** to v5.14.1 with enhanced performance
 - **Comprehensive testing infrastructure** added with Vitest and Playwright
