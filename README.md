@@ -1,5 +1,7 @@
 # 🚀 Backend Developer Portfolio
 
+[![Playwright Tests](https://github.com/yeferson59/portfolio/actions/workflows/playwright.yml/badge.svg)](https://github.com/yeferson59/portfolio/actions/workflows/playwright.yml)
+
 [![Astro](https://img.shields.io/badge/Astro-5.13.7-FF5D01?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.1.13-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9.2-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
