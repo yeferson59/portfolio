@@ -6,6 +6,14 @@ frontend/.github/copilot-instructions.md
 
 Personal portfolio website built with Astro.js v5.14.0, TailwindCSS v4.1.13, and TypeScript 5.9.2. Features a dark theme design showcasing backend development services, skills, projects, and contact information with a modern, responsive layout.
 
+### Architecture Notes
+
+- **Output mode**: `server` with Vercel adapter for hybrid rendering
+- **Static pages**: Most pages use `export const prerender = true` for static generation
+- **Dynamic endpoints**: API endpoints like `/api/mcp` are server-rendered
+- **Preview command**: Uses `http-server` instead of `astro preview` (Vercel adapter doesn't support it)
+- **Build output**: `.vercel/output/` directory structure for Vercel deployment
+
 ### Warning
 
 Using bun when it's available and using npm when it's not.
@@ -34,7 +42,7 @@ npm run build
 # Set timeout to 30+ seconds minimum, but build typically completes in under 5 seconds
 ```
 
-The build is extremely fast due to Astro's static site generation. Output goes to `./dist/` directory.
+The build is extremely fast due to Astro's static site generation. Output goes to `./.vercel/output/` directory (static files in `.vercel/output/static/`).
 
 ### Development Server
 
@@ -58,7 +66,8 @@ The dev server includes:
 ```bash
 # Preview production build locally
 npm run preview
-# Serves from dist/ at http://localhost:4321/
+# Serves from .vercel/output/static/ at http://localhost:4321/
+# Uses http-server (Vercel adapter doesn't support astro preview)
 # Takes ~2-3 seconds to start
 ```
 
@@ -191,7 +200,9 @@ portfolio/
 │       └── variables.css  # CSS custom properties
 ├── public/                # Static assets (images, favicon)
 ├── .astro/                # Generated types (auto-created)
-├── dist/                  # Build output (created by npm run build)
+├── .vercel/               # Build output (created by npm run build)
+│   └── output/
+│       └── static/        # Static files for deployment
 └── node_modules/          # Dependencies
 ```
 
@@ -271,13 +282,13 @@ Components are organized by type in `src/components/`:
 ```bash
 # Build and check size
 npm run build
-ls -la dist/
+ls -la .vercel/output/static/
 
 # Check for unused CSS (TailwindCSS automatically purges)
 # Check for large assets in public/ directory
 
-# Analyze bundle size
-npm run build && npx astro-bundle-analyzer dist/
+# Analyze bundle size (if needed)
+npm run build && npx astro-bundle-analyzer .vercel/output/static/
 ```
 
 ## Troubleshooting Common Issues
@@ -317,7 +328,7 @@ npm run astro check
 This project has no CI/CD pipeline configured. For production deployment:
 
 1. **Build command**: `npm run build`
-2. **Output directory**: `dist/`
+2. **Output directory**: `.vercel/output/static/` (or let Vercel auto-detect)
 3. **Node version**: 18+ required
 4. **Build time**: ~3-5 seconds (very fast)
 5. **Code quality**: ESLint and Prettier configured
@@ -326,18 +337,18 @@ This project has no CI/CD pipeline configured. For production deployment:
 
 ## Quick Reference Commands
 
-| Command                   | Purpose              | Time    | Notes               |
-| ------------------------- | -------------------- | ------- | ------------------- |
-| `npm install`             | Install dependencies | ~45-60s | NEVER CANCEL        |
-| `npm run build`           | Production build     | ~3-5s   | Output to dist/     |
-| `npm run dev`             | Dev server           | ~2-5s   | Hot reload enabled  |
-| `npm run preview`         | Preview build        | ~2-3s   | Serves from dist/   |
-| `npm run astro check`     | Type checking        | ~5-10s  | Integrated in build |
-| `npm run lint`            | Code linting         | ~5-10s  | Check code quality  |
-| `npm run lint:fix`        | Fix linting issues   | ~5-10s  | Auto-fix problems   |
-| `npm run format`          | Format code          | ~5-10s  | Prettier formatting |
-| `npm run format:check`    | Check formatting     | ~5-10s  | Verify format       |
-| `npm run astro -- --help` | Show Astro commands  | instant | Reference           |
+| Command                   | Purpose              | Time    | Notes                     |
+| ------------------------- | -------------------- | ------- | ------------------------- |
+| `npm install`             | Install dependencies | ~45-60s | NEVER CANCEL              |
+| `npm run build`           | Production build     | ~3-5s   | Output to .vercel/output/ |
+| `npm run dev`             | Dev server           | ~2-5s   | Hot reload enabled        |
+| `npm run preview`         | Preview build        | ~2-3s   | Uses http-server          |
+| `npm run astro check`     | Type checking        | ~5-10s  | Integrated in build       |
+| `npm run lint`            | Code linting         | ~5-10s  | Check code quality        |
+| `npm run lint:fix`        | Fix linting issues   | ~5-10s  | Auto-fix problems         |
+| `npm run format`          | Format code          | ~5-10s  | Prettier formatting       |
+| `npm run format:check`    | Check formatting     | ~5-10s  | Verify format             |
+| `npm run astro -- --help` | Show Astro commands  | instant | Reference                 |
 
 **CRITICAL REMINDERS**:
 

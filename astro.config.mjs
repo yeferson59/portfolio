@@ -1,6 +1,6 @@
 import { defineConfig, envField } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
-import vercelStatic from "@astrojs/vercel";
+import vercel from "@astrojs/vercel";
 
 // https://astro.build/config
 export default defineConfig({
@@ -16,8 +16,7 @@ export default defineConfig({
       }),
     },
   },
-  output: "static",
-  adapter: vercelStatic({
+  adapter: vercel({
     webAnalytics: {
       enabled: true,
     },

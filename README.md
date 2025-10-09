@@ -142,9 +142,19 @@ npm run dev
 npm run build
 ```
 
-- Generates static files in `./dist/`
+- Generates static files in `./.vercel/output/static/`
 - Automatic CSS and JS optimization
 - Build time: ~3-5 seconds
+
+### Preview Production Build
+
+```bash
+npm run preview
+```
+
+- Serves the production build at `http://localhost:4321/`
+- Uses http-server to serve files from `.vercel/output/static/`
+- Note: The Vercel adapter doesn't support `astro preview`, so we use http-server instead
 
 ### Type Validation
 

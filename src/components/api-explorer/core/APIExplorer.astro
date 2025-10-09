@@ -32,7 +32,6 @@ const responseTabs = [
   { id: "headers-response", label: "Headers", icon: "📋" },
   { id: "code-gen", label: "Code", icon: "💻" },
 ];
-
 ---
 
 <div id="api-explorer" class={`api-explorer ${className}`} data-api-explorer>
@@ -144,7 +143,11 @@ const responseTabs = [
           <div class="code-generation-section">
             <div class="code-lang-selector">
               <label for="code-language">Programming Language</label>
-              <select id="code-language" class="code-lang-select" data-code-language>
+              <select
+                id="code-language"
+                class="code-lang-select"
+                data-code-language
+              >
                 <option value="curl">cURL</option>
                 <option value="javascript">JavaScript (Fetch)</option>
                 <option value="python">Python (Requests)</option>
@@ -157,16 +160,19 @@ const responseTabs = [
                 🔄 Generate Code
               </button>
             </div>
-            
+
             <div id="generated-code-container" class="generated-code-container">
               <div class="empty-code-state">
                 <div class="empty-icon">💻</div>
-                <p>Select a language and click "Generate Code" to see the request code.</p>
+                <p>
+                  Select a language and click "Generate Code" to see the request
+                  code.
+                </p>
               </div>
-              
+
               <!-- Example code block to demonstrate the component -->
               <div class="example-code-block" style="display: none;">
-                <CodeBlock 
+                <CodeBlock
                   code="curl -X GET https://api.example.com/endpoint"
                   language="curl"
                   title="Example cURL Request"
@@ -196,30 +202,48 @@ const responseTabs = [
       </div>
 
       <!-- Status and Metrics will be shown when there's a response -->
-      <div id="response-status-container" class="response-status-container" style="display: none;">
+      <div
+        id="response-status-container"
+        class="response-status-container"
+        style="display: none;"
+      >
         <StatusIndicator className="response-status" />
       </div>
 
-      <div id="response-metrics-container" class="response-metrics-container" style="display: none;">
+      <div
+        id="response-metrics-container"
+        class="response-metrics-container"
+        style="display: none;"
+      >
         <MetricsPanel className="response-metrics" />
       </div>
 
       <!-- Response Tabs -->
-      <div id="response-tabs-container" class="response-tabs-container" style="display: none;">
+      <div
+        id="response-tabs-container"
+        class="response-tabs-container"
+        style="display: none;"
+      >
         <TabPanel tabs={responseTabs} defaultTab="response">
           <div data-tab-panel-content="response" class="response-content-tab">
             <div id="response-body-content"></div>
           </div>
-          
-          <div data-tab-panel-content="headers-response" class="response-headers-tab">
+
+          <div
+            data-tab-panel-content="headers-response"
+            class="response-headers-tab"
+          >
             <div id="response-headers-content"></div>
           </div>
-          
+
           <div data-tab-panel-content="code-gen" class="response-code-tab">
             <div class="tab-header">
               <h4 class="tab-title">Generated Code</h4>
               <div class="tab-actions">
-                <select class="response-code-lang-select" data-response-code-language>
+                <select
+                  class="response-code-lang-select"
+                  data-response-code-language
+                >
                   <option value="curl">cURL</option>
                   <option value="javascript">JavaScript</option>
                   <option value="python">Python</option>
@@ -228,7 +252,11 @@ const responseTabs = [
                   <option value="java">Java</option>
                   <option value="ruby">Ruby</option>
                 </select>
-                <button type="button" class="btn-generate-response" data-generate-response-code>🔄 Generate</button>
+                <button
+                  type="button"
+                  class="btn-generate-response"
+                  data-generate-response-code>🔄 Generate</button
+                >
               </div>
             </div>
             <div id="response-code-content"></div>
@@ -237,10 +265,7 @@ const responseTabs = [
       </div>
 
       <!-- Default empty state -->
-      <div
-        id="response-empty-state"
-        class="response-empty-state"
-      >
+      <div id="response-empty-state" class="response-empty-state">
         <ResponseViewer />
       </div>
     </div>
@@ -1261,12 +1286,8 @@ const responseTabs = [
 
 <script>
   import { apiClient } from "@/utils/api-explorer/client/api-client";
-  import {
-    buildAPIRequest,
-  } from "@/utils/api-explorer/client/request-builder";
-  import {
-    generateCode,
-  } from "@/utils/api-explorer/code-generation/generators";
+  import { buildAPIRequest } from "@/utils/api-explorer/client/request-builder";
+  import { generateCode } from "@/utils/api-explorer/code-generation/generators";
   import { getAPIConfig } from "@/utils/api-explorer/config";
   import type {
     APIConfiguration,
@@ -1385,7 +1406,7 @@ const responseTabs = [
       if (!this.currentEndpoint) return;
 
       // const defaults = getDefaultParameters(this.currentEndpoint);
-      
+
       // TODO: Render path parameters
       // TODO: Render query parameters
       // TODO: Load body example
@@ -1398,7 +1419,7 @@ const responseTabs = [
       }
 
       const languageSelect = document.querySelector(
-        "[data-code-language]"
+        "[data-code-language]",
       ) as HTMLSelectElement;
       const language = languageSelect?.value as any;
 
@@ -1418,12 +1439,14 @@ const responseTabs = [
 
         // Generate code
         const code = generateCode(request, language);
-        
+
         // Display the generated code
         this.displayGeneratedCode(code, language);
       } catch (error) {
         console.error("Failed to generate code:", error);
-        alert("Failed to generate code. Please check your request configuration.");
+        alert(
+          "Failed to generate code. Please check your request configuration.",
+        );
       }
     }
 
@@ -1472,25 +1495,27 @@ const responseTabs = [
     }
 
     private escapeHtml(text: string): string {
-      const div = document.createElement('div');
+      const div = document.createElement("div");
       div.textContent = text;
       return div.innerHTML;
     }
 
     private initGeneratedCodeCopy() {
-      const copyBtn = document.querySelector('[data-copy-generated-code]');
+      const copyBtn = document.querySelector("[data-copy-generated-code]");
       if (!copyBtn) return;
 
-      copyBtn.addEventListener('click', async () => {
-        const codeElement = document.querySelector('[data-generated-code]') as HTMLElement;
+      copyBtn.addEventListener("click", async () => {
+        const codeElement = document.querySelector(
+          "[data-generated-code]",
+        ) as HTMLElement;
         if (!codeElement) return;
 
-        const code = codeElement.dataset.generatedCode || '';
+        const code = codeElement.dataset.generatedCode || "";
         const success = await this.copyToClipboard(code);
-        
+
         if (success) {
           const originalHTML = copyBtn.innerHTML;
-          copyBtn.innerHTML = '✓ Copied!';
+          copyBtn.innerHTML = "✓ Copied!";
           setTimeout(() => {
             copyBtn.innerHTML = originalHTML;
           }, 2000);
@@ -1552,7 +1577,7 @@ const responseTabs = [
     private displayResponse(result: APIRequestResult) {
       // Hide empty state and show response components
       this.showResponseComponents();
-      
+
       // Update individual components
       this.updateStatusIndicator(result);
       this.updateMetricsPanel(result);
@@ -1561,36 +1586,46 @@ const responseTabs = [
 
     private showResponseComponents() {
       // Hide empty state
-      const emptyState = document.getElementById('response-empty-state');
-      if (emptyState) emptyState.style.display = 'none';
-      
+      const emptyState = document.getElementById("response-empty-state");
+      if (emptyState) emptyState.style.display = "none";
+
       // Show response components
-      const statusContainer = document.getElementById('response-status-container');
-      const metricsContainer = document.getElementById('response-metrics-container');
-      const tabsContainer = document.getElementById('response-tabs-container');
-      
-      if (statusContainer) statusContainer.style.display = 'block';
-      if (metricsContainer) metricsContainer.style.display = 'block';
-      if (tabsContainer) tabsContainer.style.display = 'block';
+      const statusContainer = document.getElementById(
+        "response-status-container",
+      );
+      const metricsContainer = document.getElementById(
+        "response-metrics-container",
+      );
+      const tabsContainer = document.getElementById("response-tabs-container");
+
+      if (statusContainer) statusContainer.style.display = "block";
+      if (metricsContainer) metricsContainer.style.display = "block";
+      if (tabsContainer) tabsContainer.style.display = "block";
     }
 
     private updateStatusIndicator(result: APIRequestResult) {
-      const container = document.getElementById('response-status-container');
+      const container = document.getElementById("response-status-container");
       if (!container) return;
-      
+
       const status = result.response?.status;
       const statusText = result.response?.statusText;
-      
+
       // Update the StatusIndicator component by modifying its props
-      const statusElement = container.querySelector('.status-indicator');
+      const statusElement = container.querySelector(".status-indicator");
       if (statusElement) {
-        statusElement.innerHTML = this.createStatusIndicatorHTML(status, statusText);
+        statusElement.innerHTML = this.createStatusIndicatorHTML(
+          status,
+          statusText,
+        );
       }
     }
 
-    private createStatusIndicatorHTML(status?: number, statusText?: string): string {
+    private createStatusIndicatorHTML(
+      status?: number,
+      statusText?: string,
+    ): string {
       const statusInfo = this.getStatusInfo(status);
-      
+
       return `
         <div class="status-code">${status || "---"}</div>
         <div class="status-details">
@@ -1602,29 +1637,53 @@ const responseTabs = [
 
     private getStatusInfo(status?: number) {
       if (!status) {
-        return { category: "Pending", color: "gray", description: "No request sent" };
+        return {
+          category: "Pending",
+          color: "gray",
+          description: "No request sent",
+        };
       }
       if (status >= 200 && status < 300) {
-        return { category: "Success", color: "green", description: "Request succeeded" };
+        return {
+          category: "Success",
+          color: "green",
+          description: "Request succeeded",
+        };
       }
       if (status >= 300 && status < 400) {
-        return { category: "Redirect", color: "blue", description: "Request redirected" };
+        return {
+          category: "Redirect",
+          color: "blue",
+          description: "Request redirected",
+        };
       }
       if (status >= 400 && status < 500) {
-        return { category: "Client Error", color: "orange", description: "Client-side error" };
+        return {
+          category: "Client Error",
+          color: "orange",
+          description: "Client-side error",
+        };
       }
       if (status >= 500) {
-        return { category: "Server Error", color: "red", description: "Server-side error" };
+        return {
+          category: "Server Error",
+          color: "red",
+          description: "Server-side error",
+        };
       }
-      return { category: "Unknown", color: "gray", description: "Unknown status" };
+      return {
+        category: "Unknown",
+        color: "gray",
+        description: "Unknown status",
+      };
     }
 
     private updateMetricsPanel(result: APIRequestResult) {
-      const container = document.getElementById('response-metrics-container');
+      const container = document.getElementById("response-metrics-container");
       if (!container) return;
-      
+
       // Update metrics display
-      const metricsElement = container.querySelector('.metrics-panel');
+      const metricsElement = container.querySelector(".metrics-panel");
       if (metricsElement) {
         metricsElement.innerHTML = this.createMetricsPanelHTML(result);
       }
@@ -1632,7 +1691,7 @@ const responseTabs = [
 
     private createMetricsPanelHTML(result: APIRequestResult): string {
       const responseSize = this.getResponseSize(result);
-      
+
       return `
         <div class="metrics-grid">
           <div class="metric-item metric-${this.getDurationColor(result.metrics.duration)}">
@@ -1678,9 +1737,10 @@ const responseTabs = [
       const bodySize = result.response.body
         ? JSON.stringify(result.response.body).length
         : 0;
-      const headersSize = Object.entries(
-        result.response.headers || {},
-      ).reduce((acc, [key, value]) => acc + key.length + value.length, 0);
+      const headersSize = Object.entries(result.response.headers || {}).reduce(
+        (acc, [key, value]) => acc + key.length + value.length,
+        0,
+      );
       return bodySize + headersSize;
     }
 
@@ -1694,9 +1754,9 @@ const responseTabs = [
     }
 
     private updateResponseBodyContent(result: APIRequestResult) {
-      const container = document.getElementById('response-body-content');
+      const container = document.getElementById("response-body-content");
       if (!container) return;
-      
+
       const responseBody = result.response?.body;
       if (responseBody) {
         const formattedBody = JSON.stringify(responseBody, null, 2);
@@ -1706,14 +1766,15 @@ const responseTabs = [
           </div>
         `;
       } else {
-        container.innerHTML = '<div class="empty-body"><p>No response body</p></div>';
+        container.innerHTML =
+          '<div class="empty-body"><p>No response body</p></div>';
       }
     }
 
     private updateResponseHeadersContent(result: APIRequestResult) {
-      const container = document.getElementById('response-headers-content');
+      const container = document.getElementById("response-headers-content");
       if (!container) return;
-      
+
       const headers = result.response?.headers;
       if (headers && Object.keys(headers).length > 0) {
         const headersHTML = Object.entries(headers)
@@ -1729,7 +1790,7 @@ const responseTabs = [
           `,
           )
           .join("");
-          
+
         container.innerHTML = `
           <div class="headers-table">
             <table>
@@ -1741,7 +1802,8 @@ const responseTabs = [
           </div>
         `;
       } else {
-        container.innerHTML = '<div class="empty-headers"><p>No response headers</p></div>';
+        container.innerHTML =
+          '<div class="empty-headers"><p>No response headers</p></div>';
       }
     }
 
@@ -2093,10 +2155,12 @@ const responseTabs = [
     }
 
     private initResponseCodeGeneration() {
-      const generateBtn = document.querySelector('[data-generate-response-code]');
+      const generateBtn = document.querySelector(
+        "[data-generate-response-code]",
+      );
       if (!generateBtn) return;
 
-      generateBtn.addEventListener('click', () => {
+      generateBtn.addEventListener("click", () => {
         this.generateResponseCode();
       });
     }
@@ -2105,12 +2169,12 @@ const responseTabs = [
       if (!this.currentAPI || !this.currentEndpoint) return;
 
       const languageSelect = document.querySelector(
-        '[data-response-code-language]'
+        "[data-response-code-language]",
       ) as HTMLSelectElement;
       const language = languageSelect?.value as any;
 
       if (!language) {
-        alert('Please select a programming language');
+        alert("Please select a programming language");
         return;
       }
 
@@ -2124,17 +2188,17 @@ const responseTabs = [
 
         // Generate code
         const code = generateCode(request, language);
-        
+
         // Display in response code container
         this.displayResponseCode(code, language);
       } catch (error) {
-        console.error('Failed to generate response code:', error);
-        alert('Failed to generate code. Please check your configuration.');
+        console.error("Failed to generate response code:", error);
+        alert("Failed to generate code. Please check your configuration.");
       }
     }
 
     private displayResponseCode(code: string, language: string) {
-      const container = document.querySelector('#response-code-content');
+      const container = document.querySelector("#response-code-content");
       if (!container) return;
 
       container.innerHTML = `
@@ -2160,19 +2224,21 @@ const responseTabs = [
     }
 
     private initResponseCodeCopy() {
-      const copyBtn = document.querySelector('[data-copy-response-code]');
+      const copyBtn = document.querySelector("[data-copy-response-code]");
       if (!copyBtn) return;
 
-      copyBtn.addEventListener('click', async () => {
-        const codeElement = document.querySelector('[data-response-code]') as HTMLElement;
+      copyBtn.addEventListener("click", async () => {
+        const codeElement = document.querySelector(
+          "[data-response-code]",
+        ) as HTMLElement;
         if (!codeElement) return;
 
-        const code = codeElement.dataset.responseCode || '';
+        const code = codeElement.dataset.responseCode || "";
         const success = await this.copyToClipboard(code);
-        
+
         if (success) {
           const originalHTML = copyBtn.innerHTML;
-          copyBtn.innerHTML = '✓ Copied!';
+          copyBtn.innerHTML = "✓ Copied!";
           setTimeout(() => {
             copyBtn.innerHTML = originalHTML;
           }, 2000);
@@ -2241,7 +2307,7 @@ const responseTabs = [
           await navigator.clipboard.writeText(text);
           return true;
         }
-        
+
         // Fallback for older browsers or non-secure contexts
         const textArea = document.createElement("textarea");
         textArea.value = text;
@@ -2251,7 +2317,7 @@ const responseTabs = [
         document.body.appendChild(textArea);
         textArea.focus();
         textArea.select();
-        
+
         // Use the deprecated method as last resort
         return new Promise((resolve) => {
           try {
@@ -2264,7 +2330,7 @@ const responseTabs = [
           }
         });
       } catch (error) {
-        console.warn('Copy to clipboard failed:', error);
+        console.warn("Copy to clipboard failed:", error);
         return false;
       }
     }
@@ -2564,24 +2630,28 @@ const responseTabs = [
       // Clear generated code
       const codeContainer = document.querySelector("#generated-code-container");
       if (codeContainer) {
-        const emptyState = codeContainer.querySelector('.empty-code-state');
+        const emptyState = codeContainer.querySelector(".empty-code-state");
         if (emptyState) {
-          (emptyState as HTMLElement).style.display = 'flex';
+          (emptyState as HTMLElement).style.display = "flex";
         }
-        const codeBlocks = codeContainer.querySelectorAll('.code-block');
-        codeBlocks.forEach(block => block.remove());
+        const codeBlocks = codeContainer.querySelectorAll(".code-block");
+        codeBlocks.forEach((block) => block.remove());
       }
 
       // Hide response components and show empty state
-      const emptyState = document.getElementById('response-empty-state');
-      const statusContainer = document.getElementById('response-status-container');
-      const metricsContainer = document.getElementById('response-metrics-container');
-      const tabsContainer = document.getElementById('response-tabs-container');
-      
-      if (emptyState) emptyState.style.display = 'block';
-      if (statusContainer) statusContainer.style.display = 'none';
-      if (metricsContainer) metricsContainer.style.display = 'none';
-      if (tabsContainer) tabsContainer.style.display = 'none';
+      const emptyState = document.getElementById("response-empty-state");
+      const statusContainer = document.getElementById(
+        "response-status-container",
+      );
+      const metricsContainer = document.getElementById(
+        "response-metrics-container",
+      );
+      const tabsContainer = document.getElementById("response-tabs-container");
+
+      if (emptyState) emptyState.style.display = "block";
+      if (statusContainer) statusContainer.style.display = "none";
+      if (metricsContainer) metricsContainer.style.display = "none";
+      if (tabsContainer) tabsContainer.style.display = "none";
     }
   }
 
