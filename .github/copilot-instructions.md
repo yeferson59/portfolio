@@ -1,15 +1,12 @@
-frontend/.github/copilot-instructions.md
-
 # Backend Developer Portfolio
 
 **ALWAYS FOLLOW THESE INSTRUCTIONS FIRST.** Only search for additional context or run exploratory commands if the information here is incomplete or incorrect.
 
-Personal portfolio website built with Astro.js v5.14.0, TailwindCSS v4.1.13, and TypeScript 5.9.2. Features a dark theme design showcasing backend development services, skills, projects, and contact information with a modern, responsive layout.
+Personal portfolio website built with Astro.js v5.14.1, TailwindCSS v4.1.13, and TypeScript 5.9.2. Features a dark theme design showcasing backend development services, skills, projects, and contact information with a modern, responsive layout.
 
 ### Architecture Notes
 
 - **Output mode**: `server` with Vercel adapter for hybrid rendering
-- **Static pages**: Most pages use `export const prerender = true` for static generation
 - **Dynamic endpoints**: API endpoints like `/api/mcp` are server-rendered
 - **Preview command**: Uses `http-server` instead of `astro preview` (Vercel adapter doesn't support it)
 - **Build output**: `.vercel/output/` directory structure for Vercel deployment
