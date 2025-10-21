@@ -19,7 +19,7 @@ export const GET: APIRoute = async ({ request }) => {
 
     // Check if FINANCE_MCP URL is configured and reachable
     const mcpUrl = FINANCE_MCP?.trim();
-    if (!mcpUrl || mcpUrl === "" || mcpUrl === "undefined") {
+    if (!mcpUrl || mcpUrl === "") {
       // Return mock data when MCP server is not configured
       return new Response(
         JSON.stringify({
