@@ -776,20 +776,28 @@ type MCPTool = {
 
         // Update result display
         resultDiv.style.display = "block";
-        document.getElementById("result-duration")!.textContent = `${duration}ms`;
+        const durationElem = document.getElementById("result-duration");
+        if (durationElem) durationElem.textContent = `${duration}ms`;
 
         if (response.ok) {
-          document.getElementById("result-status")!.textContent = "SUCCESS";
-          document.getElementById("result-status")!.className = "metric-badge success";
+          const statusElem = document.getElementById("result-status");
+          if (statusElem) {
+            statusElem.textContent = "SUCCESS";
+            statusElem.className = "metric-badge success";
+          }
           resultContent.textContent = JSON.stringify(result, null, 2);
         } else {
           throw new Error(result.error || "Execution failed");
         }
       } catch (error) {
         resultDiv.style.display = "block";
-        document.getElementById("result-status")!.textContent = "ERROR";
-        document.getElementById("result-status")!.className = "metric-badge error";
-        document.getElementById("result-duration")!.textContent = "--";
+        const statusElem = document.getElementById("result-status");
+        if (statusElem) {
+          statusElem.textContent = "ERROR";
+          statusElem.className = "metric-badge error";
+        }
+        const durationElem = document.getElementById("result-duration");
+        if (durationElem) durationElem.textContent = "--";
         resultContent.textContent = error instanceof Error ? error.message : String(error);
       } finally {
         executeBtn.disabled = false;
