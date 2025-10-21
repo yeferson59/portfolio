@@ -279,8 +279,115 @@ const formatNumber = (num: number) => {
         <span class="live-subtitle">Updated every 30 seconds</span>
       </div>
     </div>
+
+    <!-- MCP Client Metrics Section -->
+    <div class="mcp-metrics-section mb-xl" style="margin-top: 3rem;">
+      <h3 class="text-primary mb-lg text-2xl font-bold">
+        MCP Client Performance
+      </h3>
+      <div class="mcp-metrics-grid" id="mcp-metrics-grid">
+        <div class="loading-mcp-metrics">
+          <div class="loading-spinner"></div>
+          <p>Loading MCP client metrics...</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
+
+<script>
+  // MCP Metrics Integration
+  class MCPMetricsIntegration {
+    private updateInterval: number | null = null;
+
+    constructor() {
+      this.loadMCPMetrics();
+      this.startAutoUpdate();
+    }
+
+    private async loadMCPMetrics() {
+      const grid = document.getElementById("mcp-metrics-grid");
+      if (!grid) return;
+
+      try {
+        const startTime = Date.now();
+        const response = await fetch("/api/mcps/finance/get_tools");
+        const duration = Date.now() - startTime;
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch MCP metrics");
+        }
+
+        const tools = await response.json();
+        const toolsCount = Array.isArray(tools) ? tools.length : 0;
+
+        // Display MCP metrics
+        grid.innerHTML = `
+          <div class="mcp-metric-card">
+            <div class="metric-icon">🔧</div>
+            <div class="metric-content">
+              <div class="metric-label">Available Tools</div>
+              <div class="metric-value">${toolsCount}</div>
+            </div>
+          </div>
+          
+          <div class="mcp-metric-card">
+            <div class="metric-icon">⚡</div>
+            <div class="metric-content">
+              <div class="metric-label">API Response</div>
+              <div class="metric-value">${duration}ms</div>
+            </div>
+          </div>
+
+          <div class="mcp-metric-card">
+            <div class="metric-icon">🌐</div>
+            <div class="metric-content">
+              <div class="metric-label">Connection</div>
+              <div class="metric-value">Active</div>
+            </div>
+          </div>
+
+          <div class="mcp-metric-card">
+            <div class="metric-icon">📊</div>
+            <div class="metric-content">
+              <div class="metric-label">Protocol</div>
+              <div class="metric-value">MCP v1.0</div>
+            </div>
+          </div>
+        `;
+      } catch (error) {
+        console.error("Failed to load MCP metrics:", error);
+        grid.innerHTML = `
+          <div class="mcp-metrics-error">
+            <p>⚠️ Unable to load MCP metrics</p>
+          </div>
+        `;
+      }
+    }
+
+    private startAutoUpdate() {
+      // Update MCP metrics every 30 seconds
+      this.updateInterval = window.setInterval(() => {
+        this.loadMCPMetrics();
+      }, 30000);
+    }
+
+    public destroy() {
+      if (this.updateInterval) {
+        clearInterval(this.updateInterval);
+      }
+    }
+  }
+
+  // Initialize MCP metrics on page load
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      new MCPMetricsIntegration();
+    });
+  } else {
+    new MCPMetricsIntegration();
+  }
+</script>
 
 <style>
   /* KPI Grid */
@@ -548,6 +655,93 @@ const formatNumber = (num: number) => {
     }
   }
 
+  /* MCP Metrics Section */
+  .mcp-metrics-section {
+    padding-top: var(--space-xl);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .mcp-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .loading-mcp-metrics,
+  .mcp-metrics-error {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    padding: var(--space-xl);
+    text-align: center;
+    color: var(--color-text-secondary);
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(var(--color-primary-rgb), 0.2);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  .mcp-metric-card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    padding: var(--space-lg);
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-fast);
+  }
+
+  .mcp-metric-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .mcp-metric-card .metric-icon {
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mcp-metric-card .metric-content {
+    flex: 1;
+  }
+
+  .mcp-metric-card .metric-label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-xs);
+  }
+
+  .mcp-metric-card .metric-value {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+  }
+
+  .mcp-metrics-error {
+    color: #ef4444;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
   /* Mobile Responsive */
   @media (max-width: 768px) {
     .metrics-kpi-grid {
@@ -567,6 +761,10 @@ const formatNumber = (num: number) => {
     .live-indicator {
       flex-direction: column;
       gap: var(--space-xs);
+    }
+
+    .mcp-metrics-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>
