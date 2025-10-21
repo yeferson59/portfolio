@@ -14,6 +14,11 @@ export default defineConfig({
         access: "public",
         default: "http://localhost:4321",
       }),
+      FINANCE_MCP: envField.string({
+        context: "client",
+        access: "public",
+        default: "",
+      }),
     },
   },
   adapter: vercel({
