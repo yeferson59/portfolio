@@ -551,8 +551,10 @@ type MCPTool = {
         if (pulseDot) pulseDot.classList.add("connected");
 
         // Update details
-        document.getElementById("tools-count")!.textContent = String(this.tools.length);
-        document.getElementById("mcp-response-time")!.textContent = `${duration}ms`;
+        const toolsCountElem = document.getElementById("tools-count");
+        if (toolsCountElem) toolsCountElem.textContent = String(this.tools.length);
+        const responseTimeElem = document.getElementById("mcp-response-time");
+        if (responseTimeElem) responseTimeElem.textContent = `${duration}ms`;
 
         // Render tools
         this.renderTools();
