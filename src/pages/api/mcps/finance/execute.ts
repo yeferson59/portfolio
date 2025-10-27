@@ -5,18 +5,18 @@ import { FINANCE_MCP } from "astro:env/client";
 export const prerender = false;
 
 export const GET: APIRoute = async ({ request }) => {
+  const url = new URL(request.url);
+  const toolName = url.searchParams.get("tool");
+  const paramsStr = url.searchParams.get("params");
+
+  if (!toolName) {
+    return new Response(
+      JSON.stringify({ error: "Tool name is required" }),
+      { status: 400, headers: { "Content-Type": "application/json" } }
+    );
+  }
+
   try {
-    const url = new URL(request.url);
-    const toolName = url.searchParams.get("tool");
-    const paramsStr = url.searchParams.get("params");
-
-    if (!toolName) {
-      return new Response(
-        JSON.stringify({ error: "Tool name is required" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
-    }
-
     // Check if FINANCE_MCP URL is configured and reachable
     const mcpUrl = FINANCE_MCP?.trim();
     if (!mcpUrl || mcpUrl === "") {
@@ -71,9 +71,6 @@ export const GET: APIRoute = async ({ request }) => {
   } catch (error) {
     console.error("MCP tool execution error:", error);
     // Return mock data as fallback on error
-    const url = new URL(request.url);
-    const toolName = url.searchParams.get("tool");
-    
     return new Response(
       JSON.stringify({
         content: [

@@ -730,17 +730,13 @@ const formatNumber = (num: number) => {
         const durationEl = document.getElementById("result-duration");
         const statusEl = document.getElementById("result-status");
         
-        if (!durationEl) {
-          throw new Error('Metrics: Could not find element with id "result-duration" to display duration.');
-        }
-        durationEl.textContent = `${duration}ms`;
+        if (durationEl) durationEl.textContent = `${duration}ms`;
 
         if (response.ok) {
-          if (!statusEl) {
-            throw new Error('Metrics: Could not find element with id "result-status" to display status.');
+          if (statusEl) {
+            statusEl.textContent = "SUCCESS";
+            statusEl.className = "metric-badge success";
           }
-          statusEl.textContent = "SUCCESS";
-          statusEl.className = "metric-badge success";
           resultContent.textContent = JSON.stringify(result, null, 2);
         } else {
           throw new Error(result.error || "Execution failed");
