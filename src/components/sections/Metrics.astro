@@ -502,13 +502,9 @@ const formatNumber = (num: number) => {
         const responseTimeEl = document.getElementById("mcp-response-time");
         if (toolsCountEl) {
           toolsCountEl.textContent = String(this.tools.length);
-        } else {
-          console.warn('Element with id "tools-count" not found in the DOM.');
         }
         if (responseTimeEl) {
           responseTimeEl.textContent = `${duration}ms`;
-        } else {
-          console.warn('Element with id "mcp-response-time" not found in the DOM.');
         }
 
         // Render tools
