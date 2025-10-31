@@ -371,19 +371,22 @@ const formatNumber = (num: number) => {
 </section>
 
 <script>
+  // MCP data cache configuration
+  const MCP_CACHE_DURATION_MS = 30 * 1000; // 30 seconds
+  const MCP_AUTO_REFRESH_INTERVAL_MS = 30 * 1000; // 30 seconds
+
   // Shared MCP data cache to avoid duplicate API calls
   let mcpDataCache: {
     tools: any[];
     duration: number;
     timestamp: number;
   } | null = null;
-  const CACHE_DURATION = 30000; // 30 seconds
 
   async function fetchMCPData() {
     // Return cached data if still fresh
     if (
       mcpDataCache &&
-      Date.now() - mcpDataCache.timestamp < CACHE_DURATION
+      Date.now() - mcpDataCache.timestamp < MCP_CACHE_DURATION_MS
     ) {
       return mcpDataCache;
     }
@@ -468,10 +471,10 @@ const formatNumber = (num: number) => {
     }
 
     private startAutoUpdate() {
-      // Update MCP metrics every 30 seconds
+      // Update MCP metrics at configured interval
       this.updateInterval = window.setInterval(() => {
         this.loadMCPMetrics();
-      }, 30000);
+      }, MCP_AUTO_REFRESH_INTERVAL_MS);
     }
 
     public destroy() {
