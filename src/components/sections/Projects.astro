@@ -3,6 +3,7 @@ import SectionHeader from "@/components/layouts/SectionHeader.astro";
 import ProjectCard from "@/components/layouts/ProjectCard.astro";
 import Button from "@/components/ui/Button.astro";
 import { getHomepageProjects, getProjectStats } from "@/utils/projects";
+import { getArrowRightIcon } from "@/utils/icons";
 
 // Get limited projects for homepage (first 6 projects)
 const projects = await getHomepageProjects(6);
@@ -45,19 +46,7 @@ const stats = await getProjectStats();
     <div class="mt-4xl text-center">
       <Button size="lg" href="/projects">
         View All Projects
-        <svg
-          width="20"
-          height="20"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-        </svg>
+        <span set:html={getArrowRightIcon(20, 20)} />
       </Button>
     </div>
   </div>

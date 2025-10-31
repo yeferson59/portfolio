@@ -1,4 +1,6 @@
 ---
+import { classNames } from "@/utils/classnames";
+
 interface Props {
   variant?: "default" | "primary" | "secondary" | "success";
   class?: string;
@@ -6,13 +8,11 @@ interface Props {
 
 const { variant = "default", class: className = "" } = Astro.props;
 
-const classes = [
+const classes = classNames(
   "badge",
   variant !== "default" && `badge--${variant}`,
   className,
-]
-  .filter(Boolean)
-  .join(" ");
+);
 ---
 
 <span class={classes}>
