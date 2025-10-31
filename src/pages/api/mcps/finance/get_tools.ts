@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { createClient } from "@/utils/client-mcp";
 import { FINANCE_MCP } from "astro:env/client";
-import { getMockTools } from "@/utils/finance-api";
+import { MOCK_TOOLS } from "@/utils/mcp-mock-data";
 
 export const prerender = false;
 
@@ -11,7 +11,7 @@ export const GET: APIRoute = async () => {
     const mcpUrl = FINANCE_MCP?.trim();
     if (!mcpUrl || mcpUrl === "") {
       // Return mock data when MCP server is not configured
-      return new Response(JSON.stringify(getMockTools(false)), {
+      return new Response(JSON.stringify(MOCK_TOOLS), {
         status: 200,
         headers: { "Content-Type": "application/json" },
       });
@@ -29,7 +29,7 @@ export const GET: APIRoute = async () => {
   } catch (error) {
     console.error("Failed to fetch MCP tools:", error);
     // Return mock data as fallback on error
-    return new Response(JSON.stringify(getMockTools(true)), {
+    return new Response(JSON.stringify(MOCK_TOOLS), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });

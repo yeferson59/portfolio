@@ -385,6 +385,44 @@ const formatNumber = (num: number) => {
 </section>
 
 <script>
+  // MCP data cache configuration
+  const MCP_CACHE_DURATION_MS = 30 * 1000; // 30 seconds
+  const MCP_AUTO_REFRESH_INTERVAL_MS = 30 * 1000; // 30 seconds
+
+  // Shared MCP data cache to avoid duplicate API calls
+  let mcpDataCache: {
+    tools: any[];
+    duration: number;
+    timestamp: number;
+  } | null = null;
+
+  async function fetchMCPData() {
+    // Return cached data if still fresh
+    if (
+      mcpDataCache &&
+      Date.now() - mcpDataCache.timestamp < MCP_CACHE_DURATION_MS
+    ) {
+      return mcpDataCache;
+    }
+
+    const startTime = Date.now();
+    const response = await fetch("/api/mcps/finance/get_tools");
+    const duration = Date.now() - startTime;
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch MCP data");
+    }
+
+    const tools = await response.json();
+    mcpDataCache = {
+      tools: Array.isArray(tools) ? tools : [],
+      duration,
+      timestamp: Date.now(),
+    };
+
+    return mcpDataCache;
+  }
+
   // MCP Metrics Integration
   class MCPMetricsIntegration {
     private updateInterval: number | null = null;
@@ -399,16 +437,8 @@ const formatNumber = (num: number) => {
       if (!grid) return;
 
       try {
-        const startTime = Date.now();
-        const response = await fetch("/api/mcps/finance/get_tools");
-        const duration = Date.now() - startTime;
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch MCP metrics");
-        }
-
-        const tools = await response.json();
-        const toolsCount = Array.isArray(tools) ? tools.length : 0;
+        const { tools, duration } = await fetchMCPData();
+        const toolsCount = tools.length;
 
         // Display MCP metrics
         grid.innerHTML = `
@@ -455,10 +485,10 @@ const formatNumber = (num: number) => {
     }
 
     private startAutoUpdate() {
-      // Update MCP metrics every 30 seconds
+      // Update MCP metrics at configured interval
       this.updateInterval = window.setInterval(() => {
         this.loadMCPMetrics();
-      }, 30000);
+      }, MCP_AUTO_REFRESH_INTERVAL_MS);
     }
 
     public destroy() {
@@ -493,19 +523,10 @@ const formatNumber = (num: number) => {
       const pulseDot = statusIndicator?.querySelector(".pulse-dot");
 
       try {
-        const startTime = Date.now();
+        // Use shared cache to avoid duplicate API call
+        const { tools, duration } = await fetchMCPData();
 
-        // Fetch tools from our API endpoint
-        const response = await fetch("/api/mcps/finance/get_tools");
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch MCP tools: ${response.statusText}`);
-        }
-
-        const tools = await response.json();
-        const duration = Date.now() - startTime;
-
-        this.tools = Array.isArray(tools) ? tools : [];
+        this.tools = tools;
 
         // Update status
         if (statusText) statusText.textContent = "Connected to Finance MCP";
