@@ -7,18 +7,26 @@ import { FINANCE_MCP } from "astro:env/client";
  */
 export const createFinanceAPIHandler = (toolName: string): APIRoute => {
   return async ({ request }) => {
-    const symbol = new URL(request.url).searchParams.get("symbol");
-    const financeClientMCP = await createClient({
-      url: FINANCE_MCP,
-    });
-    const result = await financeClientMCP.callTool({
-      name: toolName,
-      arguments: {
-        symbol,
-      },
-    });
+    try {
+      const symbol = new URL(request.url).searchParams.get("symbol");
+      const financeClientMCP = await createClient({
+        url: FINANCE_MCP,
+      });
+      const result = await financeClientMCP.callTool({
+        name: toolName,
+        arguments: {
+          symbol,
+        },
+      });
 
-    return new Response(JSON.stringify(result.structuredContent));
+      return new Response(JSON.stringify(result.structuredContent));
+    } catch (error) {
+      console.error(`Error executing ${toolName}:`, error);
+      return new Response(JSON.stringify({ error: "Failed to execute tool" }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
   };
 };
 
