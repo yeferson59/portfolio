@@ -298,7 +298,7 @@ const formatNumber = (num: number) => {
       <h3 class="text-primary mb-lg text-2xl font-bold">
         MCP Client Interactive Viewer
       </h3>
-      
+
       <!-- MCP Connection Status -->
       <div class="mcp-status mb-lg">
         <Card variant="compact" class="status-card">
@@ -308,8 +308,12 @@ const formatNumber = (num: number) => {
               <span class="status-text">Connecting to MCP...</span>
             </div>
             <div class="status-details" id="mcp-status-details">
-              <span class="detail-item">Tools: <strong id="tools-count">--</strong></span>
-              <span class="detail-item">Response Time: <strong id="mcp-response-time">--</strong></span>
+              <span class="detail-item"
+                >Tools: <strong id="tools-count">--</strong></span
+              >
+              <span class="detail-item"
+                >Response Time: <strong id="mcp-response-time">--</strong></span
+              >
             </div>
           </div>
         </Card>
@@ -332,19 +336,29 @@ const formatNumber = (num: number) => {
           <h4 class="text-primary mb-md text-xl font-bold">Tool Executor</h4>
           <div class="executor-content">
             <div class="tool-selector mb-md">
-              <label for="tool-select" class="selector-label">Select Tool</label>
+              <label for="tool-select" class="selector-label">Select Tool</label
+              >
               <select id="tool-select" class="tool-select" disabled>
                 <option value="">Loading tools...</option>
               </select>
             </div>
 
-            <div id="tool-params" class="tool-params mb-md" style="display: none;">
+            <div
+              id="tool-params"
+              class="tool-params mb-md"
+              style="display: none;"
+            >
               <label class="params-label">Tool Parameters</label>
               <div id="params-container" class="params-container"></div>
             </div>
 
             <div class="executor-actions mb-md">
-              <button type="button" id="execute-tool-btn" class="btn-execute" disabled>
+              <button
+                type="button"
+                id="execute-tool-btn"
+                class="btn-execute"
+                disabled
+              >
                 <span class="btn-icon">▶</span>
                 Execute Tool
               </button>
@@ -583,14 +597,18 @@ const formatNumber = (num: number) => {
       // Add click handlers
       grid.querySelectorAll(".tool-card").forEach((card) => {
         card.addEventListener("click", (e) => {
-          const index = parseInt((e.currentTarget as HTMLElement).dataset.toolIndex!);
+          const index = parseInt(
+            (e.currentTarget as HTMLElement).dataset.toolIndex!,
+          );
           this.selectTool(index);
         });
       });
     }
 
     private populateToolSelect() {
-      const select = document.getElementById("tool-select") as HTMLSelectElement;
+      const select = document.getElementById(
+        "tool-select",
+      ) as HTMLSelectElement;
       if (!select) return;
 
       select.innerHTML = '<option value="">Select a tool...</option>';
@@ -623,7 +641,9 @@ const formatNumber = (num: number) => {
       this.selectedTool = this.tools[index];
 
       // Update UI
-      const select = document.getElementById("tool-select") as HTMLSelectElement;
+      const select = document.getElementById(
+        "tool-select",
+      ) as HTMLSelectElement;
       if (select) select.value = String(index);
 
       // Update tool cards
@@ -639,7 +659,9 @@ const formatNumber = (num: number) => {
       this.renderParametersForm();
 
       // Enable execute button
-      const executeBtn = document.getElementById("execute-tool-btn") as HTMLButtonElement;
+      const executeBtn = document.getElementById(
+        "execute-tool-btn",
+      ) as HTMLButtonElement;
       if (executeBtn) executeBtn.disabled = false;
     }
 
@@ -659,47 +681,54 @@ const formatNumber = (num: number) => {
       paramsSection.style.display = "block";
       paramsContainer.innerHTML = "";
 
-      Object.entries(schema.properties).forEach(([name, prop]: [string, any]) => {
-        const isRequired = schema.required?.includes(name) || false;
-        const field = document.createElement("div");
-        field.className = "param-field";
+      Object.entries(schema.properties).forEach(
+        ([name, prop]: [string, any]) => {
+          const isRequired = schema.required?.includes(name) || false;
+          const field = document.createElement("div");
+          field.className = "param-field";
 
-        const label = document.createElement("label");
-        label.textContent = name;
-        label.htmlFor = `param-${name}`;
-        if (isRequired) label.classList.add("required");
+          const label = document.createElement("label");
+          label.textContent = name;
+          label.htmlFor = `param-${name}`;
+          if (isRequired) label.classList.add("required");
 
-        let input: HTMLInputElement | HTMLTextAreaElement;
+          let input: HTMLInputElement | HTMLTextAreaElement;
 
-        if (prop.type === "object" || prop.type === "array") {
-          input = document.createElement("textarea");
-          input.rows = 3;
-          input.placeholder = `Enter ${prop.type} (JSON format)`;
-        } else {
-          input = document.createElement("input");
-          input.type = prop.type === "number" || prop.type === "integer" ? "number" : "text";
-          input.placeholder = prop.description || `Enter ${name}`;
-        }
+          if (prop.type === "object" || prop.type === "array") {
+            input = document.createElement("textarea");
+            input.rows = 3;
+            input.placeholder = `Enter ${prop.type} (JSON format)`;
+          } else {
+            input = document.createElement("input");
+            input.type =
+              prop.type === "number" || prop.type === "integer"
+                ? "number"
+                : "text";
+            input.placeholder = prop.description || `Enter ${name}`;
+          }
 
-        input.id = `param-${name}`;
-        input.dataset.paramName = name;
-        input.dataset.paramType = prop.type;
-        input.required = isRequired;
+          input.id = `param-${name}`;
+          input.dataset.paramName = name;
+          input.dataset.paramType = prop.type;
+          input.required = isRequired;
 
-        if (prop.default !== undefined) {
-          input.value = String(prop.default);
-        }
+          if (prop.default !== undefined) {
+            input.value = String(prop.default);
+          }
 
-        field.appendChild(label);
-        field.appendChild(input);
-        paramsContainer.appendChild(field);
-      });
+          field.appendChild(label);
+          field.appendChild(input);
+          paramsContainer.appendChild(field);
+        },
+      );
     }
 
     private async executeTool() {
       if (!this.selectedTool) return;
 
-      const executeBtn = document.getElementById("execute-tool-btn") as HTMLButtonElement;
+      const executeBtn = document.getElementById(
+        "execute-tool-btn",
+      ) as HTMLButtonElement;
       const resultDiv = document.getElementById("tool-result");
       const resultContent = document.getElementById("result-content");
 
@@ -750,7 +779,7 @@ const formatNumber = (num: number) => {
         resultDiv.style.display = "block";
         const durationEl = document.getElementById("result-duration");
         const statusEl = document.getElementById("result-status");
-        
+
         if (durationEl) durationEl.textContent = `${duration}ms`;
 
         if (response.ok) {
@@ -766,13 +795,14 @@ const formatNumber = (num: number) => {
         resultDiv.style.display = "block";
         const statusEl = document.getElementById("result-status");
         const durationEl = document.getElementById("result-duration");
-        
+
         if (statusEl) {
           statusEl.textContent = "ERROR";
           statusEl.className = "metric-badge error";
         }
         if (durationEl) durationEl.textContent = "--";
-        resultContent.textContent = error instanceof Error ? error.message : String(error);
+        resultContent.textContent =
+          error instanceof Error ? error.message : String(error);
       } finally {
         executeBtn.disabled = false;
         executeBtn.innerHTML = '<span class="btn-icon">▶</span> Execute Tool';
