@@ -1,6 +1,10 @@
 import type { APIRoute } from "astro";
 import { createClient } from "@/utils/client-mcp";
 import { FINANCE_MCP } from "astro:env/client";
+import {
+  createErrorResponse,
+  createSuccessResponse,
+} from "@/utils/api-response";
 
 /**
  * Creates a generic finance API handler for calling MCP tools
@@ -19,13 +23,10 @@ export const createFinanceAPIHandler = (toolName: string): APIRoute => {
         },
       });
 
-      return new Response(JSON.stringify(result.structuredContent));
+      return createSuccessResponse(result.structuredContent);
     } catch (error) {
       console.error(`Error executing ${toolName}:`, error);
-      return new Response(JSON.stringify({ error: "Failed to execute tool" }), {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      });
+      return createErrorResponse("Failed to execute tool", 500);
     }
   };
 };
@@ -37,37 +38,31 @@ export const createMockResponse = (
   toolName: string,
   extraData: Record<string, unknown> = {},
 ) => {
-  return new Response(
-    JSON.stringify({
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(
-            {
-              tool: toolName,
-              status: "success",
-              mode: "mock",
-              message: "Mock data - MCP server not configured",
-              data: {
-                symbol: "AAPL",
-                price: 185.92,
-                change: 2.45,
-                changePercent: 1.34,
-                timestamp: new Date().toISOString(),
-                ...extraData,
-              },
+  return createSuccessResponse({
+    content: [
+      {
+        type: "text",
+        text: JSON.stringify(
+          {
+            tool: toolName,
+            status: "success",
+            mode: "mock",
+            message: "Mock data - MCP server not configured",
+            data: {
+              symbol: "AAPL",
+              price: 185.92,
+              change: 2.45,
+              changePercent: 1.34,
+              timestamp: new Date().toISOString(),
+              ...extraData,
             },
-            null,
-            2,
-          ),
-        },
-      ],
-    }),
-    {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    },
-  );
+          },
+          null,
+          2,
+        ),
+      },
+    ],
+  });
 };
 
 /**

@@ -4,6 +4,7 @@ import ServiceCard from "@/components/layouts/ServiceCard.astro";
 import Card from "@/components/ui/Card.astro";
 import Button from "@/components/ui/Button.astro";
 import { getAllServices } from "@/utils/services";
+import { getArrowRightIcon } from "@/utils/icons";
 
 const services = await getAllServices();
 ---
@@ -42,19 +43,7 @@ const services = await getAllServices();
         </p>
         <Button href="#contact">
           Let's discuss your project
-          <svg
-            width="16"
-            height="16"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-          </svg>
+          <span set:html={getArrowRightIcon(16, 16)} />
         </Button>
       </Card>
     </div>

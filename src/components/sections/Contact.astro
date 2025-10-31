@@ -3,6 +3,7 @@ import SectionHeader from "@/components/layouts/SectionHeader.astro";
 import Card from "@/components/ui/Card.astro";
 import Button from "@/components/ui/Button.astro";
 import { contactMethods, icons } from "@/data/site";
+import { getArrowRightIcon } from "@/utils/icons";
 
 const heading = "Get in touch";
 const subtitle =
@@ -48,21 +49,7 @@ const subtitle =
                     aria-label={`Contact via ${method.label}: ${method.value}`}
                   >
                     Get in touch
-                    <svg
-                      width="16"
-                      height="16"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M13 7l5 5m0 0l-5 5m5-5H6"
-                      />
-                    </svg>
+                    <span set:html={getArrowRightIcon(16, 16)} aria-hidden="true" />
                   </Button>
                 </div>
               </div>

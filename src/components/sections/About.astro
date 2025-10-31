@@ -5,6 +5,7 @@ import Button from "@/components/ui/Button.astro";
 import { Image } from "astro:assets";
 import { developer, skills, coreFeatures } from "@/data/site";
 import SectionHeader from "@/components/layouts/SectionHeader.astro";
+import { getArrowRightIcon } from "@/utils/icons";
 ---
 
 <section id="about" class="gradient-overlay">
@@ -115,19 +116,7 @@ import SectionHeader from "@/components/layouts/SectionHeader.astro";
             <div class="btn-group btn-group--center">
               <Button href="#projects">
                 View Projects
-                <svg
-                  width="16"
-                  height="16"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                </svg>
+                <span set:html={getArrowRightIcon(16, 16)} />
               </Button>
               <Button variant="secondary" href="#contact"> Contact Me </Button>
             </div>

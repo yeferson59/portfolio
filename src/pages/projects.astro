@@ -5,6 +5,7 @@ import ProjectCard from "@/components/layouts/ProjectCard.astro";
 import Pagination from "@/components/ui/Pagination.astro";
 import Button from "@/components/ui/Button.astro";
 import { getPaginatedProjects, getProjectStats } from "@/utils/projects";
+import { getArrowRightIcon } from "@/utils/icons";
 
 // Get the current page from URL (default to 1)
 const currentPage = 1;
@@ -140,19 +141,7 @@ const { items: projects, totalPages } = paginatedData;
           </p>
           <Button size="lg" href="/#contact">
             Get in Touch
-            <svg
-              width="20"
-              height="20"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-            </svg>
+            <span set:html={getArrowRightIcon(20, 20)} />
           </Button>
         </div>
       </div>

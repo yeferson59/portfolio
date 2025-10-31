@@ -1,4 +1,6 @@
 ---
+import { classNames } from "@/utils/classnames";
+
 interface Props {
   class?: string;
   hover?: boolean;
@@ -11,15 +13,13 @@ const {
   variant = "default",
 } = Astro.props;
 
-const classes = [
+const classes = classNames(
   "card",
   variant === "compact" && "card--compact",
   variant === "raised" && "card--raised",
   hover && "hover-lift",
   className,
-]
-  .filter(Boolean)
-  .join(" ");
+);
 ---
 
 <div class={classes}>

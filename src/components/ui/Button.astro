@@ -1,4 +1,6 @@
 ---
+import { classNames } from "@/utils/classnames";
+
 interface Props {
   variant?: "primary" | "secondary" | "ghost";
   size?: "sm" | "md" | "lg";
@@ -18,15 +20,13 @@ const {
   disabled = false,
 } = Astro.props;
 
-const classes = [
+const classes = classNames(
   "btn",
   `btn--${variant}`,
   `btn--${size}`,
   fullWidth && "btn--full",
   className,
-]
-  .filter(Boolean)
-  .join(" ");
+);
 
 const Tag = href ? "a" : "button";
 ---
