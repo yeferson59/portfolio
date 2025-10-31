@@ -21,10 +21,18 @@ const statusOrder = {
   Archived: 5,
 };
 
+// Cache for projects to avoid repeated fetching and sorting
+let projectsCache: Project[] | null = null;
+
 export const getAllProjects = async (): Promise<Project[]> => {
+  // Return cached projects if available
+  if (projectsCache !== null) {
+    return projectsCache;
+  }
+
   const projects = await getCollection("projects");
 
-  return projects
+  projectsCache = projects
     .filter((project) => project.data.draft !== true)
     .sort((a, b) => {
       if (a.data.featured && !b.data.featured) return -1;
@@ -39,6 +47,8 @@ export const getAllProjects = async (): Promise<Project[]> => {
         (statusOrder[b.data.status] ?? DEFAULT_STATUS_ORDER)
       );
     });
+
+  return projectsCache;
 };
 
 /**

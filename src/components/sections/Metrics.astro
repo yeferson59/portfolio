@@ -371,6 +371,41 @@ const formatNumber = (num: number) => {
 </section>
 
 <script>
+  // Shared MCP data cache to avoid duplicate API calls
+  let mcpDataCache: {
+    tools: any[];
+    duration: number;
+    timestamp: number;
+  } | null = null;
+  const CACHE_DURATION = 30000; // 30 seconds
+
+  async function fetchMCPData() {
+    // Return cached data if still fresh
+    if (
+      mcpDataCache &&
+      Date.now() - mcpDataCache.timestamp < CACHE_DURATION
+    ) {
+      return mcpDataCache;
+    }
+
+    const startTime = Date.now();
+    const response = await fetch("/api/mcps/finance/get_tools");
+    const duration = Date.now() - startTime;
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch MCP data");
+    }
+
+    const tools = await response.json();
+    mcpDataCache = {
+      tools: Array.isArray(tools) ? tools : [],
+      duration,
+      timestamp: Date.now(),
+    };
+
+    return mcpDataCache;
+  }
+
   // MCP Metrics Integration
   class MCPMetricsIntegration {
     private updateInterval: number | null = null;
@@ -385,16 +420,8 @@ const formatNumber = (num: number) => {
       if (!grid) return;
 
       try {
-        const startTime = Date.now();
-        const response = await fetch("/api/mcps/finance/get_tools");
-        const duration = Date.now() - startTime;
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch MCP metrics");
-        }
-
-        const tools = await response.json();
-        const toolsCount = Array.isArray(tools) ? tools.length : 0;
+        const { tools, duration } = await fetchMCPData();
+        const toolsCount = tools.length;
 
         // Display MCP metrics
         grid.innerHTML = `
@@ -479,19 +506,10 @@ const formatNumber = (num: number) => {
       const pulseDot = statusIndicator?.querySelector(".pulse-dot");
 
       try {
-        const startTime = Date.now();
-        
-        // Fetch tools from our API endpoint
-        const response = await fetch("/api/mcps/finance/get_tools");
-        
-        if (!response.ok) {
-          throw new Error(`Failed to fetch MCP tools: ${response.statusText}`);
-        }
+        // Use shared cache to avoid duplicate API call
+        const { tools, duration } = await fetchMCPData();
 
-        const tools = await response.json();
-        const duration = Date.now() - startTime;
-
-        this.tools = Array.isArray(tools) ? tools : [];
+        this.tools = tools;
 
         // Update status
         if (statusText) statusText.textContent = "Connected to Finance MCP";
