@@ -20,8 +20,10 @@ export const getCheckmarkIcon = (
 export const getArrowRightIcon = (
   width: number = 20,
   height: number = 20,
+  ariaHidden: boolean = true,
 ): string => {
-  return `<svg width="${width}" height="${height}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+  const ariaAttr = ariaHidden ? ' aria-hidden="true"' : "";
+  return `<svg width="${width}" height="${height}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"${ariaAttr}>
     <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
   </svg>`;
 };
