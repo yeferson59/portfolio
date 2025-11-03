@@ -38,7 +38,7 @@
     "@playwright/test": "^1.56.1",
     "@types/node": "^24.10.0",
     "@typescript-eslint/parser": "8.46.2",
-    "@vitest/coverage-v8": "^4.0.4",
+    "@vitest/coverage-v8": "^4.0.6",
     "@vitest/ui": "^4.0.6",
     "eslint": "9.38.0",
     "eslint-plugin-astro": "1.4.0",
