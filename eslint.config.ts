@@ -68,6 +68,7 @@ export default defineConfig([
   {
     files: ["**/*.md"],
     plugins: {
+      // @ts-ignore: markdown plugin has type compatibility issues
       markdown,
     },
     language: "markdown/commonmark",
