@@ -29,7 +29,7 @@ export const getAllProjects = async (): Promise<Project[]> => {
   if (projectsCache !== null) {
     return projectsCache;
   }
-  
+
   // Fetch and sort only once
   const projects = await getCollection("projects");
   projectsCache = projects.filter(...).sort(...);
@@ -38,11 +38,13 @@ export const getAllProjects = async (): Promise<Project[]> => {
 ```
 
 **Performance Gain**:
+
 - **Time Complexity**: O(n log n) → O(1) for subsequent calls
 - **Memory**: Minimal overhead (~few KB for typical project collections)
 - **Build Time**: Reduced by ~10-20% for pages using multiple project queries
 
 **Trade-offs**:
+
 - Cache is per build/server instance (cleared on restart)
 - All functions share the same sorted collection
 - Acceptable for static site generation where content doesn't change during build
@@ -52,6 +54,7 @@ export const getAllProjects = async (): Promise<Project[]> => {
 **File**: `src/utils/client-mcp.ts`
 
 **Problem**: Every API route (`get_tools.ts`, `execute.ts`, etc.) was creating a new MCP client connection on every request, causing:
+
 - Repeated TCP handshakes
 - Increased latency (50-200ms per connection)
 - Potential connection exhaustion under load
@@ -66,7 +69,7 @@ export const createClient = async ({ url }: { url: string }): Promise<Client> =>
   if (clientPool.has(url)) {
     return clientPool.get(url)!;
   }
-  
+
   // Create and cache new client
   const client = new Client({...});
   await client.connect(transport);
@@ -76,19 +79,22 @@ export const createClient = async ({ url }: { url: string }): Promise<Client> =>
 ```
 
 **Performance Gain**:
+
 - **First Request**: Same performance (needs to establish connection)
 - **Subsequent Requests**: 50-200ms faster (no connection overhead)
 - **Concurrent Requests**: Better throughput by reusing connections
 - **Memory**: ~10-50KB per cached connection (negligible)
 
 **Trade-offs**:
+
 - Connections persist for the lifetime of the server
 - No connection timeout/cleanup (acceptable for serverless/edge functions)
 - Assumes stable server URLs (which is typical)
 
 ### 3. Shared Mock Data Constants
 
-**Files**: 
+**Files**:
+
 - `src/utils/mcp-mock-data.ts` (new)
 - `src/pages/api/mcps/finance/get_tools.ts`
 - `src/pages/api/mcps/finance/execute.ts`
@@ -107,12 +113,14 @@ import { MOCK_TOOLS, MOCK_EXECUTION_RESULT } from "@/utils/mcp-mock-data";
 ```
 
 **Benefits**:
+
 - **Code Reduction**: Eliminated ~150 lines of duplicate code
 - **Maintainability**: Single source of truth for mock data
 - **Consistency**: Ensures all routes return identical mock responses
 - **Bundle Size**: Slightly reduced (shared code vs duplicated)
 
 **Trade-offs**:
+
 - None - pure improvement
 
 ### 4. API Call Deduplication in Metrics Component
@@ -120,6 +128,7 @@ import { MOCK_TOOLS, MOCK_EXECUTION_RESULT } from "@/utils/mcp-mock-data";
 **File**: `src/components/sections/Metrics.astro`
 
 **Problem**: On page load, both `MCPMetricsIntegration` and `MCPViewerController` were independently fetching `/api/mcps/finance/get_tools`, causing:
+
 - Duplicate API calls (2 requests instead of 1)
 - Increased server load
 - Slower page rendering
@@ -138,7 +147,7 @@ async function fetchMCPData() {
   if (mcpDataCache && Date.now() - mcpDataCache.timestamp < CACHE_DURATION) {
     return mcpDataCache; // Return cached data
   }
-  
+
   // Fetch fresh data
   const response = await fetch("/api/mcps/finance/get_tools");
   mcpDataCache = { tools, duration, timestamp: Date.now() };
@@ -147,30 +156,35 @@ async function fetchMCPData() {
 ```
 
 **Performance Gain**:
+
 - **Page Load**: 1 API call instead of 2 (50% reduction)
 - **Auto-refresh**: Coordinated refreshes every 30 seconds
 - **Response Time**: Instant for cached requests
 - **Server Load**: Reduced by ~50% for this endpoint
 
 **Trade-offs**:
+
 - 30-second cache may show stale data briefly
 - Acceptable trade-off for metrics that update infrequently
 
 ## Performance Metrics
 
 ### Before Optimization
+
 - Projects page: Multiple `getCollection()` calls (3-5x redundant work)
 - MCP API calls: New connection per request (~150ms overhead)
 - Metrics component: 2 duplicate API calls on page load
 - Code duplication: 156 lines of duplicate mock data
 
 ### After Optimization
+
 - Projects page: Single `getCollection()` call cached for all functions
 - MCP API calls: Connection pooling saves ~150ms per request
 - Metrics component: 1 API call with 30-second cache
 - Code duplication: Eliminated with shared constants
 
 ### Estimated Impact
+
 - **Build Time**: 10-20% faster for project-heavy pages
 - **API Latency**: 30-60% reduction for MCP endpoints
 - **Page Load Time**: ~100-300ms faster for metrics page

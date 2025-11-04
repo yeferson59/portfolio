@@ -38,8 +38,7 @@ export const GET: APIRoute = async ({ request }) => {
     });
 
     return createSuccessResponse(result.content || result);
-  } catch (error) {
-    console.error("MCP tool execution error:", error);
+  } catch {
     // Return mock data as fallback on error
     return createSuccessResponse(MOCK_EXECUTION_RESULT(toolName));
   }

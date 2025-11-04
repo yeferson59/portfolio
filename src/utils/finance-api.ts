@@ -24,8 +24,7 @@ export const createFinanceAPIHandler = (toolName: string): APIRoute => {
       });
 
       return createSuccessResponse(result.structuredContent);
-    } catch (error) {
-      console.error(`Error executing ${toolName}:`, error);
+    } catch {
       return createErrorResponse("Failed to execute tool", 500);
     }
   };

@@ -226,10 +226,10 @@ Documentation Added       |    3
 
 ## Legend
 
-- ✏️  Modified File
-- ✨  New File
-- ✅  Improvement
-- ⚠️  Issue (Before)
-- 🚀  Performance
-- 🔧  Bug Fix
-- 📝  Documentation
+- ✏️ Modified File
+- ✨ New File
+- ✅ Improvement
+- ⚠️ Issue (Before)
+- 🚀 Performance
+- 🔧 Bug Fix
+- 📝 Documentation

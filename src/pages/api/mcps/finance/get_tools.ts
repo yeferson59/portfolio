@@ -21,8 +21,7 @@ export const GET: APIRoute = async () => {
     const result = await financeClientMCP.listTools();
 
     return createSuccessResponse(result.tools);
-  } catch (error) {
-    console.error("Failed to fetch MCP tools:", error);
+  } catch {
     // Return mock data as fallback on error
     return createSuccessResponse(MOCK_TOOLS);
   }
