@@ -23,7 +23,7 @@
     "@astrojs/check": "0.9.5",
     "@astrojs/vercel": "^9.0.0",
     "@modelcontextprotocol/sdk": "^1.21.1",
-    "@tailwindcss/vite": "4.1.16",
+    "@tailwindcss/vite": "4.1.17",
     "@vercel/speed-insights": "^1.2.0",
     "astro": "5.15.3",
     "prettier": "3.6.2",
