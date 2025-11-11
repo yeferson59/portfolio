@@ -4,6 +4,12 @@
  */
 
 import type { APIConfiguration } from "../types";
+import {
+  authConfigs,
+  globalHeaders,
+  rateLimits,
+  queryParams,
+} from "./shared-configs";
 
 export const ecommerceAPIConfig: APIConfiguration = {
   id: "ecommerce-api",
@@ -15,18 +21,9 @@ export const ecommerceAPIConfig: APIConfiguration = {
   documentation: "https://docs.ecommerce-demo.example.com",
   repositoryUrl: "https://github.com/yourusername/ecommerce-api",
 
-  authentication: {
-    type: "bearer",
-    required: true,
-    tokenEndpoint: "/auth/login",
-    description: "JWT token obtained from login endpoint",
-    placeholder: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  },
+  authentication: authConfigs.bearer("/auth/login", "JWT token obtained from login endpoint"),
 
-  globalHeaders: {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-  },
+  globalHeaders: globalHeaders.json,
 
   categories: [
     "Authentication",
@@ -37,10 +34,7 @@ export const ecommerceAPIConfig: APIConfiguration = {
     "Payments",
   ],
 
-  rateLimit: {
-    requests: 100,
-    period: "1 minute",
-  },
+  rateLimit: rateLimits.standard,
 
   endpoints: [
     // Authentication Endpoints
@@ -51,10 +45,7 @@ export const ecommerceAPIConfig: APIConfiguration = {
       path: "/auth/login",
       category: "Authentication",
       description: "Authenticate user and receive JWT token",
-      authentication: {
-        type: "none",
-        required: false,
-      },
+      authentication: authConfigs.none(),
       parameters: {
         body: {
           type: "json",
@@ -116,10 +107,7 @@ export const ecommerceAPIConfig: APIConfiguration = {
       path: "/auth/register",
       category: "Authentication",
       description: "Register a new user account",
-      authentication: {
-        type: "none",
-        required: false,
-      },
+      authentication: authConfigs.none(),
       parameters: {
         body: {
           type: "json",
@@ -160,27 +148,10 @@ export const ecommerceAPIConfig: APIConfiguration = {
       category: "Products",
       description:
         "Retrieve paginated list of products with optional filtering",
-      authentication: {
-        type: "bearer",
-        required: false,
-      },
+      authentication: authConfigs.optionalBearer(),
       parameters: {
         query: {
-          page: {
-            type: "integer",
-            default: 1,
-            min: 1,
-            description: "Page number for pagination",
-            example: 1,
-          },
-          limit: {
-            type: "integer",
-            default: 10,
-            min: 1,
-            max: 100,
-            description: "Number of items per page",
-            example: 10,
-          },
+          ...queryParams.pagination,
           category: {
             type: "string",
             required: false,
@@ -314,10 +285,7 @@ export const ecommerceAPIConfig: APIConfiguration = {
       path: "/orders",
       category: "Orders",
       description: "Create a new order from cart items",
-      authentication: {
-        type: "bearer",
-        required: true,
-      },
+      authentication: authConfigs.bearer(),
       parameters: {
         body: {
           type: "json",
@@ -364,10 +332,7 @@ export const ecommerceAPIConfig: APIConfiguration = {
       path: "/orders",
       category: "Orders",
       description: "Get all orders for authenticated user",
-      authentication: {
-        type: "bearer",
-        required: true,
-      },
+      authentication: authConfigs.bearer(),
       parameters: {
         query: {
           status: {
@@ -382,16 +347,7 @@ export const ecommerceAPIConfig: APIConfiguration = {
             required: false,
             description: "Filter by order status",
           },
-          page: {
-            type: "integer",
-            default: 1,
-            description: "Page number",
-          },
-          limit: {
-            type: "integer",
-            default: 10,
-            description: "Items per page",
-          },
+          ...queryParams.pagination,
         },
       },
     },
@@ -404,10 +360,7 @@ export const ecommerceAPIConfig: APIConfiguration = {
       path: "/cart",
       category: "Cart",
       description: "Get current user cart",
-      authentication: {
-        type: "bearer",
-        required: true,
-      },
+      authentication: authConfigs.bearer(),
     },
 
     {
@@ -417,10 +370,7 @@ export const ecommerceAPIConfig: APIConfiguration = {
       path: "/cart/items",
       category: "Cart",
       description: "Add product to cart",
-      authentication: {
-        type: "bearer",
-        required: true,
-      },
+      authentication: authConfigs.bearer(),
       parameters: {
         body: {
           type: "json",
@@ -453,10 +403,7 @@ export const ecommerceAPIConfig: APIConfiguration = {
       path: "/users/me",
       category: "Users",
       description: "Get authenticated user profile",
-      authentication: {
-        type: "bearer",
-        required: true,
-      },
+      authentication: authConfigs.bearer(),
     },
 
     {
@@ -466,10 +413,7 @@ export const ecommerceAPIConfig: APIConfiguration = {
       path: "/users/me",
       category: "Users",
       description: "Update user profile information",
-      authentication: {
-        type: "bearer",
-        required: true,
-      },
+      authentication: authConfigs.bearer(),
       parameters: {
         body: {
           type: "json",

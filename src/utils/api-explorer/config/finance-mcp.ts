@@ -4,6 +4,11 @@
  */
 
 import type { APIConfiguration } from "../types";
+import {
+  authConfigs,
+  globalHeaders,
+  rateLimits,
+} from "./shared-configs";
 
 export const financeMCPConfig: APIConfiguration = {
   id: "finance-mcp",
@@ -15,26 +20,13 @@ export const financeMCPConfig: APIConfiguration = {
   documentation: "https://docs.finance-mcp.example.com",
   repositoryUrl: "https://github.com/yourusername/market-mcp",
 
-  authentication: {
-    type: "apiKey",
-    required: true,
-    location: "header",
-    parameterName: "X-API-Key",
-    description: "API key for authentication",
-    placeholder: "your-api-key-here",
-  },
+  authentication: authConfigs.apiKeyHeader("X-API-Key"),
 
-  globalHeaders: {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-  },
+  globalHeaders: globalHeaders.json,
 
   categories: ["Market Data", "Stocks", "Crypto", "News", "Analytics"],
 
-  rateLimit: {
-    requests: 100,
-    period: "1 minute",
-  },
+  rateLimit: rateLimits.standard,
 
   endpoints: [
     // Market Data
@@ -45,12 +37,7 @@ export const financeMCPConfig: APIConfiguration = {
       path: "/market/status",
       category: "Market Data",
       description: "Get current market status and trading hours",
-      authentication: {
-        type: "apiKey",
-        required: true,
-        location: "header",
-        parameterName: "X-API-Key",
-      },
+      authentication: authConfigs.apiKeyHeader("X-API-Key"),
       examples: [
         {
           response: {
@@ -76,12 +63,7 @@ export const financeMCPConfig: APIConfiguration = {
       path: "/market/overview",
       category: "Market Data",
       description: "Get overview of major market indices",
-      authentication: {
-        type: "apiKey",
-        required: true,
-        location: "header",
-        parameterName: "X-API-Key",
-      },
+      authentication: authConfigs.apiKeyHeader("X-API-Key"),
       examples: [
         {
           response: {
@@ -118,12 +100,7 @@ export const financeMCPConfig: APIConfiguration = {
       path: "/stocks/{symbol}/quote",
       category: "Stocks",
       description: "Get real-time stock quote for a specific symbol",
-      authentication: {
-        type: "apiKey",
-        required: true,
-        location: "header",
-        parameterName: "X-API-Key",
-      },
+      authentication: authConfigs.apiKeyHeader("X-API-Key"),
       parameters: {
         path: {
           symbol: {
@@ -166,12 +143,7 @@ export const financeMCPConfig: APIConfiguration = {
       path: "/stocks/{symbol}/history",
       category: "Stocks",
       description: "Get historical price data for a stock",
-      authentication: {
-        type: "apiKey",
-        required: true,
-        location: "header",
-        parameterName: "X-API-Key",
-      },
+      authentication: authConfigs.apiKeyHeader("X-API-Key"),
       parameters: {
         path: {
           symbol: {
@@ -250,12 +222,7 @@ export const financeMCPConfig: APIConfiguration = {
       path: "/stocks/search",
       category: "Stocks",
       description: "Search for stocks by symbol or company name",
-      authentication: {
-        type: "apiKey",
-        required: true,
-        location: "header",
-        parameterName: "X-API-Key",
-      },
+      authentication: authConfigs.apiKeyHeader("X-API-Key"),
       parameters: {
         query: {
           q: {
@@ -302,12 +269,7 @@ export const financeMCPConfig: APIConfiguration = {
       path: "/crypto/{symbol}/quote",
       category: "Crypto",
       description: "Get real-time cryptocurrency quote",
-      authentication: {
-        type: "apiKey",
-        required: true,
-        location: "header",
-        parameterName: "X-API-Key",
-      },
+      authentication: authConfigs.apiKeyHeader("X-API-Key"),
       parameters: {
         path: {
           symbol: {
@@ -358,12 +320,7 @@ export const financeMCPConfig: APIConfiguration = {
       path: "/crypto/top",
       category: "Crypto",
       description: "Get top cryptocurrencies by market cap",
-      authentication: {
-        type: "apiKey",
-        required: true,
-        location: "header",
-        parameterName: "X-API-Key",
-      },
+      authentication: authConfigs.apiKeyHeader("X-API-Key"),
       parameters: {
         query: {
           limit: {
@@ -389,12 +346,7 @@ export const financeMCPConfig: APIConfiguration = {
       path: "/news",
       category: "News",
       description: "Get latest market news and updates",
-      authentication: {
-        type: "apiKey",
-        required: true,
-        location: "header",
-        parameterName: "X-API-Key",
-      },
+      authentication: authConfigs.apiKeyHeader("X-API-Key"),
       parameters: {
         query: {
           category: {
@@ -449,12 +401,7 @@ export const financeMCPConfig: APIConfiguration = {
       path: "/stocks/{symbol}/news",
       category: "News",
       description: "Get news related to a specific stock",
-      authentication: {
-        type: "apiKey",
-        required: true,
-        location: "header",
-        parameterName: "X-API-Key",
-      },
+      authentication: authConfigs.apiKeyHeader("X-API-Key"),
       parameters: {
         path: {
           symbol: {
@@ -483,12 +430,7 @@ export const financeMCPConfig: APIConfiguration = {
       path: "/analytics/indicators/{symbol}",
       category: "Analytics",
       description: "Get technical indicators for a stock",
-      authentication: {
-        type: "apiKey",
-        required: true,
-        location: "header",
-        parameterName: "X-API-Key",
-      },
+      authentication: authConfigs.apiKeyHeader("X-API-Key"),
       parameters: {
         path: {
           symbol: {
