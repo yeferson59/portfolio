@@ -4,6 +4,15 @@
  */
 
 import type { APIRequest, CodeLanguage } from "../types";
+import {
+  headerBuilders,
+  bodyBuilders,
+  hasHeaders,
+  hasBody,
+  formatMethod,
+  executionPatterns,
+  commonImports,
+} from "./helpers";
 
 /**
  * Generate code for given language
@@ -86,32 +95,25 @@ export function generateJavaScript(request: APIRequest): string {
  * Generate Python (requests) code
  */
 export function generatePython(request: APIRequest): string {
-  const lines: string[] = ["import requests", "", 'url = f"{request.url}"'];
+  const lines: string[] = [...commonImports.python, "", `url = "${request.url}"`];
 
   // Headers
-  if (Object.keys(request.headers).length > 0) {
-    lines.push("headers = {");
-    Object.entries(request.headers).forEach(([key, value], index, arr) => {
-      const comma = index < arr.length - 1 ? "," : "";
-      lines.push(`    "${key}": "${value}"${comma}`);
-    });
-    lines.push("}");
+  if (hasHeaders(request)) {
+    lines.push(...headerBuilders.python(request.headers));
   }
 
   // Body
-  if (request.body) {
-    lines.push(`data = ${JSON.stringify(request.body, null, 2)}`);
+  if (hasBody(request)) {
+    lines.push(...bodyBuilders.python(request.body));
   }
 
   // Request
-  const method = request.method.toLowerCase();
+  const method = formatMethod(request.method, "python");
   const params: string[] = ["url"];
-  if (Object.keys(request.headers).length > 0) params.push("headers=headers");
-  if (request.body) params.push("json=data");
+  if (hasHeaders(request)) params.push("headers=headers");
+  if (hasBody(request)) params.push("json=data");
 
-  lines.push("");
-  lines.push(`response = requests.${method}(${params.join(", ")})`);
-  lines.push("print(response.json())");
+  lines.push(...executionPatterns.python(method, params));
 
   return lines.join("\n");
 }
@@ -121,61 +123,33 @@ export function generatePython(request: APIRequest): string {
  */
 export function generateGo(request: APIRequest): string {
   const lines: string[] = [
-    "package main",
-    "",
-    "import (",
-    '    "bytes"',
-    '    "encoding/json"',
-    '    "fmt"',
-    '    "io"',
-    '    "net/http"',
-    ")",
+    ...commonImports.go,
     "",
     "func main() {",
     `    url := "${request.url}"`,
   ];
 
   // Body
-  if (request.body) {
+  if (hasBody(request)) {
     lines.push("");
-    lines.push("    data := map[string]interface{}{");
-    Object.entries(request.body).forEach(([key, value], index, arr) => {
-      const comma = index < arr.length - 1 ? "," : "";
-      const valueStr = typeof value === "string" ? `"${value}"` : value;
-      lines.push(`        "${key}": ${valueStr}${comma}`);
-    });
-    lines.push("    }");
-    lines.push("");
-    lines.push("    jsonData, _ := json.Marshal(data)");
-    lines.push("    payload := bytes.NewBuffer(jsonData)");
+    lines.push(...bodyBuilders.go(request.body));
   }
 
   // Request
-  const bodyArg = request.body ? "payload" : "nil";
+  const bodyArg = hasBody(request) ? "payload" : "nil";
   lines.push("");
   lines.push(
     `    req, _ := http.NewRequest("${request.method}", url, ${bodyArg})`,
   );
 
   // Headers
-  if (Object.keys(request.headers).length > 0) {
+  if (hasHeaders(request)) {
     lines.push("");
-    Object.entries(request.headers).forEach(([key, value]) => {
-      lines.push(`    req.Header.Add("${key}", "${value}")`);
-    });
+    lines.push(...headerBuilders.go(request.headers));
   }
 
   // Execute
-  lines.push("");
-  lines.push("    client := &http.Client{}");
-  lines.push("    resp, err := client.Do(req)");
-  lines.push("    if err != nil {");
-  lines.push("        panic(err)");
-  lines.push("    }");
-  lines.push("    defer resp.Body.Close()");
-  lines.push("");
-  lines.push("    body, _ := io.ReadAll(resp.Body)");
-  lines.push("    fmt.Println(string(body))");
+  lines.push(...executionPatterns.go());
   lines.push("}");
 
   return lines.join("\n");
@@ -185,7 +159,7 @@ export function generateGo(request: APIRequest): string {
  * Generate PHP code
  */
 export function generatePHP(request: APIRequest): string {
-  const lines: string[] = ["<?php", "", `$url = "${request.url}";`];
+  const lines: string[] = [...commonImports.php, "", `$url = "${request.url}";`];
 
   // Initialize cURL
   lines.push("", "$ch = curl_init($url);");
@@ -195,29 +169,21 @@ export function generatePHP(request: APIRequest): string {
   lines.push(`curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "${request.method}");`);
 
   // Headers
-  if (Object.keys(request.headers).length > 0) {
+  if (hasHeaders(request)) {
     lines.push("");
-    lines.push("$headers = [");
-    Object.entries(request.headers).forEach(([key, value]) => {
-      lines.push(`    "${key}: ${value}",`);
-    });
-    lines.push("];");
+    lines.push(...headerBuilders.php(request.headers));
     lines.push("curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);");
   }
 
   // Body
-  if (request.body) {
+  if (hasBody(request)) {
     lines.push("");
-    lines.push(`$data = ${JSON.stringify(request.body, null, 2)};`);
+    lines.push(...bodyBuilders.php(request.body));
     lines.push("curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));");
   }
 
   // Execute
-  lines.push("");
-  lines.push("$response = curl_exec($ch);");
-  lines.push("curl_close($ch);");
-  lines.push("");
-  lines.push("echo $response;");
+  lines.push(...executionPatterns.php());
   lines.push("?>");
 
   return lines.join("\n");
@@ -228,8 +194,7 @@ export function generatePHP(request: APIRequest): string {
  */
 export function generateJava(request: APIRequest): string {
   const lines: string[] = [
-    "import java.net.http.*;",
-    "import java.net.URI;",
+    ...commonImports.java,
     "",
     "public class ApiClient {",
     "    public static void main(String[] args) throws Exception {",
@@ -240,10 +205,10 @@ export function generateJava(request: APIRequest): string {
 
   // Body
   let bodyBuilder = "HttpRequest.BodyPublishers.noBody()";
-  if (request.body) {
-    const jsonBody = JSON.stringify(request.body);
-    lines.push(`        String json = "${jsonBody.replace(/"/g, '\\"')}";`);
-    bodyBuilder = "HttpRequest.BodyPublishers.ofString(json)";
+  if (hasBody(request)) {
+    const { lines: bodyLines, builder } = bodyBuilders.java(request.body);
+    lines.push(...bodyLines);
+    bodyBuilder = builder;
   }
 
   // Request builder
@@ -253,16 +218,12 @@ export function generateJava(request: APIRequest): string {
   lines.push(`            .method("${request.method}", ${bodyBuilder})`);
 
   // Headers
-  Object.entries(request.headers).forEach(([key, value]) => {
-    lines.push(`            .header("${key}", "${value}")`);
-  });
+  if (hasHeaders(request)) {
+    lines.push(...headerBuilders.java(request.headers));
+  }
 
   lines.push("            .build();");
-  lines.push("");
-  lines.push("        HttpResponse<String> response = client.send(request,");
-  lines.push("            HttpResponse.BodyHandlers.ofString());");
-  lines.push("");
-  lines.push("        System.out.println(response.body());");
+  lines.push(...executionPatterns.java());
   lines.push("    }");
   lines.push("}");
 
@@ -274,8 +235,7 @@ export function generateJava(request: APIRequest): string {
  */
 export function generateRuby(request: APIRequest): string {
   const lines: string[] = [
-    'require "net/http"',
-    'require "json"',
+    ...commonImports.ruby,
     "",
     `url = URI("${request.url}")`,
   ];
@@ -294,20 +254,18 @@ export function generateRuby(request: APIRequest): string {
   lines.push(`request = Net::HTTP::${method}.new(url)`);
 
   // Headers
-  Object.entries(request.headers).forEach(([key, value]) => {
-    lines.push(`request["${key}"] = "${value}"`);
-  });
+  if (hasHeaders(request)) {
+    lines.push(...headerBuilders.ruby(request.headers));
+  }
 
   // Body
-  if (request.body) {
+  if (hasBody(request)) {
     lines.push("");
-    lines.push(`request.body = ${JSON.stringify(request.body, null, 2)}`);
+    lines.push(...bodyBuilders.ruby(request.body));
   }
 
   // Execute
-  lines.push("");
-  lines.push("response = http.request(request)");
-  lines.push("puts response.body");
+  lines.push(...executionPatterns.ruby());
 
   return lines.join("\n");
 }
