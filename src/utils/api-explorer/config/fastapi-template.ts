@@ -4,6 +4,11 @@
  */
 
 import type { APIConfiguration } from "../types";
+import {
+  authConfigs,
+  globalHeaders,
+  rateLimits,
+} from "./shared-configs";
 
 export const fastapiTemplateConfig: APIConfiguration = {
   id: "fastapi-template",
@@ -16,25 +21,13 @@ export const fastapiTemplateConfig: APIConfiguration = {
   repositoryUrl:
     "https://github.com/yourusername/fastapi-professional-template",
 
-  authentication: {
-    type: "bearer",
-    required: true,
-    tokenEndpoint: "/auth/token",
-    description: "OAuth2 password bearer token",
-    placeholder: "your-access-token-here",
-  },
+  authentication: authConfigs.oauth2Password("/auth/token"),
 
-  globalHeaders: {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-  },
+  globalHeaders: globalHeaders.json,
 
   categories: ["Authentication", "Users", "Items", "Health"],
 
-  rateLimit: {
-    requests: 60,
-    period: "1 minute",
-  },
+  rateLimit: rateLimits.strict,
 
   endpoints: [
     // Health Check
@@ -45,10 +38,7 @@ export const fastapiTemplateConfig: APIConfiguration = {
       path: "/health",
       category: "Health",
       description: "Check API health status and database connectivity",
-      authentication: {
-        type: "none",
-        required: false,
-      },
+      authentication: authConfigs.none(),
       examples: [
         {
           response: {
@@ -72,10 +62,7 @@ export const fastapiTemplateConfig: APIConfiguration = {
       path: "/auth/token",
       category: "Authentication",
       description: "Obtain OAuth2 access token using credentials",
-      authentication: {
-        type: "none",
-        required: false,
-      },
+      authentication: authConfigs.none(),
       parameters: {
         body: {
           type: "formData",
@@ -137,10 +124,7 @@ export const fastapiTemplateConfig: APIConfiguration = {
       path: "/users",
       category: "Users",
       description: "Get paginated list of users",
-      authentication: {
-        type: "bearer",
-        required: true,
-      },
+      authentication: authConfigs.bearer(),
       parameters: {
         query: {
           skip: {
@@ -187,10 +171,7 @@ export const fastapiTemplateConfig: APIConfiguration = {
       path: "/users",
       category: "Users",
       description: "Create a new user account",
-      authentication: {
-        type: "bearer",
-        required: true,
-      },
+      authentication: authConfigs.bearer(),
       parameters: {
         body: {
           type: "json",
@@ -244,10 +225,7 @@ export const fastapiTemplateConfig: APIConfiguration = {
       path: "/users/me",
       category: "Users",
       description: "Get currently authenticated user information",
-      authentication: {
-        type: "bearer",
-        required: true,
-      },
+      authentication: authConfigs.bearer(),
       examples: [
         {
           response: {
@@ -271,10 +249,7 @@ export const fastapiTemplateConfig: APIConfiguration = {
       path: "/users/me",
       category: "Users",
       description: "Update currently authenticated user information",
-      authentication: {
-        type: "bearer",
-        required: true,
-      },
+      authentication: authConfigs.bearer(),
       parameters: {
         body: {
           type: "json",
@@ -307,10 +282,7 @@ export const fastapiTemplateConfig: APIConfiguration = {
       path: "/users/{user_id}",
       category: "Users",
       description: "Get specific user by ID",
-      authentication: {
-        type: "bearer",
-        required: true,
-      },
+      authentication: authConfigs.bearer(),
       parameters: {
         path: {
           user_id: {
@@ -331,10 +303,7 @@ export const fastapiTemplateConfig: APIConfiguration = {
       path: "/items",
       category: "Items",
       description: "Get paginated list of items",
-      authentication: {
-        type: "bearer",
-        required: true,
-      },
+      authentication: authConfigs.bearer(),
       parameters: {
         query: {
           skip: {
@@ -359,10 +328,7 @@ export const fastapiTemplateConfig: APIConfiguration = {
       path: "/items",
       category: "Items",
       description: "Create a new item",
-      authentication: {
-        type: "bearer",
-        required: true,
-      },
+      authentication: authConfigs.bearer(),
       parameters: {
         body: {
           type: "json",
@@ -395,10 +361,7 @@ export const fastapiTemplateConfig: APIConfiguration = {
       path: "/items/{item_id}",
       category: "Items",
       description: "Get specific item by ID",
-      authentication: {
-        type: "bearer",
-        required: true,
-      },
+      authentication: authConfigs.bearer(),
       parameters: {
         path: {
           item_id: {
@@ -418,10 +381,7 @@ export const fastapiTemplateConfig: APIConfiguration = {
       path: "/items/{item_id}",
       category: "Items",
       description: "Update existing item",
-      authentication: {
-        type: "bearer",
-        required: true,
-      },
+      authentication: authConfigs.bearer(),
       parameters: {
         path: {
           item_id: {
@@ -455,10 +415,7 @@ export const fastapiTemplateConfig: APIConfiguration = {
       path: "/items/{item_id}",
       category: "Items",
       description: "Delete an item",
-      authentication: {
-        type: "bearer",
-        required: true,
-      },
+      authentication: authConfigs.bearer(),
       parameters: {
         path: {
           item_id: {
