@@ -8,6 +8,7 @@ import {
   authConfigs,
   globalHeaders,
   rateLimits,
+  queryParams,
 } from "./shared-configs";
 
 export const ecommerceAPIConfig: APIConfiguration = {
@@ -150,21 +151,7 @@ export const ecommerceAPIConfig: APIConfiguration = {
       authentication: authConfigs.optionalBearer(),
       parameters: {
         query: {
-          page: {
-            type: "integer",
-            default: 1,
-            min: 1,
-            description: "Page number for pagination",
-            example: 1,
-          },
-          limit: {
-            type: "integer",
-            default: 10,
-            min: 1,
-            max: 100,
-            description: "Number of items per page",
-            example: 10,
-          },
+          ...queryParams.pagination,
           category: {
             type: "string",
             required: false,
@@ -360,16 +347,7 @@ export const ecommerceAPIConfig: APIConfiguration = {
             required: false,
             description: "Filter by order status",
           },
-          page: {
-            type: "integer",
-            default: 1,
-            description: "Page number",
-          },
-          limit: {
-            type: "integer",
-            default: 10,
-            description: "Items per page",
-          },
+          ...queryParams.pagination,
         },
       },
     },

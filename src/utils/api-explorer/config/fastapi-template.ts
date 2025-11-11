@@ -8,6 +8,7 @@ import {
   authConfigs,
   globalHeaders,
   rateLimits,
+  queryParams,
 } from "./shared-configs";
 
 export const fastapiTemplateConfig: APIConfiguration = {
@@ -126,21 +127,7 @@ export const fastapiTemplateConfig: APIConfiguration = {
       description: "Get paginated list of users",
       authentication: authConfigs.bearer(),
       parameters: {
-        query: {
-          skip: {
-            type: "integer",
-            default: 0,
-            min: 0,
-            description: "Number of records to skip",
-          },
-          limit: {
-            type: "integer",
-            default: 100,
-            min: 1,
-            max: 100,
-            description: "Maximum number of records to return",
-          },
-        },
+        query: queryParams.paginationOffset,
       },
       examples: [
         {
@@ -305,19 +292,7 @@ export const fastapiTemplateConfig: APIConfiguration = {
       description: "Get paginated list of items",
       authentication: authConfigs.bearer(),
       parameters: {
-        query: {
-          skip: {
-            type: "integer",
-            default: 0,
-            description: "Number of records to skip",
-          },
-          limit: {
-            type: "integer",
-            default: 100,
-            max: 100,
-            description: "Maximum number of records",
-          },
-        },
+        query: queryParams.paginationOffset,
       },
     },
 
