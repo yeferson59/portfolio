@@ -37,7 +37,7 @@
     "@eslint/markdown": "7.5.1",
     "@playwright/test": "^1.56.1",
     "@types/node": "^24.10.1",
-    "@typescript-eslint/parser": "8.46.3",
+    "@typescript-eslint/parser": "8.48.0",
     "@vitest/coverage-v8": "^4.0.13",
     "@vitest/ui": "^4.0.6",
     "eslint": "9.39.1",
