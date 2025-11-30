@@ -43,8 +43,12 @@
       });
     }
 
-    // Run immediately and after a short delay to handle hash navigation
+    // Run immediately to reveal elements already in viewport on initial load
     revealVisibleElements();
+
+    // Run again after a short delay to handle hash navigation scenarios
+    // where the browser scrolls to the target after DOMContentLoaded completes.
+    // 100ms provides enough time for the scroll to complete on most devices.
     setTimeout(revealVisibleElements, 100);
 
     // Smooth scroll for anchor links
