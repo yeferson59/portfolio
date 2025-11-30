@@ -28,6 +28,25 @@
     const scrollElements = document.querySelectorAll(".scroll-reveal");
     scrollElements.forEach((el) => observer.observe(el));
 
+    // Immediately reveal elements that are already in viewport
+    // This handles direct navigation with hash or initial page load
+    function revealVisibleElements() {
+      scrollElements.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        const windowHeight =
+          window.innerHeight || document.documentElement.clientHeight;
+        // Check if element is in viewport (with some tolerance)
+        if (rect.top < windowHeight && rect.bottom > 0) {
+          el.classList.add("revealed");
+          observer.unobserve(el);
+        }
+      });
+    }
+
+    // Run immediately and after a short delay to handle hash navigation
+    revealVisibleElements();
+    setTimeout(revealVisibleElements, 100);
+
     // Smooth scroll for anchor links
     const anchorLinks = document.querySelectorAll('a[href^="#"]');
     anchorLinks.forEach((link) => {
