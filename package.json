@@ -20,7 +20,7 @@
     "format:check": "prettier --check \"src/**/*.{js,ts,astro}\" \"**/*.md\""
   },
   "dependencies": {
-    "@astrojs/check": "0.9.5",
+    "@astrojs/check": "0.9.6",
     "@astrojs/vercel": "^9.0.1",
     "@modelcontextprotocol/sdk": "^1.22.0",
     "@tailwindcss/vite": "4.1.17",
