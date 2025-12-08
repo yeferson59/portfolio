@@ -35,8 +35,8 @@
         const rect = el.getBoundingClientRect();
         const windowHeight =
           window.innerHeight || document.documentElement.clientHeight;
-        // Check if element is in viewport (with some tolerance)
-        if (rect.top < windowHeight && rect.bottom > 0) {
+        // Check if element is in viewport (with same rootMargin as observer)
+        if (rect.top < windowHeight - 50 && rect.bottom > 0) {
           el.classList.add("revealed");
           observer.unobserve(el);
         }
