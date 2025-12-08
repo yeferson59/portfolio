@@ -48,8 +48,10 @@
 
     // Run again after a short delay to handle hash navigation scenarios
     // where the browser scrolls to the target after DOMContentLoaded completes.
-    // 100ms provides enough time for the scroll to complete on most devices.
-    setTimeout(revealVisibleElements, 100);
+    // Use double requestAnimationFrame to ensure scroll has completed after hash navigation.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(revealVisibleElements);
+    });
 
     // Smooth scroll for anchor links
     const anchorLinks = document.querySelectorAll('a[href^="#"]');
