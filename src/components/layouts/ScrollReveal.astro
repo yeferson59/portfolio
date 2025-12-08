@@ -32,6 +32,8 @@
     // This handles direct navigation with hash or initial page load
     function revealVisibleElements() {
       scrollElements.forEach((el) => {
+        if (el.classList.contains("revealed")) return;
+
         const rect = el.getBoundingClientRect();
         const windowHeight =
           window.innerHeight || document.documentElement.clientHeight;
