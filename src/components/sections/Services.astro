@@ -16,7 +16,7 @@ const services = await getAllServices();
       subtitle="Technical solutions and consulting tailored to your project's needs."
     />
 
-    <div class="services-grid mb-4xl">
+    <div class="services-wrapper mb-4xl">
       {
         services.map(({ data: service }) => (
           <ServiceCard
@@ -51,45 +51,39 @@ const services = await getAllServices();
 </section>
 
 <style>
-  .services-grid {
-    display: grid;
-    gap: var(--space-2xl);
-    grid-template-columns: 1fr;
-    align-items: start;
+  /* Base styles (Mobile First) */
+  .services-section {
+    position: relative;
+    width: 100%;
+    /* Ensure no overflow hiding prevents visibility */
+    overflow: visible; 
   }
 
+  .services-wrapper {
+    /* Flex column for mobile - safest layout */
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+    width: 100%;
+  }
+
+  /* Tablet and up */
   @media (min-width: 768px) {
-    .services-grid {
+    .services-wrapper {
+      display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: var(--space-xl) var(--space-lg);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .services-grid {
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: var(--space-xl) var(--space-lg);
-      max-width: 1400px;
-      margin: 0 auto;
-      justify-items: center;
-    }
-  }
-
-  @media (min-width: 1200px) {
-    .services-grid {
-      grid-template-columns: repeat(3, 1fr);
       gap: var(--space-xl);
     }
   }
 
-  /* Ensure proper spacing for cards in multiple rows */
-  .services-grid > * {
-    width: 100%;
-  }
-
-  @media (min-width: 768px) {
-    .services-grid > * {
-      max-width: 380px;
+  /* Desktop and up */
+  @media (min-width: 1024px) {
+    .services-wrapper {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-xl);
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 
@@ -99,12 +93,14 @@ const services = await getAllServices();
     text-align: center;
     position: relative;
     z-index: 1;
-    clear: both;
   }
 
-  /* Ensure services section doesn't overlap */
-  .services-section {
-    position: relative;
-    z-index: auto;
+  /* Robust Mobile Visibility Fix */
+  @media (max-width: 768px) {
+    .services-section.scroll-reveal {
+      opacity: 1 !important;
+      transform: none !important;
+      visibility: visible !important;
+    }
   }
 </style>
