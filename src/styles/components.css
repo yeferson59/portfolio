@@ -1476,3 +1476,31 @@
   font-size: var(--font-size-sm);
   min-height: 1.5em;
 }
+
+/* ============================================
+   Mobile Visibility Fixes
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Ensure services grid items are visible and take full width */
+  .services-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
+  .services-grid > * {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  
+  /* Fix scroll reveal on mobile if it gets stuck */
+  .scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

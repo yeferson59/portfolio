@@ -85,7 +85,12 @@ const services = await getAllServices();
   /* Ensure proper spacing for cards in multiple rows */
   .services-grid > * {
     width: 100%;
-    max-width: 350px;
+  }
+
+  @media (min-width: 768px) {
+    .services-grid > * {
+      max-width: 380px;
+    }
   }
 
   /* Bottom CTA styling */
