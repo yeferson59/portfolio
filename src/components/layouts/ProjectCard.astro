@@ -52,7 +52,12 @@ const statusClass = getStatusClass(status);
 <article class={`project-card ${featured ? "project-card--featured" : ""}`}>
   <!-- Header with year and status indicator -->
   <header class="project-card__header">
-    <Badge variant="primary" class="project-card__year">{year}</Badge>
+    <div class="project-card__header-left">
+      <Badge variant="primary" class="project-card__year">{year}</Badge>
+      <span class={`project-card__status-text ${statusClass}`}>
+        {status}
+      </span>
+    </div>
     <div class="project-card__status accent-dot accent-dot--secondary"></div>
   </header>
 
@@ -83,10 +88,6 @@ const statusClass = getStatusClass(status);
 
   <!-- Footer with status and multiple links -->
   <footer class="project-card__footer">
-    <span class={`project-card__status-text ${statusClass}`}>
-      {status}
-    </span>
-
     <div class="project-card__links">
       {
         links.map((link) => (

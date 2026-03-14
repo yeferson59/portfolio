@@ -248,8 +248,8 @@ section:first-child {
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr));
-  gap: var(--space-xl);
-  align-items: start;
+  gap: var(--space-2xl); /* Increased gap for better spacing */
+  align-items: stretch; /* Ensure cards are same height */
   justify-content: center;
 }
 
@@ -257,27 +257,29 @@ section:first-child {
 @media (max-width: 480px) {
   .projects-grid {
     grid-template-columns: 1fr;
-    gap: var(--space-lg);
+    gap: var(--space-xl);
   }
 }
 
 @media (min-width: 481px) and (max-width: 768px) {
   .projects-grid {
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: var(--space-lg);
+    gap: var(--space-xl);
   }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
   .projects-grid {
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--space-2xl);
     max-width: none;
   }
 }
 
 @media (min-width: 1025px) {
   .projects-grid {
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    grid-template-columns: repeat(3, 1fr); /* Force 3 columns on large screens */
+    gap: var(--space-2xl);
     max-width: 1400px;
     margin-left: auto;
     margin-right: auto;
