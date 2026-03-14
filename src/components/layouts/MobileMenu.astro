@@ -38,29 +38,26 @@ const { isOpen = false, class: className = "" } = Astro.props;
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const mobileMenu = document.getElementById("mobile-menu") as HTMLElement;
-    const mobileMenuButton = document.querySelector(
-      ".mobile-menu-button",
-    ) as HTMLElement;
+    const mobileMenu = document.getElementById("mobile-menu");
+    const mobileMenuButton = document.querySelector(".mobile-menu-button");
     const mobileMenuLinks = document.querySelectorAll(".mobile-menu__link");
 
     if (mobileMenuButton && mobileMenu) {
       // Set initial ARIA states
-      const isOpen = mobileMenu.classList.contains("open");
-      mobileMenuButton.setAttribute("aria-expanded", isOpen.toString());
-      mobileMenu.setAttribute("aria-hidden", (!isOpen).toString());
+      let isOpen = mobileMenu.classList.contains("open");
+      mobileMenuButton.setAttribute("aria-expanded", String(isOpen));
+      mobileMenu.setAttribute("aria-hidden", String(!isOpen));
 
-      mobileMenuButton.addEventListener("click", function () {
-        const isCurrentlyOpen = mobileMenu.classList.contains("open");
+      mobileMenuButton.addEventListener("click", function (e) {
+        e.stopPropagation(); // Prevent immediate closing by document click
+        isOpen = !isOpen;
+        
         mobileMenu.classList.toggle("open");
-
-        // Update ARIA attributes
-        const newIsOpen = !isCurrentlyOpen;
-        mobileMenuButton.setAttribute("aria-expanded", newIsOpen.toString());
-        mobileMenu.setAttribute("aria-hidden", (!newIsOpen).toString());
+        mobileMenuButton.setAttribute("aria-expanded", String(isOpen));
+        mobileMenu.setAttribute("aria-hidden", String(!isOpen));
 
         // Focus management
-        if (newIsOpen) {
+        if (isOpen) {
           // Focus first menu item when opening
           const firstLink = mobileMenu.querySelector(
             ".mobile-menu__link",
@@ -74,12 +71,13 @@ const { isOpen = false, class: className = "" } = Astro.props;
       // Close menu when clicking on links
       mobileMenuLinks.forEach((link) => {
         link.addEventListener("click", () => {
+          // Allow navigation to happen before closing
           setTimeout(() => {
+            isOpen = false;
             mobileMenu.classList.remove("open");
             mobileMenuButton.setAttribute("aria-expanded", "false");
             mobileMenu.setAttribute("aria-hidden", "true");
-            // Return focus to menu button
-            mobileMenuButton.focus();
+            // Return focus to menu button (if still on page)
           }, 150);
         });
       });
@@ -87,9 +85,11 @@ const { isOpen = false, class: className = "" } = Astro.props;
       // Close menu when clicking outside
       document.addEventListener("click", function (event) {
         if (
+          isOpen &&
           !mobileMenuButton.contains(event.target as Node) &&
           !mobileMenu.contains(event.target as Node)
         ) {
+          isOpen = false;
           mobileMenu.classList.remove("open");
           mobileMenuButton.setAttribute("aria-expanded", "false");
           mobileMenu.setAttribute("aria-hidden", "true");
@@ -98,11 +98,12 @@ const { isOpen = false, class: className = "" } = Astro.props;
 
       // Close menu on escape key
       document.addEventListener("keydown", function (event) {
-        if (event.key === "Escape" && mobileMenu.classList.contains("open")) {
+        if (event.key === "Escape" && isOpen) {
+          isOpen = false;
           mobileMenu.classList.remove("open");
           mobileMenuButton.setAttribute("aria-expanded", "false");
           mobileMenu.setAttribute("aria-hidden", "true");
-          mobileMenuButton.focus(); // Return focus to menu button
+          (mobileMenuButton as HTMLElement).focus(); // Return focus to menu button
         }
       });
     }

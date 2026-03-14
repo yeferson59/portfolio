@@ -1,5 +1,6 @@
 import { glob } from "astro/loaders";
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
 
 const maxDate = new Date().getFullYear() + 1;
 
@@ -27,7 +28,7 @@ const projects = defineCollection({
       .array(
         z.object({
           name: z.string().min(1, "Link name is required"),
-          url: z.string().url("Must be a valid URL"),
+          url: z.url("Must be a valid URL"),
           type: z
             .enum(["repository", "demo", "documentation", "api"])
             .optional()

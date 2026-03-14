@@ -254,12 +254,6 @@
   font-weight: var(--font-weight-extrabold);
 }
 
-.text-center {
-  text-align: center;
-}
-.text-left {
-  text-align: left;
-}
 .text-right {
   text-align: right;
 }
@@ -594,32 +588,9 @@
 .max-w-prose {
   max-width: 65ch;
 }
-
-.max-w-2xl {
-  max-width: 42rem;
-}
-
-.max-w-3xl {
-  max-width: 48rem;
-}
-
-.max-w-4xl {
-  max-width: 56rem;
-}
-
-.max-w-5xl {
-  max-width: 64rem;
-}
+/* Remaining max-w classes are defined earlier */
 
 /* Text utilities */
-.text-center {
-  text-align: center;
-}
-
-.text-left {
-  text-align: left;
-}
-
 .text-balance {
   text-wrap: balance;
 }

@@ -98,87 +98,27 @@ const {
 
   .service-card__badge {
     position: absolute;
-    top: -24px;
+    top: 0;
     left: 50%;
-    transform: translateX(-50%);
-    z-index: 100;
-    animation: featured-pulse 3s ease-in-out infinite;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
-    pointer-events: none;
-  }
-
-  @keyframes featured-pulse {
-    0%,
-    100% {
-      transform: translateX(-50%) scale(1);
-      opacity: 1;
-    }
-    50% {
-      transform: translateX(-50%) scale(1.05);
-      opacity: 0.9;
-    }
-  }
-
-  .service-card--featured:hover .service-card__badge {
-    animation-play-state: paused;
-    transform: translateX(-50%) scale(1.1);
-    filter: drop-shadow(0 6px 12px rgba(42, 143, 255, 0.2));
+    transform: translate(-50%, -50%);
+    z-index: 20;
+    width: max-content;
   }
 
   .most-popular-badge {
     background: linear-gradient(
       135deg,
-      rgba(42, 143, 255, 1) 0%,
-      rgba(34, 176, 126, 1) 100%
+      var(--color-primary),
+      var(--color-secondary)
     ) !important;
     color: white !important;
     font-weight: var(--font-weight-bold) !important;
-    font-size: var(--font-size-2xs) !important;
-    padding: var(--space-sm) var(--space-lg) !important;
-    border-radius: var(--radius-full) !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.08em !important;
-    border: 2px solid rgba(255, 255, 255, 0.4) !important;
-    box-shadow:
-      0 4px 16px rgba(42, 143, 255, 0.4),
-      0 0 20px rgba(42, 143, 255, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
-    backdrop-filter: blur(10px) !important;
-    white-space: nowrap !important;
+    letter-spacing: 0.05em !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(42, 143, 255, 0.3) !important;
   }
 
-  .service-card--featured:hover .most-popular-badge {
-    background: linear-gradient(
-      135deg,
-      rgba(42, 143, 255, 1) 0%,
-      rgba(34, 176, 126, 1) 100%
-    ) !important;
-    border-color: rgba(255, 255, 255, 0.5) !important;
-    box-shadow: 0 6px 16px rgba(42, 143, 255, 0.4) !important;
-  }
-
-  /* Responsive badge adjustments */
-  @media (max-width: 768px) {
-    .service-card__badge {
-      top: -20px;
-    }
-
-    .most-popular-badge {
-      font-size: var(--font-size-3xs) !important;
-      padding: var(--space-xs) var(--space-md) !important;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .service-card__badge {
-      top: -18px;
-    }
-
-    .most-popular-badge {
-      padding: 6px var(--space-sm) !important;
-      letter-spacing: 0.06em !important;
-    }
-  }
 
   .service-card__header {
     margin-bottom: var(--space-xl);

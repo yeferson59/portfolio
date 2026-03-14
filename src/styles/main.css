@@ -131,8 +131,8 @@ section:first-child {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 44px; /* Increased to 44px for accessibility */
+  height: 44px; /* Increased to 44px for accessibility */
   border-radius: var(--radius-md);
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -162,6 +162,7 @@ section:first-child {
   top: 100%;
   left: var(--space-md);
   right: var(--space-md);
+  z-index: var(--z-dropdown); /* Ensure menu stays on top */
   background: var(--color-surface);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-xl);
