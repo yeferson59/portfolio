@@ -24,6 +24,11 @@ export default defineConfig({
         access: "public",
         default: "",
       }),
+      BETTER_AUTH_SECRET: envField.string({
+        context: "server",
+        access: "public",
+        default: "better-auth-secret",
+      }),
     },
   },
   output: "server",
