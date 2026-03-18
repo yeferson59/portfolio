@@ -32,4 +32,14 @@ export default defineConfig({
     },
     maxDuration: 8,
   }),
+  i18n: {
+    locales: ["en", "es"],
+    defaultLocale: "en",
+    fallback: {
+      es: "en",
+    },
+    routing: {
+      fallbackType: "rewrite",
+    },
+  },
 });
