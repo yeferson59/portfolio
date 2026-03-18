@@ -20,8 +20,8 @@ const subtitle =
         {
           contactMethods.map((method) => (
             <Card>
-              <div class="flex items-start gap-md">
-                <div class={`icon icon--${method.variant} flex-shrink-0`}>
+              <div class="gap-md flex items-start">
+                <div class={`icon icon--${method.variant} shrink-0`}>
                   <span
                     set:html={
                       icons[

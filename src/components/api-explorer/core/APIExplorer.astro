@@ -5,12 +5,12 @@
  */
 
 import { availableAPIs } from "@/utils/api-explorer/config";
-import JSONEditor from "../ui/JSONEditor.astro";
-import CodeBlock from "../ui/CodeBlock.astro";
-import TabPanel from "../ui/TabPanel.astro";
-import StatusIndicator from "../response/StatusIndicator.astro";
-import MetricsPanel from "../response/MetricsPanel.astro";
-import ResponseViewer from "../response/ResponseViewer.astro";
+import JSONEditor from "@/components/api-explorer/ui/JSONEditor.astro";
+import CodeBlock from "@/components/api-explorer/ui/CodeBlock.astro";
+import TabPanel from "@/components/api-explorer/ui/TabPanel.astro";
+import StatusIndicator from "@/components/api-explorer/response/StatusIndicator.astro";
+import MetricsPanel from "@/components/api-explorer/response/MetricsPanel.astro";
+import ResponseViewer from "@/components/api-explorer/response/ResponseViewer.astro";
 
 interface Props {
   defaultAPI?: string;
