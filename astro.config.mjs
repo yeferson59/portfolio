@@ -19,6 +19,11 @@ export default defineConfig({
         access: "public",
         default: "",
       }),
+      BD_URL: envField.string({
+        context: "server",
+        access: "public",
+        default: "",
+      }),
     },
   },
   adapter: vercel({
