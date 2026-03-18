@@ -14,10 +14,13 @@ export interface Props {
 }
 
 const { head = {} } = Astro.props;
+
+// Get current locale from Astro's i18n (defaults to 'en' if not set)
+const lang = Astro.currentLocale || "en";
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <Head {...head} />
   </head>

@@ -7,6 +7,8 @@ import Button from "@/components/ui/Button.astro";
 import { getPaginatedProjects, getProjectStats } from "@/utils/projects";
 import { getArrowRightIcon } from "@/utils/icons";
 
+export const prerender = true;
+
 // Get static paths for all pages
 export async function getStaticPaths() {
   const projectsPerPage = 6;

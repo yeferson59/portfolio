@@ -1,0 +1,189 @@
+---
+import {
+  getAlternateLocale,
+  getLocalizedPath,
+  localeLabels,
+  getCurrentLocale,
+  type Locale,
+} from "@/utils/i18n";
+
+/**
+ * Language Switcher Component
+ * Displays a link to switch between available languages
+ */
+
+// Get current locale from Astro context
+const currentLocale = getCurrentLocale(Astro.currentLocale);
+
+// Get the alternate locale
+const alternateLocale = getAlternateLocale(currentLocale);
+
+// Get current path without locale prefix
+const pathname = Astro.url.pathname;
+const currentPath = pathname.replace(/^\/(es\/)?/, "");
+
+// Generate URL for alternate locale
+const alternateUrl = getLocalizedPath(alternateLocale, currentPath);
+
+// Get labels
+const currentLabel = localeLabels[currentLocale];
+const alternateLabel = localeLabels[alternateLocale];
+
+// Get flag emojis
+const flags: Record<Locale, string> = {
+  en: "🇺🇸",
+  es: "🇪🇸",
+};
+---
+
+<div class="language-switcher">
+  <button class="current-language" aria-label={`Current language: ${currentLabel}`}>
+    <span class="flag" aria-hidden="true">{flags[currentLocale]}</span>
+    <span class="label">{currentLabel}</span>
+    <svg
+      class="icon"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path
+        d="M4 6L8 10L12 6"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"></path>
+    </svg>
+  </button>
+
+  <div class="language-menu">
+    <a
+      href={alternateUrl}
+      class="language-option"
+      aria-label={`Switch to ${alternateLabel}`}
+      hreflang={alternateLocale}
+    >
+      <span class="flag" aria-hidden="true">{flags[alternateLocale]}</span>
+      <span class="label">{alternateLabel}</span>
+    </a>
+  </div>
+</div>
+
+<style>
+  .language-switcher {
+    position: relative;
+    display: inline-block;
+  }
+
+  .current-language {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--surface-color, rgba(255, 255, 255, 0.05));
+    border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+    border-radius: 0.5rem;
+    color: var(--text-primary, #ffffff);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .current-language:hover {
+    background: var(--surface-hover, rgba(255, 255, 255, 0.08));
+    border-color: var(--border-hover, rgba(255, 255, 255, 0.2));
+  }
+
+  .current-language:focus-visible {
+    outline: 2px solid var(--accent-color, #3b82f6);
+    outline-offset: 2px;
+  }
+
+  .flag {
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  .label {
+    font-weight: 500;
+  }
+
+  .icon {
+    margin-left: 0.25rem;
+    transition: transform 0.2s ease;
+  }
+
+  .language-switcher:hover .icon {
+    transform: translateY(2px);
+  }
+
+  .language-menu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    min-width: 100%;
+    background: var(--surface-color, rgba(0, 0, 0, 0.9));
+    border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-0.5rem);
+    transition: all 0.2s ease;
+    z-index: 100;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .language-switcher:hover .language-menu,
+  .language-switcher:focus-within .language-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .language-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    color: var(--text-primary, #ffffff);
+    text-decoration: none;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    transition: background 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .language-option:hover {
+    background: var(--surface-hover, rgba(255, 255, 255, 0.08));
+  }
+
+  .language-option:focus-visible {
+    outline: 2px solid var(--accent-color, #3b82f6);
+    outline-offset: -2px;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .current-language {
+      padding: 0.5rem;
+    }
+
+    .label {
+      display: none;
+    }
+
+    .language-menu {
+      right: auto;
+      left: 50%;
+      transform: translateX(-50%) translateY(-0.5rem);
+    }
+
+    .language-switcher:hover .language-menu,
+    .language-switcher:focus-within .language-menu {
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+</style>

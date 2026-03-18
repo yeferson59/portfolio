@@ -26,6 +26,7 @@ export default defineConfig({
       }),
     },
   },
+  output: "server",
   adapter: vercel({
     webAnalytics: {
       enabled: true,
@@ -33,12 +34,13 @@ export default defineConfig({
     maxDuration: 8,
   }),
   i18n: {
-    locales: ["en", "es"],
     defaultLocale: "en",
+    locales: ["en", "es"],
     fallback: {
       es: "en",
     },
     routing: {
+      prefixDefaultLocale: false,
       fallbackType: "rewrite",
     },
   },
