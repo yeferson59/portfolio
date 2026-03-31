@@ -4,6 +4,9 @@ import ProjectCard from "@/components/layouts/ProjectCard.astro";
 import Button from "@/components/ui/Button.astro";
 import { getHomepageProjects, getProjectStats } from "@/utils/projects";
 import { getArrowRightIcon } from "@/utils/icons";
+import { useTranslations } from "@/i18n/ui";
+
+const t = useTranslations(Astro.currentLocale).projects;
 
 // Get limited projects for homepage (first 6 projects)
 const projects = await getHomepageProjects(6);
@@ -15,15 +18,14 @@ const stats = await getProjectStats();
 <section id="projects">
   <div class="container">
     <SectionHeader
-      title="Featured Projects"
-      subtitle={`Showcasing ${stats.total} backend-focused projects: APIs, distributed systems, observability, and performance optimization.`}
+      title={t.title}
+      subtitle={`${t.subtitlePrefix} ${stats.total} ${t.subtitleSuffix}`}
     />
 
     <!-- Enhanced project summary -->
     <div class="mb-xl text-center">
       <p class="text-secondary text-sm opacity-75">
-        {stats.featured} featured projects • {stats.total} total •
-        {stats.technologies.length} technologies
+        {t.featuredStats(stats.featured, stats.total, stats.technologies.length)}
       </p>
     </div>
 
@@ -44,8 +46,8 @@ const stats = await getProjectStats();
     </div>
 
     <div class="mt-4xl text-center">
-      <Button size="lg" href="/projects">
-        View All Projects
+      <Button size="lg" href={t.viewAllHref}>
+        {t.viewAll}
         <span set:html={getArrowRightIcon(20, 20)} />
       </Button>
     </div>
