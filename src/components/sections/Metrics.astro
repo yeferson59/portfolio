@@ -2,6 +2,9 @@
 import SectionHeader from "@/components/layouts/SectionHeader.astro";
 import Card from "@/components/ui/Card.astro";
 import Badge from "@/components/ui/Badge.astro";
+import { useTranslations } from "@/i18n/ui";
+
+const t = useTranslations(Astro.currentLocale).metrics;
 
 type Status = "healthy" | "warning" | "error";
 
@@ -61,8 +64,8 @@ const formatNumber = (num: number) => {
 <section id="metrics" class="gradient-overlay">
   <div class="container">
     <SectionHeader
-      title="API Performance Metrics"
-      subtitle="Real-time monitoring of API performance, response times, and system health across all endpoints"
+      title={t.title}
+      subtitle={t.subtitle}
     />
 
     <!-- Key Performance Indicators -->
@@ -85,9 +88,9 @@ const formatNumber = (num: number) => {
             </svg>
           </div>
           <div class="metrics-card__info">
-            <h3 class="metrics-card__title">Response Time</h3>
+            <h3 class="metrics-card__title">{t.responseTime}</h3>
             <p class="metrics-card__value">{currentMetrics.responseTime}ms</p>
-            <Badge variant="primary">Excellent</Badge>
+            <Badge variant="primary">{t.excellent}</Badge>
           </div>
         </div>
       </Card>
@@ -110,9 +113,9 @@ const formatNumber = (num: number) => {
             </svg>
           </div>
           <div class="metrics-card__info">
-            <h3 class="metrics-card__title">Uptime</h3>
+            <h3 class="metrics-card__title">{t.uptime}</h3>
             <p class="metrics-card__value">{currentMetrics.uptime}%</p>
-            <Badge variant="primary">Stable</Badge>
+            <Badge variant="primary">{t.stable}</Badge>
           </div>
         </div>
       </Card>
@@ -136,11 +139,11 @@ const formatNumber = (num: number) => {
             </svg>
           </div>
           <div class="metrics-card__info">
-            <h3 class="metrics-card__title">Total Requests</h3>
+            <h3 class="metrics-card__title">{t.totalRequests}</h3>
             <p class="metrics-card__value">
               {formatNumber(currentMetrics.totalRequests)}
             </p>
-            <Badge variant="secondary">All Time</Badge>
+            <Badge variant="secondary">{t.allTime}</Badge>
           </div>
         </div>
       </Card>
@@ -164,7 +167,7 @@ const formatNumber = (num: number) => {
             </svg>
           </div>
           <div class="metrics-card__info">
-            <h3 class="metrics-card__title">Requests Today</h3>
+            <h3 class="metrics-card__title">{t.requestsToday}</h3>
             <p class="metrics-card__value">
               {formatNumber(currentMetrics.requestsToday)}
             </p>
@@ -178,7 +181,7 @@ const formatNumber = (num: number) => {
     <div class="metrics-content-grid mb-xl">
       <Card>
         <h3 class="text-primary mb-lg text-2xl font-bold">
-          Response Time Trend (24h)
+          {t.responseTimeTrend}
         </h3>
         <div class="response-time-chart">
           <div class="chart-container">
@@ -203,28 +206,28 @@ const formatNumber = (num: number) => {
       </Card>
 
       <Card>
-        <h3 class="text-primary mb-lg text-2xl font-bold">System Health</h3>
+        <h3 class="text-primary mb-lg text-2xl font-bold">{t.systemHealth}</h3>
         <div class="system-health">
           <div class="metric-row">
-            <span class="text-secondary">Active Connections</span>
+            <span class="text-secondary">{t.activeConnections}</span>
             <span class="text-primary font-semibold"
               >{currentMetrics.activeConnections}</span
             >
           </div>
           <div class="metric-row">
-            <span class="text-secondary">Error Rate</span>
+            <span class="text-secondary">{t.errorRate}</span>
             <span class="text-primary font-semibold"
               >{currentMetrics.errorRate}%</span
             >
           </div>
           <div class="metric-row">
-            <span class="text-secondary">Throughput</span>
+            <span class="text-secondary">{t.throughput}</span>
             <span class="text-primary font-semibold"
               >{currentMetrics.throughput} req/min</span
             >
           </div>
           <div class="metric-row">
-            <span class="text-secondary">Average Load</span>
+            <span class="text-secondary">{t.avgLoad}</span>
             <span class="text-primary font-semibold"
               >{currentMetrics.avgLoad}%</span
             >
@@ -236,18 +239,18 @@ const formatNumber = (num: number) => {
     <!-- Endpoint Performance -->
     <Card class="mb-xl">
       <h3 class="text-primary mb-lg text-2xl font-bold">
-        Endpoint Performance
+        {t.endpointPerformance}
       </h3>
       <div class="endpoint-metrics">
         <div class="endpoint-metrics__header">
-          <span class="text-secondary font-semibold">Endpoint</span>
+          <span class="text-secondary font-semibold">{t.endpoint}</span>
           <span class="text-secondary endpoint-metrics__calls font-semibold"
-            >Calls (24h)</span
+            >{t.calls}</span
           >
           <span class="text-secondary endpoint-metrics__response font-semibold"
-            >Avg Response</span
+            >{t.avgResponse}</span
           >
-          <span class="text-secondary font-semibold">Status</span>
+          <span class="text-secondary font-semibold">{t.status}</span>
         </div>
         {
           endpointMetrics.map((endpoint) => (
@@ -275,20 +278,20 @@ const formatNumber = (num: number) => {
     <div class="metrics-status">
       <div class="live-indicator">
         <div class="pulse-dot"></div>
-        <span class="live-text">Live Monitoring Active</span>
-        <span class="live-subtitle">Updated every 30 seconds</span>
+        <span class="live-text">{t.liveMonitoring}</span>
+        <span class="live-subtitle">{t.updatedEvery}</span>
       </div>
     </div>
 
     <!-- MCP Client Metrics Section -->
     <div class="mcp-metrics-section mb-xl" style="margin-top: 3rem;">
       <h3 class="text-primary mb-lg text-2xl font-bold">
-        MCP Client Performance
+        {t.mcpClientPerformance}
       </h3>
       <div class="mcp-metrics-grid" id="mcp-metrics-grid">
         <div class="loading-mcp-metrics">
           <div class="loading-spinner"></div>
-          <p>Loading MCP client metrics...</p>
+          <p>{t.loadingMcp}</p>
         </div>
       </div>
     </div>
@@ -296,7 +299,7 @@ const formatNumber = (num: number) => {
     <!-- MCP Interactive Viewer -->
     <div class="mcp-viewer-section" style="margin-top: 3rem;">
       <h3 class="text-primary mb-lg text-2xl font-bold">
-        MCP Client Interactive Viewer
+        {t.mcpInteractiveViewer}
       </h3>
 
       <!-- MCP Connection Status -->
@@ -305,14 +308,14 @@ const formatNumber = (num: number) => {
           <div class="status-content">
             <div class="status-indicator" id="mcp-connection-status">
               <div class="pulse-dot"></div>
-              <span class="status-text">Connecting to MCP...</span>
+              <span class="status-text">{t.connectingMcp}</span>
             </div>
             <div class="status-details" id="mcp-status-details">
               <span class="detail-item"
-                >Tools: <strong id="tools-count">--</strong></span
+                >{t.toolsLabel} <strong id="tools-count">--</strong></span
               >
               <span class="detail-item"
-                >Response Time: <strong id="mcp-response-time">--</strong></span
+                >{t.responseTimeLabel} <strong id="mcp-response-time">--</strong></span
               >
             </div>
           </div>
@@ -321,11 +324,11 @@ const formatNumber = (num: number) => {
 
       <!-- MCP Tools Grid -->
       <div class="mcp-tools-section mb-lg">
-        <h4 class="section-subtitle mb-md">Available MCP Tools</h4>
+        <h4 class="section-subtitle mb-md">{t.availableMcpTools}</h4>
         <div id="mcp-tools-grid" class="tools-grid">
           <div class="loading-state">
             <div class="loading-spinner"></div>
-            <p>Loading MCP tools...</p>
+            <p>{t.loadingTools}</p>
           </div>
         </div>
       </div>
@@ -333,13 +336,13 @@ const formatNumber = (num: number) => {
       <!-- Interactive Tool Executor -->
       <div class="tool-executor-section">
         <Card>
-          <h4 class="text-primary mb-md text-xl font-bold">Tool Executor</h4>
+          <h4 class="text-primary mb-md text-xl font-bold">{t.toolExecutor}</h4>
           <div class="executor-content">
             <div class="tool-selector mb-md">
-              <label for="tool-select" class="selector-label">Select Tool</label
+              <label for="tool-select" class="selector-label">{t.selectTool}</label
               >
               <select id="tool-select" class="tool-select" disabled>
-                <option value="">Loading tools...</option>
+                <option value="">{t.loadingToolsOption}</option>
               </select>
             </div>
 
@@ -348,7 +351,7 @@ const formatNumber = (num: number) => {
               class="tool-params mb-md"
               style="display: none;"
             >
-              <label class="params-label">Tool Parameters</label>
+              <label class="params-label">{t.toolParameters}</label>
               <div id="params-container" class="params-container"></div>
             </div>
 
@@ -360,16 +363,16 @@ const formatNumber = (num: number) => {
                 disabled
               >
                 <span class="btn-icon">▶</span>
-                Execute Tool
+                {t.executeTool}
               </button>
               <button type="button" id="clear-result-btn" class="btn-clear">
-                Clear Result
+                {t.clearResult}
               </button>
             </div>
 
             <div id="tool-result" class="tool-result" style="display: none;">
               <div class="result-header">
-                <h5 class="result-title">Execution Result</h5>
+                <h5 class="result-title">{t.executionResult}</h5>
                 <div class="result-metrics">
                   <span class="metric-badge" id="result-duration">--ms</span>
                   <span class="metric-badge" id="result-status">--</span>

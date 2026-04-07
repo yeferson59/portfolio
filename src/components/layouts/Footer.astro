@@ -7,7 +7,20 @@ import {
   footerLinks,
 } from "@/data/site";
 import { getAllServices } from "@/utils/services";
+import { useTranslations } from "@/i18n/ui";
 
+const t = useTranslations(Astro.currentLocale).footer;
+const tNav = useTranslations(Astro.currentLocale).nav;
+
+// Map nav link hrefs to translated labels
+const navLabelMap: Record<string, string> = {
+  "#about": tNav.about,
+  "#skills": tNav.skills,
+  "#metrics": tNav.metrics,
+  "#projects": tNav.projects,
+  "#services": tNav.services,
+  "#contact": tNav.contact,
+};
 const services = await getAllServices();
 ---
 
@@ -44,7 +57,7 @@ const services = await getAllServices();
         <h4
           class="text-primary mb-md text-sm font-semibold tracking-wide uppercase"
         >
-          Navigation
+          {t.navigation}
         </h4>
         <ul class="space-y-xs">
           {
@@ -55,7 +68,7 @@ const services = await getAllServices();
                   class="text-secondary hover:text-primary gap-xs flex items-center text-sm transition-colors"
                 >
                   <div class="accent-dot accent-dot--secondary" />
-                  {link.label}
+                  {navLabelMap[link.href] ?? link.label}
                 </a>
               </li>
             ))
@@ -68,7 +81,7 @@ const services = await getAllServices();
         <h4
           class="text-primary mb-md text-sm font-semibold tracking-wide uppercase"
         >
-          Services
+          {t.services}
         </h4>
         <ul class="space-y-xs">
           {
@@ -86,26 +99,24 @@ const services = await getAllServices();
         <h4
           class="text-primary mb-md text-sm font-semibold tracking-wide uppercase"
         >
-          Stay up to date
+          {t.stayUpToDate}
         </h4>
         <p class="text-secondary mb-md text-sm leading-relaxed">
-          Subscribe to receive technical notes, architectural patterns, and
-          posts on scalability.
+          {t.subscribeDesc}
         </p>
         <form class="space-y-sm">
           <input
             type="email"
             required
-            placeholder="your@email.com"
+            placeholder={t.subscribePlaceholder}
             class="form-input text-sm"
           />
           <button type="submit" class="btn btn--primary btn--full btn--sm">
-            Subscribe
+            {t.subscribeButton}
           </button>
         </form>
         <p class="mt-sm text-muted text-xs leading-relaxed">
-          No spam. Just useful technical content. You can unsubscribe at any
-          time.
+          {t.noSpamNote}
         </p>
       </div>
     </div>
@@ -119,15 +130,15 @@ const services = await getAllServices();
       </p>
       <div class="gap-md text-muted flex items-center text-xs">
         <a href={footerLinks.terms} class="hover:text-primary transition-colors"
-          >Terms</a
+          >{t.terms}</a
         >
         <a
           href={footerLinks.privacy}
-          class="hover:text-primary transition-colors">Privacy</a
+          class="hover:text-primary transition-colors">{t.privacy}</a
         >
         <a
           href={footerLinks.licenses}
-          class="hover:text-primary transition-colors">Licenses</a
+          class="hover:text-primary transition-colors">{t.licenses}</a
         >
       </div>
     </div>

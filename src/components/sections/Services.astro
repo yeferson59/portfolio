@@ -5,15 +5,17 @@ import Card from "@/components/ui/Card.astro";
 import Button from "@/components/ui/Button.astro";
 import { getAllServices } from "@/utils/services";
 import { getArrowRightIcon } from "@/utils/icons";
+import { useTranslations } from "@/i18n/ui";
 
+const t = useTranslations(Astro.currentLocale).services;
 const services = await getAllServices();
 ---
 
 <section id="services" class="services-section scroll-reveal">
   <div class="container">
     <SectionHeader
-      title="Professional Services"
-      subtitle="Technical solutions and consulting tailored to your project's needs."
+      title={t.title}
+      subtitle={t.subtitle}
     />
 
     <div class="services-wrapper mb-4xl">
@@ -35,14 +37,13 @@ const services = await getAllServices();
     <div class="bottom-cta">
       <Card class="mx-auto max-w-3xl">
         <h3 class="text-primary mb-md text-2xl font-bold">
-          Can't find what you need?
+          {t.cantFindTitle}
         </h3>
         <p class="text-secondary mb-lg leading-relaxed">
-          Every project is unique. Let's talk about your specific needs and
-          create a custom solution.
+          {t.cantFindDesc}
         </p>
         <Button href="#contact">
-          Let's discuss your project
+          {t.discussProject}
           <span set:html={getArrowRightIcon(16, 16)} />
         </Button>
       </Card>

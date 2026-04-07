@@ -4,15 +4,14 @@ import Card from "@/components/ui/Card.astro";
 import Button from "@/components/ui/Button.astro";
 import { contactMethods, icons } from "@/data/site";
 import { getArrowRightIcon } from "@/utils/icons";
+import { useTranslations } from "@/i18n/ui";
 
-const heading = "Get in touch";
-const subtitle =
-  "Got an interesting project? Let's talk about architecture, APIs, or infrastructure.";
+const t = useTranslations(Astro.currentLocale).contact;
 ---
 
 <section id="contact">
   <div class="container">
-    <SectionHeader title={heading} subtitle={subtitle} />
+    <SectionHeader title={t.heading} subtitle={t.subtitle} />
 
     <div class="contact-grid">
       <!-- Contact Methods -->
@@ -48,7 +47,7 @@ const subtitle =
                     href={method.action}
                     aria-label={`Contact via ${method.label}: ${method.value}`}
                   >
-                    Get in touch
+                    {t.contactButton}
                     <span set:html={getArrowRightIcon(16, 16)} />
                   </Button>
                 </div>
@@ -62,24 +61,23 @@ const subtitle =
       <Card>
         <div class="mb-lg">
           <h3 class="text-primary mb-sm text-2xl font-bold">
-            Send me a message
+            {t.sendMessageTitle}
           </h3>
           <p class="text-secondary leading-relaxed">
-            Briefly describe your project and I'll get back to you within 24
-            hours.
+            {t.sendMessageDesc}
           </p>
         </div>
 
         <form class="space-y-lg" novalidate>
           <div class="gap-md grid grid-cols-1 md:grid-cols-2">
             <div class="form-group">
-              <label for="name" class="form-label">Name*</label>
+              <label for="name" class="form-label">{t.nameLabel}</label>
               <input
                 id="name"
                 name="name"
                 type="text"
                 required
-                placeholder="Your name"
+                placeholder={t.namePlaceholder}
                 class="form-input"
                 aria-describedby="name-error"
                 aria-invalid="false"
@@ -93,7 +91,7 @@ const subtitle =
               </div>
             </div>
             <div class="form-group">
-              <label for="email" class="form-label">Email*</label>
+              <label for="email" class="form-label">{t.emailLabel}</label>
               <input
                 id="email"
                 name="email"
@@ -115,13 +113,13 @@ const subtitle =
           </div>
 
           <div class="form-group">
-            <label for="subject" class="form-label">Subject*</label>
+            <label for="subject" class="form-label">{t.subjectLabel}</label>
             <input
               id="subject"
               name="subject"
               type="text"
               required
-              placeholder="What would you like to talk about?"
+              placeholder={t.subjectPlaceholder}
               class="form-input"
               aria-describedby="subject-error"
               aria-invalid="false"
@@ -136,13 +134,13 @@ const subtitle =
           </div>
 
           <div class="form-group">
-            <label for="message" class="form-label">Message*</label>
+            <label for="message" class="form-label">{t.messageLabel}</label>
             <textarea
               id="message"
               name="message"
               rows="6"
               required
-              placeholder="Tell me about your project..."
+              placeholder={t.messagePlaceholder}
               class="form-input form-textarea"
               aria-describedby="message-error"
               aria-invalid="false"></textarea>
@@ -159,10 +157,10 @@ const subtitle =
             class="gap-md flex flex-col items-start justify-between sm:flex-row sm:items-center"
           >
             <p class="text-secondary max-w-xs text-sm leading-relaxed">
-              By submitting, you agree to be contacted. No spam.
+              {t.privacyNote}
             </p>
             <Button type="submit" size="lg" aria-describedby="submit-status">
-              Send Message
+              {t.sendButton}
               <svg
                 width="20"
                 height="20"

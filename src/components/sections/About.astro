@@ -6,13 +6,16 @@ import { Image } from "astro:assets";
 import { developer, skills, coreFeatures } from "@/data/site";
 import SectionHeader from "@/components/layouts/SectionHeader.astro";
 import { getArrowRightIcon } from "@/utils/icons";
+import { useTranslations } from "@/i18n/ui";
+
+const t = useTranslations(Astro.currentLocale).about;
 ---
 
 <section id="about" class="gradient-overlay">
   <div class="container">
     <!-- Main heading as h1 for SEO and accessibility -->
     <SectionHeader
-      title="About Me"
+      title={t.title}
       subtitle={developer.description}
       headingLevel="h1"
     />
@@ -70,7 +73,7 @@ import { getArrowRightIcon } from "@/utils/icons";
         <!-- Core Principles -->
         <div class="mb-4xl">
           <h3 class="text-primary mb-xl text-center text-2xl font-bold">
-            Core Principles
+            {t.corePrinciples}
           </h3>
           <div class="gap-lg grid grid-cols-1 sm:grid-cols-2">
             {
@@ -104,21 +107,19 @@ import { getArrowRightIcon } from "@/utils/icons";
           >
             <div>
               <h4 class="text-primary mb-sm text-xl font-bold">
-                Collaboration
+                {t.collaborationTitle}
               </h4>
               <p class="text-secondary max-w-xl leading-relaxed">
-                🤝 Let’s Collaborate Got an idea or project? I can help define
-                the architecture and bring it to production with scalable,
-                secure, and observable practices.
+                {t.collaborationText}
               </p>
             </div>
 
             <div class="btn-group btn-group--center">
               <Button href="#projects">
-                View Projects
+                {t.viewProjects}
                 <span set:html={getArrowRightIcon(16, 16)} />
               </Button>
-              <Button variant="secondary" href="#contact"> Contact Me </Button>
+              <Button variant="secondary" href="#contact">{t.contactMe}</Button>
             </div>
           </div>
         </Card>

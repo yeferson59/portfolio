@@ -1,18 +1,29 @@
 ---
 import { navigationLinks } from "@/data/site";
+import { useTranslations } from "@/i18n/ui";
 
 interface Props {
   class?: string;
 }
 
 const { class: className = "" } = Astro.props;
+
+const tNav = useTranslations(Astro.currentLocale).nav;
+const navLabelMap: Record<string, string> = {
+  "#about": tNav.about,
+  "#skills": tNav.skills,
+  "#metrics": tNav.metrics,
+  "#projects": tNav.projects,
+  "#services": tNav.services,
+  "#contact": tNav.contact,
+};
 ---
 
 <nav class={`header__nav ${className}`}>
   {
     navigationLinks.map((item) => (
       <a href={item.href} class="header__nav-link">
-        {item.label}
+        {navLabelMap[item.href] ?? item.label}
       </a>
     ))
   }
