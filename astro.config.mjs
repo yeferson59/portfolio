@@ -7,6 +7,12 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  devToolbar: {
+    // The toolbar injects its own buttons and headings in a shadow DOM
+    // that Playwright pierces, breaking a11y/SEO assertions; e2e runs
+    // set this variable in playwright.config.ts
+    enabled: process.env.ASTRO_DEV_TOOLBAR_DISABLED !== "1",
+  },
   env: {
     schema: {
       BASE_URL: envField.string({
