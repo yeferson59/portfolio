@@ -37,7 +37,10 @@ const flags: Record<Locale, string> = {
 ---
 
 <div class="language-switcher">
-  <button class="current-language" aria-label={`Current language: ${currentLabel}`}>
+  <button
+    class="current-language"
+    aria-label={`Current language: ${currentLabel}`}
+  >
     <span class="flag" aria-hidden="true">{flags[currentLocale]}</span>
     <span class="label">{currentLabel}</span>
     <svg

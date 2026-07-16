@@ -4,7 +4,9 @@ import { getViteConfig } from "astro/config";
 export default getViteConfig({
   test: {
     globals: true,
-    environment: "happy-dom",
+    // Astro components must be compiled with the SSR pipeline; a DOM
+    // environment makes Vite serve the client stub that throws on render.
+    environment: "node",
     include: ["src/**/*.{test,spec}.{js,ts}"],
     setupFiles: ["./src/test/setup.ts"],
     coverage: {

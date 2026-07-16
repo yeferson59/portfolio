@@ -21,7 +21,10 @@ export const ecommerceAPIConfig: APIConfiguration = {
   documentation: "https://docs.ecommerce-demo.example.com",
   repositoryUrl: "https://github.com/yourusername/ecommerce-api",
 
-  authentication: authConfigs.bearer("/auth/login", "JWT token obtained from login endpoint"),
+  authentication: authConfigs.bearer(
+    "/auth/login",
+    "JWT token obtained from login endpoint",
+  ),
 
   globalHeaders: globalHeaders.json,
 

@@ -33,7 +33,7 @@ const { class: className = "" } = Astro.props;
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const id = entry.target.getAttribute("id");
-          
+
           // Remove active class from all links
           navLinks.forEach((link) => {
             link.classList.remove("active");

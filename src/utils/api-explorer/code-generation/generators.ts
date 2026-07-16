@@ -95,7 +95,11 @@ export function generateJavaScript(request: APIRequest): string {
  * Generate Python (requests) code
  */
 export function generatePython(request: APIRequest): string {
-  const lines: string[] = [...commonImports.python, "", `url = "${request.url}"`];
+  const lines: string[] = [
+    ...commonImports.python,
+    "",
+    `url = "${request.url}"`,
+  ];
 
   // Headers
   if (hasHeaders(request)) {
@@ -159,7 +163,11 @@ export function generateGo(request: APIRequest): string {
  * Generate PHP code
  */
 export function generatePHP(request: APIRequest): string {
-  const lines: string[] = [...commonImports.php, "", `$url = "${request.url}";`];
+  const lines: string[] = [
+    ...commonImports.php,
+    "",
+    `$url = "${request.url}";`,
+  ];
 
   // Initialize cURL
   lines.push("", "$ch = curl_init($url);");

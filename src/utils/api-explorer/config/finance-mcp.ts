@@ -4,11 +4,7 @@
  */
 
 import type { APIConfiguration } from "../types";
-import {
-  authConfigs,
-  globalHeaders,
-  rateLimits,
-} from "./shared-configs";
+import { authConfigs, globalHeaders, rateLimits } from "./shared-configs";
 
 export const financeMCPConfig: APIConfiguration = {
   id: "finance-mcp",

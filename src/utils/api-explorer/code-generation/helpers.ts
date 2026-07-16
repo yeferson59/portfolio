@@ -60,7 +60,10 @@ export const headerBuilders = {
   /**
    * Build headers for Java format
    */
-  java: (headers: Record<string, string>, indent = "            "): string[] => {
+  java: (
+    headers: Record<string, string>,
+    indent = "            ",
+  ): string[] => {
     return Object.entries(headers).map(
       ([key, value]) => `${indent}.header("${key}", "${value}")`,
     );
@@ -113,9 +116,14 @@ export const bodyBuilders = {
   /**
    * Build JSON body for Java
    */
-  java: (body: any, indent = "        "): { lines: string[]; builder: string } => {
+  java: (
+    body: any,
+    indent = "        ",
+  ): { lines: string[]; builder: string } => {
     const jsonBody = JSON.stringify(body);
-    const lines = [`${indent}String json = "${jsonBody.replace(/"/g, '\\"')}";`];
+    const lines = [
+      `${indent}String json = "${jsonBody.replace(/"/g, '\\"')}";`,
+    ];
     const builder = "HttpRequest.BodyPublishers.ofString(json)";
     return { lines, builder };
   },
@@ -190,7 +198,13 @@ export const executionPatterns = {
    * PHP cURL execution
    */
   php: (): string[] => {
-    return ["", "$response = curl_exec($ch);", "curl_close($ch);", "", "echo $response;"];
+    return [
+      "",
+      "$response = curl_exec($ch);",
+      "curl_close($ch);",
+      "",
+      "echo $response;",
+    ];
   },
 
   /**

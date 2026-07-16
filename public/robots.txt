@@ -8,8 +8,3 @@ Sitemap: https://portfolio-yefersons-projects.vercel.app/sitemap.xml
 Disallow: /admin/
 Disallow: /_astro/
 Disallow: /api/
-
-# Allow important pages
-Allow: /
-Allow: /blog
-Allow: /blog/*

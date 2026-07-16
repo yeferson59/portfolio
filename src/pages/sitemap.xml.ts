@@ -2,14 +2,8 @@ import type { APIRoute } from "astro";
 import { siteMetadata } from "@/data/site";
 import { getPaginatedProjects } from "@/utils/projects";
 
-const staticPages = [
-  "",
-  "/projects",
-  "/blog",
-  "/terms",
-  "/privacy",
-  "/licenses",
-];
+// Only routes that actually exist in src/pages should be advertised here
+const staticPages = ["", "/projects", "/api-explorer", "/es"];
 
 export const GET: APIRoute = async () => {
   const baseUrl = siteMetadata.siteUrl;

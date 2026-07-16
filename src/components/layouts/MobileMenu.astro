@@ -51,7 +51,7 @@ const { isOpen = false, class: className = "" } = Astro.props;
       mobileMenuButton.addEventListener("click", function (e) {
         e.stopPropagation(); // Prevent immediate closing by document click
         isOpen = !isOpen;
-        
+
         mobileMenu.classList.toggle("open");
         mobileMenuButton.setAttribute("aria-expanded", String(isOpen));
         mobileMenu.setAttribute("aria-hidden", String(!isOpen));
