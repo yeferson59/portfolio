@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import SectionHeader from "@/components/layouts/SectionHeader.astro";
+import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 
 /**
  * Shared shell for static content pages (Terms, Privacy, Licenses, Blog).
@@ -21,27 +22,9 @@ const { title, description, subtitle = description } = Astro.props;
     <section class="static-page__hero">
       <div class="container">
         <div class="static-page__hero-content">
-          <div class="static-page__breadcrumb">
-            <a
-              href="/"
-              class="text-secondary hover:text-primary transition-colors"
-              >Home</a
-            >
-            <svg
-              width="16"
-              height="16"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M9 18l6-6-6-6"></path>
-            </svg>
-            <span class="text-primary">{title}</span>
-          </div>
+          <Breadcrumb
+            items={[{ label: "Home", href: "/" }, { label: title }]}
+          />
 
           <SectionHeader title={title} subtitle={subtitle} />
         </div>
@@ -85,19 +68,6 @@ const { title, description, subtitle = description } = Astro.props;
     text-align: center;
     max-width: 800px;
     margin: 0 auto;
-  }
-
-  .static-page__breadcrumb {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-sm);
-    margin-bottom: var(--space-lg);
-    font-size: var(--font-size-sm);
-  }
-
-  .static-page__breadcrumb a {
-    text-decoration: none;
   }
 
   .static-page__body {

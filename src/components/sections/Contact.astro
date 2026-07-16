@@ -2,8 +2,8 @@
 import SectionHeader from "@/components/layouts/SectionHeader.astro";
 import Card from "@/components/ui/Card.astro";
 import Button from "@/components/ui/Button.astro";
-import { contactMethods, icons } from "@/data/site";
-import { getArrowRightIcon } from "@/utils/icons";
+import { contactMethods } from "@/data/site";
+import { getArrowRightIcon, icons } from "@/utils/icons";
 
 const heading = "Get in touch";
 const subtitle =
@@ -22,17 +22,7 @@ const subtitle =
             <Card>
               <div class="gap-md flex items-start">
                 <div class={`icon icon--${method.variant} shrink-0`}>
-                  <span
-                    set:html={
-                      icons[
-                        method.icon === "mail"
-                          ? "mail-lg"
-                          : method.icon === "code"
-                            ? "code-lg"
-                            : (method.icon as keyof typeof icons)
-                      ]
-                    }
-                  />
+                  <span set:html={icons[method.icon]} />
                 </div>
 
                 <div class="flex-1">
