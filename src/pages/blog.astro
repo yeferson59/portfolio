@@ -1,0 +1,40 @@
+---
+import StaticPage from "@/components/layouts/StaticPage.astro";
+import Button from "@/components/ui/Button.astro";
+
+export const prerender = true;
+---
+
+<StaticPage
+  title="Blog"
+  description="Articles about backend development, system architecture, databases, and performance."
+  subtitle="Articles about backend development, system architecture, databases, and performance."
+>
+  <!-- TODO: Replace this placeholder when the first posts are published. -->
+  <div class="blog-empty">
+    <h2>Coming soon</h2>
+    <p>
+      I'm working on the first articles. In the meantime, you can explore my
+      projects or get in touch.
+    </p>
+    <div class="blog-empty__actions">
+      <Button href="/projects">View Projects</Button>
+      <Button href="/#contact" variant="secondary">Get in Touch</Button>
+    </div>
+  </div>
+</StaticPage>
+
+<style>
+  .blog-empty {
+    text-align: center;
+    padding: var(--space-2xl) 0;
+  }
+
+  .blog-empty__actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+    flex-wrap: wrap;
+  }
+</style>

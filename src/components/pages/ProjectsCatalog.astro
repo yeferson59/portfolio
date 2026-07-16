@@ -1,0 +1,249 @@
+---
+import SectionHeader from "@/components/layouts/SectionHeader.astro";
+import ProjectCard from "@/components/cards/ProjectCard.astro";
+import Breadcrumb from "@/components/ui/Breadcrumb.astro";
+import Pagination from "@/components/ui/Pagination.astro";
+import Button from "@/components/ui/Button.astro";
+import type { PaginationData } from "@/utils/pagination";
+import type { Project } from "@/utils/projects";
+import { getProjectStats } from "@/utils/projects";
+import { getArrowRightIcon } from "@/utils/icons";
+
+/**
+ * Full body of the projects listing pages (/projects and /projects/N):
+ * hero with breadcrumb and stats, project grid, pagination, and CTA.
+ */
+interface Props {
+  currentPage: number;
+  paginatedData: PaginationData<Project>;
+}
+
+const { currentPage, paginatedData } = Astro.props;
+const { items: projects, totalPages } = paginatedData;
+
+const stats = await getProjectStats();
+
+const isFirstPage = currentPage === 1;
+const breadcrumbItems = isFirstPage
+  ? [{ label: "Home", href: "/" }, { label: "Projects" }]
+  : [
+      { label: "Home", href: "/" },
+      { label: "Projects", href: "/projects" },
+      { label: `Page ${currentPage}` },
+    ];
+
+const subtitle = isFirstPage
+  ? `Complete collection of ${stats.total} backend development projects spanning APIs, microservices, databases, and distributed systems.`
+  : `Page ${currentPage} of ${totalPages} - Complete collection of ${stats.total} backend development projects.`;
+
+const statItems = [
+  { value: stats.total, label: "Total Projects" },
+  { value: stats.featured, label: "Featured" },
+  { value: stats.technologies.length, label: "Technologies" },
+  {
+    value: Object.keys(stats.categoryDistribution).length,
+    label: "Categories",
+  },
+];
+---
+
+<main class="projects-page">
+  <!-- Hero Section -->
+  <section class="projects-hero">
+    <div class="container">
+      <div class="projects-hero__content">
+        <Breadcrumb items={breadcrumbItems} />
+
+        <SectionHeader title="All Projects" subtitle={subtitle} />
+
+        <!-- Enhanced project summary with statistics -->
+        <div class="projects-hero__stats">
+          <div class="projects-stats">
+            {
+              statItems.map((stat) => (
+                <div class="projects-stats__item">
+                  <span class="projects-stats__value">{stat.value}</span>
+                  <span class="projects-stats__label">{stat.label}</span>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Grid Section -->
+  <section class="projects-grid-section">
+    <div class="container">
+      {
+        projects.length > 0 ? (
+          <>
+            <div class="projects-grid mb-4xl">
+              {projects.map((project) => (
+                <ProjectCard
+                  title={project.data.title}
+                  description={project.data.description}
+                  stack={project.data.stack}
+                  year={project.data.year}
+                  status={project.data.status}
+                  links={project.data.links}
+                  featured={project.data.featured}
+                />
+              ))}
+            </div>
+
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              baseUrl="/projects"
+              class="projects-pagination"
+            />
+          </>
+        ) : (
+          <div class="projects-empty">
+            <h3 class="text-primary mb-md text-xl font-bold">
+              No projects found
+            </h3>
+            <p class="text-secondary mb-lg">
+              {isFirstPage
+                ? "There are currently no projects to display."
+                : "There are currently no projects to display on this page."}
+            </p>
+            <Button href={isFirstPage ? "/" : "/projects"}>
+              {isFirstPage ? "Back to Home" : "Back to Projects"}
+            </Button>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <!-- Call to Action Section -->
+  <section class="projects-cta">
+    <div class="container">
+      <div class="projects-cta__content">
+        <h2 class="text-primary mb-md text-2xl font-bold">
+          Ready to Start Your Project?
+        </h2>
+        <p class="text-secondary mb-lg leading-relaxed">
+          Let's discuss how we can bring your backend ideas to life with
+          scalable, secure, and high-performance solutions.
+        </p>
+        <Button size="lg" href="/#contact">
+          Get in Touch
+          <span set:html={getArrowRightIcon(20, 20)} />
+        </Button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<style>
+  .projects-page {
+    padding-top: var(--header-height);
+  }
+
+  .projects-hero {
+    padding: var(--space-4xl) 0 var(--space-3xl);
+    background: var(--surface-primary);
+    position: relative;
+  }
+
+  .projects-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at 50% 0%,
+      rgba(42, 143, 255, 0.05) 0%,
+      transparent 50%
+    );
+    pointer-events: none;
+  }
+
+  .projects-hero__content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .projects-hero__stats {
+    margin-top: var(--space-xl);
+  }
+
+  .projects-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--space-lg);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .projects-stats__item {
+    text-align: center;
+    padding: var(--space-md);
+    border-radius: var(--radius-lg);
+    background: var(--surface-secondary);
+    border: 1px solid var(--border-color);
+  }
+
+  .projects-stats__value {
+    display: block;
+    font-size: var(--font-size-xl);
+    font-weight: bold;
+    color: var(--accent-primary);
+    line-height: 1.2;
+  }
+
+  .projects-stats__label {
+    display: block;
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    margin-top: var(--space-xs);
+  }
+
+  .projects-grid-section {
+    padding: var(--space-4xl) 0;
+  }
+
+  .projects-empty {
+    text-align: center;
+    padding: var(--space-4xl) 0;
+  }
+
+  .projects-cta {
+    padding: var(--space-4xl) 0;
+    background: var(--surface-secondary);
+  }
+
+  .projects-cta__content {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .projects-pagination {
+    margin-top: var(--space-2xl);
+  }
+
+  /* Mobile responsive adjustments */
+  @media (max-width: 768px) {
+    .projects-hero {
+      padding: var(--space-3xl) 0 var(--space-2xl);
+    }
+
+    .projects-stats {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-md);
+    }
+
+    .projects-grid-section {
+      padding: var(--space-3xl) 0;
+    }
+
+    .projects-cta {
+      padding: var(--space-3xl) 0;
+    }
+  }
+</style>

@@ -6,6 +6,7 @@ import {
   meta,
   footerLinks,
 } from "@/data/site";
+import { socialIcons } from "@/utils/icons";
 import { getAllServices } from "@/utils/services";
 
 const services = await getAllServices();
@@ -32,7 +33,7 @@ const services = await getAllServices();
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span set:html={social.icon} aria-hidden="true" />
+                <span set:html={socialIcons[social.icon]} aria-hidden="true" />
               </a>
             ))
           }

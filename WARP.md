@@ -67,8 +67,9 @@ The project uses a **modular CSS architecture** with **2,816 total lines** acros
 
 - **UI Components**: Button, Card, Badge, SectionHeader, and more
 - **Layout Components**: Header, Footer, ScrollReveal
-- **Specialized Components**: Logo, Navigation, MobileMenu, SkillCard, ProjectCard, PricingCard
-- **Page Sections**: About, Skills, Projects, Pricing, Contact
+- **Specialized Components**: Logo, Navigation, MobileMenu
+- **Card Components**: SkillCard, ProjectCard, ServiceCard
+- **Page Sections**: About, Skills, Metrics, Projects, Services, Contact
 - **Content Management**: Dynamic project pages with markdown content collections
 
 ## Essential Commands

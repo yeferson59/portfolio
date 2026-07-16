@@ -1,0 +1,70 @@
+---
+/**
+ * Breadcrumb trail. Items with an href render as links; the last item
+ * (or any item without href) renders as the current location.
+ */
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+  class?: string;
+}
+
+const { items, class: className = "" } = Astro.props;
+---
+
+<nav class={`breadcrumb ${className}`} aria-label="Breadcrumb">
+  {
+    items.map((item, index) => (
+      <>
+        {index > 0 && (
+          <svg
+            width="16"
+            height="16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9 18l6-6-6-6"
+            />
+          </svg>
+        )}
+        {item.href ? (
+          <a
+            href={item.href}
+            class="text-secondary hover:text-primary transition-colors"
+          >
+            {item.label}
+          </a>
+        ) : (
+          <span class="text-primary" aria-current="page">
+            {item.label}
+          </span>
+        )}
+      </>
+    ))
+  }
+</nav>
+
+<style>
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+    font-size: var(--font-size-sm);
+  }
+
+  .breadcrumb a {
+    text-decoration: none;
+  }
+</style>

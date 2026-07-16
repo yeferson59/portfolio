@@ -204,7 +204,7 @@ links:
 The multiple links feature is implemented in:
 
 - **Schema**: `src/content.config.ts` - defines the links array structure
-- **Component**: `src/components/layouts/ProjectCard.astro` - renders the links
+- **Component**: `src/components/cards/ProjectCard.astro` - renders the links
 - **Styles**: `src/styles/components.css` - handles responsive layout and theming
 - **Types**: Auto-generated from the schema for type safety
 

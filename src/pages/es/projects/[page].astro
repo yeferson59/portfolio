@@ -1,3 +1,10 @@
 ---
+import ProjectsPage from "@/pages/projects/[page].astro";
+export { getStaticPaths } from "@/pages/projects/[page].astro";
 
+export const prerender = true;
+
+const { paginatedData } = Astro.props;
 ---
+
+<ProjectsPage paginatedData={paginatedData} />

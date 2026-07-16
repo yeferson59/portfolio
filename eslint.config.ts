@@ -64,6 +64,16 @@ export default defineConfig([
     },
   },
 
+  // Type declaration files: ambient declarations (namespaces, interfaces)
+  // are consumed by the compiler, so the core no-unused-vars rule
+  // produces false positives here
+  {
+    files: ["**/*.d.ts"],
+    rules: {
+      "no-unused-vars": "off",
+    },
+  },
+
   // Markdown configuration
   {
     files: ["**/*.md"],

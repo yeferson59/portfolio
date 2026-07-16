@@ -1,8 +1,10 @@
 // Test setup file
 import { beforeEach } from "vitest";
 
-// Reset DOM state before each test
+// Reset DOM state before each test (only when a DOM environment is active)
 beforeEach(() => {
-  document.head.innerHTML = "";
-  document.body.innerHTML = "";
+  if (typeof document !== "undefined") {
+    document.head.innerHTML = "";
+    document.body.innerHTML = "";
+  }
 });

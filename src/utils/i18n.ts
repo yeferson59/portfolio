@@ -46,7 +46,7 @@ export function getLocalizedPath(locale: Locale, path: string = ""): string {
  */
 export function getAbsoluteLocalizedPath(
   locale: Locale,
-  path: string = ""
+  path: string = "",
 ): string {
   return getAbsoluteLocaleUrl(locale, path);
 }

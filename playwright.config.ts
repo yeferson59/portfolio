@@ -60,6 +60,7 @@ export default defineConfig({
     timeout: 120 * 1000,
     env: {
       ASTRO_TELEMETRY_DISABLED: "1",
+      ASTRO_DEV_TOOLBAR_DISABLED: "1",
     },
   },
 });
