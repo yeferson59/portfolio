@@ -3,7 +3,16 @@ import { siteMetadata } from "@/data/site";
 import { getPaginatedProjects } from "@/utils/projects";
 
 // Only routes that actually exist in src/pages should be advertised here
-const staticPages = ["", "/projects", "/api-explorer", "/es"];
+const staticPages = [
+  "",
+  "/projects",
+  "/api-explorer",
+  "/es",
+  "/blog",
+  "/terms",
+  "/privacy",
+  "/licenses",
+];
 
 export const GET: APIRoute = async () => {
   const baseUrl = siteMetadata.siteUrl;

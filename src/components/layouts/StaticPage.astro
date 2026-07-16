@@ -1,0 +1,160 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import SectionHeader from "@/components/layouts/SectionHeader.astro";
+
+/**
+ * Shared shell for static content pages (Terms, Privacy, Licenses, Blog).
+ * Renders the hero with breadcrumb and a prose container for the page body.
+ */
+interface Props {
+  title: string;
+  description: string;
+  /** Optional subtitle shown under the hero title; falls back to description */
+  subtitle?: string;
+}
+
+const { title, description, subtitle = description } = Astro.props;
+---
+
+<Layout head={{ title, description }}>
+  <main class="static-page">
+    <section class="static-page__hero">
+      <div class="container">
+        <div class="static-page__hero-content">
+          <div class="static-page__breadcrumb">
+            <a
+              href="/"
+              class="text-secondary hover:text-primary transition-colors"
+              >Home</a
+            >
+            <svg
+              width="16"
+              height="16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 18l6-6-6-6"></path>
+            </svg>
+            <span class="text-primary">{title}</span>
+          </div>
+
+          <SectionHeader title={title} subtitle={subtitle} />
+        </div>
+      </div>
+    </section>
+
+    <section class="static-page__body">
+      <div class="container">
+        <div class="static-page__content">
+          <slot />
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .static-page {
+    padding-top: var(--header-height);
+  }
+
+  .static-page__hero {
+    padding: var(--space-4xl) 0 var(--space-3xl);
+    background: var(--surface-primary);
+    position: relative;
+  }
+
+  .static-page__hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at 50% 0%,
+      rgba(42, 143, 255, 0.05) 0%,
+      transparent 50%
+    );
+    pointer-events: none;
+  }
+
+  .static-page__hero-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .static-page__breadcrumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+    font-size: var(--font-size-sm);
+  }
+
+  .static-page__breadcrumb a {
+    text-decoration: none;
+  }
+
+  .static-page__body {
+    padding: var(--space-3xl) 0 var(--space-4xl);
+  }
+
+  .static-page__content {
+    max-width: 720px;
+    margin: 0 auto;
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .static-page__content :global(h2) {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    margin: var(--space-2xl) 0 var(--space-md);
+  }
+
+  .static-page__content :global(h3) {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    margin: var(--space-xl) 0 var(--space-sm);
+  }
+
+  .static-page__content :global(p) {
+    margin-bottom: var(--space-md);
+  }
+
+  .static-page__content :global(ul) {
+    margin: 0 0 var(--space-md) var(--space-lg);
+    list-style: disc;
+  }
+
+  .static-page__content :global(li) {
+    margin-bottom: var(--space-xs);
+  }
+
+  .static-page__content :global(a) {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .static-page__content :global(a:hover) {
+    text-decoration: underline;
+  }
+
+  /* Mobile responsive adjustments */
+  @media (max-width: 768px) {
+    .static-page__hero {
+      padding: var(--space-3xl) 0 var(--space-2xl);
+    }
+
+    .static-page__body {
+      padding: var(--space-2xl) 0 var(--space-3xl);
+    }
+  }
+</style>
