@@ -18,5 +18,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
     context.locals.session = null;
   }
 
-  return next();
+  const response = await next();
+
+  const contentType = response.headers.get("content-type");
+  if (contentType?.startsWith("text/html") && !contentType.includes("charset")) {
+    response.headers.set("content-type", "text/html; charset=utf-8");
+  }
+
+  return response;
 });
