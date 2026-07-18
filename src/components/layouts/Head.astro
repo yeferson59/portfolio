@@ -273,6 +273,7 @@ const finalStructuredData = structuredData || defaultStructuredData;
 
 <!-- DNS Prefetch for Performance -->
 <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//fonts.gstatic.com" />
 <link rel="dns-prefetch" href="//www.google-analytics.com" />
 <link rel="dns-prefetch" href="//avatars.githubusercontent.com" />
 <link rel="dns-prefetch" href="//api.github.com" />
@@ -281,24 +282,21 @@ const finalStructuredData = structuredData || defaultStructuredData;
 
 <!-- Preconnect to critical third-party origins -->
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
   rel="preconnect"
   href="https://avatars.githubusercontent.com"
   crossorigin
 />
 
-<!-- Preload critical resources -->
-<link rel="preload" href={siteMetadata.favicon.icon} as="image" />
+<!-- Typography: Space Grotesk (headings) + Inter (body) -->
 <link
-  rel="preload"
-  href="/fonts/system-ui.woff2"
-  as="font"
-  type="font/woff2"
-  crossorigin
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
 />
 
-<!-- Early hints for Core Web Vitals -->
-<link rel="modulepreload" href="/_astro/client.js" />
+<!-- Preload critical resources -->
+<link rel="preload" href={siteMetadata.favicon.icon} as="image" />
 
 <!-- Critical CSS inline (for above-the-fold content) -->
 <style is:inline>
@@ -308,7 +306,9 @@ const finalStructuredData = structuredData || defaultStructuredData;
   }
   body {
     margin: 0;
+    background-color: #05060a;
     font-family:
+      "Inter",
       system-ui,
       -apple-system,
       sans-serif;
@@ -323,5 +323,5 @@ const finalStructuredData = structuredData || defaultStructuredData;
 </style>
 
 <!-- Theme Color -->
-<meta name="theme-color" content="#0f172a" />
-<meta name="msapplication-TileColor" content="#0f172a" />
+<meta name="theme-color" content="#05060a" />
+<meta name="msapplication-TileColor" content="#05060a" />

@@ -336,54 +336,6 @@
   height: 2.5rem;
 }
 
-.avatar--xl {
-  width: 5rem;
-  height: 5rem;
-}
-
-/* ============================================
-   Section Headers
-   ============================================ */
-.section-header {
-  margin-bottom: var(--space-3xl);
-  text-align: left;
-}
-
-@media (min-width: 768px) {
-  .section-header {
-    margin-bottom: var(--space-4xl);
-  }
-}
-
-.section-header__title {
-  font-size: var(--font-size-3xl);
-  font-weight: var(--font-weight-extrabold);
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  background: linear-gradient(
-    135deg,
-    var(--color-text-primary) 0%,
-    var(--color-text-secondary) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: var(--space-sm);
-}
-
-@media (min-width: 768px) {
-  .section-header__title {
-    font-size: var(--font-size-4xl);
-  }
-}
-
-.section-header__subtitle {
-  font-size: var(--font-size-lg);
-  color: var(--color-text-secondary);
-  max-width: 60ch;
-  line-height: 1.6;
-}
-
 /* ============================================
    📋 Project Cards Component Styles
    ============================================ */
@@ -1020,246 +972,6 @@
   border-radius: var(--radius-lg);
 }
 
-.pricing-card {
-  position: relative;
-  overflow: visible;
-  min-height: 520px;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: var(--space-2xl) var(--space-xl) var(--space-xl) var(--space-xl);
-  border-radius: var(--radius-2xl);
-  margin-top: var(--space-lg);
-}
-
-.pricing-card:hover {
-  transform: translateY(-8px);
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.3),
-    0 0 40px rgba(42, 143, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-}
-
-.pricing-card--popular {
-  position: relative;
-  border: 2px solid rgba(42, 143, 255, 0.3);
-  transform: scale(1.03);
-  box-shadow: 0 10px 40px rgba(42, 143, 255, 0.15);
-}
-
-.pricing-card--popular:hover {
-  transform: scale(1.03) translateY(-8px);
-  box-shadow:
-    0 25px 70px rgba(42, 143, 255, 0.25),
-    0 0 60px rgba(42, 143, 255, 0.15);
-  border-color: rgba(42, 143, 255, 0.5);
-}
-
-.pricing-card__header {
-  flex: 0 0 auto;
-  padding-bottom: var(--space-xl);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  margin-bottom: var(--space-md);
-}
-
-.pricing-card__features {
-  flex: 1 1 auto;
-  padding: var(--space-lg) 0;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: var(--space-md);
-}
-
-.pricing-card__features ul {
-  flex: 1;
-}
-
-.pricing-card__cta {
-  flex: 0 0 auto;
-  padding-top: var(--space-lg);
-  margin-top: auto;
-}
-
-/* Popular badge positioning */
-.pricing-card__badge {
-  position: absolute;
-  top: -16px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 20;
-  animation: badgePulse 3s ease-in-out infinite;
-  white-space: nowrap;
-}
-
-.pricing-card:hover .pricing-card__badge {
-  animation-play-state: paused;
-  transform: translateX(-50%) scale(1.1);
-}
-
-@keyframes badgePulse {
-  0%,
-  100% {
-    transform: translateX(-50%) scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: translateX(-50%) scale(1.03);
-    opacity: 0.9;
-  }
-}
-
-/* Header styles */
-.pricing-card__header {
-  text-align: center;
-  padding-top: var(--space-md);
-  position: relative;
-  transition: all 0.3s ease;
-}
-
-.pricing-card:hover .pricing-card__header {
-  transform: translateY(-2px);
-}
-
-.pricing-card__title {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
-  margin: var(--space-md) 0 var(--space-lg) 0;
-  line-height: 1.2;
-}
-
-.pricing-card__price {
-  margin: var(--space-lg) 0;
-}
-
-.pricing-card__price-amount {
-  font-size: var(--font-size-4xl);
-  font-weight: var(--font-weight-black);
-  color: var(--color-primary);
-  margin-bottom: var(--space-xs);
-}
-
-.pricing-card__price-period {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
-}
-
-.pricing-card__description {
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-sm);
-  line-height: 1.6;
-  margin-top: var(--space-md);
-}
-
-/* Features styles */
-.pricing-card__features-title {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-primary);
-  margin-bottom: var(--space-lg);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  text-align: center;
-}
-
-.pricing-card__features-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  text-align: left;
-}
-
-.pricing-card__feature {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-md);
-  margin-bottom: var(--space-md);
-  padding: var(--space-xs) 0;
-  opacity: 0.9;
-  transition: all 0.3s ease;
-  border-radius: var(--radius-md);
-}
-
-.pricing-card:hover .pricing-card__feature {
-  opacity: 1;
-  transform: translateX(4px);
-}
-
-.pricing-card__feature:last-child {
-  margin-bottom: 0;
-}
-
-.pricing-card__feature-icon {
-  flex-shrink: 0;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 2px;
-  color: white;
-}
-
-.pricing-card__feature-icon--primary {
-  background-color: var(--color-primary);
-}
-
-.pricing-card__feature-icon--secondary {
-  background-color: var(--color-secondary);
-}
-
-.pricing-card__feature-text {
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-sm);
-  line-height: 1.6;
-  flex: 1;
-}
-
-/* Pricing Grid Layout */
-.pricing-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: var(--space-xl);
-  align-items: stretch;
-  margin: var(--space-3xl) 0;
-}
-
-/* Mobile responsive adjustments */
-@media (max-width: 768px) {
-  .pricing-section {
-    padding: var(--space-3xl) 0 var(--space-4xl) 0;
-  }
-
-  .pricing-card {
-    min-height: auto;
-    padding: var(--space-xl) var(--space-lg) var(--space-lg) var(--space-lg);
-    margin-top: var(--space-md);
-  }
-
-  .pricing-card--popular {
-    transform: none;
-    margin-top: var(--space-lg);
-  }
-
-  .pricing-card--popular:hover {
-    transform: translateY(-4px);
-  }
-
-  .pricing-card__badge {
-    top: -10px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .pricing-grid {
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
 .avatar--xl {
   width: 4rem;
   height: 4rem;
@@ -1275,6 +987,7 @@
 }
 
 .section-header__title {
+  font-family: var(--font-display);
   font-size: var(--font-size-4xl);
   font-weight: var(--font-weight-extrabold);
   margin-bottom: var(--space-md);
@@ -1284,6 +997,13 @@
   -webkit-text-fill-color: transparent;
   color: transparent;
   line-height: var(--line-height-tight);
+  letter-spacing: -0.02em;
+}
+
+/* The page's single H1 (hero) reads larger than H2/H3 section titles */
+h1.section-header__title {
+  font-size: var(--font-size-hero);
+  letter-spacing: -0.03em;
 }
 
 .section-header__subtitle {
@@ -1321,15 +1041,11 @@
   }
 }
 
-/* ========== FORM CONTROLS ========== */
+/* ========== FORMS ========== */
 .form-group {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-}
-
-/* ========== FORMS ========== */
-.form-group {
   position: relative;
 }
 
@@ -1429,8 +1145,6 @@
   }
 }
 
-/* Note: Main pricing card styles are defined above in the component section */
-
 /* ========== RESPONSIVE ADJUSTMENTS ========== */
 @media (max-width: 768px) {
   .card {
@@ -1455,75 +1169,11 @@
   .section-header__title {
     font-size: var(--font-size-3xl);
   }
-
-  .pricing-card--popular {
-    transform: none;
-  }
-
-  .pricing-card--popular:hover {
-    transform: translateY(-4px);
-  }
 }
 
-/* ============================================
-   Services & Contact Sections
-   ============================================ */
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.form-label {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-  margin-left: 2px;
-}
-
-.form-input {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-lg);
-  padding: var(--space-sm) var(--space-md);
-  color: var(--color-text-primary);
-  font-size: var(--font-size-base);
-  transition: all 0.2s ease;
-}
-
-.form-textarea {
-  resize: vertical;
-  min-height: 120px;
-}
-
+/* Subtle hover polish for text inputs (kept separate from the focus/aria
+   rules above so it only adds a hover affordance, not a duplicate ruleset) */
 .form-input:hover {
   border-color: rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.05);
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  background: rgba(42, 143, 255, 0.05);
-  box-shadow: 0 0 0 4px rgba(42, 143, 255, 0.1);
-}
-
-.form-input::placeholder {
-  color: var(--color-text-muted);
-  opacity: 0.7;
-}
-
-.form-error {
-  color: var(--color-error);
-  font-size: var(--font-size-xs);
-  margin-top: 2px;
-  min-height: 1.2em;
-}
-
-.form-status {
-  margin-top: var(--space-md);
-  font-size: var(--font-size-sm);
-  min-height: 1.5em;
 }

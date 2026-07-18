@@ -52,15 +52,32 @@ section:first-child {
   padding-bottom: var(--space-3xl);
 }
 
-/* Pricing section specific */
-.pricing-section {
-  padding: var(--space-4xl) 0 var(--space-5xl) 0;
-  background: linear-gradient(
-    135deg,
-    rgba(5, 6, 10, 0.95) 0%,
-    rgba(5, 6, 10, 0.98) 50%,
-    rgba(5, 6, 10, 0.95) 100%
+/* ========================================
+   Section background rhythm
+   A long single-scroll homepage reads as one blurred surface unless each
+   section has its own subtle identity. Alternate a raised surface tone
+   and a soft two-color mesh so sections stay legible as distinct units.
+   ======================================== */
+#about,
+#metrics,
+#contact {
+  background: var(--gradient-mesh), var(--color-background);
+}
+
+#skills,
+#services {
+  background: var(--color-surface);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+#projects {
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(255, 255, 255, 0.05) 1px,
+    transparent 0
   );
+  background-size: 24px 24px;
 }
 
 /* Header styles */
@@ -283,42 +300,6 @@ section:first-child {
     max-width: 1400px;
     margin-left: auto;
     margin-right: auto;
-  }
-}
-
-/* Pricing grid */
-.pricing-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-  gap: var(--space-3xl);
-  max-width: 1400px;
-  margin: var(--space-4xl) auto;
-  align-items: start;
-  padding: var(--space-xl) var(--space-lg);
-}
-
-@media (max-width: 768px) {
-  .pricing-grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-2xl);
-    margin: var(--space-3xl) auto;
-    padding: var(--space-lg) var(--space-md);
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1024px) {
-  .pricing-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-2xl);
-    max-width: 900px;
-    padding: var(--space-xl) var(--space-md);
-  }
-}
-
-@media (min-width: 1024px) {
-  .pricing-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-3xl);
   }
 }
 

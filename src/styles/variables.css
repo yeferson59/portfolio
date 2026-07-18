@@ -6,8 +6,12 @@
   /* Color Palette */
   --color-primary: #2a8fff;
   --color-primary-hover: #1467c8;
+  --color-primary-rgb: 42, 143, 255;
   --color-secondary: #22b07e;
   --color-secondary-hover: #0d8e5f;
+  --color-secondary-rgb: 34, 176, 126;
+  --color-accent: #d946ef;
+  --color-accent-rgb: 217, 70, 239;
 
   /* Neutral Colors */
   --color-background: #05060a;
@@ -23,6 +27,7 @@
   --color-success: #22c55e;
   --color-warning: #f59e0b;
   --color-error: #ef4444;
+  --color-error-rgb: 239, 68, 68;
 
   /* Spacing Scale */
   --space-2xs: 0.125rem; /* 2px */
@@ -45,6 +50,13 @@
   --radius-full: 9999px;
 
   /* Typography */
+  --font-display:
+    "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono:
+    ui-monospace, "SF Mono", "Monaco", "Cascadia Code", "Roboto Mono", monospace;
+
   --font-size-2xs: 0.625rem; /* 10px */
   --font-size-xs: 0.75rem; /* 12px */
   --font-size-sm: 0.875rem; /* 14px */
@@ -54,6 +66,9 @@
   --font-size-2xl: 1.5rem; /* 24px */
   --font-size-3xl: 1.875rem; /* 30px */
   --font-size-4xl: 2.25rem; /* 36px */
+  --font-size-5xl: clamp(2.5rem, 2rem + 2.2vw, 3.25rem); /* ~40-52px */
+  --font-size-6xl: clamp(2.75rem, 2rem + 3.2vw, 4rem); /* ~44-64px */
+  --font-size-hero: clamp(2.75rem, 2rem + 3.5vw, 4.5rem); /* hero H1 */
 
   --font-weight-normal: 400;
   --font-weight-medium: 500;
@@ -73,6 +88,10 @@
     0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl:
     0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-glow-primary:
+    0 8px 24px -6px rgba(var(--color-primary-rgb), 0.45);
+  --shadow-glow-secondary:
+    0 8px 24px -6px rgba(var(--color-secondary-rgb), 0.4);
 
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -102,6 +121,46 @@
     rgba(11, 15, 22, 0.95),
     rgba(14, 20, 27, 0.9)
   );
+  --gradient-mesh: radial-gradient(
+      at 20% 0%,
+      rgba(var(--color-primary-rgb), 0.16) 0px,
+      transparent 50%
+    ),
+    radial-gradient(
+      at 80% 15%,
+      rgba(var(--color-secondary-rgb), 0.12) 0px,
+      transparent 50%
+    );
+
+  /* ----------------------------------------------------------------
+     Compatibility aliases
+     A handful of components reference these token names directly;
+     keep them mapped to the canonical tokens above so every surface
+     resolves to the real design system instead of silently falling
+     back to unstyled defaults.
+     ---------------------------------------------------------------- */
+  --surface-primary: var(--color-surface);
+  --surface-secondary: var(--color-surface-raised);
+  --surface-color: var(--color-surface);
+  --surface-hover: rgba(255, 255, 255, 0.05);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --border-hover: rgba(255, 255, 255, 0.2);
+  --text-primary: var(--color-text-primary);
+  --text-secondary: var(--color-text-secondary);
+  --text-muted: var(--color-text-muted);
+  --color-text-tertiary: var(--color-text-muted);
+  --accent-primary: var(--color-primary);
+  --accent-color: var(--color-primary);
+  --color-primary-dark: var(--color-primary-hover);
+  --color-bg-primary: var(--color-background);
+  --color-bg-secondary: var(--color-surface);
+  --color-bg-tertiary: var(--color-surface-raised);
+  --color-bg-hover: rgba(255, 255, 255, 0.05);
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-code-js: #f0d264;
+  --color-code-json: #7ee6c0;
+  --color-code-python: #6fb8ff;
+  --color-code-bash: #b7c6d8;
 }
 
 /* Unified dark theme - removed light mode overrides to ensure consistent appearance across all devices */
