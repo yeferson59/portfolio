@@ -2,6 +2,7 @@
 import SectionHeader from "@/components/layouts/SectionHeader.astro";
 import Card from "@/components/ui/Card.astro";
 import Badge from "@/components/ui/Badge.astro";
+import { icons } from "@/utils/icons";
 
 type Status = "healthy" | "warning" | "error";
 
@@ -359,7 +360,7 @@ const formatNumber = (num: number) => {
                 class="btn-execute"
                 disabled
               >
-                <span class="btn-icon">▶</span>
+                <span class="btn-icon" set:html={icons.play} />
                 Execute Tool
               </button>
               <button type="button" id="clear-result-btn" class="btn-clear">
@@ -385,6 +386,17 @@ const formatNumber = (num: number) => {
 </section>
 
 <script>
+  // Inline icon set (mirrors src/utils/icons.ts) for HTML generated
+  // client-side, where importing that module isn't wired up.
+  const svgIcons = {
+    settings: `<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>`,
+    activity: `<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
+    globe: `<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+    barChart: `<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M8 17V10m5 7V6m5 11v-4"/></svg>`,
+    alertTriangle: `<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m10.29 3.86-8.18 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.89-3.14l-8.18-14a2 2 0 0 0-3.42 0Z"/><path stroke-linecap="round" d="M12 9v4"/><path stroke-linecap="round" d="M12 17h.01"/></svg>`,
+    play: `<svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`,
+  };
+
   // MCP data cache configuration
   const MCP_CACHE_DURATION_MS = 30 * 1000; // 30 seconds
   const MCP_AUTO_REFRESH_INTERVAL_MS = 30 * 1000; // 30 seconds
@@ -443,15 +455,15 @@ const formatNumber = (num: number) => {
         // Display MCP metrics
         grid.innerHTML = `
           <div class="mcp-metric-card">
-            <div class="metric-icon">🔧</div>
+            <div class="metric-icon">${svgIcons.settings}</div>
             <div class="metric-content">
               <div class="metric-label">Available Tools</div>
               <div class="metric-value">${toolsCount}</div>
             </div>
           </div>
-          
+
           <div class="mcp-metric-card">
-            <div class="metric-icon">⚡</div>
+            <div class="metric-icon">${svgIcons.activity}</div>
             <div class="metric-content">
               <div class="metric-label">API Response</div>
               <div class="metric-value">${duration}ms</div>
@@ -459,7 +471,7 @@ const formatNumber = (num: number) => {
           </div>
 
           <div class="mcp-metric-card">
-            <div class="metric-icon">🌐</div>
+            <div class="metric-icon">${svgIcons.globe}</div>
             <div class="metric-content">
               <div class="metric-label">Connection</div>
               <div class="metric-value">Active</div>
@@ -467,7 +479,7 @@ const formatNumber = (num: number) => {
           </div>
 
           <div class="mcp-metric-card">
-            <div class="metric-icon">📊</div>
+            <div class="metric-icon">${svgIcons.barChart}</div>
             <div class="metric-content">
               <div class="metric-label">Protocol</div>
               <div class="metric-value">MCP v1.0</div>
@@ -478,7 +490,8 @@ const formatNumber = (num: number) => {
         console.error("Failed to load MCP metrics:", error);
         grid.innerHTML = `
           <div class="mcp-metrics-error">
-            <p>⚠️ Unable to load MCP metrics</p>
+            <span class="metric-icon">${svgIcons.alertTriangle}</span>
+            <p>Unable to load MCP metrics</p>
           </div>
         `;
       }
@@ -763,7 +776,8 @@ const formatNumber = (num: number) => {
 
         // Show loading state
         executeBtn.disabled = true;
-        executeBtn.innerHTML = '<span class="btn-icon">⏳</span> Executing...';
+        executeBtn.innerHTML =
+          '<span class="loading-spinner" aria-hidden="true"></span> Executing...';
 
         const startTime = Date.now();
 
@@ -805,7 +819,7 @@ const formatNumber = (num: number) => {
           error instanceof Error ? error.message : String(error);
       } finally {
         executeBtn.disabled = false;
-        executeBtn.innerHTML = '<span class="btn-icon">▶</span> Execute Tool';
+        executeBtn.innerHTML = `<span class="btn-icon">${svgIcons.play}</span> Execute Tool`;
       }
     }
 
@@ -819,7 +833,8 @@ const formatNumber = (num: number) => {
       if (grid) {
         grid.innerHTML = `
           <div class="error-state">
-            <p style="color: #ef4444;">⚠️ ${this.escapeHtml(message)}</p>
+            <span class="metric-icon" style="color: var(--color-error);">${svgIcons.alertTriangle}</span>
+            <p style="color: var(--color-error);">${this.escapeHtml(message)}</p>
           </div>
         `;
       }
@@ -1060,7 +1075,7 @@ const formatNumber = (num: number) => {
   }
 
   .status-error {
-    color: #ef4444;
+    color: var(--color-error);
   }
 
   .status-default {
@@ -1188,7 +1203,7 @@ const formatNumber = (num: number) => {
   }
 
   .mcp-metrics-error {
-    color: #ef4444;
+    color: var(--color-error);
   }
 
   @keyframes spin {
@@ -1412,7 +1427,7 @@ const formatNumber = (num: number) => {
 
   .param-field label.required::after {
     content: " *";
-    color: #ef4444;
+    color: var(--color-error);
   }
 
   .param-field input,
@@ -1534,7 +1549,7 @@ const formatNumber = (num: number) => {
   }
 
   .metric-badge.error {
-    color: #ef4444;
+    color: var(--color-error);
     background: rgba(239, 68, 68, 0.1);
     border-color: rgba(239, 68, 68, 0.3);
   }

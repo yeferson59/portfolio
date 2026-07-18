@@ -4,17 +4,23 @@ import { getCheckmarkIcon } from "@/utils/icons";
 interface Props {
   title?: string;
   features: string[];
+  /** Cap the visible items; the remainder collapses into a "+N more" line
+   * so cards with uneven feature counts don't stretch a shared grid row
+   * into a mostly-empty box. */
+  limit?: number;
 }
 
-const { title = "Includes:", features } = Astro.props;
+const { title = "Includes:", features, limit } = Astro.props;
 const iconHtml = getCheckmarkIcon();
+const visibleFeatures = limit ? features.slice(0, limit) : features;
+const remaining = limit ? features.length - visibleFeatures.length : 0;
 ---
 
 <div class="feature-list">
   <h4 class="feature-list__title">{title}</h4>
   <ul class="feature-list__items">
     {
-      features.map((feature, index) => (
+      visibleFeatures.map((feature, index) => (
         <li class="feature-list__item">
           <div
             class={`feature-list__icon ${index % 2 === 0 ? "feature-list__icon--primary" : "feature-list__icon--secondary"}`}
@@ -23,6 +29,15 @@ const iconHtml = getCheckmarkIcon();
           <span class="feature-list__text">{feature}</span>
         </li>
       ))
+    }
+    {
+      remaining > 0 && (
+        <li class="feature-list__item feature-list__item--more">
+          <span class="feature-list__text feature-list__text--muted">
+            +{remaining} more
+          </span>
+        </li>
+      )
     }
   </ul>
 </div>
@@ -80,5 +95,14 @@ const iconHtml = getCheckmarkIcon();
     color: var(--color-text-secondary);
     font-size: var(--font-size-sm);
     line-height: var(--line-height-relaxed);
+  }
+
+  .feature-list__item--more {
+    padding-left: calc(1.25rem + var(--space-sm));
+  }
+
+  .feature-list__text--muted {
+    color: var(--color-text-muted);
+    font-style: italic;
   }
 </style>
