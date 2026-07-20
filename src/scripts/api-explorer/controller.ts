@@ -18,6 +18,7 @@ import type {
   CodeLanguage,
 } from "@/utils/api-explorer/types";
 import { copyToClipboard } from "./clipboard";
+import { getStatusInfo } from "./formatters";
 import {
   codeBlockHTML,
   metricsPanelHTML,
@@ -295,6 +296,17 @@ export class APIExplorerController {
       .getElementById("response-status-container")
       ?.querySelector(".status-indicator");
     if (statusElement) {
+      // Swap the color class on the (statically rendered) root so the
+      // indicator tint matches the response status.
+      const { color } = getStatusInfo(result.response?.status);
+      statusElement.classList.remove(
+        "status-green",
+        "status-blue",
+        "status-orange",
+        "status-red",
+        "status-gray",
+      );
+      statusElement.classList.add(`status-${color}`);
       statusElement.innerHTML = statusIndicatorHTML(
         result.response?.status,
         result.response?.statusText,

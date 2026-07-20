@@ -110,6 +110,84 @@ const { defaultAPI = availableAPIs[0]?.id, className = "" } = Astro.props;
     gap: 1.5rem;
   }
 
+  /*
+   * Code blocks generated client-side (request and response panels)
+   * are injected via innerHTML, so they don't carry Astro's scoping
+   * attribute. These :global() rules mirror CodeBlock.astro so the
+   * generated snippets look like the real component.
+   */
+  .api-explorer :global(.code-block) {
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    background: var(--color-bg-secondary);
+    overflow: hidden;
+  }
+
+  .api-explorer :global(.code-block-header) {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background: var(--color-bg-tertiary);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .api-explorer :global(.code-block-title) {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  .api-explorer :global(.code-block-language) {
+    padding: 0.125rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-primary);
+    background: rgba(var(--color-primary-rgb), 0.1);
+    border-radius: 0.25rem;
+    text-transform: uppercase;
+  }
+
+  .api-explorer :global(.code-block-copy) {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-left: auto;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .api-explorer :global(.code-block-copy:hover) {
+    color: var(--color-primary);
+    background: var(--color-bg-hover);
+    border-color: var(--color-primary);
+  }
+
+  .api-explorer :global(.code-block-content) {
+    overflow: auto;
+  }
+
+  .api-explorer :global(.code-pre) {
+    margin: 0;
+    padding: 1rem;
+    font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text-primary);
+  }
+
+  .api-explorer :global(.code-text) {
+    display: block;
+    white-space: pre;
+    word-wrap: normal;
+  }
+
   /* Responsive */
   @media (max-width: 1024px) {
     .explorer-layout {

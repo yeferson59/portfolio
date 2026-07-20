@@ -74,6 +74,11 @@ const statusInfo = getStatusInfo(status);
 </div>
 
 <style>
+  /*
+   * Child selectors use :global() because the explorer controller
+   * replaces this component's inner markup via innerHTML, and injected
+   * nodes don't carry Astro's scoping attribute.
+   */
   .status-indicator {
     display: flex;
     align-items: center;
@@ -83,7 +88,7 @@ const statusInfo = getStatusInfo(status);
     border: 1px solid var(--color-border);
   }
 
-  .status-code {
+  .status-indicator :global(.status-code) {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -95,19 +100,19 @@ const statusInfo = getStatusInfo(status);
     border-radius: 0.5rem;
   }
 
-  .status-details {
+  .status-indicator :global(.status-details) {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
   }
 
-  .status-text {
+  .status-indicator :global(.status-text) {
     font-size: 1rem;
     font-weight: 600;
   }
 
-  .status-description {
+  .status-indicator :global(.status-description) {
     font-size: 0.875rem;
     opacity: 0.8;
   }
@@ -118,12 +123,12 @@ const statusInfo = getStatusInfo(status);
     border-color: rgba(34, 197, 94, 0.3);
   }
 
-  .status-green .status-code {
+  .status-green :global(.status-code) {
     color: rgb(22, 163, 74);
     background: rgba(34, 197, 94, 0.2);
   }
 
-  .status-green .status-text {
+  .status-green :global(.status-text) {
     color: rgb(22, 163, 74);
   }
 
@@ -132,12 +137,12 @@ const statusInfo = getStatusInfo(status);
     border-color: rgba(59, 130, 246, 0.3);
   }
 
-  .status-blue .status-code {
+  .status-blue :global(.status-code) {
     color: rgb(37, 99, 235);
     background: rgba(59, 130, 246, 0.2);
   }
 
-  .status-blue .status-text {
+  .status-blue :global(.status-text) {
     color: rgb(37, 99, 235);
   }
 
@@ -146,12 +151,12 @@ const statusInfo = getStatusInfo(status);
     border-color: rgba(249, 115, 22, 0.3);
   }
 
-  .status-orange .status-code {
+  .status-orange :global(.status-code) {
     color: rgb(234, 88, 12);
     background: rgba(249, 115, 22, 0.2);
   }
 
-  .status-orange .status-text {
+  .status-orange :global(.status-text) {
     color: rgb(234, 88, 12);
   }
 
@@ -160,12 +165,12 @@ const statusInfo = getStatusInfo(status);
     border-color: rgba(239, 68, 68, 0.3);
   }
 
-  .status-red .status-code {
+  .status-red :global(.status-code) {
     color: rgb(220, 38, 38);
     background: rgba(239, 68, 68, 0.2);
   }
 
-  .status-red .status-text {
+  .status-red :global(.status-text) {
     color: rgb(220, 38, 38);
   }
 
@@ -174,12 +179,12 @@ const statusInfo = getStatusInfo(status);
     border-color: rgba(107, 114, 128, 0.3);
   }
 
-  .status-gray .status-code {
+  .status-gray :global(.status-code) {
     color: rgb(75, 85, 99);
     background: rgba(107, 114, 128, 0.2);
   }
 
-  .status-gray .status-text {
+  .status-gray :global(.status-text) {
     color: rgb(75, 85, 99);
   }
 </style>

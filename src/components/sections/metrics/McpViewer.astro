@@ -189,9 +189,15 @@ import { icons } from "@/utils/icons";
     gap: var(--space-md);
   }
 
-  .loading-state,
-  .error-state,
-  .empty-state {
+  /*
+   * Tool cards and the loading/error/empty states are injected via
+   * innerHTML by src/scripts/mcp/viewer.ts, so they don't carry
+   * Astro's scoping attribute — hence :global() anchored to the
+   * static grid container.
+   */
+  #mcp-tools-grid :global(.loading-state),
+  #mcp-tools-grid :global(.error-state),
+  #mcp-tools-grid :global(.empty-state) {
     grid-column: 1 / -1;
     display: flex;
     flex-direction: column;
@@ -203,11 +209,22 @@ import { icons } from "@/utils/icons";
     color: var(--color-text-secondary);
   }
 
-  .loading-spinner {
+  #mcp-tools-grid :global(.loading-spinner) {
     width: 40px;
     height: 40px;
     border: 3px solid rgba(var(--color-primary-rgb), 0.2);
     border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  /* Small inline spinner shown inside the Execute button while running */
+  .btn-execute :global(.loading-spinner) {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: white;
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
@@ -218,7 +235,7 @@ import { icons } from "@/utils/icons";
     }
   }
 
-  .tool-card {
+  #mcp-tools-grid :global(.tool-card) {
     padding: var(--space-md);
     background: var(--color-bg-secondary);
     border: 1px solid var(--color-border);
@@ -227,38 +244,38 @@ import { icons } from "@/utils/icons";
     cursor: pointer;
   }
 
-  .tool-card:hover {
+  #mcp-tools-grid :global(.tool-card:hover) {
     border-color: var(--color-primary);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transform: translateY(-2px);
   }
 
-  .tool-card.selected {
+  #mcp-tools-grid :global(.tool-card.selected) {
     border-color: var(--color-primary);
     background: rgba(var(--color-primary-rgb), 0.05);
   }
 
-  .tool-name {
+  #mcp-tools-grid :global(.tool-name) {
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-semibold);
     color: var(--color-text-primary);
     margin-bottom: var(--space-xs);
   }
 
-  .tool-description {
+  #mcp-tools-grid :global(.tool-description) {
     font-size: var(--font-size-sm);
     color: var(--color-text-secondary);
     line-height: 1.5;
     margin-bottom: var(--space-sm);
   }
 
-  .tool-meta {
+  #mcp-tools-grid :global(.tool-meta) {
     display: flex;
     gap: var(--space-xs);
     flex-wrap: wrap;
   }
 
-  .meta-badge {
+  #mcp-tools-grid :global(.meta-badge) {
     padding: 0.25rem 0.5rem;
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
@@ -321,25 +338,26 @@ import { icons } from "@/utils/icons";
     gap: var(--space-sm);
   }
 
-  .param-field {
+  /* Parameter fields are built dynamically by the viewer controller */
+  #params-container :global(.param-field) {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
   }
 
-  .param-field label {
+  #params-container :global(.param-field label) {
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     color: var(--color-text-secondary);
   }
 
-  .param-field label.required::after {
+  #params-container :global(.param-field label.required::after) {
     content: " *";
     color: var(--color-error);
   }
 
-  .param-field input,
-  .param-field textarea {
+  #params-container :global(.param-field input),
+  #params-container :global(.param-field textarea) {
     padding: var(--space-sm) var(--space-md);
     font-size: var(--font-size-sm);
     color: var(--color-text-primary);
@@ -349,8 +367,8 @@ import { icons } from "@/utils/icons";
     font-family: "Monaco", "Menlo", monospace;
   }
 
-  .param-field input:focus,
-  .param-field textarea:focus {
+  #params-container :global(.param-field input:focus),
+  #params-container :global(.param-field textarea:focus) {
     outline: none;
     border-color: var(--color-primary);
     box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.1);

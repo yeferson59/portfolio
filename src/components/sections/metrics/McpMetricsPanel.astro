@@ -32,8 +32,7 @@
     gap: var(--space-lg);
   }
 
-  .loading-mcp-metrics,
-  .mcp-metrics-error {
+  .loading-mcp-metrics {
     grid-column: 1 / -1;
     display: flex;
     flex-direction: column;
@@ -54,7 +53,12 @@
     animation: spin 1s linear infinite;
   }
 
-  .mcp-metric-card {
+  /*
+   * Metric cards and the error state are injected via innerHTML by
+   * src/scripts/mcp/metrics-panel.ts, so they don't carry Astro's
+   * scoping attribute — hence :global() anchored to the static grid.
+   */
+  #mcp-metrics-grid :global(.mcp-metric-card) {
     display: flex;
     align-items: flex-start;
     gap: var(--space-md);
@@ -65,24 +69,24 @@
     transition: all var(--transition-fast);
   }
 
-  .mcp-metric-card:hover {
+  #mcp-metrics-grid :global(.mcp-metric-card:hover) {
     border-color: var(--color-primary);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transform: translateY(-2px);
   }
 
-  .mcp-metric-card .metric-icon {
+  #mcp-metrics-grid :global(.mcp-metric-card .metric-icon) {
     font-size: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .mcp-metric-card .metric-content {
+  #mcp-metrics-grid :global(.mcp-metric-card .metric-content) {
     flex: 1;
   }
 
-  .mcp-metric-card .metric-label {
+  #mcp-metrics-grid :global(.mcp-metric-card .metric-label) {
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     color: var(--color-text-secondary);
@@ -91,13 +95,21 @@
     margin-bottom: var(--space-xs);
   }
 
-  .mcp-metric-card .metric-value {
+  #mcp-metrics-grid :global(.mcp-metric-card .metric-value) {
     font-size: var(--font-size-xl);
     font-weight: var(--font-weight-bold);
     color: var(--color-text-primary);
   }
 
-  .mcp-metrics-error {
+  #mcp-metrics-grid :global(.mcp-metrics-error) {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    padding: var(--space-xl);
+    text-align: center;
     color: var(--color-error);
   }
 
