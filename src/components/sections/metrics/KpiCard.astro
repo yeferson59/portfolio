@@ -1,0 +1,79 @@
+---
+/**
+ * Single KPI card for the metrics section: icon, title, value and a
+ * status badge.
+ */
+import Card from "@/components/ui/Card.astro";
+import Badge from "@/components/ui/Badge.astro";
+
+interface Props {
+  title: string;
+  value: string;
+  icon: string;
+  iconTone: "primary" | "secondary";
+  badgeVariant: "primary" | "secondary";
+  badgeLabel: string;
+}
+
+const { title, value, icon, iconTone, badgeVariant, badgeLabel } = Astro.props;
+---
+
+<Card variant="compact" class="metrics-card">
+  <div class="metrics-card__content">
+    <div
+      class={`metrics-card__icon metrics-card__icon--${iconTone}`}
+      set:html={icon}
+    />
+    <div class="metrics-card__info">
+      <h3 class="metrics-card__title">{title}</h3>
+      <p class="metrics-card__value">{value}</p>
+      <Badge variant={badgeVariant}>{badgeLabel}</Badge>
+    </div>
+  </div>
+</Card>
+
+<style>
+  .metrics-card__content {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .metrics-card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-lg);
+    flex-shrink: 0;
+  }
+
+  .metrics-card__icon--primary {
+    background: rgba(42, 143, 255, 0.1);
+    color: var(--color-accent);
+  }
+
+  .metrics-card__icon--secondary {
+    background: rgba(34, 176, 126, 0.1);
+    color: var(--color-primary);
+  }
+
+  .metrics-card__info {
+    flex: 1;
+  }
+
+  .metrics-card__title {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xs);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .metrics-card__value {
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-sm);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+  }
+</style>

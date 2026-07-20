@@ -1,0 +1,521 @@
+---
+/**
+ * Interactive MCP viewer: connection status, available tools grid and
+ * the tool executor form. Driven client-side by src/scripts/mcp/viewer.
+ */
+import Card from "@/components/ui/Card.astro";
+import { icons } from "@/utils/icons";
+---
+
+<div class="mcp-viewer-section" style="margin-top: 3rem;">
+  <h3 class="text-primary mb-lg text-2xl font-bold">
+    MCP Client Interactive Viewer
+  </h3>
+
+  <!-- MCP Connection Status -->
+  <div class="mcp-status mb-lg">
+    <Card variant="compact" class="status-card">
+      <div class="status-content">
+        <div class="status-indicator" id="mcp-connection-status">
+          <div class="pulse-dot"></div>
+          <span class="status-text">Connecting to MCP...</span>
+        </div>
+        <div class="status-details" id="mcp-status-details">
+          <span class="detail-item"
+            >Tools: <strong id="tools-count">--</strong></span
+          >
+          <span class="detail-item"
+            >Response Time: <strong id="mcp-response-time">--</strong></span
+          >
+        </div>
+      </div>
+    </Card>
+  </div>
+
+  <!-- MCP Tools Grid -->
+  <div class="mcp-tools-section mb-lg">
+    <h4 class="section-subtitle mb-md">Available MCP Tools</h4>
+    <div id="mcp-tools-grid" class="tools-grid">
+      <div class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Loading MCP tools...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Tool Executor -->
+  <div class="tool-executor-section">
+    <Card>
+      <h4 class="text-primary mb-md text-xl font-bold">Tool Executor</h4>
+      <div class="executor-content">
+        <div class="tool-selector mb-md">
+          <label for="tool-select" class="selector-label">Select Tool</label>
+          <select id="tool-select" class="tool-select" disabled>
+            <option value="">Loading tools...</option>
+          </select>
+        </div>
+
+        <div id="tool-params" class="tool-params mb-md" style="display: none;">
+          <label class="params-label">Tool Parameters</label>
+          <div id="params-container" class="params-container"></div>
+        </div>
+
+        <div class="executor-actions mb-md">
+          <button
+            type="button"
+            id="execute-tool-btn"
+            class="btn-execute"
+            disabled
+          >
+            <span class="btn-icon" set:html={icons.play} />
+            Execute Tool
+          </button>
+          <button type="button" id="clear-result-btn" class="btn-clear">
+            Clear Result
+          </button>
+        </div>
+
+        <div id="tool-result" class="tool-result" style="display: none;">
+          <div class="result-header">
+            <h5 class="result-title">Execution Result</h5>
+            <div class="result-metrics">
+              <span class="metric-badge" id="result-duration">--ms</span>
+              <span class="metric-badge" id="result-status">--</span>
+            </div>
+          </div>
+          <div id="result-content" class="result-content"></div>
+        </div>
+      </div>
+    </Card>
+  </div>
+</div>
+
+<script>
+  import { initMcpViewer } from "@/scripts/mcp/viewer";
+  initMcpViewer();
+</script>
+
+<style>
+  .mcp-viewer-section {
+    padding-top: var(--space-xl);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .section-subtitle {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+  }
+
+  /* MCP Status */
+  .mcp-status {
+    margin-bottom: var(--space-xl);
+  }
+
+  .status-card {
+    background: linear-gradient(
+      135deg,
+      rgba(var(--color-primary-rgb), 0.1),
+      rgba(var(--color-primary-rgb), 0.05)
+    );
+    border: 1px solid var(--color-primary);
+  }
+
+  .status-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-lg);
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .pulse-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    animation: pulse 2s infinite;
+  }
+
+  .pulse-dot.connected {
+    background: #10b981;
+  }
+
+  .pulse-dot.error {
+    background: #ef4444;
+    animation: none;
+  }
+
+  .status-text {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+  }
+
+  .status-details {
+    display: flex;
+    gap: var(--space-lg);
+  }
+
+  .detail-item {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .detail-item strong {
+    color: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  /* Tools Grid */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-md);
+  }
+
+  /*
+   * Tool cards and the loading/error/empty states are injected via
+   * innerHTML by src/scripts/mcp/viewer.ts, so they don't carry
+   * Astro's scoping attribute — hence :global() anchored to the
+   * static grid container.
+   */
+  #mcp-tools-grid :global(.loading-state),
+  #mcp-tools-grid :global(.error-state),
+  #mcp-tools-grid :global(.empty-state) {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    padding: var(--space-xl);
+    text-align: center;
+    color: var(--color-text-secondary);
+  }
+
+  #mcp-tools-grid :global(.loading-spinner) {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(var(--color-primary-rgb), 0.2);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  /* Small inline spinner shown inside the Execute button while running */
+  .btn-execute :global(.loading-spinner) {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  #mcp-tools-grid :global(.tool-card) {
+    padding: var(--space-md);
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+  }
+
+  #mcp-tools-grid :global(.tool-card:hover) {
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  #mcp-tools-grid :global(.tool-card.selected) {
+    border-color: var(--color-primary);
+    background: rgba(var(--color-primary-rgb), 0.05);
+  }
+
+  #mcp-tools-grid :global(.tool-name) {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-xs);
+  }
+
+  #mcp-tools-grid :global(.tool-description) {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    margin-bottom: var(--space-sm);
+  }
+
+  #mcp-tools-grid :global(.tool-meta) {
+    display: flex;
+    gap: var(--space-xs);
+    flex-wrap: wrap;
+  }
+
+  #mcp-tools-grid :global(.meta-badge) {
+    padding: 0.25rem 0.5rem;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  /* Tool Executor */
+  .executor-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .tool-selector,
+  .tool-params {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .selector-label,
+  .params-label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+
+  .tool-select {
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--font-size-base);
+    color: var(--color-text-primary);
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .tool-select:hover:not(:disabled) {
+    border-color: var(--color-primary);
+  }
+
+  .tool-select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.1);
+  }
+
+  .tool-select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .params-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  /* Parameter fields are built dynamically by the viewer controller */
+  #params-container :global(.param-field) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  #params-container :global(.param-field label) {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+  }
+
+  #params-container :global(.param-field label.required::after) {
+    content: " *";
+    color: var(--color-error);
+  }
+
+  #params-container :global(.param-field input),
+  #params-container :global(.param-field textarea) {
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-primary);
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: "Monaco", "Menlo", monospace;
+  }
+
+  #params-container :global(.param-field input:focus),
+  #params-container :global(.param-field textarea:focus) {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.1);
+  }
+
+  /* Executor Actions */
+  .executor-actions {
+    display: flex;
+    gap: var(--space-sm);
+  }
+
+  .btn-execute,
+  .btn-clear {
+    padding: var(--space-sm) var(--space-lg);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-execute {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    color: white;
+    background: var(--color-primary);
+    border: none;
+  }
+
+  .btn-execute:hover:not(:disabled) {
+    background: var(--color-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .btn-execute:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn-clear {
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: 1px solid var(--color-border);
+  }
+
+  .btn-clear:hover {
+    color: var(--color-text-primary);
+    background: var(--color-bg-hover);
+  }
+
+  .btn-icon {
+    font-size: var(--font-size-lg);
+  }
+
+  /* Tool Result */
+  .tool-result {
+    margin-top: var(--space-md);
+    padding: var(--space-md);
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-sm);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .result-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+
+  .result-metrics {
+    display: flex;
+    gap: var(--space-sm);
+  }
+
+  .metric-badge {
+    padding: 0.25rem 0.5rem;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    font-family: "Monaco", "Menlo", monospace;
+    color: var(--color-primary);
+    background: rgba(var(--color-primary-rgb), 0.1);
+    border: 1px solid rgba(var(--color-primary-rgb), 0.3);
+    border-radius: var(--radius-sm);
+  }
+
+  .metric-badge.success {
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.3);
+  }
+
+  .metric-badge.error {
+    color: var(--color-error);
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+  }
+
+  .result-content {
+    font-family: "Monaco", "Menlo", monospace;
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+    color: var(--color-text-primary);
+    background: var(--color-bg-secondary);
+    padding: var(--space-sm);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .status-content {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .status-details {
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .tools-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .executor-actions {
+      flex-direction: column;
+    }
+
+    .btn-execute {
+      width: 100%;
+    }
+  }
+</style>

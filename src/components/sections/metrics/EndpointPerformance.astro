@@ -1,0 +1,157 @@
+---
+/**
+ * Endpoint performance table: calls, average response time and health
+ * status per endpoint.
+ */
+import Card from "@/components/ui/Card.astro";
+import {
+  formatMetricNumber,
+  type EndpointMetric,
+  type EndpointStatus,
+} from "@/data/metrics";
+
+interface Props {
+  endpoints: EndpointMetric[];
+}
+
+const { endpoints } = Astro.props;
+
+const getStatusColor = (status: EndpointStatus) => {
+  const statusColorMap: Record<EndpointStatus, string> = {
+    healthy: "status-healthy",
+    warning: "status-warning",
+    error: "status-error",
+  };
+  return statusColorMap[status] ?? "status-default";
+};
+---
+
+<Card class="mb-xl">
+  <h3 class="text-primary mb-lg text-2xl font-bold">Endpoint Performance</h3>
+  <div class="endpoint-metrics">
+    <div class="endpoint-metrics__header">
+      <span class="text-secondary font-semibold">Endpoint</span>
+      <span class="text-secondary endpoint-metrics__calls font-semibold"
+        >Calls (24h)</span
+      >
+      <span class="text-secondary endpoint-metrics__response font-semibold"
+        >Avg Response</span
+      >
+      <span class="text-secondary font-semibold">Status</span>
+    </div>
+    {
+      endpoints.map((endpoint) => (
+        <div class="endpoint-metrics__row">
+          <span class="text-primary endpoint-path font-mono">
+            {endpoint.endpoint}
+          </span>
+          <span class="text-secondary endpoint-metrics__calls">
+            {formatMetricNumber(endpoint.calls)}
+          </span>
+          <span class="text-secondary endpoint-metrics__response">
+            {endpoint.avgTime}ms
+          </span>
+          <div class={`endpoint-status ${getStatusColor(endpoint.status)}`}>
+            <div class={`status-dot status-dot--${endpoint.status}`} />
+            <span class="status-text">{endpoint.status}</span>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</Card>
+
+<style>
+  .endpoint-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .endpoint-metrics__header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--space-md);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .endpoint-metrics__row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--space-md);
+    align-items: center;
+    padding: var(--space-sm);
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition-fast);
+  }
+
+  .endpoint-metrics__row:hover {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .endpoint-path {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+  }
+
+  .endpoint-status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .status-dot--healthy {
+    background: #10b981;
+  }
+
+  .status-dot--warning {
+    background: #f59e0b;
+  }
+
+  .status-dot--error {
+    background: #ef4444;
+  }
+
+  .status-healthy {
+    color: #10b981;
+  }
+
+  .status-warning {
+    color: #f59e0b;
+  }
+
+  .status-error {
+    color: var(--color-error);
+  }
+
+  .status-default {
+    color: var(--color-text-secondary);
+  }
+
+  .status-text {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+  }
+
+  @media (max-width: 768px) {
+    .endpoint-metrics__header,
+    .endpoint-metrics__row {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .endpoint-metrics__calls,
+    .endpoint-metrics__response {
+      display: none;
+    }
+  }
+</style>

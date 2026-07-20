@@ -87,6 +87,11 @@ function getDurationColor(ms?: number): string {
 </div>
 
 <style>
+  /*
+   * Child selectors use :global() because the explorer controller
+   * replaces this component's inner markup via innerHTML, and injected
+   * nodes don't carry Astro's scoping attribute.
+   */
   .metrics-panel {
     padding: 1rem;
     background: var(--color-bg-secondary);
@@ -94,13 +99,13 @@ function getDurationColor(ms?: number): string {
     border: 1px solid var(--color-border);
   }
 
-  .metrics-grid {
+  .metrics-panel :global(.metrics-grid) {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 1rem;
   }
 
-  .metric-item {
+  .metrics-panel :global(.metric-item) {
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -111,26 +116,26 @@ function getDurationColor(ms?: number): string {
     transition: all 0.2s;
   }
 
-  .metric-item:hover {
+  .metrics-panel :global(.metric-item:hover) {
     border-color: var(--color-primary);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
-  .metric-icon {
+  .metrics-panel :global(.metric-icon) {
     font-size: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .metric-content {
+  .metrics-panel :global(.metric-content) {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 0.125rem;
   }
 
-  .metric-label {
+  .metrics-panel :global(.metric-label) {
     font-size: 0.75rem;
     font-weight: 500;
     color: var(--color-text-secondary);
@@ -138,7 +143,7 @@ function getDurationColor(ms?: number): string {
     letter-spacing: 0.05em;
   }
 
-  .metric-value {
+  .metrics-panel :global(.metric-value) {
     font-size: 1.125rem;
     font-weight: 600;
     font-family: "Monaco", "Menlo", monospace;
@@ -146,50 +151,50 @@ function getDurationColor(ms?: number): string {
   }
 
   /* Performance-based colors */
-  .metric-green .metric-value {
+  .metrics-panel :global(.metric-green .metric-value) {
     color: rgb(22, 163, 74);
   }
 
-  .metric-blue .metric-value {
+  .metrics-panel :global(.metric-blue .metric-value) {
     color: rgb(37, 99, 235);
   }
 
-  .metric-orange .metric-value {
+  .metrics-panel :global(.metric-orange .metric-value) {
     color: rgb(234, 88, 12);
   }
 
-  .metric-red .metric-value {
+  .metrics-panel :global(.metric-red .metric-value) {
     color: rgb(220, 38, 38);
   }
 
-  .metric-gray .metric-value {
+  .metrics-panel :global(.metric-gray .metric-value) {
     color: rgb(107, 114, 128);
   }
 
-  .metric-cached {
+  .metrics-panel :global(.metric-cached) {
     background: rgba(34, 197, 94, 0.1);
     border-color: rgba(34, 197, 94, 0.3);
   }
 
-  .metric-cached .metric-value {
+  .metrics-panel :global(.metric-cached .metric-value) {
     color: rgb(22, 163, 74);
   }
 
   /* Responsive */
   @media (max-width: 768px) {
-    .metrics-grid {
+    .metrics-panel :global(.metrics-grid) {
       grid-template-columns: repeat(2, 1fr);
     }
 
-    .metric-item {
+    .metrics-panel :global(.metric-item) {
       padding: 0.5rem;
     }
 
-    .metric-icon {
+    .metrics-panel :global(.metric-icon) {
       font-size: 1.25rem;
     }
 
-    .metric-value {
+    .metrics-panel :global(.metric-value) {
       font-size: 1rem;
     }
   }

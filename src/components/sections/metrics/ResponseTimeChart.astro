@@ -1,0 +1,95 @@
+---
+/**
+ * Simple CSS bar chart for the 24h response-time trend.
+ */
+import type { ResponseTimePoint } from "@/data/metrics";
+
+interface Props {
+  history: ResponseTimePoint[];
+}
+
+const { history } = Astro.props;
+
+/** Value the tallest bar is scaled against, in milliseconds. */
+const CHART_MAX_MS = 250;
+---
+
+<div class="response-time-chart">
+  <div class="chart-container">
+    {
+      history.map((point) => (
+        <div class="chart-bar" data-value={point.value} data-time={point.time}>
+          <div
+            class="chart-bar__fill"
+            style={`height: ${(point.value / CHART_MAX_MS) * 100}%`}
+          />
+          <span class="chart-bar__label">{point.time}</span>
+          <span class="chart-bar__value">{point.value}ms</span>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .response-time-chart {
+    position: relative;
+    height: 12rem;
+    width: 100%;
+  }
+
+  .chart-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 100%;
+    gap: var(--space-sm);
+  }
+
+  .chart-bar {
+    position: relative;
+    flex: 1;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .chart-bar:hover {
+    opacity: 0.8;
+  }
+
+  .chart-bar__fill {
+    background: linear-gradient(
+      to top,
+      rgba(42, 143, 255, 0.6),
+      var(--color-accent)
+    );
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    transition: all var(--transition-fast);
+    min-height: 8px;
+  }
+
+  .chart-bar__label {
+    position: absolute;
+    bottom: -1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);
+  }
+
+  .chart-bar__value {
+    position: absolute;
+    top: -1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+  }
+
+  .chart-bar:hover .chart-bar__value {
+    opacity: 1;
+  }
+</style>

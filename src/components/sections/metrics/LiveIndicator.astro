@@ -1,0 +1,64 @@
+---
+/**
+ * "Live monitoring" pill shown under the metrics grids.
+ */
+---
+
+<div class="metrics-status">
+  <div class="live-indicator">
+    <div class="pulse-dot"></div>
+    <span class="live-text">Live Monitoring Active</span>
+    <span class="live-subtitle">Updated every 30 seconds</span>
+  </div>
+</div>
+
+<style>
+  .metrics-status {
+    text-align: center;
+  }
+
+  .live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    background: rgba(16, 185, 129, 0.1);
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: var(--radius-full);
+    color: #10b981;
+  }
+
+  .pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    animation: pulse 2s infinite;
+  }
+
+  .live-text {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .live-subtitle {
+    font-size: var(--font-size-xs);
+    opacity: 0.75;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .live-indicator {
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+  }
+</style>
