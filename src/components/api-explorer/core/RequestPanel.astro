@@ -1,0 +1,402 @@
+---
+/**
+ * Request builder panel: method/URL bar, parameter, header, body, auth
+ * and code-generation tabs, plus the send/clear actions.
+ */
+import JSONEditor from "@/components/api-explorer/ui/JSONEditor.astro";
+import CodeBlock from "@/components/api-explorer/ui/CodeBlock.astro";
+import TabPanel from "@/components/api-explorer/ui/TabPanel.astro";
+
+const tabs = [
+  { id: "params", label: "Parameters", icon: "⚙️" },
+  { id: "headers", label: "Headers", icon: "📋" },
+  { id: "body", label: "Body", icon: "📝" },
+  { id: "auth", label: "Auth", icon: "🔐" },
+  { id: "code", label: "Code", icon: "💻" },
+];
+---
+
+<div class="request-panel">
+  <div class="panel-header">
+    <h3 class="panel-title">Request</h3>
+    <div class="request-method-url">
+      <select class="method-select" data-method-select>
+        <option value="GET">GET</option>
+        <option value="POST">POST</option>
+        <option value="PUT">PUT</option>
+        <option value="DELETE">DELETE</option>
+        <option value="PATCH">PATCH</option>
+      </select>
+      <input
+        type="text"
+        class="url-input"
+        data-url-input
+        placeholder="https://api.example.com/endpoint"
+        readonly
+      />
+    </div>
+  </div>
+
+  <TabPanel tabs={tabs} defaultTab="params">
+    <!-- Parameters Tab -->
+    <div data-tab-panel-content="params">
+      <div class="param-section">
+        <h4 class="section-title">Path Parameters</h4>
+        <div id="path-params" class="params-list" data-path-params>
+          <p class="empty-state">No path parameters</p>
+        </div>
+      </div>
+
+      <div class="param-section">
+        <h4 class="section-title">Query Parameters</h4>
+        <div id="query-params" class="params-list" data-query-params>
+          <p class="empty-state">No query parameters</p>
+        </div>
+      </div>
+    </div>
+
+    <div data-tab-panel-content="headers">
+      <div class="param-section">
+        <h4 class="section-title">Request Headers</h4>
+        <div id="request-headers" class="params-list" data-request-headers>
+          <p class="empty-state">No custom headers</p>
+        </div>
+        <button type="button" class="btn-add" data-add-header>
+          + Add Header
+        </button>
+      </div>
+    </div>
+
+    <div data-tab-panel-content="body">
+      <JSONEditor
+        id="request-body-editor"
+        label="Request Body (JSON)"
+        placeholder='{\n  "key": "value"\n}'
+        rows={12}
+      />
+    </div>
+
+    <div data-tab-panel-content="auth">
+      <div class="auth-section">
+        <div class="auth-type-selector">
+          <label for="auth-type">Authentication Type</label>
+          <select id="auth-type" class="auth-type-select" data-auth-type>
+            <option value="none">No Auth</option>
+            <option value="bearer">Bearer Token</option>
+            <option value="apiKey">API Key</option>
+            <option value="basic">Basic Auth</option>
+          </select>
+        </div>
+
+        <div id="auth-fields" class="auth-fields" data-auth-fields>
+          <!-- Dynamic auth fields will be inserted here -->
+        </div>
+      </div>
+    </div>
+
+    <div data-tab-panel-content="code">
+      <div class="code-generation-section">
+        <div class="code-lang-selector">
+          <label for="code-language">Programming Language</label>
+          <select
+            id="code-language"
+            class="code-lang-select"
+            data-code-language
+          >
+            <option value="curl">cURL</option>
+            <option value="javascript">JavaScript (Fetch)</option>
+            <option value="python">Python (Requests)</option>
+            <option value="go">Go</option>
+            <option value="php">PHP</option>
+            <option value="java">Java</option>
+            <option value="ruby">Ruby</option>
+          </select>
+          <button type="button" class="btn-generate" data-generate-code>
+            🔄 Generate Code
+          </button>
+        </div>
+
+        <div id="generated-code-container" class="generated-code-container">
+          <div class="empty-code-state">
+            <div class="empty-icon">💻</div>
+            <p>
+              Select a language and click "Generate Code" to see the request
+              code.
+            </p>
+          </div>
+
+          <!-- Example code block to demonstrate the component -->
+          <div class="example-code-block" style="display: none;">
+            <CodeBlock
+              code="curl -X GET https://api.example.com/endpoint"
+              language="curl"
+              title="Example cURL Request"
+              showLineNumbers={false}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </TabPanel>
+
+  <div class="request-actions">
+    <button type="button" class="btn-send" data-send-request>
+      <span class="btn-icon">🚀</span>
+      Send Request
+    </button>
+    <button type="button" class="btn-clear" data-clear-request> Clear </button>
+  </div>
+</div>
+
+<style>
+  .request-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--color-bg-secondary);
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .panel-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  /* Request Method and URL */
+  .request-method-url {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .method-select {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    background: rgba(var(--color-primary-rgb), 0.1);
+    border: 1px solid var(--color-primary);
+    border-radius: 0.375rem;
+    cursor: pointer;
+  }
+
+  .url-input {
+    flex: 1;
+    padding: 0.75rem;
+    font-family: "Monaco", "Menlo", monospace;
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: 0.375rem;
+  }
+
+  /* Parameters */
+  .param-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 0;
+  }
+
+  .section-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .params-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .empty-state {
+    padding: 2rem;
+    text-align: center;
+    color: var(--color-text-tertiary);
+    font-size: 0.875rem;
+  }
+
+  /* Auth Section */
+  .auth-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .auth-type-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .auth-type-selector label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  .auth-type-select {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: 0.375rem;
+    color: var(--color-text-primary);
+  }
+
+  .auth-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* Code Generation */
+  .code-generation-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .code-lang-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .code-lang-selector label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  .code-lang-select {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: 0.375rem;
+    color: var(--color-text-primary);
+  }
+
+  .btn-generate {
+    align-self: flex-start;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    background: rgba(var(--color-primary-rgb), 0.1);
+    border: 1px solid var(--color-primary);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-generate:hover {
+    background: rgba(var(--color-primary-rgb), 0.2);
+  }
+
+  .generated-code-container {
+    min-height: 300px;
+  }
+
+  .empty-code-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 3rem 2rem;
+    text-align: center;
+    color: var(--color-text-tertiary);
+    background: var(--color-bg-tertiary);
+    border-radius: 0.5rem;
+    border: 2px dashed var(--color-border);
+  }
+
+  .empty-code-state .empty-icon {
+    font-size: 2.5rem;
+    opacity: 0.5;
+  }
+
+  /* Actions */
+  .request-actions {
+    display: flex;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .btn-send,
+  .btn-clear,
+  .btn-add {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-send {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: white;
+    background: var(--color-primary);
+    border: none;
+  }
+
+  .btn-send:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .btn-clear {
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: 1px solid var(--color-border);
+  }
+
+  .btn-clear:hover {
+    color: var(--color-text-primary);
+    background: var(--color-bg-hover);
+  }
+
+  .btn-add {
+    align-self: flex-start;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    color: var(--color-primary);
+    background: rgba(var(--color-primary-rgb), 0.1);
+    border: 1px solid var(--color-primary);
+    border-radius: 0.375rem;
+  }
+
+  .btn-add:hover {
+    background: rgba(var(--color-primary-rgb), 0.2);
+  }
+
+  @media (max-width: 768px) {
+    .request-panel {
+      padding: 1rem;
+    }
+  }
+</style>
