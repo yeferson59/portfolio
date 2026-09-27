@@ -4,6 +4,11 @@ interface Props {
   subtitle?: string;
   class?: string;
   headingLevel?: string;
+  /**
+   * Section id this header belongs to. When set, a span row shows the
+   * section's route and where it falls in the page (see PageTrace).
+   */
+  span?: string;
 }
 
 const {
@@ -11,10 +16,19 @@ const {
   subtitle,
   class: className = "",
   headingLevel = "h2",
+  span,
 } = Astro.props;
 ---
 
 <div class={`section-header ${className}`}>
+  {span && (
+    <div class="section-header__span" aria-hidden="true">
+      <span>/{span}</span>
+      <div class="section-header__track">
+        <span data-span={span} />
+      </div>
+    </div>
+  )}
   {headingLevel === "h1" && <h1 class="section-header__title">{title}</h1>}
   {headingLevel === "h2" && <h2 class="section-header__title">{title}</h2>}
   {headingLevel === "h3" && <h3 class="section-header__title">{title}</h3>}

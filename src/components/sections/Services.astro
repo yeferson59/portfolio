@@ -1,106 +1,60 @@
 ---
 import SectionHeader from "@/components/layouts/SectionHeader.astro";
 import ServiceCard from "@/components/cards/ServiceCard.astro";
-import Card from "@/components/ui/Card.astro";
-import Button from "@/components/ui/Button.astro";
 import { getAllServices } from "@/utils/services";
-import { getArrowRightIcon } from "@/utils/icons";
 
 const services = await getAllServices();
 ---
 
-<section id="services" class="services-section scroll-reveal">
+<section id="services">
   <div class="container">
     <SectionHeader
-      title="Professional Services"
-      subtitle="Technical solutions and consulting tailored to your project's needs."
+      title="Professional services"
+      subtitle="Scoped engagements for teams that need a backend built, fixed or scaled. Open one to see what it includes."
+      span="services"
     />
 
-    <div class="services-wrapper mb-4xl">
-      {
-        services.map(({ data: service }) => (
-          <ServiceCard
-            name={service.name}
-            subtitle={service.subtitle}
-            description={service.description}
-            features={service.features}
-            cta={service.cta}
-            featured={service.featured}
-          />
-        ))
-      }
+    <div class="services-index">
+      {services.map(({ data: service }) => (
+        <ServiceCard
+          name={service.name}
+          subtitle={service.subtitle}
+          description={service.description}
+          features={service.features}
+          cta={service.cta}
+          featured={service.featured}
+        />
+      ))}
     </div>
 
-    <!-- Bottom CTA -->
-    <div class="bottom-cta">
-      <Card class="mx-auto max-w-3xl">
-        <h3 class="text-primary mb-md text-2xl font-bold">
-          Can't find what you need?
-        </h3>
-        <p class="text-secondary mb-lg leading-relaxed">
-          Every project is unique. Let's talk about your specific needs and
-          create a custom solution.
-        </p>
-        <Button href="#contact">
-          Let's discuss your project
-          <span set:html={getArrowRightIcon(16, 16)} />
-        </Button>
-      </Card>
-    </div>
+    <p class="services-custom">
+      Need something that isn't listed?{" "}
+      <a href="#contact">Tell me what you're building</a> and we'll scope it
+      together.
+    </p>
   </div>
 </section>
 
 <style>
-  /* Base styles (Mobile First) */
-  .services-section {
-    position: relative;
-    width: 100%;
-    /* Ensure no overflow hiding prevents visibility */
-    overflow: visible;
+  .services-index {
+    border-top: 1px solid var(--line-strong);
   }
 
-  .services-wrapper {
-    /* Flex column for mobile - safest layout */
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xl);
-    width: 100%;
+  .services-custom {
+    margin-top: var(--space-2xl);
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
   }
 
-  /* Tablet and up */
-  @media (min-width: 768px) {
-    .services-wrapper {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--space-xl);
-    }
+  .services-custom a {
+    color: var(--color-text-primary);
+    text-decoration: underline;
+    text-decoration-color: var(--color-primary);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.25em;
   }
 
-  /* Desktop and up */
-  @media (min-width: 1024px) {
-    .services-wrapper {
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-xl);
-      max-width: 1400px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-  }
-
-  /* Bottom CTA styling */
-  .bottom-cta {
-    margin-top: var(--space-4xl);
-    text-align: center;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* Robust Mobile Visibility Fix */
-  @media (max-width: 768px) {
-    .services-section.scroll-reveal {
-      opacity: 1 !important;
-      transform: none !important;
-      visibility: visible !important;
-    }
+  .services-custom a:hover {
+    color: var(--color-primary);
   }
 </style>

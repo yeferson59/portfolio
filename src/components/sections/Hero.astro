@@ -1,0 +1,231 @@
+---
+/**
+ * Opening section. The name carries the page; beside it, the page itself
+ * drawn as a request trace: one root span for "/" and a child span per
+ * section, positioned from the real layout by PageTrace.
+ */
+import Button from "@/components/ui/Button.astro";
+import { developer, skills, coreFeatures, contactMethods } from "@/data/site";
+import { endpointMetrics } from "@/data/metrics";
+import { getProjectStats } from "@/utils/projects";
+import { getAllServices } from "@/utils/services";
+
+const [firstName, lastName] = developer.name.split(" ");
+const stats = await getProjectStats();
+const services = await getAllServices();
+const toolCount =
+  skills.expert.length + skills.proficient.length + skills.familiar.length;
+
+// Fallback positions (fractions of the page) until PageTrace measures.
+const spans = [
+  { id: "about", meta: `${coreFeatures.length} principles`, at: [0.09, 0.12] },
+  { id: "skills", meta: `${toolCount} tools`, at: [0.21, 0.08] },
+  {
+    id: "metrics",
+    meta: `${endpointMetrics.length} endpoints`,
+    at: [0.29, 0.3],
+  },
+  { id: "projects", meta: `${stats.total} projects`, at: [0.59, 0.15] },
+  { id: "services", meta: `${services.length} services`, at: [0.74, 0.12] },
+  {
+    id: "contact",
+    meta: `${contactMethods.length} channels`,
+    at: [0.86, 0.1],
+  },
+];
+---
+
+<section class="hero" aria-labelledby="hero-name">
+  <div class="container">
+    <h1 class="hero__name" id="hero-name">
+      <span>{firstName}</span>
+      <span class="hero__name-last">{lastName}</span>
+    </h1>
+
+    <div class="hero__grid">
+      <div class="hero__intro">
+        <p class="hero__role">
+          {developer.title} in {developer.location}.
+        </p>
+        <p class="hero__lede">
+          I build the backend behind web products: APIs that answer fast,
+          PostgreSQL schemas that stay tidy, and services in Node.js and Go that
+          keep running when traffic grows.
+        </p>
+        <div class="btn-group">
+          <Button size="lg" href={`mailto:${developer.email}`}>
+            Email me
+          </Button>
+          <Button size="lg" variant="secondary" href="#projects">
+            See projects
+          </Button>
+        </div>
+      </div>
+
+      <ol class="trace" aria-label="What's on this page">
+        <li class="trace__row trace__row--root">
+          <span class="trace__route">GET /</span>
+          <span class="trace__track" aria-hidden="true">
+            <span class="trace__bar" style="--i: 0"></span>
+          </span>
+          <span class="trace__meta">200</span>
+        </li>
+        {spans.map((span, i) => (
+          <li>
+            <a class="trace__row" href={`#${span.id}`}>
+              <span class="trace__route">/{span.id}</span>
+              <span class="trace__track" aria-hidden="true">
+                <span
+                  class="trace__bar"
+                  data-span={span.id}
+                  style={`--i: ${i + 1}; --span-start: ${span.at[0]}; --span-size: ${span.at[1]}`}
+                />
+              </span>
+              <span class="trace__meta">{span.meta}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-top: clamp(var(--space-xl), 6vw, var(--space-4xl));
+    padding-bottom: clamp(var(--space-3xl), 9vw, 8rem);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hero__name {
+    display: flex;
+    flex-direction: column;
+    font-size: min(30vw, 22rem);
+    font-weight: var(--font-weight-black);
+    font-stretch: 52%;
+    font-variation-settings: "wdth" 52;
+    line-height: 0.8;
+    letter-spacing: -0.012em;
+    margin: 0 0 clamp(var(--space-xl), 5vw, var(--space-4xl));
+    margin-left: -0.04em; /* optical: pull the Y stem onto the grid line */
+    text-wrap: nowrap;
+  }
+
+  /* The surname steps in, like a child span under its parent. */
+  .hero__name-last {
+    padding-left: 0.62em;
+  }
+
+  .hero__grid {
+    display: grid;
+    gap: var(--space-3xl);
+  }
+
+  @media (min-width: 960px) {
+    .hero__grid {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: var(--space-4xl);
+      align-items: end;
+    }
+  }
+
+  .hero__role {
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-bold);
+    font-variation-settings: "wdth" 80;
+    font-size: var(--font-size-2xl);
+    line-height: 1.15;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-md);
+  }
+
+  .hero__lede {
+    font-size: var(--font-size-lg);
+    max-width: 44ch;
+    margin-bottom: var(--space-xl);
+  }
+
+  /* ---------- Trace waterfall ---------- */
+  .trace {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .trace__row {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr) 7.5rem;
+    align-items: center;
+    gap: var(--space-md);
+    min-height: 44px;
+    padding: 0 var(--space-xs);
+    border-bottom: 1px solid var(--line);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+  }
+
+  a.trace__row:hover {
+    color: var(--color-text-primary);
+    background: var(--color-surface);
+  }
+
+  .trace__route {
+    color: var(--color-text-primary);
+  }
+
+  .trace__meta {
+    text-align: right;
+    color: var(--color-text-muted);
+  }
+
+  .trace__track {
+    position: relative;
+    height: 12px;
+  }
+
+  .trace__bar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--span-start, 0) * 100%);
+    width: max(3px, calc(var(--span-size, 1) * 100%));
+    background: var(--color-primary);
+    transform-origin: left center;
+    animation: span-in 520ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(var(--i) * 90ms + 150ms);
+    transition:
+      left var(--transition-slow),
+      width var(--transition-slow);
+  }
+
+  .trace__row--root .trace__bar {
+    background: var(--color-secondary);
+    height: 4px;
+    top: 4px;
+  }
+
+  .trace__row--root .trace__meta {
+    color: var(--color-secondary);
+  }
+
+  a.trace__row:hover .trace__bar {
+    background: var(--color-text-primary);
+  }
+
+  @keyframes span-in {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @media (max-width: 520px) {
+    .trace__row {
+      grid-template-columns: 5.5rem minmax(0, 1fr) auto;
+      gap: var(--space-sm);
+      font-size: var(--font-size-xs);
+    }
+  }
+</style>

@@ -16,18 +16,16 @@ const CHART_MAX_MS = 250;
 
 <div class="response-time-chart">
   <div class="chart-container">
-    {
-      history.map((point) => (
-        <div class="chart-bar" data-value={point.value} data-time={point.time}>
-          <div
-            class="chart-bar__fill"
-            style={`height: ${(point.value / CHART_MAX_MS) * 100}%`}
-          />
-          <span class="chart-bar__label">{point.time}</span>
-          <span class="chart-bar__value">{point.value}ms</span>
-        </div>
-      ))
-    }
+    {history.map((point) => (
+      <div class="chart-bar" data-value={point.value} data-time={point.time}>
+        <div
+          class="chart-bar__fill"
+          style={`height: ${(point.value / CHART_MAX_MS) * 100}%`}
+        />
+        <span class="chart-bar__label">{point.time}</span>
+        <span class="chart-bar__value">{point.value}ms</span>
+      </div>
+    ))}
   </div>
 </div>
 
@@ -58,12 +56,7 @@ const CHART_MAX_MS = 250;
   }
 
   .chart-bar__fill {
-    background: linear-gradient(
-      to top,
-      rgba(42, 143, 255, 0.6),
-      var(--color-accent)
-    );
-    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    background: var(--color-primary);
     transition: all var(--transition-fast);
     min-height: 8px;
   }

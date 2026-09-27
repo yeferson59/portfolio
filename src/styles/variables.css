@@ -42,20 +42,22 @@
   --space-5xl: 6rem; /* 96px */
 
   /* Border Radius */
-  --radius-sm: 0.375rem; /* 6px */
-  --radius-md: 0.5rem; /* 8px */
-  --radius-lg: 0.75rem; /* 12px */
-  --radius-xl: 1rem; /* 16px */
-  --radius-2xl: 1.5rem; /* 24px */
+  /* Tight radii: small parts are near-square, only panels soften */
+  --radius-sm: 0.125rem; /* 2px */
+  --radius-md: 0.25rem; /* 4px */
+  --radius-lg: 0.375rem; /* 6px */
+  --radius-xl: 0.625rem; /* 10px */
+  --radius-2xl: 1rem; /* 16px */
   --radius-full: 9999px;
 
   /* Typography */
-  --font-display:
-    "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* Anybody (variable width) is set condensed for display; Plex Sans reads
+     the body; Plex Mono is reserved for real endpoints, timings and code. */
+  --font-display: "Anybody", "Arial Narrow", system-ui, sans-serif;
   --font-body:
-    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono:
-    ui-monospace, "SF Mono", "Monaco", "Cascadia Code", "Roboto Mono", monospace;
+    "IBM Plex Mono", ui-monospace, "SF Mono", "Cascadia Code", monospace;
 
   --font-size-2xs: 0.625rem; /* 10px */
   --font-size-xs: 0.75rem; /* 12px */
@@ -66,9 +68,9 @@
   --font-size-2xl: 1.5rem; /* 24px */
   --font-size-3xl: 1.875rem; /* 30px */
   --font-size-4xl: 2.25rem; /* 36px */
-  --font-size-5xl: clamp(2.5rem, 2rem + 2.2vw, 3.25rem); /* ~40-52px */
-  --font-size-6xl: clamp(2.75rem, 2rem + 3.2vw, 4rem); /* ~44-64px */
-  --font-size-hero: clamp(2.75rem, 2rem + 3.5vw, 4.5rem); /* hero H1 */
+  --font-size-5xl: clamp(2.75rem, 1.6rem + 4.2vw, 5rem); /* section titles */
+  --font-size-6xl: clamp(3rem, 2rem + 4.5vw, 5.5rem);
+  --font-size-hero: clamp(4.25rem, 1rem + 13vw, 12.5rem); /* hero name */
 
   --font-weight-normal: 400;
   --font-weight-medium: 500;
@@ -107,12 +109,12 @@
   --z-tooltip: 1060;
 
   /* Layout */
-  --container-max-width: 1100px;
-  --header-height: 80px;
+  --container-max-width: 1240px;
+  --header-height: 64px;
 
   /* Gradients */
   --gradient-primary: linear-gradient(
-    135deg,
+    90deg,
     var(--color-primary),
     var(--color-secondary)
   );
@@ -121,16 +123,11 @@
     rgba(11, 15, 22, 0.95),
     rgba(14, 20, 27, 0.9)
   );
-  --gradient-mesh: radial-gradient(
-      at 20% 0%,
-      rgba(var(--color-primary-rgb), 0.16) 0px,
-      transparent 50%
-    ),
-    radial-gradient(
-      at 80% 15%,
-      rgba(var(--color-secondary-rgb), 0.12) 0px,
-      transparent 50%
-    );
+  --gradient-mesh: none;
+
+  /* Hairlines */
+  --line: rgba(183, 198, 216, 0.12);
+  --line-strong: rgba(183, 198, 216, 0.24);
 
   /* ----------------------------------------------------------------
      Compatibility aliases
@@ -143,7 +140,7 @@
   --surface-secondary: var(--color-surface-raised);
   --surface-color: var(--color-surface);
   --surface-hover: rgba(255, 255, 255, 0.05);
-  --border-color: rgba(255, 255, 255, 0.1);
+  --border-color: var(--line);
   --border-hover: rgba(255, 255, 255, 0.2);
   --text-primary: var(--color-text-primary);
   --text-secondary: var(--color-text-secondary);
@@ -156,7 +153,7 @@
   --color-bg-secondary: var(--color-surface);
   --color-bg-tertiary: var(--color-surface-raised);
   --color-bg-hover: rgba(255, 255, 255, 0.05);
-  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border: var(--line);
   --color-code-js: #f0d264;
   --color-code-json: #7ee6c0;
   --color-code-python: #6fb8ff;

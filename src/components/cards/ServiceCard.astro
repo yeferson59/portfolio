@@ -1,7 +1,5 @@
 ---
-import Badge from "@/components/ui/Badge.astro";
 import Button from "@/components/ui/Button.astro";
-import FeatureList from "@/components/ui/FeatureList.astro";
 
 interface Props {
   name: string;
@@ -24,136 +22,197 @@ const {
 } = Astro.props;
 ---
 
-<div class={`card service-card ${featured ? "service-card--featured" : ""}`}>
-  {
-    featured && (
-      <div class="service-card__badge">
-        <Badge variant="primary" class="most-popular-badge">
-          Most Popular
-        </Badge>
-      </div>
-    )
-  }
+<!-- One row of the services index; the featured service starts open. -->
+<details class="service" open={featured}>
+  <summary class="service__summary">
+    <span class="service__name">{name}</span>
+    <span class="service__subtitle">{subtitle}</span>
+    <span class="service__toggle" aria-hidden="true"></span>
+  </summary>
 
-  <!-- Service Header -->
-  <div class="service-card__header">
-    <Badge variant={featured ? "primary" : "secondary"} class="mb-md">
-      {subtitle}
-    </Badge>
-
-    <h3 class="service-card__title">{name}</h3>
-
-    <div class="service-card__quote">
-      <div class="service-card__quote-text">Get Quote</div>
-      <div class="service-card__quote-subtext">
-        Custom pricing based on scope
-      </div>
-    </div>
-
-    <p class="service-card__description">{description}</p>
-  </div>
-
-  <!-- Features -->
-  <FeatureList features={features} limit={6} />
-
-  <!-- CTA Button -->
-  <div class="service-card__cta">
-    <Button variant={featured ? "primary" : "secondary"} fullWidth href={href}>
+  <div class="service__body">
+    <p class="service__description">{description}</p>
+    <ul class="service__features">
+      {features.map((feature) => (
+        <li>{feature}</li>
+      ))}
+    </ul>
+    <Button variant={featured ? "primary" : "secondary"} href={href}>
       {cta}
     </Button>
   </div>
-</div>
+</details>
 
 <style>
-  .service-card {
+  .service {
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .service__summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 2.75rem;
+    gap: var(--space-xs) var(--space-xl);
+    align-items: center;
+    padding: var(--space-xl) 0;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .service__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  @media (min-width: 900px) {
+    .service__summary {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 4fr) 2.75rem;
+    }
+  }
+
+  .service__name {
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-extrabold);
+    font-variation-settings: "wdth" 60;
+    font-size: clamp(1.75rem, 1.1rem + 2.2vw, 3rem);
+    line-height: 1;
+    color: var(--color-text-primary);
+    transition: color var(--transition-fast);
+  }
+
+  .service__subtitle {
+    grid-row: 2;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+
+  @media (min-width: 900px) {
+    .service__subtitle {
+      grid-row: auto;
+      font-size: var(--font-size-base);
+    }
+  }
+
+  .service__toggle {
+    grid-column: -2;
+    grid-row: 1 / span 2;
+    justify-self: end;
     position: relative;
-    height: 100%;
-    min-height: 500px;
-    display: flex;
-    flex-direction: column;
-    padding: var(--space-xl);
-    margin-top: var(--space-lg);
-    overflow: visible;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    transition:
+      border-color var(--transition-fast),
+      background-color var(--transition-fast);
   }
 
-  .service-card--featured {
-    border: 2px solid rgba(42, 143, 255, 0.3);
-    background: linear-gradient(
-      135deg,
-      rgba(42, 143, 255, 0.02) 0%,
-      rgba(42, 143, 255, 0.05) 100%
-    );
-    transform: scale(1.02);
-    box-shadow: 0 8px 30px rgba(42, 143, 255, 0.15);
-    margin-top: var(--space-lg);
-    overflow: visible;
-    isolation: isolate;
+  @media (min-width: 900px) {
+    .service__toggle {
+      grid-row: auto;
+    }
   }
 
-  .service-card--featured:hover {
-    border-color: rgba(42, 143, 255, 0.5);
-    box-shadow: 0 12px 40px rgba(42, 143, 255, 0.2);
-    transform: scale(1.02) translateY(-2px);
-  }
-
-  .service-card__badge {
+  .service__toggle::before,
+  .service__toggle::after {
+    content: "";
     position: absolute;
-    top: 0;
+    top: 50%;
     left: 50%;
+    width: 14px;
+    height: 2px;
+    background: currentColor;
+    color: var(--color-text-primary);
     transform: translate(-50%, -50%);
-    z-index: 20;
-    width: max-content;
+    transition: transform var(--transition-normal);
   }
 
-  .most-popular-badge {
-    background: linear-gradient(
-      135deg,
-      var(--color-primary),
-      var(--color-secondary)
-    ) !important;
-    color: white !important;
-    font-weight: var(--font-weight-bold) !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.05em !important;
-    border: none !important;
-    box-shadow: 0 4px 12px rgba(42, 143, 255, 0.3) !important;
+  .service__toggle::after {
+    transform: translate(-50%, -50%) rotate(90deg);
   }
 
-  .service-card__header {
-    margin-bottom: var(--space-xl);
-    text-align: center;
-    flex-shrink: 0;
+  .service[open] .service__toggle {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
   }
 
-  .service-card__title {
-    color: var(--color-text-primary);
-    margin-bottom: var(--space-sm);
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-bold);
+  .service[open] .service__toggle::before,
+  .service[open] .service__toggle::after {
+    color: var(--color-background);
+    background: var(--color-background);
   }
 
-  .service-card__quote {
-    margin-bottom: var(--space-md);
+  .service[open] .service__toggle::after {
+    transform: translate(-50%, -50%) rotate(0deg);
   }
 
-  .service-card__quote-text {
-    color: var(--color-text-primary);
-    font-size: var(--font-size-2xl);
-    font-weight: var(--font-weight-bold);
+  .service__summary:hover .service__name,
+  .service[open] .service__name {
+    color: var(--color-primary);
   }
 
-  .service-card__quote-subtext {
+  .service__summary:hover .service__toggle {
+    border-color: var(--color-text-primary);
+  }
+
+  .service__body {
+    display: grid;
+    gap: var(--space-lg);
+    padding-bottom: var(--space-2xl);
+    justify-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .service__body {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+      column-gap: var(--space-xl);
+      margin-right: calc(2.75rem + var(--space-xl));
+    }
+
+    .service__description {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .service__features {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+    }
+
+    .service__body :global(.btn) {
+      grid-column: 2;
+    }
+  }
+
+  .service__description {
+    max-width: 48ch;
+  }
+
+  .service__features {
+    display: grid;
+    gap: 0 var(--space-xl);
+    width: 100%;
+  }
+
+  @media (min-width: 640px) {
+    .service__features {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .service__features li {
+    padding: var(--space-sm) 0 var(--space-sm) var(--space-lg);
+    border-top: 1px solid var(--line);
     color: var(--color-text-secondary);
     font-size: var(--font-size-sm);
+    position: relative;
   }
 
-  .service-card__description {
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-relaxed);
-  }
-
-  .service-card__cta {
-    margin-top: auto;
+  .service__features li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: calc(var(--space-sm) + 0.5em);
+    width: 0.6rem;
+    height: 2px;
+    background: var(--color-secondary);
   }
 </style>

@@ -1,128 +1,201 @@
 ---
-import Card from "@/components/ui/Card.astro";
-import Badge from "@/components/ui/Badge.astro";
 import Button from "@/components/ui/Button.astro";
 import { Image } from "astro:assets";
-import { developer, skills, coreFeatures } from "@/data/site";
+import { developer, coreFeatures } from "@/data/site";
 import SectionHeader from "@/components/layouts/SectionHeader.astro";
-import { getArrowRightIcon } from "@/utils/icons";
+
+// The bio is one long string; break it after its third sentence so it
+// reads as two paragraphs instead of a wall.
+const sentences = developer.bio.split(/(?<=\.)\s+/);
+const bio = [sentences.slice(0, 3).join(" "), sentences.slice(3).join(" ")];
 ---
 
-<section id="about" class="gradient-overlay">
+<section id="about">
   <div class="container">
-    <!-- Main heading as h1 for SEO and accessibility -->
-    <SectionHeader
-      title="About Me"
-      subtitle={developer.description}
-      headingLevel="h1"
-    />
+    <SectionHeader title="About me" span="about" />
 
-    <div class="gap-xl grid grid-cols-1 items-start lg:grid-cols-3">
-      <!-- Profile card -->
-      <aside>
-        <Card class="h-full text-center">
-          <Image
-            src={developer.avatar}
-            alt="Avatar"
-            class="avatar avatar--xl mb-lg mx-auto"
-            loading="eager"
-            width={128}
-            height={128}
-            decoding="async"
-            fetchpriority="high"
-            priority
-          />
-
-          <h3 class="text-primary mb-xs text-2xl font-bold">
-            {developer.name}
-          </h3>
-          <p class="text-accent mb-lg font-semibold">{developer.title}</p>
-
-          <p class="text-secondary mb-lg leading-relaxed">
-            {developer.bio}
-          </p>
-
-          <div class="gap-xs flex flex-wrap justify-center">
-            <!-- Expert Skills -->
-            {
-              skills.expert.map((skill) => (
-                <Badge variant="primary">{skill}</Badge>
-              ))
-            }
-            <!-- Proficient Skills (limited to most relevant) -->
-            {
-              skills.proficient
-                .slice(0, 6)
-                .map((skill) => <Badge variant="secondary">{skill}</Badge>)
-            }
-            <!-- Familiar Skills (limited) -->
-            {
-              skills.familiar
-                .slice(0, 4)
-                .map((skill) => <Badge variant="secondary">{skill}</Badge>)
-            }
-          </div>
-        </Card>
+    <div class="about">
+      <aside class="about__card">
+        <Image
+          src={developer.avatar}
+          alt={`Portrait of ${developer.name}`}
+          class="about__avatar"
+          loading="eager"
+          width={112}
+          height={112}
+          decoding="async"
+          fetchpriority="high"
+          priority
+        />
+        <div>
+          <p class="about__name">{developer.name}</p>
+          <p class="about__meta">{developer.title}</p>
+          <p class="about__meta">{developer.location}</p>
+        </div>
       </aside>
 
-      <!-- Features -->
-      <div class="lg:col-span-2">
-        <!-- Core Principles -->
-        <div class="mb-4xl">
-          <h3 class="text-primary mb-xl text-center text-2xl font-bold">
-            Core Principles
-          </h3>
-          <div class="gap-lg grid grid-cols-1 sm:grid-cols-2">
-            {
-              coreFeatures.map((feature) => (
-                <Card variant="compact">
-                  <div class="gap-md flex items-start">
-                    <div class="mt-xs shrink-0">
-                      <div
-                        class={`accent-dot ${feature.variant === "secondary" ? "accent-dot--secondary" : ""}`}
-                      />
-                    </div>
-                    <div>
-                      <h4 class="text-primary mb-sm text-lg font-bold">
-                        {feature.title}
-                      </h4>
-                      <p class="text-secondary leading-relaxed">
-                        {feature.description}
-                      </p>
-                    </div>
-                  </div>
-                </Card>
-              ))
-            }
+      <div class="about__body">
+        {bio.map((paragraph) => (
+          <p class="about__bio">{paragraph}</p>
+        ))}
+
+        <h3 class="about__subhead">How I work</h3>
+        <dl class="principles">
+          {coreFeatures.map((feature) => (
+            <div class={`principle principle--${feature.variant}`}>
+              <dt>{feature.title}</dt>
+              <dd>{feature.description}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <div class="about__cta">
+          <p>
+            Have an idea or a system that needs to scale? I can help define the
+            architecture and take it to production.
+          </p>
+          <div class="btn-group">
+            <Button href="#contact">Start a conversation</Button>
+            <Button variant="secondary" href="#projects">
+              See projects
+            </Button>
           </div>
         </div>
-
-        <!-- CTA section -->
-        <Card>
-          <div
-            class="gap-lg flex flex-col lg:flex-row lg:items-center lg:justify-between"
-          >
-            <div>
-              <h4 class="text-primary mb-sm text-xl font-bold">
-                Collaboration
-              </h4>
-              <p class="text-secondary max-w-xl leading-relaxed">
-                Got an idea or project? I can help define the architecture and
-                bring it to production with scalable, secure, and observable
-                practices.
-              </p>
-            </div>
-
-            <div class="btn-group btn-group--center">
-              <Button href="#projects">
-                View Projects
-                <span set:html={getArrowRightIcon(16, 16)} />
-              </Button>
-              <Button variant="secondary" href="#contact"> Contact Me </Button>
-            </div>
-          </div>
-        </Card>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  .about {
+    display: grid;
+    gap: var(--space-3xl);
+  }
+
+  @media (min-width: 960px) {
+    .about {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+      gap: var(--space-4xl);
+    }
+
+    .about__card {
+      position: sticky;
+      top: calc(var(--header-height) + var(--space-xl));
+      align-self: start;
+    }
+  }
+
+  .about__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  @media (min-width: 560px) and (max-width: 959px) {
+    .about__card {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  .about__avatar {
+    width: 112px;
+    height: 112px;
+    border-radius: var(--radius-sm);
+    filter: grayscale(1) contrast(1.05);
+    outline: 1px solid var(--line-strong);
+    outline-offset: 4px;
+  }
+
+  .about__name {
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-bold);
+    font-variation-settings: "wdth" 75;
+    font-size: var(--font-size-2xl);
+    line-height: 1.1;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-xs);
+  }
+
+  .about__meta {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-bottom: 0;
+  }
+
+  .about__bio {
+    font-size: var(--font-size-lg);
+    max-width: 64ch;
+  }
+
+  .about__bio:first-child {
+    font-size: var(--font-size-xl);
+    color: var(--color-text-primary);
+  }
+
+  .about__subhead {
+    font-size: var(--font-size-3xl);
+    font-variation-settings: "wdth" 70;
+    margin: var(--space-3xl) 0 var(--space-lg);
+  }
+
+  .principles {
+    display: grid;
+    gap: var(--space-xl) var(--space-2xl);
+  }
+
+  @media (min-width: 640px) {
+    .principles {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .principle {
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--line-strong);
+    position: relative;
+  }
+
+  /* A short span on the rule, coloured by the principle's variant. */
+  .principle::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: 0;
+    width: 3rem;
+    height: 3px;
+    background: var(--color-primary);
+  }
+
+  .principle--secondary::before {
+    background: var(--color-secondary);
+  }
+
+  .principle dt {
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-bold);
+    font-variation-settings: "wdth" 75;
+    font-size: var(--font-size-xl);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-xs);
+  }
+
+  .principle dd {
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .about__cta {
+    margin-top: var(--space-3xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .about__cta p {
+    max-width: 52ch;
+    color: var(--color-text-primary);
+  }
+</style>

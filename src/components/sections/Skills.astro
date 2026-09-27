@@ -1,11 +1,9 @@
 ---
 import SectionHeader from "@/components/layouts/SectionHeader.astro";
-import SkillCard from "@/components/cards/SkillCard.astro";
-import Button from "@/components/ui/Button.astro";
 import { skills } from "@/data/site";
-import { getArrowRightIcon } from "@/utils/icons";
 
-// Percentages tuned based on your GitHub activity (repos in TS/Node, Go, Python, Rust, infra)
+// Levels tuned from GitHub activity (repos in TS/Node, Go, Python, Rust,
+// infra). They only order each tier; the tier itself carries the meaning.
 const levelMap: Record<string, number> = {
   // Expert core stack
   "Node.js": 95,
@@ -57,32 +55,27 @@ const levelMap: Record<string, number> = {
   "AI/Gemini API": 65,
 };
 
-const toItems = (names: readonly string[]) =>
-  names.map((name) => {
-    const level = levelMap[name] ?? 60;
-    const variant = level >= 85 ? ("primary" as const) : ("secondary" as const);
-    return { name, level, variant } as const;
-  });
+const byLevel = (names: readonly string[]) =>
+  [...names].sort((a, b) => (levelMap[b] ?? 60) - (levelMap[a] ?? 60));
 
-// Build categories with improved titles/icons
-const skillCategories = [
+const tiers = [
   {
-    title: "Expert • Core Stack",
-    icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`,
-    iconVariant: "primary" as const,
-    skills: toItems(skills.expert),
+    key: "core",
+    title: "Core stack",
+    note: "What I reach for first and ship to production.",
+    skills: byLevel(skills.expert),
   },
   {
-    title: "Proficient • Ecosystem",
-    icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>`,
-    iconVariant: "secondary" as const,
-    skills: toItems(skills.proficient),
+    key: "ecosystem",
+    title: "Ecosystem",
+    note: "Used in real projects, comfortable owning.",
+    skills: byLevel(skills.proficient),
   },
   {
-    title: "Familiar • Tools & Platforms",
-    icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>`,
-    iconVariant: "primary" as const,
-    skills: toItems(skills.familiar),
+    key: "familiar",
+    title: "Familiar",
+    note: "Tools and platforms I've worked with.",
+    skills: byLevel(skills.familiar),
   },
 ];
 ---
@@ -90,28 +83,91 @@ const skillCategories = [
 <section id="skills">
   <div class="container">
     <SectionHeader
-      title="Technical Skills"
-      subtitle="Technologies and tools used to perform a specific task or job. They are often acquired through education, training, or experience"
+      title="Technical skills"
+      subtitle="Grouped by how deep I go: the core stack I build production systems with, the ecosystem around it, and tools I've used along the way."
+      span="skills"
     />
 
-    <div class="skills-grid mb-4xl">
-      {
-        skillCategories.map((category) => (
-          <SkillCard
-            title={category.title}
-            icon={category.icon}
-            skills={category.skills}
-            iconVariant={category.iconVariant}
-          />
-        ))
-      }
-    </div>
-
-    <div class="mt-4xl text-center">
-      <Button size="lg" href="#projects">
-        View Projects
-        <span set:html={getArrowRightIcon(20, 20)} />
-      </Button>
+    <div class="skill-tiers">
+      {tiers.map((tier) => (
+        <div class={`skill-tier skill-tier--${tier.key}`}>
+          <div class="skill-tier__head">
+            <h3 class="skill-tier__title">{tier.title}</h3>
+            <p class="skill-tier__note">{tier.note}</p>
+          </div>
+          <ul class="skill-tier__list">
+            {tier.skills.map((skill) => (
+              <li>{skill}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   </div>
 </section>
+
+<style>
+  .skill-tier {
+    display: grid;
+    gap: var(--space-md) var(--space-2xl);
+    padding: var(--space-xl) 0;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .skill-tier:last-child {
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  @media (min-width: 900px) {
+    .skill-tier {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+      padding: var(--space-2xl) 0;
+    }
+  }
+
+  .skill-tier__title {
+    font-size: var(--font-size-2xl);
+    font-variation-settings: "wdth" 72;
+    margin-bottom: var(--space-xs);
+  }
+
+  .skill-tier__note {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    max-width: 28ch;
+  }
+
+  .skill-tier__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.1em 0.9em;
+  }
+
+  /* Type size carries the depth: the core stack is set as display type,
+     the ecosystem mid-size, familiar tools as plain text. */
+  .skill-tier--core .skill-tier__list {
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-extrabold);
+    font-variation-settings: "wdth" 55;
+    font-size: clamp(2.25rem, 1.2rem + 3.6vw, 4.25rem);
+    line-height: 1;
+    color: var(--color-text-primary);
+    gap: 0.05em 0.45em;
+  }
+
+  .skill-tier--ecosystem .skill-tier__list {
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-semibold);
+    font-variation-settings: "wdth" 70;
+    font-size: clamp(1.35rem, 1rem + 1.2vw, 1.9rem);
+    line-height: 1.25;
+    color: var(--color-text-secondary);
+  }
+
+  .skill-tier--familiar .skill-tier__list {
+    font-size: var(--font-size-base);
+    color: var(--color-text-muted);
+    gap: 0.35em 1.25em;
+  }
+</style>

@@ -194,7 +194,7 @@ export const footerLinks = {
 // Meta information
 export const meta = {
   year: new Date().getFullYear(),
-  copyright: `© ${new Date().getFullYear()} Full-Stack Developer. All rights reserved.`,
+  copyright: `© ${new Date().getFullYear()} ${developer.name}`,
 } as const;
 
 // SEO and Site metadata

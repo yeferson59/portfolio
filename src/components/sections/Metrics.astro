@@ -20,16 +20,19 @@ import {
 } from "@/data/metrics";
 ---
 
-<section id="metrics" class="gradient-overlay">
+<section id="metrics">
   <div class="container">
     <SectionHeader
-      title="API Performance Metrics"
-      subtitle="Real-time monitoring of API performance, response times, and system health across all endpoints"
+      title="API performance metrics"
+      subtitle="Response times, system health and per-endpoint load from a sample API, plus a live MCP client you can query."
+      span="metrics"
     />
 
     <!-- Key Performance Indicators -->
     <div class="metrics-kpi-grid mb-xl">
-      {kpiCards.map((card) => <KpiCard {...card} />)}
+      {kpiCards.map((card) => (
+        <KpiCard {...card} />
+      ))}
     </div>
 
     <!-- Response Time Chart and System Health -->
@@ -65,8 +68,14 @@ import {
   /* KPI Grid */
   .metrics-kpi-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--space-lg);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-md);
+  }
+
+  @media (min-width: 1024px) {
+    .metrics-kpi-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
   }
 
   /* Content Grid */
@@ -82,7 +91,7 @@ import {
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 359px) {
     .metrics-kpi-grid {
       grid-template-columns: 1fr;
     }

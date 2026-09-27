@@ -9,44 +9,41 @@ const { class: className = "" } = Astro.props;
 ---
 
 <nav class={`header__nav ${className}`}>
-  {
-    navigationLinks.map((item) => (
-      <a href={item.href} class="header__nav-link">
-        {item.label}
-      </a>
-    ))
-  }
+  {navigationLinks.map((item) => (
+    <a href={item.href} class="header__nav-link">
+      {item.label}
+    </a>
+  ))}
 </nav>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const navLinks = document.querySelectorAll(".header__nav-link");
-    const sections = document.querySelectorAll("section[id]");
+  // Highlight the link for the section under the top third of the viewport.
+  // Sections are re-queried on each check because the metrics section is a
+  // deferred island that appears after load.
+  const navLinks =
+    document.querySelectorAll<HTMLAnchorElement>(".header__nav-link");
 
-    const observerOptions = {
-      root: null,
-      rootMargin: "-20% 0px -60% 0px", // Trigger when section is near top
-      threshold: 0,
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const id = entry.target.getAttribute("id");
-
-          // Remove active class from all links
-          navLinks.forEach((link) => {
-            link.classList.remove("active");
-            if (link.getAttribute("href") === `#${id}`) {
-              link.classList.add("active");
-            }
-          });
-        }
+  let frame = 0;
+  function update() {
+    const line = window.innerHeight * 0.3;
+    let current = "";
+    document
+      .querySelectorAll<HTMLElement>("main section[id]")
+      .forEach((section) => {
+        if (section.getBoundingClientRect().top <= line) current = section.id;
       });
-    }, observerOptions);
-
-    sections.forEach((section) => {
-      observer.observe(section);
+    navLinks.forEach((link) => {
+      link.classList.toggle("active", link.hash === `#${current}`);
     });
-  });
+  }
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(update);
+    },
+    { passive: true },
+  );
+  update();
 </script>

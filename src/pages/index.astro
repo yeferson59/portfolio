@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import Hero from "@/components/sections/Hero.astro";
 import About from "@/components/sections/About.astro";
 import Skills from "@/components/sections/Skills.astro";
 import Metrics from "@/components/sections/Metrics.astro";
@@ -92,6 +93,7 @@ const head = {
 ---
 
 <Layout {head}>
+  <Hero />
   <About />
   <Skills />
   <Metrics server:defer />

@@ -3,7 +3,6 @@ import SectionHeader from "@/components/layouts/SectionHeader.astro";
 import ProjectCard from "@/components/cards/ProjectCard.astro";
 import Button from "@/components/ui/Button.astro";
 import { getHomepageProjects, getProjectStats } from "@/utils/projects";
-import { getArrowRightIcon } from "@/utils/icons";
 
 // Get limited projects for homepage (first 6 projects)
 const projects = await getHomepageProjects(6);
@@ -15,39 +14,35 @@ const stats = await getProjectStats();
 <section id="projects">
   <div class="container">
     <SectionHeader
-      title="Featured Projects"
-      subtitle={`Showcasing ${stats.total} backend-focused projects: APIs, distributed systems, observability, and performance optimization.`}
+      title="Featured projects"
+      subtitle={`${projects.length} of ${stats.total} projects, spanning ${stats.technologies.length} technologies: APIs, distributed systems, observability and performance work.`}
+      span="projects"
     />
 
-    <!-- Enhanced project summary -->
-    <div class="mb-xl text-center">
-      <p class="text-secondary text-sm opacity-75">
-        {stats.featured} featured projects • {stats.total} total •
-        {stats.technologies.length} technologies
-      </p>
+    <div class="projects-grid">
+      {projects.map((project) => (
+        <ProjectCard
+          title={project.data.title}
+          description={project.data.description}
+          stack={project.data.stack}
+          year={project.data.year}
+          status={project.data.status}
+          links={project.data.links}
+          featured={project.data.featured}
+        />
+      ))}
     </div>
 
-    <div class="projects-grid mb-4xl">
-      {
-        projects.map((project) => (
-          <ProjectCard
-            title={project.data.title}
-            description={project.data.description}
-            stack={project.data.stack}
-            year={project.data.year}
-            status={project.data.status}
-            links={project.data.links}
-            featured={project.data.featured}
-          />
-        ))
-      }
-    </div>
-
-    <div class="mt-4xl text-center">
-      <Button size="lg" href="/projects">
-        View All Projects
-        <span set:html={getArrowRightIcon(20, 20)} />
+    <div class="projects-more">
+      <Button size="lg" variant="secondary" href="/projects">
+        Browse all {stats.total} projects
       </Button>
     </div>
   </div>
 </section>
+
+<style>
+  .projects-more {
+    margin-top: var(--space-2xl);
+  }
+</style>

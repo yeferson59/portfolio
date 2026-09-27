@@ -1,0 +1,40 @@
+---
+/**
+ * Measures every top-level section and publishes its position as a
+ * fraction of the page (--span-start / --span-size) on each element with
+ * a matching [data-span]. The hero trace, section headers and the header
+ * strip all draw from these numbers, so the "spans" are the real layout.
+ */
+---
+
+<script>
+  function measure() {
+    const total = document.documentElement.scrollHeight;
+    if (!total) return;
+
+    document
+      .querySelectorAll<HTMLElement>("main section[id]")
+      .forEach((section) => {
+        const start = (section.offsetTop / total).toFixed(4);
+        const size = (section.offsetHeight / total).toFixed(4);
+        document
+          .querySelectorAll<HTMLElement>(`[data-span="${section.id}"]`)
+          .forEach((el) => {
+            el.style.setProperty("--span-start", start);
+            el.style.setProperty("--span-size", size);
+          });
+      });
+  }
+
+  let frame = 0;
+  const schedule = () => {
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(measure);
+  };
+
+  // Deferred islands (the metrics section) change the page height after
+  // load, so re-measure whenever the body resizes.
+  new ResizeObserver(schedule).observe(document.body);
+  window.addEventListener("load", schedule);
+  schedule();
+</script>

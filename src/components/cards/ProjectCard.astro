@@ -1,6 +1,4 @@
 ---
-import Badge from "@/components/ui/Badge.astro";
-import Button from "@/components/ui/Button.astro";
 import { getLinkIcon } from "@/utils/icons";
 
 interface Props {
@@ -27,82 +25,175 @@ const {
   featured = false,
 } = Astro.props;
 
-// Determine if we have many technologies (for styling)
-const hasMany = stack.length > 7;
-const shouldTruncate = stack.length > 10;
-
-// Status styling helper
-const getStatusClass = (status: string) => {
-  const normalized = status.toLowerCase().replace(/\s+/g, "-");
-  if (normalized.includes("development") || normalized.includes("progress")) {
-    return "project-card__status-text--development";
-  }
+// Status drives the dot colour: green shipped, blue in progress, grey archived.
+const getStatusTone = (value: string) => {
+  const normalized = value.toLowerCase();
   if (normalized.includes("closed") || normalized.includes("archived")) {
-    return "project-card__status-text--closed";
+    return "archived";
   }
   if (normalized.includes("active") || normalized.includes("completed")) {
-    return "";
+    return "shipped";
   }
-  return "project-card__status-text--progress";
+  return "building";
 };
 
-const statusClass = getStatusClass(status);
+const linkLabel = (type?: string) =>
+  type === "repository"
+    ? "View source code"
+    : type === "demo"
+      ? "View live demo"
+      : type === "documentation"
+        ? "View documentation"
+        : "View link";
 ---
 
-<article class={`project-card ${featured ? "project-card--featured" : ""}`}>
-  <!-- Header with year and status indicator -->
-  <header class="project-card__header">
-    <div class="project-card__header-left">
-      <Badge variant="primary" class="project-card__year">{year}</Badge>
-      <span class={`project-card__status-text ${statusClass}`}>
-        {status}
-      </span>
-    </div>
-    <div class="project-card__status accent-dot accent-dot--secondary"></div>
-  </header>
-
-  <!-- Main content area -->
-  <div class="project-card__content">
-    <h3 class="project-card__title">{title}</h3>
-    <p class="project-card__description">{description}</p>
-
-    <!-- Technology stack with adaptive layout -->
-    <div
-      class={`project-card__stack ${
-        hasMany ? "project-card__stack--many" : ""
-      } ${shouldTruncate ? "project-card__stack--overflow" : ""}`}
-      data-remaining={shouldTruncate ? stack.length - 7 : ""}
+<article class={`project-row ${featured ? "project-row--featured" : ""}`}>
+  <div class="project-row__meta">
+    <span class="project-row__year">{year}</span>
+    <span
+      class={`project-row__status project-row__status--${getStatusTone(status)}`}
     >
-      {
-        stack.map((tech, index) => (
-          <Badge
-            variant={index % 2 === 0 ? "primary" : "secondary"}
-            class={shouldTruncate && index >= 7 ? "badge--hidden" : ""}
-          >
-            {tech}
-          </Badge>
-        ))
-      }
-    </div>
+      {status}
+    </span>
   </div>
 
-  <!-- Footer with status and multiple links -->
-  <footer class="project-card__footer">
-    <div class="project-card__links">
-      {
-        links.map((link) => (
-          <Button
-            variant="secondary"
-            size="sm"
-            href={link.url}
-            class="project-card__link"
-            aria-label={`${link.name} for ${title} project - ${link.type === "repository" ? "View source code" : link.type === "demo" ? "View live demo" : link.type === "documentation" ? "View documentation" : "View link"}`}
-          >
-            <span set:html={getLinkIcon(link.type)} aria-hidden="true" />
-            <span class="project-card__link-text">{link.name}</span>
-          </Button>
-        ))
-      }
-    </div>
-  </footer>
+  <div class="project-row__main">
+    <h3 class="project-row__title">{title}</h3>
+    <p class="project-row__description">{description}</p>
+    <ul class="project-row__stack" aria-label="Built with">
+      {stack.map((tech) => (
+        <li>{tech}</li>
+      ))}
+    </ul>
+  </div>
+
+  <ul class="project-row__links">
+    {links.map((link) => (
+      <li>
+        <a
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${link.name} for ${title} project - ${linkLabel(link.type)} (opens in new tab)`}
+        >
+          <span set:html={getLinkIcon(link.type)} aria-hidden="true" />
+          {link.name}
+        </a>
+      </li>
+    ))}
+  </ul>
 </article>
+
+<style>
+  .project-row {
+    display: grid;
+    gap: var(--space-md) var(--space-2xl);
+    padding: var(--space-xl) 0;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  @media (min-width: 900px) {
+    .project-row {
+      grid-template-columns: 9rem minmax(0, 1fr) 13rem;
+      padding: var(--space-2xl) 0;
+    }
+  }
+
+  .project-row__meta {
+    display: flex;
+    gap: var(--space-md);
+    align-items: baseline;
+    font-size: var(--font-size-sm);
+  }
+
+  @media (min-width: 900px) {
+    .project-row__meta {
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+  }
+
+  .project-row__year {
+    font-family: var(--font-mono);
+    color: var(--color-text-primary);
+  }
+
+  .project-row__status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    color: var(--color-text-muted);
+  }
+
+  .project-row__status::before {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: var(--radius-full);
+    background: var(--color-text-muted);
+  }
+
+  .project-row__status--shipped::before {
+    background: var(--color-secondary);
+  }
+
+  .project-row__status--building::before {
+    background: var(--color-primary);
+  }
+
+  .project-row__title {
+    font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.75rem);
+    font-weight: var(--font-weight-extrabold);
+    font-variation-settings: "wdth" 62;
+    line-height: 1;
+    margin-bottom: var(--space-md);
+  }
+
+  .project-row__description {
+    max-width: 62ch;
+    margin-bottom: var(--space-md);
+  }
+
+  .project-row__stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs) var(--space-md);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+
+  .project-row__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs) var(--space-lg);
+    align-content: start;
+  }
+
+  @media (min-width: 900px) {
+    .project-row__links {
+      flex-direction: column;
+    }
+  }
+
+  .project-row__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    min-height: 44px;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 0.3em;
+  }
+
+  .project-row__links a:hover {
+    color: var(--color-primary);
+    text-decoration-color: currentColor;
+  }
+
+  .project-row__links a :global(svg) {
+    color: var(--color-text-muted);
+  }
+</style>

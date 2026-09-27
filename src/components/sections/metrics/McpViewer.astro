@@ -21,12 +21,12 @@ import { icons } from "@/utils/icons";
           <span class="status-text">Connecting to MCP...</span>
         </div>
         <div class="status-details" id="mcp-status-details">
-          <span class="detail-item"
-            >Tools: <strong id="tools-count">--</strong></span
-          >
-          <span class="detail-item"
-            >Response Time: <strong id="mcp-response-time">--</strong></span
-          >
+          <span class="detail-item">
+            Tools: <strong id="tools-count">--</strong>
+          </span>
+          <span class="detail-item">
+            Response Time: <strong id="mcp-response-time">--</strong>
+          </span>
         </div>
       </div>
     </Card>
@@ -49,7 +49,9 @@ import { icons } from "@/utils/icons";
       <h4 class="text-primary mb-md text-xl font-bold">Tool Executor</h4>
       <div class="executor-content">
         <div class="tool-selector mb-md">
-          <label for="tool-select" class="selector-label">Select Tool</label>
+          <label for="tool-select" class="selector-label">
+            Select Tool
+          </label>
           <select id="tool-select" class="tool-select" disabled>
             <option value="">Loading tools...</option>
           </select>
@@ -79,8 +81,12 @@ import { icons } from "@/utils/icons";
           <div class="result-header">
             <h5 class="result-title">Execution Result</h5>
             <div class="result-metrics">
-              <span class="metric-badge" id="result-duration">--ms</span>
-              <span class="metric-badge" id="result-status">--</span>
+              <span class="metric-badge" id="result-duration">
+                --ms
+              </span>
+              <span class="metric-badge" id="result-status">
+                --
+              </span>
             </div>
           </div>
           <div id="result-content" class="result-content"></div>
@@ -113,12 +119,7 @@ import { icons } from "@/utils/icons";
   }
 
   .status-card {
-    background: linear-gradient(
-      135deg,
-      rgba(var(--color-primary-rgb), 0.1),
-      rgba(var(--color-primary-rgb), 0.05)
-    );
-    border: 1px solid var(--color-primary);
+    border-color: rgba(var(--color-primary-rgb), 0.5);
   }
 
   .status-content {
